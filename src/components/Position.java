@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entity_component_system;
+package components;
 
 /**
  *
  * @author pablo
  */
-public interface component {
-    
+public class Position extends entity_component_system.ComponentManager {
+    public float x, y;
 }

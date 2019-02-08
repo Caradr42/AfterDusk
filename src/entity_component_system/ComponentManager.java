@@ -5,16 +5,10 @@
  */
 package entity_component_system;
 
-import java.awt.List;
-import java.util.ArrayList;
-import java.util.LinkedList;
-
 /**
  *
  * @author pablo
  */
-public interface Entity{
-    //List<component> myList = new ArrayList<component>();
-    LinkedList<component> targets = new LinkedList<>();
-    
+public class ComponentManager implements ComponentsInterface {
+    protected boolean update = false;
 }

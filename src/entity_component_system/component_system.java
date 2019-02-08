@@ -10,5 +10,15 @@ package entity_component_system;
  * @author pablo
  */
 public interface component_system {
-    
+
+    public void init();
+
+    public void update();
+
+    public void render();
+
+    public void dispose();
+
+    public component[] get();
+
 }
