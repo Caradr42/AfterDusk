@@ -3,26 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entity_component_system;
+package CBA;
 
 /**
  *
- * @author pablo
+ * @author carlo
  */
-public interface component_system {
-    
-    
-    
-    
-        
+public interface  Component {
     public void init();
-
-    public void update();
-
+    public void Update();
     public void render();
-
     public void dispose();
-
-    public component[] get();
-
 }

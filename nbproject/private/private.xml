@@ -3,7 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/carlo/Documents/NetBeansProjects/Proyecto_Videojuegos/src/proyecto_videojuegos/Proyecto_Videojuegos.java</file>
+            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/CBA/GameObjects/Player.java</file>
+            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/ECS/Entity.java</file>
+            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/ECS/EntityManager.java</file>
+            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/CBA/Component.java</file>
+            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/CBA/Components/Transform.java</file>
+            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/CBA/GameObject.java</file>
+            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/proyecto_videojuegos/Proyecto_Videojuegos.java</file>
+            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/ECS/Component.java</file>
+            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/entity_component_system/component_system.java</file>
+            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/ECS/Components/RenderComponent.java</file>
+            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/entity_component_system/ComponentManager.java</file>
+            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/entity_component_system/Entity.java</file>
         </group>
     </open-files>
 </project-private>
