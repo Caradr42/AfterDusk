@@ -16,7 +16,7 @@ public class Proyecto_Videojuegos {
     //Test for the Component Based Archiquecture (CBA)
     /*public static void main(String[] args) {
         Player p = new Player();
-        p.Update();
+        p.update();
         
     }*/
     
@@ -33,7 +33,7 @@ public class Proyecto_Videojuegos {
        em.addComponetToEntity(player, render);
        gm = new GameManager(em);
               
-       gm.Update();
+       gm.update();
        
        //gm.Update();
        System.out.println("end");

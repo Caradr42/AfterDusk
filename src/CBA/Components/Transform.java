@@ -1,17 +1,27 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package CBA.Components;
 
 import CBA.Component;
+import maths.Vector2;
 
 /**
- *
- * @author carlo
+ * Example CBA component
+ * Contains a Vector2 and some update to be executed
+ * 
+ * @author Carlos Adrián Guerra Vázquez
+ * @date 09/02/2019
+ * @version 1.0
  */
 public class Transform implements Component{
+    
+    Vector2 position;
+
+    public Transform(Vector2 position) {
+        this.position = position;
+    }
+
+    public Transform() {
+        position = new Vector2(0,0);
+    }
     
     @Override
     public void init() {
@@ -19,8 +29,8 @@ public class Transform implements Component{
     }
     
     @Override
-    public void Update() {
-        System.out.println("Message");
+    public void update() {
+        System.out.println("x = " + position.getX() + "\ty = " + position.getY());
     }
 
     @Override
@@ -30,7 +40,7 @@ public class Transform implements Component{
 
     @Override
     public void dispose() {
-
+        position = null;
     }
     
 }
