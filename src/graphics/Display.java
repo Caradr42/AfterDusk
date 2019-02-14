@@ -1,7 +1,11 @@
 package graphics;
 
+import IO.KeyManager;
+import IO.MouseManager;
 import java.awt.Canvas;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 
 /*
@@ -18,20 +22,19 @@ import javax.swing.JFrame;
 *
 */
 public class Display {
-    //this is the app class
-    private JFrame jframe; 
-    
-    //to display images
-    private Canvas canvas; 
-    
     //title of the window
     private String title; 
-    
-    //width of the window
+    //window dimensions
     private int width; 
-    
-    //height of the window
     private int height; 
+    //Window & graphics stuff
+    private JFrame jframe; 
+    private Canvas canvas; //to display images
+    public BufferStrategy bs;  // to have several buffers when displaying in a canvas
+    public Graphics g;         // to paint objects in the display canvas
+    //InputStuff
+    private KeyManager keyManager;  //key manager asociated with the display
+    private MouseManager mouseManager; //mouse manager asociated with the display
     
     /**
      * Initializes the values for the application game.
@@ -43,60 +46,56 @@ public class Display {
      * 
      */
     public Display(String title, int width, int height){
-        //Setting the title that was passed as parameter in the object of class Display
-        this.title = title;
-        
-        //Setting the width that was passed as parameter in the object of class Display
+        this.title = title; 
         this.width = width;
-        
-        //Setting the height that was passed as parameter in the object of class Display
         this.height = height;
         
         //Creating the window and canvas
-        createDisplay();
+        initFrameAndCanvas();
     }
     
     /*
     * creates the app and the canvas and add the canvas to the window app
     */
-    public void createDisplay(){
-       //create the app window
-       jframe = new JFrame(title);
-        
-       //set the size of the window
+    private void initFrameAndCanvas(){
+       jframe = new JFrame(title);    
        jframe.setSize(width, height);
-        
        //setting not resizable, visible and possible to close
        jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
        jframe.setResizable(false);
-       
        //since it is null, the window will be centered at the center of the screen
        jframe.setLocationRelativeTo(null);
-       
        //Making the window visible to the user
        jframe.setVisible(true);
        
        //creating the canvas to paint and setting size
        canvas = new Canvas();
-       
        //Adjusting the preferred size to the canvas
        canvas.setPreferredSize(new Dimension(width, height));
-       
        //Setting the max size for the canvas
        canvas.setMaximumSize(new Dimension(width, height));
-       
        /*
-            Java should not pay attention to the canvas, since jFrame
-            is the one that can hear the keyboard*/
+        Java should not pay attention to the canvas, since jFrame
+        is the one that can hear the keyboard
+       */
        canvas.setFocusable(false);
        
        /*
-            adding the canvas to the app window and packing to
-            get the right dimensions*/
+        adding the canvas to the app window and packing to
+        get the right dimensions
+       */
        jframe.add(canvas);
-       
        jframe.pack();
+       
+       keyManager = new KeyManager();
+       mouseManager = new MouseManager();
+       
+       //Asociating the input listeners to the frame
+       jframe.addKeyListener(keyManager);
+       jframe.addMouseListener(mouseManager);
+       jframe.addMouseMotionListener(mouseManager);
+       jframe.addMouseListener(mouseManager);
+       jframe.addMouseMotionListener(mouseManager);
     }
     
     /**
@@ -116,4 +115,13 @@ public class Display {
     public Canvas getCanvas(){
         return canvas;
     }
+
+    public KeyManager getKeyManager() {
+        return keyManager;
+    }
+
+    public MouseManager getMouseManager() {
+        return mouseManager;
+    }
+    
 }

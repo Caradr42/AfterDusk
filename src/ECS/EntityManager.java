@@ -16,21 +16,20 @@ import java.util.Map;
  * of Entities.
  * Entity creation must be handled by their respective EntityManager and never 
  * by their own constructor.
- * 
- * //ToDo: make EntityManager itself a sub class of Entity so that we can 
- *         instantiate new managers.
- *         + This will require a global EntityManagerManager.
- * 
+ *  
  * @author Carlos Adrián Guerra Vázquez
  * @date 09/02/2019
  * @version 1.0
  */
-public class EntityManager { 
+public class EntityManager{ 
     
     /**
      * List of all the Entities that this EntityManager manages.
      */
     private ArrayList<Entity> entities;
+    
+    //EntityManager id 
+   // private int id;
     
     /**
      * Structure containing all the Entities by their Component and also their
@@ -62,6 +61,7 @@ public class EntityManager {
     /**
      * EntityManager Constructor
      * initializes the list and the HashMap
+     * @param id
      */
     public EntityManager() {
         entities = new  ArrayList<>();
@@ -160,7 +160,7 @@ public class EntityManager {
             HashMap<Integer, ? extends Component > store = componentsDictionary.get(component.getClass()); 
             
             if(store == null) {//if the component does not exists in the upper HashMap.
-                store = new HashMap<Integer, T >();
+                store = new HashMap<Integer, T>();
                 componentsDictionary.put(component.getClass(), store);
                 //adds a new HashMap to the upper HashMap usinf the component class as a KEY.
             }

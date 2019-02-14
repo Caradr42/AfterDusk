@@ -2,7 +2,8 @@ package ECS.Systems;
 
 import java.lang.System;
 import ECS.*;
-import ECS.Components.RenderComponent;
+import ECS.Components.Sprite;
+import java.awt.Graphics;
 import java.util.ArrayList;
 
 /**
@@ -14,12 +15,12 @@ import java.util.ArrayList;
  * @date 09/02/2019
  * @version 1.0
  */
-public class GameManager extends SystemJob{
+public class SpriteRender extends SystemJob{
     
     ArrayList<Entity> entities; //A List of references to each Eantity that also has the necesarie components
     
     //COMPONENTS
-        RenderComponent render; //this RenderComponent only exist so that our System can use it's class name to search in the EntityManager
+        Sprite sprite; //this Sprite only exist so that our System can use it's class name to search in the EntityManager
     //----------
     
     /**
@@ -28,14 +29,9 @@ public class GameManager extends SystemJob{
      * Initializes the list of entities to be used.
      * @param entityManager 
      */
-    public GameManager(EntityManager entityManager) {
+    public SpriteRender(EntityManager entityManager) {
         super(entityManager);
-        render = new RenderComponent("");
-        
-        entities = entityManager.getAllEntitiesPosessingComponentOfClass(render.getClass());
-        /**if we had more components we would do
-         * entities.addAll(entityManager.getAllEntitiesPosessingComponentOfClass(MyComponent.getClass()));
-        */
+        sprite = new Sprite();
     }
     
     /**
@@ -45,12 +41,11 @@ public class GameManager extends SystemJob{
      */
     @Override
     public void update() {
-        entities = entityManager.getAllEntitiesPosessingComponentOfClass(render.getClass());
-        //System.out.println(entities.get(0));
+        entities = entityManager.getAllEntitiesPosessingComponentOfClass(sprite.getClass());
         for(Entity e : entities){
-            render = entityManager.getEntityComponentFromClass(e, render.getClass());
-            entityManager.printEntities();
-            System.out.println(render.test);
+            sprite = entityManager.getEntityComponentFromClass(e, sprite.getClass());
+            //entityManager.printEntities();
+            //System.out.println(sprite.name);
         }     
     }  
 
@@ -60,16 +55,25 @@ public class GameManager extends SystemJob{
 
     @Override
     public void init() {
+        entities = entityManager.getAllEntitiesPosessingComponentOfClass(sprite.getClass());
+        /**if we had more components we would do
+         * entities.addAll(entityManager.getAllEntitiesPosessingComponentOfClass(MyComponent.getClass()));
+         */
         /**
          * Technically the code:
          * entities = entityManager.getAllEntitiesPosessingComponentOfClass(render.getClass());
-         * must be here, as entities must be updated before each frame update in case one has added or deleted
+         * because we shouldn't be reloading our components each frame. Only each time a component is deleted or added
          * //TODO: handle entity deletion and addition with messages between EntityManager and Systems (maybe SystemManager?)
          */
     }
 
     @Override
-    public void render() {
+    public void render(Graphics g) {
+        //System.out.println(entities.get(0));
+        for(Entity e : entities){
+            sprite = entityManager.getEntityComponentFromClass(e, sprite.getClass());
+            g.drawImage(sprite.bi, 600, 600, sprite.width, sprite.width, null);
+        }    
     }
 
     @Override

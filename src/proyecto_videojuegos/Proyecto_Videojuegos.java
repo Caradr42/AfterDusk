@@ -1,9 +1,9 @@
 package proyecto_videojuegos;
 
 //import CBA.GameObjects.Player;
-import ECS.Systems.GameManager;
+import ECS.Systems.SpriteRender;
 import ECS.EntityManager;
-import ECS.Components.RenderComponent;
+import ECS.Components.Sprite;
 import ECS.Entity;
 
 /**
@@ -21,22 +21,27 @@ public class Proyecto_Videojuegos {
     }*/
     
     //Test for the Entity Component System (ECS)
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
        EntityManager em;
-       GameManager gm;
+       SpriteRender sr;
        Entity player;
-       RenderComponent render;
+       Sprite sprite;
        
-       render = new RenderComponent("render");
+       sprite = new Sprite();
+       sprite.name = "Test name";
        em = new EntityManager();
        player = em.createEntity("player");
-       em.addComponetToEntity(player, render);
-       gm = new GameManager(em);
+       em.addComponetToEntity(player, sprite);
+       sr = new SpriteRender(em);
               
-       gm.update();
+       sr.update();
        
        //gm.Update();
        System.out.println("end");
-    }
+    }*/
     
+    public static void main(String[] args) {
+       MainThread mt = new MainThread("Game", 1200, 900);
+       mt.start();
+    }
 }

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public abstract class GameObject {
     
     //List of components to be attached to this GameObject
-    protected ArrayList<? super Component> components;
+    protected ArrayList<? super Behaviour> components;
     
     /**
      * Game Object constructor.
@@ -31,9 +31,9 @@ public abstract class GameObject {
     
     /**
      * adds a component to the list of components
-     * @param comp the <b>Component</b> to be added. Exact reference
+     * @param comp the <b>Behaviour</b> to be added. Exact reference
      */
-    public void addComponent(Component comp){
+    public void addComponent(Behaviour comp){
         components.add(comp);
     }
     
@@ -42,7 +42,7 @@ public abstract class GameObject {
      */
     public void init(){
         for(int i = 0; i < components.size(); i++){
-            ((Component)components.get(i)).init();
+            ((Behaviour)components.get(i)).init();
         }
     }
     
@@ -51,7 +51,7 @@ public abstract class GameObject {
      */
     public void Update(){
         for(int i = 0; i < components.size(); i++){
-            ((Component)components.get(i)).update();
+            ((Behaviour)components.get(i)).update();
         }
     }
     
@@ -60,7 +60,7 @@ public abstract class GameObject {
      */
     public void render(){
         for(int i = 0; i < components.size(); i++){
-            ((Component)components.get(i)).render();
+            ((Behaviour)components.get(i)).render();
         }
     }
     
@@ -69,7 +69,7 @@ public abstract class GameObject {
      */
     public void dispose(){
         for(int i = 0; i < components.size(); i++){
-            ((Component)components.get(i)).dispose();
+            ((Behaviour)components.get(i)).dispose();
         }
     }
 }

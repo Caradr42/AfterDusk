@@ -1,6 +1,6 @@
 package CBA.Components;
 
-import CBA.Component;
+import CBA.Behaviour;
 import maths.Vector2;
 
 /**
@@ -11,7 +11,7 @@ import maths.Vector2;
  * @date 09/02/2019
  * @version 1.0
  */
-public class Transform implements Component{
+public class Transform implements Behaviour{
     
     Vector2 position;
 

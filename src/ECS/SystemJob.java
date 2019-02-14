@@ -1,5 +1,7 @@
 package ECS;
 
+import java.awt.Graphics;
+
 /**
  * Entity Component System class.
  * The SystemJob class allows for the creation of  Systems.
@@ -75,12 +77,18 @@ public abstract class SystemJob {
         
     /**
      * Code to be executed each render frame at time of render.
+     * @param g
      */
-    abstract public void render();
+    public void render(Graphics g){
+    }
     
     /**
-     * Code to be executed before the Entity or Component? (idk  ¯\_(ツ)_/¯) is 
-     * disposed by the garbage collector. Executes once.
+     * Code to be executed before the Entity or Component(?) (idk  ¯\_(ツ)_/¯) 
+     * is disposed by the garbage collector. Executes once.
      */
     abstract public void dispose();
+
+    public boolean isActive() {
+        return active;
+    }
 }
