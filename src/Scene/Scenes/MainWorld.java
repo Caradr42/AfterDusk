@@ -30,7 +30,7 @@ public class MainWorld extends Scene{
         Sprite spriteComp ;
         Transform transformComp;
         
-        for(int i = 0; i < 3000; i++){
+        for(int i = 0; i < 40000; i++){
             e = entityManager.createEntity("COSO_" + Integer.toString(i));
             spriteComp = new Sprite("sprite_" + Integer.toString(i), 50, 50,Assets.coso);
             transformComp = new Transform(new Vector2(50,50));
