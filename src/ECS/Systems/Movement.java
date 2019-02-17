@@ -34,7 +34,6 @@ public class Movement extends SystemJob{
     @Override
     public void update() {
         entities = scene.entityManager.getEntitiesWithComponents(transform.getClass());
-        //entities = scene.entityManager.getAllEntitiesPosessingComponentOfClass(transform.getClass());
         
         for(Integer e : entities){
             transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());

@@ -6,6 +6,7 @@ import ECS.Components.Sprite;
 import ECS.Components.Transform;
 import Scene.Scene;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -50,7 +51,7 @@ public class SpriteRender extends SystemJob{
     @Override
     public void update() {
         
-        entities = scene.entityManager.getEntitiesWithComponents(sprite.getClass(), transform.getClass());
+        entities = scene.entityManager.getEntitiesWithComponents(sprite.getClass(), transform.getClass());        
         
         //spriteMap = scene.entityManager.getComponentMap(sprite.getClass());
         //transformMap = scene.entityManager.getComponentMap(transform.getClass());
@@ -80,13 +81,14 @@ public class SpriteRender extends SystemJob{
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         //System.out.println(entities.get(0));
         for(Integer e : entities){
             sprite = scene.entityManager.getEntityComponentInstance(e, sprite.getClass());
             transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());
-            
-            g.drawImage(sprite.bi, (int)transform.position.getX(),  (int)transform.position.getY(), sprite.width, sprite.height, null);
+            if(transform.position.getX() + sprite.width >= 0 && transform.position.getX() <= scene.display.getWidth() && transform.position.getY() + sprite.height >= 0 && transform.position.getY() <= scene.display.getHeight()){
+                g.drawImage(sprite.bi, (int)transform.position.getX(),  (int)transform.position.getY(), sprite.width, sprite.height, null);
+            } 
         }
     }
     

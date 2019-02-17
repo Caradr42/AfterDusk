@@ -102,6 +102,17 @@ public class EntityManager{
         return createdEnt;
     }
     
+    public <T extends Component> Entity createEntityWithComponents(String name, T ...components){
+        int id = GenerateNewID(); 
+        Entity createdEnt = new Entity(id, name); //assigns a unique id to the created entity
+        entities.add(createdEnt); //Adds the created entity to the entities list
+        
+        for(Component c : components){
+            addComponetToEntity(id, c);
+        }   
+        return createdEnt;
+    } 
+    
     /**
      * Generates a new id to be used by an entity.
      * Ids are local to an instance of an entity manager
@@ -345,6 +356,8 @@ public class EntityManager{
     }
     
     /**
+     * TODO: use binary search !
+     * 
      * Returns the specific entity in this EntityManager that has the entered ID
      * @param id the id of the Entity to be searched.
      * @return the Entity of ID id
@@ -358,6 +371,8 @@ public class EntityManager{
     }
     
     /**
+     * TODO: use binary search !
+     * 
      * Returns a list of Entities in this EntityManager that have the IDs in 
      * the Integers list entered.
      *

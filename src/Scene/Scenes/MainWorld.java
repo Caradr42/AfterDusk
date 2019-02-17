@@ -26,16 +26,23 @@ public class MainWorld extends Scene{
     @Override
     protected void addEntities() {
         
-        Entity e;
-        Sprite spriteComp ;
-        Transform transformComp;
+        //Entity e;
+        //Sprite spriteComp ;
+        //Transform transformComp;
         
-        for(int i = 0; i < 40000; i++){
-            e = entityManager.createEntity("COSO_" + Integer.toString(i));
-            spriteComp = new Sprite("sprite_" + Integer.toString(i), 50, 50,Assets.coso);
-            transformComp = new Transform(new Vector2(50,50));
-            entityManager.addComponetToEntity(e,spriteComp);
-            entityManager.addComponetToEntity(e,transformComp);
+        /*
+        spriteComp = new Sprite("sprite_" + Integer.toString(i), 50, 50,Assets.coso);
+        transformComp = new Transform(new Vector2(50,50));
+        /*
+        entityManager.addComponetToEntity(e,spriteComp);
+        entityManager.addComponetToEntity(e,transformComp);
+        */
+        
+        for(int i = 0; i < 22000; i++){
+            entityManager.createEntityWithComponents("COSO_" + Integer.toString(i),
+                new Sprite("sprite_" + Integer.toString(i), 50, 50,Assets.coso),
+                new Transform(new Vector2(50,50))
+            );           
         }       
     }
     

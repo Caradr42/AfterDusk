@@ -5,6 +5,7 @@ import IO.MouseManager;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 
@@ -31,7 +32,7 @@ public class Display {
     private JFrame jframe; 
     private Canvas canvas; //to display images
     public BufferStrategy bs;  // to have several buffers when displaying in a canvas
-    public Graphics g;         // to paint objects in the display canvas
+    public Graphics2D g;         // to paint objects in the display canvas
     //InputStuff
     private KeyManager keyManager;  //key manager asociated with the display
     private MouseManager mouseManager; //mouse manager asociated with the display

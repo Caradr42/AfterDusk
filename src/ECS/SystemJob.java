@@ -2,6 +2,7 @@ package ECS;
 
 import Scene.Scene;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 /**
  * Entity Component System class.
@@ -82,7 +83,7 @@ public abstract class SystemJob {
      * Code to be executed each render frame at time of render.
      * @param g
      */
-    public void render(Graphics g){
+    public void render(Graphics2D g){
     }
     
     abstract public void onCreate();

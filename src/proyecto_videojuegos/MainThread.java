@@ -3,6 +3,7 @@ import Assets.Assets;
 import Scene.Scenes.*;
 import graphics.Display;
 import java.awt.Color;
+import java.awt.Graphics2D;
 
 /**
  * «Singleton»
@@ -138,8 +139,8 @@ public class MainThread implements Runnable{
         }     
         else {
             //Getting the next buffer of one of the three
-            display.g = display.bs.getDrawGraphics();
-            display.g.setColor(Color.WHITE);
+            display.g = (Graphics2D)display.bs.getDrawGraphics();
+            display.g.setColor(Color.GRAY);
             display.g.fillRect(0, 0, width, height);
             
             //Here you render entities
