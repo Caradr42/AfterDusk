@@ -56,26 +56,27 @@ public class MainThread implements Runnable{
         double timeTick = 1000000000 / fps; //time for  each tick in nanoseconds, ejm: at 50fps each tick takes 0.01666_ seconds wich is equal to 16666666.6_ nanoseconds
         double delta = 0; 
         long now; //current frame time
-        long lastTime = System.nanoTime(); //the previos frame time 
+        long lastTime = System.nanoTime(); //the previous frame time 
         double initTickTime = lastTime;
         while (running) {            
             now = System.nanoTime();
             delta += (now - lastTime) / timeTick;
-            lastTime = now;
+            
             
             //delta acumulates enogh tick fractions until a tick is completed and we can now advance in the tick
             if(delta >= 1){
-                
+                System.out.println(System.nanoTime());
                 tick();
                 render();
                 
-                delta--;
+                delta=0;
                 tps = 1000000000 / (now - initTickTime);
                 /*if(showTPS){
                     System.out.println("tps: " + tps);
                 }*/
                 initTickTime = now;
             }
+            lastTime = now;
         }
         stop();
     }

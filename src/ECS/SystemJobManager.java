@@ -16,6 +16,7 @@ public class SystemJobManager extends SystemJob{
     
     public class Thread1 implements Runnable{
         private Thread thread;
+        private boolean running;  
         
         public Thread1() {
         }
@@ -26,17 +27,38 @@ public class SystemJobManager extends SystemJob{
                 if(systemsList.get(i).isActive())
                     systemsList.get(i).update();
             }
+            stop();
             //System.out.println( systemsList.get(0).toString());
         }    
         
-        public void start(){
+        public  void start(){
             thread = new Thread(this);
+            running = true;
             thread.start();
+        }
+        
+        public  void stop() {
+        //If it is running
+            if(running) {
+                //Stop it
+                running = false;
+
+                //Try thread.join
+                try{
+                    thread.join();
+
+                //If it was not successful, catch the exception 
+                }catch(InterruptedException ie) {
+                    //And print it
+                    ie.printStackTrace();
+                }
+            }
         }
     }
     
     public class Thread2 implements Runnable{
         private Thread thread;
+        private  boolean running;
         
         public Thread2() {
         }
@@ -46,12 +68,32 @@ public class SystemJobManager extends SystemJob{
             for(int i = systemsMapSize / 2; i < systemsMapSize; ++i){
                 if(systemsList.get(i).isActive())
                     systemsList.get(i).update();
-            }          
+            }  
+            stop();
         }
         
-        public void start(){
+        public  void start(){
             thread = new Thread(this);
+            running = true;
             thread.start();
+        }
+        
+        public  void stop() {
+        //If it is running
+            if(running) {
+                //Stop it
+                running = false;
+
+                //Try thread.join
+                try{
+                    thread.join();
+
+                //If it was not successful, catch the exception 
+                }catch(InterruptedException ie) {
+                    //And print it
+                    ie.printStackTrace();
+                }
+            }
         }
     }
     
