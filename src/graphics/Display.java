@@ -123,5 +123,13 @@ public class Display {
     public MouseManager getMouseManager() {
         return mouseManager;
     }
-    
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+        
 }

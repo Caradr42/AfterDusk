@@ -4,6 +4,7 @@ import java.lang.System;
 import ECS.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -200,10 +201,10 @@ public class EntityManager{
      * @param component the <b>Class</b> of the component to be retrieved.
      * @return 
      */
-    public <T> T getEntityComponentFromClass(Entity entity, Class<T> component){
+    public <T> T getEntityComponentInstance(Integer entity, Class<T> component){
         //gets the inner HashMap contained at the current KEY of the upper HashMap. using the component Class as a KEY.
-        HashMap<Integer, ? extends Component> store = componentsDictionary.get((Class)component);
-        T resultComponet = (T) store.get(entity.id); //uses the Entity's ID as KEY to get the component instance.
+        HashMap<Integer, ? extends Component> store = componentsDictionary.get(component);
+        T resultComponet = (T) store.get(entity); //uses the Entity's ID as KEY to get the component instance.
 
         if(resultComponet == null) //trows an exeption if no component is attached.
             throw new IllegalArgumentException("Get Fail: "+entity.toString()+" does not posses Component of Class \n missing: "+ component);
@@ -220,20 +221,21 @@ public class EntityManager{
      * @return an <b>ArrayList<Entity></b> with a reference to the entities that
      * have the searched component attached.
      */
-    public ArrayList<Entity> getAllEntitiesPosessingComponentOfClass(Class component){
+    public ArrayList<Integer> getAllEntitiesPosessingComponentOfClass(Class component){
         //gets the inner HashMap contained at the current KEY of the upper HashMap. using the component Class as a KEY.
         HashMap<Integer, ? extends Component > componentsMap = componentsDictionary.get(component); 
         
         if(!componentsMap.isEmpty()){
             //saves in a list the IDs of the entities found to have the component.
-            ArrayList<Integer> entitiesIDs = new ArrayList<>();    
-            for (Map.Entry pair : componentsMap.entrySet()) {
-                entitiesIDs.add((Integer)pair.getKey());
-            }
+            /*ArrayList<Integer> entitiesIDs = new ArrayList<>();    
+            componentsMap.entrySet().stream().forEach((pair) -> {
+                entitiesIDs.add(pair.getKey());
+            });*/
             //finds entities in the entities list by their keys and returns a list of them.
-            return getEntitiesByIDs(entitiesIDs);   
-        }
-        return new ArrayList<>(); // Returns an empty list, if there are no classes with such component.
+            return new ArrayList<>(componentsMap.keySet());   
+        }else{
+            return new ArrayList<>(); // Returns an empty list, if there are no classes with such component.
+        }     
     }
     
     /**
@@ -248,8 +250,36 @@ public class EntityManager{
      * @return an <b>ArrayList<Entity></b> with a reference to the entities that
      * have the searched component attached. 
      */
-    public <T> ArrayList<Entity> getAllEntitiesPosessingComponentOfClass(T component){
+   /* public <T> ArrayList<Entity> getAllEntitiesPosessingComponentOfClass(T component){
         return getAllEntitiesPosessingComponentOfClass(component.getClass());
+    }*/
+    
+    /**
+     * get entities containing exclusively all the listed components classes in the parameters
+     * @param componentsClass
+     * @return 
+     */
+    public ArrayList<Integer> getEntitiesWithComponents(Class ... componentsClass){ //TODO
+        HashSet<Integer> entitiesSet = new HashSet<>(getAllEntitiesPosessingComponentOfClass(componentsClass[0]));
+        for(Class component : componentsClass){
+            //gets the inner HashMap contained at the current KEY of the upper HashMap. using the component Class as a KEY.
+            HashMap<Integer, ? extends Component > componentsMap = componentsDictionary.get(component); 
+            if(!componentsMap.isEmpty()){
+                //union of sets
+                entitiesSet.retainAll(new HashSet<>(getAllEntitiesPosessingComponentOfClass(component)) );
+            }else{//if one of the components is not assigned to any entity at all
+                return new ArrayList<>();// Returns an empty list, if there are no classes with such component.
+            }
+        }
+        return new ArrayList<>(entitiesSet); //Returns a list with the surviving entities of the union of sets
+    }
+    
+    public <T> HashMap<Integer, ? extends Component> getComponentMap(Class<T> component){
+        //gets the inner HashMap contained at the current KEY of the upper HashMap. using the component Class as a KEY.
+        HashMap<Integer, ? extends Component> componentMap = componentsDictionary.get((Class)component);
+        if(componentMap == null) //trows an exeption if no component is attached.
+            throw new IllegalArgumentException("Get Fail: "+ componentsDictionary.toString()+" does not posses Component of Class \n missing: "+ component);
+        return componentMap;
     }
     
     /**
@@ -267,9 +297,19 @@ public class EntityManager{
         return resultComponet != null;
     }
     
+    public <T> void removeComponentFormEntity(Entity entity, Class<T> component){
+        //gets the inner HashMap contained at the current KEY of the upper HashMap. using the component Class as a KEY.
+        HashMap<Integer, ? extends Component> componentMap = componentsDictionary.get((Class)component);
+        try{
+            componentMap.remove((Integer)entity.getID()); 
+        }catch(Exception e){
+            System.err.println(e + "Tried to remove unexisting component from entity: " + entity.getID() + " : " + entity.getName());
+        }            
+    }
+        
     /**
      * Prints the entire HashMap of components that this EntityManager has. the
-     * componentsDictionary.
+     * components Dictionary.
      */
     public void printComponentsMap(){
         

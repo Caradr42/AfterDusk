@@ -1,5 +1,6 @@
 package ECS;
 
+import Scene.Scene;
 import java.awt.Graphics;
 
 /**
@@ -21,7 +22,8 @@ import java.awt.Graphics;
 public abstract class SystemJob {
     
     //A reference to the EntityManager attached to the system.
-    protected EntityManager entityManager;
+    //protected EntityManager entityManager;
+    public Scene scene;
     
     //Used to activate or deactate the system. if so wanted.
     protected boolean active = true;
@@ -32,25 +34,26 @@ public abstract class SystemJob {
      * @param entityManager the EntityManager to be attached to the system 
      * created.
      */
-    public SystemJob(EntityManager entityManager) {
-        this.entityManager = entityManager;
+    public SystemJob(Scene scene) {
+        this.scene = scene;
+        //this.entityManager = scene.entityManager;
     }
     
     /**
      * Changes the EntityManager attached to this system.
      * @param entityManager the EntityManager to be attached to the system.
      */
-    public void sethEntityManager(EntityManager entityManager){
+    /*public void sethEntityManager(EntityManager entityManager){
         this.entityManager = entityManager;
-    }
+    }*/
     
     /**
      * Returns the EntityManager attached to the system.
      * @return EntityManager attached to the system.
      */
-    public EntityManager getEntityManager(){
+    /*public EntityManager getEntityManager(){
         return entityManager;
-    }
+    }*/
     
     /*
       Methods to be overriden by the systems implemented =======================
@@ -82,11 +85,13 @@ public abstract class SystemJob {
     public void render(Graphics g){
     }
     
+    abstract public void onCreate();
+    
     /**
      * Code to be executed before the Entity or Component(?) (idk  ¯\_(ツ)_/¯) 
      * is disposed by the garbage collector. Executes once.
      */
-    abstract public void dispose();
+    abstract public void onDestroy();
 
     public boolean isActive() {
         return active;

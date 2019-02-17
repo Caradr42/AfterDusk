@@ -1,6 +1,7 @@
 package ECS;
 
 import ECS.Systems.SpriteRender;
+import Scene.Scene;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,12 +14,15 @@ import java.util.Iterator;
  */
 public class SystemJobManager extends SystemJob{
     
-    private ArrayList<SystemJob> systemsMap;
+    private  ArrayList<SystemJob> systemsMap;
 
-    public SystemJobManager(EntityManager entityManager) {
-        super(entityManager);
+    public SystemJobManager(Scene scene) {
+        super(scene);
         systemsMap = new ArrayList<>();
-        systemsMap.add(new SpriteRender(entityManager));
+    }
+    
+    public void addSystem(SystemJob sj){
+        systemsMap.add(sj);
     }
 
     @Override
@@ -54,10 +58,20 @@ public class SystemJobManager extends SystemJob{
     }
 
     @Override
-    public void dispose() {
+    public void onCreate() {
         for(SystemJob sj : systemsMap){
             if(sj.isActive())
-                sj.dispose();
+                sj.onCreate();
         }
     }
+    
+    @Override
+    public void onDestroy() {
+        for(SystemJob sj : systemsMap){
+            if(sj.isActive())
+                sj.onDestroy();
+        }
+    }
+    
+    
 }

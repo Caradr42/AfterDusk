@@ -1,11 +1,8 @@
 package proyecto_videojuegos;
-
-import Scene.Scene;
-import Scene.Scenes.MainWorld;
+import Assets.Assets;
+import Scene.Scenes.*;
 import graphics.Display;
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.image.BufferStrategy;   
 
 /**
  * «Singleton»
@@ -18,10 +15,7 @@ import java.awt.image.BufferStrategy;
  */
 public class MainThread implements Runnable{
     
-    //Necessary graphic objects 
-    //private BufferStrategy bs;  // to have several buffers when displaying in a canvas
-    //private Graphics g;         // to paint objects in the display canvas
-    //display stuff
+    //display's stuff
     private Display display;    // to display in the game in its canvas
     String title;               // title of the window
     final private int width;          // width of the window
@@ -30,7 +24,7 @@ public class MainThread implements Runnable{
     private Thread thread;      // thread to create the game. points to the instance of this Game as a Runnable
     private boolean running;    // to set the game running status (controls the in thread execution)
     private double tps; //ticks per second
-    private final boolean showTPS = false; //controls if the tps will be show on the console
+    private final boolean showTPS = true; //controls if the tps will be show on the console
     int fps = 60;
     
     //ECS stuff
@@ -76,7 +70,9 @@ public class MainThread implements Runnable{
                 
                 delta--;
                 tps = 1000000000 / (now - initTickTime);
-                if(showTPS){System.out.println("tps: " + tps);}
+                /*if(showTPS){
+                    System.out.println("tps: " + tps);
+                }*/
                 initTickTime = now;
             }
         }
@@ -104,8 +100,10 @@ public class MainThread implements Runnable{
      * Initializes objects inside the thread, because init() is called from run()
      */
     private void init() {
+       
         display = new Display(title, width, height);
-        scene = new MainWorld();
+        Assets.init();
+        scene = new MainWorld(display);
         scene.systemJobManager.init();
     }
     
@@ -141,9 +139,18 @@ public class MainThread implements Runnable{
         else {
             //Getting the next buffer of one of the three
             display.g = display.bs.getDrawGraphics();
+            display.g.setColor(Color.WHITE);
+            display.g.fillRect(0, 0, width, height);
             
             //Here you render entities
             scene.systemJobManager.render(display.g);
+            
+            if(showTPS){
+                display.g.setColor(Color.RED);
+                display.g.drawString(Integer.toString((int)tps), 50, 50);
+            }
+            //display.g.drawRect(0, 0, width, height);
+            
             
             display.bs.show();
             display.g.dispose(); //Dispose to avoid waiting the garbage collector.

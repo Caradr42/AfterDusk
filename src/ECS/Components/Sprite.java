@@ -23,9 +23,9 @@ public class Sprite extends Component{
     public int height;
     
     //code to initialize the data
-    public Sprite(String name, int width, int height, String path) {
+    public Sprite(String name, int width, int height, BufferedImage bi) {
         this.name = name;
-        bi = ImageLoader.loadImage(path);
+        this.bi = bi;
         this.width = width;
         this.height = height;
     }

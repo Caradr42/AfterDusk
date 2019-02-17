@@ -5,23 +5,43 @@
  */
 package Scene.Scenes;
 
-import ECS.Components.Sprite;
+import Assets.Assets;
+import ECS.Components.*;
 import ECS.Entity;
+import ECS.Systems.*;
 import Scene.Scene;
+import graphics.Display;
+import maths.Vector2;
 
 /**
  *
  * @author carlo
  */
 public class MainWorld extends Scene{
-    
-    
-    
+
+    public MainWorld(Display display) {
+        super(display);
+    }
+      
     @Override
     protected void addEntities() {
-        Sprite spriteComp = new Sprite("sprite_1", 100, 100,"/Resources/Images/coso.png");
-        Entity e = entityManager.createEntity("COSO");
-        entityManager.addComponetToEntity(e,spriteComp);
+        
+        Entity e;
+        Sprite spriteComp ;
+        Transform transformComp;
+        
+        for(int i = 0; i < 3000; i++){
+            e = entityManager.createEntity("COSO_" + Integer.toString(i));
+            spriteComp = new Sprite("sprite_" + Integer.toString(i), 50, 50,Assets.coso);
+            transformComp = new Transform(new Vector2(50,50));
+            entityManager.addComponetToEntity(e,spriteComp);
+            entityManager.addComponetToEntity(e,transformComp);
+        }       
     }
     
+    @Override
+    protected void addSystems(){
+        systemJobManager.addSystem(new SpriteRender(this));
+        systemJobManager.addSystem(new Movement(this));
+    }
 }
