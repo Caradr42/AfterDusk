@@ -218,7 +218,8 @@ public class EntityManager{
         T resultComponet = (T) store.get(entity); //uses the Entity's ID as KEY to get the component instance.
 
         if(resultComponet == null) //trows an exeption if no component is attached.
-            throw new IllegalArgumentException("Get Fail: "+entity.toString()+" does not posses Component of Class \n missing: "+ component);
+            return null; //no component was found
+        
         return resultComponet;
     }
     

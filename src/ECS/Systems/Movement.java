@@ -43,19 +43,19 @@ public class Movement extends SystemJob{
            // transform.position.setY(transform.position.getY() + rng.nextInt(5));
             
             if(scene.display.getKeyManager().right){
-                transform.position.setX(transform.position.getX() + rng.nextInt(15));
+                transform.position.setX(transform.position.getX() + rng.nextInt(20));
             }
             
             if(scene.display.getKeyManager().left){
-                transform.position.setX(transform.position.getX() - rng.nextInt(15));
+                transform.position.setX(transform.position.getX() - rng.nextInt(20));
             }
             
             if(scene.display.getKeyManager().up){
-                transform.position.setY(transform.position.getY() - rng.nextInt(15));
+                transform.position.setY(transform.position.getY() - rng.nextInt(20));
             }
             
             if(scene.display.getKeyManager().down){
-                transform.position.setY(transform.position.getY() + rng.nextInt(15));
+                transform.position.setY(transform.position.getY() + rng.nextInt(20));
             }
             //System.out.println("ID: " +  e + " Pos: (" + transform.position.getX() + ", " + transform.position.getY() + ")");
         }

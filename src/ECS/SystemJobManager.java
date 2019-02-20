@@ -73,6 +73,7 @@ public class SystemJobManager extends SystemJob{
         }
         
         public  void start(){
+            
             thread = new Thread(this);
             running = true;
             thread.start();

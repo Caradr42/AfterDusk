@@ -65,7 +65,7 @@ public class MainThread implements Runnable{
             
             //delta acumulates enogh tick fractions until a tick is completed and we can now advance in the tick
             if(delta >= 1){
-                System.out.println(System.nanoTime());
+                //System.out.println(System.nanoTime());
                 tick();
                 render();
                 
