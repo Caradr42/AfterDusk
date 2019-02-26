@@ -1,9 +1,13 @@
 package proyecto_videojuegos;
 import Assets.Assets;
+import ECS.SystemJobManager;
 import Scene.Scenes.*;
 import graphics.Display;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * «Singleton»
@@ -26,7 +30,9 @@ public class MainThread implements Runnable{
     private boolean running;    // to set the game running status (controls the in thread execution)
     private double tps; //ticks per second
     private final boolean showTPS = true; //controls if the tps will be show on the console
-    int fps = 60;
+    private int fps = 60;
+    public static double deltaTime;
+    public static double nomalizedDeltaTime;
     
     //ECS stuff
     MainWorld scene;
@@ -42,6 +48,9 @@ public class MainThread implements Runnable{
         this.width = width;
         this.height = height;
         running = false;
+        tps = 0;
+        deltaTime = 1 / fps;
+        nomalizedDeltaTime = 1;
     }
     
     /**
@@ -49,7 +58,7 @@ public class MainThread implements Runnable{
      * This is the cycle that makes possible the game, and it helps
      * the player to see how the character is moving.
      */
-    @Override
+    /*@Override
     public void run() {
         init(); //Initialization of objects in the thread
         
@@ -71,16 +80,60 @@ public class MainThread implements Runnable{
                 
                 delta=0;
                 tps = 1000000000 / (now - initTickTime);
-                /*if(showTPS){
-                    System.out.println("tps: " + tps);
-                }*/
+                
                 initTickTime = now;
             }
             lastTime = now;
         }
         stop();
-    }
+    }*/
 
+    @Override
+    public void run() {
+        init(); //Initialization of objects in the thread
+        
+        long timeTick = 1000000000 / fps; //time for  each tick in nanoseconds, ejm: at 50fps each tick takes 0.01666_ seconds wich is equal to 16666666.6_ nanoseconds
+        
+        long initTime; //current frame time
+        long endTime; //the previous frame time 
+        long sleepTime;
+        long sleepTimeMillis;
+        long remainingNanos;
+        
+        while (running) {
+            
+            initTime = System.nanoTime();
+            tick();
+            for(int i = 0; i < scene.systemJobManager.systemsListSize; i++){
+                try {
+                    scene.systemJobManager.completionService.take();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(MainThread.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            render();
+            endTime = System.nanoTime();
+            
+            sleepTime = timeTick - (endTime - initTime);
+            sleepTimeMillis = sleepTime / 1000000;
+            remainingNanos = sleepTime - (sleepTimeMillis * 1000000);
+            if(sleepTimeMillis > 0 && remainingNanos >= 0){
+                try {
+                    Thread.sleep(sleepTimeMillis, (int)remainingNanos);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(MainThread.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }else{
+                
+            }
+            tps = 1000000000 / (System.nanoTime() - initTime);
+            deltaTime = 1 / tps;
+            nomalizedDeltaTime = fps / tps;
+            //System.out.println(nomalizedDeltaTime);
+        }
+        stop();
+    }
+    
     /**
      * To get the width of the game window.
      * @return an <code>int</code> value with the width
@@ -114,7 +167,7 @@ public class MainThread implements Runnable{
      * but it does not show it to the user.
      */
     private void tick() {
-        display.getKeyManager().tick();
+        scene.display.getKeyManager().tick();
         scene.systemJobManager.update();
     }
         

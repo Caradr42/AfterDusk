@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Queue;
 
 /**
  * Entity Component System class.
@@ -28,6 +29,9 @@ public class EntityManager{
      * List of all the Entities that this EntityManager manages.
      */
     private ArrayList<Entity> entities;
+    
+    //Asociates entities to be deleted to the systems where this entityes recide so we can asincromically delete them
+    private ArrayList<HashMap<Integer,ArrayList<SystemJob>>> deletionQueue; 
     
     //EntityManager id 
    // private int id;

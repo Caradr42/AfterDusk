@@ -12,6 +12,7 @@ import Scene.Scene;
 import java.util.ArrayList;
 import java.util.Random;
 import maths.Vector2;
+import proyecto_videojuegos.MainThread;
 
 /**
  *
@@ -33,7 +34,7 @@ public class Movement extends SystemJob{
 
     @Override
     public void update() {
-        entities = scene.entityManager.getEntitiesWithComponents(transform.getClass());
+        //entities = scene.entityManager.getEntitiesWithComponents(transform.getClass());
         
         for(Integer e : entities){
             transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());
@@ -43,19 +44,19 @@ public class Movement extends SystemJob{
            // transform.position.setY(transform.position.getY() + rng.nextInt(5));
             
             if(scene.display.getKeyManager().right){
-                transform.position.setX(transform.position.getX() + rng.nextInt(20));
+                transform.position.setX(transform.position.getX() + 5 * MainThread.nomalizedDeltaTime);
             }
             
             if(scene.display.getKeyManager().left){
-                transform.position.setX(transform.position.getX() - rng.nextInt(20));
+                transform.position.setX(transform.position.getX() - 5 * MainThread.nomalizedDeltaTime);
             }
             
             if(scene.display.getKeyManager().up){
-                transform.position.setY(transform.position.getY() - rng.nextInt(20));
+                transform.position.setY(transform.position.getY() - 5 * MainThread.nomalizedDeltaTime);
             }
             
             if(scene.display.getKeyManager().down){
-                transform.position.setY(transform.position.getY() + rng.nextInt(20));
+                transform.position.setY(transform.position.getY() + 5 * MainThread.nomalizedDeltaTime);
             }
             //System.out.println("ID: " +  e + " Pos: (" + transform.position.getX() + ", " + transform.position.getY() + ")");
         }

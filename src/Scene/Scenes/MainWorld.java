@@ -38,7 +38,7 @@ public class MainWorld extends Scene{
         entityManager.addComponetToEntity(e,transformComp);
         */
         
-        for(int i = 0; i < 100000; i++){
+        for(int i = 0; i < 20000; i++){
             entityManager.createEntityWithComponents("COSO_" + Integer.toString(i),
                 new Sprite("sprite_" + Integer.toString(i), 50, 50,Assets.coso),
                 new Transform(new Vector2(50,50))

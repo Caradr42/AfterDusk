@@ -3,6 +3,10 @@ package ECS;
 import Scene.Scene;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorCompletionService;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Singleton static Class
@@ -14,117 +18,71 @@ import java.util.ArrayList;
  */
 public class SystemJobManager extends SystemJob{
     
-    public class Thread1 implements Runnable{
-        private Thread thread;
-        private boolean running;  
+    public class SystemJobWraper implements Callable{
         
-        public Thread1() {
+        ArrayList<SystemJob> systems;
+
+        public SystemJobWraper(ArrayList<SystemJob> systems) {
+            this.systems = systems;
         }
-                
-        @Override
+        
+        public SystemJobWraper(SystemJob ... systems) {
+            this.systems = new ArrayList<>();
+            for(SystemJob sj : systems){
+                this.systems.add(sj);
+            }
+        }
+        
+        public SystemJobWraper(SystemJob system) {
+            this.systems = new ArrayList<>();
+            this.systems.add(system);
+        }
+          
+        /*@Override
         public void run() {
-            for(int i = 0; i <= systemsMapSize / 2; ++i){
-                if(systemsList.get(i).isActive())
-                    systemsList.get(i).update();
+            for(SystemJob sj : systems){
+                sj.update();
             }
-            stop();
-            //System.out.println( systemsList.get(0).toString());
-        }    
-        
-        public  void start(){
-            thread = new Thread(this);
-            running = true;
-            thread.start();
-        }
-        
-        public  void stop() {
-        //If it is running
-            if(running) {
-                //Stop it
-                running = false;
+        }*/
 
-                //Try thread.join
-                try{
-                    thread.join();
-
-                //If it was not successful, catch the exception 
-                }catch(InterruptedException ie) {
-                    //And print it
-                    ie.printStackTrace();
-                }
-            }
-        }
-    }
-    
-    public class Thread2 implements Runnable{
-        private Thread thread;
-        private  boolean running;
-        
-        public Thread2() {
-        }
-                
         @Override
-        public void run() {  
-            for(int i = systemsMapSize / 2; i < systemsMapSize; ++i){
-                if(systemsList.get(i).isActive())
-                    systemsList.get(i).update();
-            }  
-            stop();
-        }
-        
-        public  void start(){
-            
-            thread = new Thread(this);
-            running = true;
-            thread.start();
-        }
-        
-        public  void stop() {
-        //If it is running
-            if(running) {
-                //Stop it
-                running = false;
-
-                //Try thread.join
-                try{
-                    thread.join();
-
-                //If it was not successful, catch the exception 
-                }catch(InterruptedException ie) {
-                    //And print it
-                    ie.printStackTrace();
-                }
+        public Object call() throws Exception {
+            for(SystemJob sj : systems){
+                sj.update();
             }
+            return null;
         }
     }
     
-    private Thread1 t1;
-    private Thread2 t2;
-    
-    private  ArrayList<SystemJob> systemsList;
-    private int systemsMapSize;
+    public  ArrayList<SystemJob> systemsList;
+    public ArrayList<SystemJobWraper> wrapersList;
+    public int systemsListSize;
+    public  ExecutorService executorService;
+    public ExecutorCompletionService completionService;
 
     public SystemJobManager(Scene scene) {
         super(scene);
+        executorService = Executors.newFixedThreadPool(2);
+        completionService = new ExecutorCompletionService(executorService);
+        
         systemsList = new ArrayList<>();
-        systemsMapSize = 0;
-        t1  = new Thread1();
-        t2  = new Thread2();
+        wrapersList = new ArrayList<>();
+        systemsListSize = 0;
     }
     
     public void addSystem(SystemJob sj){
         systemsList.add(sj);
-        systemsMapSize++;
+        wrapersList.add(new SystemJobWraper(sj));
+        systemsListSize++;
     }
 
     @Override
     public void update() {    
-        /*for(SystemJob sj : systemsList){
-            if(sj.isActive())
-                sj.update();
-        }*/
-        t1.start();
-        t2.start();
+        
+        for(SystemJobWraper sjw : wrapersList){
+            completionService.submit(sjw);
+        }
+        
     }
 
     @Override
@@ -136,8 +94,7 @@ public class SystemJobManager extends SystemJob{
     }
 
     @Override
-    public void init() {
-        
+    public void init() {        
         for(SystemJob sj : systemsList){
             if(sj.isActive())
                 sj.init();
