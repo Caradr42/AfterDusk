@@ -7,7 +7,7 @@ import ECS.Components.Sprite;
 import ECS.Entity;
 
 /**
- * Game entry point class
+ * Game entry point
  * 
  * @author 
  */
@@ -19,27 +19,7 @@ public class Proyecto_Videojuegos {
         p.update();
         
     }*/
-    
-    //Test for the Entity Component System (ECS)
-    /*public static void main(String[] args) {
-       EntityManager em;
-       SpriteRender sr;
-       Entity player;
-       Sprite sprite;
-       
-       sprite = new Sprite();
-       sprite.name = "Test name";
-       em = new EntityManager();
-       player = em.createEntity("player");
-       em.addComponetToEntity(player, sprite);
-       sr = new SpriteRender(em);
-              
-       sr.update();
-       
-       //gm.Update();
-       System.out.println("end");
-    }*/
-    
+        
     public static void main(String[] args) {
        System.setProperty("sun.java2d.opengl", "true");
        MainThread mt = new MainThread("Game", 1200, 900);

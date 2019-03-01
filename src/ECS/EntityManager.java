@@ -2,11 +2,14 @@ package ECS;
 
 import java.lang.System;
 import ECS.*;
+import Signals.Signal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Queue;
 
 /**
@@ -20,21 +23,18 @@ import java.util.Queue;
  * by their own constructor.
  *  
  * @author Carlos Adrián Guerra Vázquez
- * @date 09/02/2019
- * @version 1.0
+ * @date 26/02/2019
+ * @version 1.3
  */
 public class EntityManager{ 
     
-    /**
-     * List of all the Entities that this EntityManager manages.
-     */
+    // List of all the Entities that this EntityManager manages.
     private ArrayList<Entity> entities;
-    
     //Asociates entities to be deleted to the systems where this entityes recide so we can asincromically delete them
-    private ArrayList<HashMap<Integer,ArrayList<SystemJob>>> deletionQueue; 
+    private LinkedList<Integer> deletionQueue; 
     
-    //EntityManager id 
-   // private int id;
+    public Signal<ArrayList<Integer>> removeEntitiesSignal;
+    public Signal<ArrayList<Integer>> addEntitiesSignal;
     
     /**
      * Structure containing all the Entities by their Component and also their
@@ -71,8 +71,9 @@ public class EntityManager{
     public EntityManager() {
         entities = new  ArrayList<>();
         componentsDictionary = new HashMap<>();
-        lowestUnasignedID = Integer.MIN_VALUE;
-        //We use tha smalles Integer as the first id to be assignedd.
+        lowestUnasignedID = Integer.MIN_VALUE; //We use tha smalles Integer as the first id to be assignedd.
+        removeEntitiesSignal = new Signal<>();
+        addEntitiesSignal = new  Signal<>();
     }  
     
     /**
@@ -152,6 +153,34 @@ public class EntityManager{
                 {
                     componentsMap.remove((Integer)entryPair.getKey());
                     entities.remove(ent);
+                    return  ent;
+                }
+            }
+        }
+        return null; //if the entity was not found
+    }
+    
+    public Integer removeEntity(int ent){
+        //for that iterates for each key of the upper HashMap
+        for (Map.Entry pair : componentsDictionary.entrySet()) {
+            //the inner HashMap contained at the current KEY of the upper HashMap
+            HashMap<Integer, ? extends Component > componentsMap = (HashMap<Integer,  ? extends Component>)pair.getValue(); 
+            //for that iterates for each key of the inner HashMap
+            for (Map.Entry entryPair : componentsMap.entrySet()) {
+                if((Integer)entryPair.getKey() == ent) //if the KEY (int) is equal to the id of the searched Entity
+                {
+                    ArrayList<Integer> elementToRemove = new ArrayList<>();
+                    elementToRemove.add(ent);
+                    removeEntitiesSignal.dispatch(elementToRemove);
+                    
+                    componentsMap.remove((Integer)entryPair.getKey());
+                    //entities.remove(ent);
+                    for(Entity e : entities){
+                        if(e.getID() == ent){
+                            entities.remove(e);
+                            //System.out.println("ccccccccccccccccc");
+                        }
+                    }
                     return  ent;
                 }
             }

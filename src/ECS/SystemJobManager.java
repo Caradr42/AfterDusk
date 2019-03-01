@@ -1,6 +1,7 @@
 package ECS;
 
 import Scene.Scene;
+import Signals.Listener;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
@@ -37,26 +38,23 @@ public class SystemJobManager extends SystemJob{
             this.systems = new ArrayList<>();
             this.systems.add(system);
         }
-          
-        /*@Override
-        public void run() {
-            for(SystemJob sj : systems){
-                sj.update();
-            }
-        }*/
 
         @Override
         public Object call() throws Exception {
             for(SystemJob sj : systems){
-                sj.update();
+                if(sj.active)
+                    sj.update();
             }
             return null;
         }
     }
     
-    public  ArrayList<SystemJob> systemsList;
+    public ArrayList<SystemJob> systemsList;
     public ArrayList<SystemJobWraper> wrapersList;
     public int systemsListSize;
+    //public ArrayList<Listener<ArrayList<Integer>>> onRemoveEntityListeners;
+    //public ArrayList<Listener<ArrayList<Integer>>> onAddEntityListeners;
+    
     public  ExecutorService executorService;
     public ExecutorCompletionService completionService;
 
@@ -67,6 +65,9 @@ public class SystemJobManager extends SystemJob{
         
         systemsList = new ArrayList<>();
         wrapersList = new ArrayList<>();
+        //onRemoveEntityListeners = new ArrayList<>();
+        //onAddEntityListeners = new ArrayList<>();
+        
         systemsListSize = 0;
     }
     
@@ -75,14 +76,20 @@ public class SystemJobManager extends SystemJob{
         wrapersList.add(new SystemJobWraper(sj));
         systemsListSize++;
     }
+    
+    public void addSystems(SystemJob ... systemsToAdd){
+        for(SystemJob sj : systemsToAdd){
+            systemsList.add(sj);
+            wrapersList.add(new SystemJobWraper(sj));
+            systemsListSize++;
+        }
+    }
 
     @Override
     public void update() {    
-        
         for(SystemJobWraper sjw : wrapersList){
             completionService.submit(sjw);
-        }
-        
+        }   
     }
 
     @Override
@@ -92,12 +99,19 @@ public class SystemJobManager extends SystemJob{
                 sj.fixedUpdate();
         }
     }
-
+    
+    /**
+     * initialize each system in the systemsList at the start of the game. 
+     * Also adds all systems onRemoveEntitiesListener and onAddEntitesListener 
+     * to the entity manager's removeEntitiesSignal and addEntitiesSignal on 
+     * this scene.
+     */
     @Override
-    public void init() {        
+    public void init() {   
         for(SystemJob sj : systemsList){
-            if(sj.isActive())
-                sj.init();
+            sj.init();
+            scene.entityManager.removeEntitiesSignal.add(sj.onRemoveEntitiesListener);
+            scene.entityManager.addEntitiesSignal.add(sj.onAddEntitesListener);
         }
     }
 

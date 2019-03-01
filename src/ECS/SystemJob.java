@@ -1,8 +1,11 @@
 package ECS;
 
 import Scene.Scene;
+import Signals.Listener;
+import Signals.Signal;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 /**
  * Entity Component System class.
@@ -22,46 +25,35 @@ import java.awt.Graphics2D;
  */
 public abstract class SystemJob {
     
-    //A reference to the EntityManager attached to the system.
-    //protected EntityManager entityManager;
-    public Scene scene;
+    protected ArrayList<Integer> entities; //A List of references to each Eantity that also has the necesarie components
+    public Scene scene; //Scene to which this System is attached and where it is executed
+    protected boolean active = true; //Used to activate or deactate the system. if so wanted.
     
-    //Used to activate or deactate the system. if so wanted.
-    protected boolean active = true;
+    //anonimous class that executes receive, every time it receives a signal with some entities to remove from the entities list.
+    public Listener<ArrayList<Integer>> onRemoveEntitiesListener = new Listener<ArrayList<Integer>>(){
+        @Override
+        public void receive(Signal<ArrayList<Integer>> signal, ArrayList<Integer> entitiesToRemove) {
+            entities.removeAll(entitiesToRemove); 
+            System.out.println("Removed: " + entities.size());
+        }        
+    };
+    
+    public Listener<ArrayList<Integer>> onAddEntitesListener = new Listener<ArrayList<Integer>>(){
+        @Override
+        public void receive(Signal<ArrayList<Integer>> signal, ArrayList<Integer> entitiesToAdd) {
+            entities.addAll(entitiesToAdd);
+        }        
+    };
     
     /**
      * Constructor of the SystemJob
      * All Systems must be attached to an EntityManager
-     * @param entityManager the EntityManager to be attached to the system 
-     * created.
+     * @param scene the scene to be attached to the system created.
      */
     public SystemJob(Scene scene) {
         this.scene = scene;
-        //this.entityManager = scene.entityManager;
     }
-    
-    /**
-     * Changes the EntityManager attached to this system.
-     * @param entityManager the EntityManager to be attached to the system.
-     */
-    /*public void sethEntityManager(EntityManager entityManager){
-        this.entityManager = entityManager;
-    }*/
-    
-    /**
-     * Returns the EntityManager attached to the system.
-     * @return EntityManager attached to the system.
-     */
-    /*public EntityManager getEntityManager(){
-        return entityManager;
-    }*/
-    
-    /*
-      Methods to be overriden by the systems implemented =======================
-      Used by the MainThread? to be executed each frame update
-        //TODO: implement a System Manager to handle the collention of systems
-    */
-    
+      
     /*
      * Code to be executed each update cycle (tick) of the mainThread
      */
@@ -97,4 +89,6 @@ public abstract class SystemJob {
     public boolean isActive() {
         return active;
     }
+    
+    
 }

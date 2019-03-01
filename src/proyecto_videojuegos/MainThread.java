@@ -2,6 +2,7 @@ package proyecto_videojuegos;
 import Assets.Assets;
 import ECS.SystemJobManager;
 import Scene.Scenes.*;
+import Signals.Listener;
 import graphics.Display;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -20,7 +21,7 @@ import java.util.logging.Logger;
  */
 public class MainThread implements Runnable{
     
-    //display's stuff
+    //Display's stuff
     private Display display;    // to display in the game in its canvas
     String title;               // title of the window
     final private int width;          // width of the window
@@ -28,11 +29,14 @@ public class MainThread implements Runnable{
     //thread stuff
     private Thread thread;      // thread to create the game. points to the instance of this Game as a Runnable
     private boolean running;    // to set the game running status (controls the in thread execution)
+    //Frames per second stuff
     private double tps; //ticks per second
     private final boolean showTPS = true; //controls if the tps will be show on the console
-    private int fps = 60;
+    private int fps = 1000;
     public static double deltaTime;
     public static double nomalizedDeltaTime;
+    public int currentFrame;
+    private double tpsBuffer;
     
     //ECS stuff
     MainWorld scene;
@@ -51,6 +55,7 @@ public class MainThread implements Runnable{
         tps = 0;
         deltaTime = 1 / fps;
         nomalizedDeltaTime = 1;
+        currentFrame = 1;
     }
     
     /**
@@ -58,36 +63,6 @@ public class MainThread implements Runnable{
      * This is the cycle that makes possible the game, and it helps
      * the player to see how the character is moving.
      */
-    /*@Override
-    public void run() {
-        init(); //Initialization of objects in the thread
-        
-        double timeTick = 1000000000 / fps; //time for  each tick in nanoseconds, ejm: at 50fps each tick takes 0.01666_ seconds wich is equal to 16666666.6_ nanoseconds
-        double delta = 0; 
-        long now; //current frame time
-        long lastTime = System.nanoTime(); //the previous frame time 
-        double initTickTime = lastTime;
-        while (running) {            
-            now = System.nanoTime();
-            delta += (now - lastTime) / timeTick;
-            
-            
-            //delta acumulates enogh tick fractions until a tick is completed and we can now advance in the tick
-            if(delta >= 1){
-                //System.out.println(System.nanoTime());
-                tick();
-                render();
-                
-                delta=0;
-                tps = 1000000000 / (now - initTickTime);
-                
-                initTickTime = now;
-            }
-            lastTime = now;
-        }
-        stop();
-    }*/
-
     @Override
     public void run() {
         init(); //Initialization of objects in the thread
@@ -101,22 +76,15 @@ public class MainThread implements Runnable{
         long remainingNanos;
         
         while (running) {
-            
             initTime = System.nanoTime();
             tick();
-            for(int i = 0; i < scene.systemJobManager.systemsListSize; i++){
-                try {
-                    scene.systemJobManager.completionService.take();
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(MainThread.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
             render();
-            endTime = System.nanoTime();
             
+            endTime = System.nanoTime();
             sleepTime = timeTick - (endTime - initTime);
             sleepTimeMillis = sleepTime / 1000000;
             remainingNanos = sleepTime - (sleepTimeMillis * 1000000);
+            
             if(sleepTimeMillis > 0 && remainingNanos >= 0){
                 try {
                     Thread.sleep(sleepTimeMillis, (int)remainingNanos);
@@ -129,62 +97,72 @@ public class MainThread implements Runnable{
             tps = 1000000000 / (System.nanoTime() - initTime);
             deltaTime = 1 / tps;
             nomalizedDeltaTime = fps / tps;
+            currentFrame++;
+            if(currentFrame > fps){
+                currentFrame = 1;
+            }
             //System.out.println(nomalizedDeltaTime);
         }
         stop();
     }
-    
+        
     /**
-     * To get the width of the game window.
-     * @return an <code>int</code> value with the width
-     * 
+     * Initializes objects inside the thread, and initializes all objects 
+     * related to the game, including assets, scenes, 
      */
-    public int getWidth() {
-        return width;
-    }
-    
-    /**
-     * To get the height of the game window.
-     * @return an <code>int</code> value with the height
-     */
-    public int getHeight() {
-        return height;
-    }
-    
-    /**
-     * Initializes objects inside the thread, because init() is called from run()
-     */
-    private void init() {
-       
+    private void init() {   
         display = new Display(title, width, height);
-        Assets.init();
+        
+        Assets.init(); //initializes the game assets
         scene = new MainWorld(display);
-        scene.systemJobManager.init();
+        
+        /* //DEBUG : prints all listeners class attache dto the scene
+        for(Listener<?> l : scene.entityManager.removeEntitiesSignal.listeners){
+            System.out.println(l.getClass());
+        }*/
     }
     
     /**
-     * Void method that moves everything in the game with each execution
-     * but it does not show it to the user.
+     * The tick method is executed each frame of the game, before render so that
+     * render shows all the changes after computation.
      */
     private void tick() {
+        //TODO: not only execute one scene but all scenes
         scene.display.getKeyManager().tick();
         scene.systemJobManager.update();
+        
+        /*
+         * This loop waits for the end of the execution of the 
+         * completionExecutorService in the systemJob manager of the scene.
+         * The completionExecutorService executes the scene Systems in a 
+         * multithreded environment, so we need to waith for its execution.
+         * that the render() is executed after all computations are finished
+         */
+        for(int i = 0; i < scene.systemJobManager.systemsListSize; i++){
+            try {
+                scene.systemJobManager.completionService.take();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MainThread.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
         
     /**
-     * Void that shows to the user every tick or step took
-     * in the game, like the movement of the player.
+     * The render method executes the rendering of the scene display
+     * //TODO: not only execute one scene but all scenes for all displays
      */
     private void render() {
+        
         //get the buffer strategy from the display
         display.bs = display.getCanvas().getBufferStrategy();
         
         /*
-            If it is null, we define one with 3 buffers to display images
-            of the game, ifn ot null, then we display every image of the but
-            after clearing the Rectangle, getting the graphic object from the
-            buffer strategy element. 
-            Show the graphic and dispose it to the trash system*/
+         * If it is null, we define one with 3 buffers to display images
+         * of the game, ifn ot null, then we display every image of the but
+         * after clearing the Rectangle, getting the graphic object from the
+         * buffer strategy element. 
+         * Show the graphic and dispose it to the trash system
+        */
         if(display.bs == null) {
             /*
                 This is like having 3 "screens" for eficiency.
@@ -194,23 +172,27 @@ public class MainThread implements Runnable{
         else {
             //Getting the next buffer of one of the three
             display.g = (Graphics2D)display.bs.getDrawGraphics();
+            /* This draws a grey rectangle al the back of every image so the 
+             * buffer is flushed.*/
             display.g.setColor(Color.GRAY);
             display.g.fillRect(0, 0, width, height);
+            display.g.setColor(Color.RED);
             
-            //Here you render entities
+            //Here you render scenes
             scene.systemJobManager.render(display.g);
             
+            //Shows the frames per second(tps) on scereen on the top left corner
             if(showTPS){
-                display.g.setColor(Color.RED);
-                display.g.drawString(Integer.toString((int)tps), 50, 50);
-            }
-            //display.g.drawRect(0, 0, width, height);
-            
+                if(currentFrame % 10 == 0){
+                    tpsBuffer = tps;
+                }
+                display.g.setColor(Color.GREEN);
+                display.g.drawString(Integer.toString((int)tpsBuffer), 0, 10);
+            }            
             
             display.bs.show();
-            display.g.dispose(); //Dispose to avoid waiting the garbage collector.
-        }
-            
+            display.g.dispose();//Dispose to avoid waiting the garbage collector.
+        }  
     }
     
     /**

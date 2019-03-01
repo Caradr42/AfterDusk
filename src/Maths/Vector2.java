@@ -3,7 +3,7 @@ package maths;
 /**
  * A maths utility class.
  * provides a double vector with vector operations like: addition, subtraction, 
- * subtraction, distance, etc.
+ * distance, etc.
  * 
  * A vector is composed of a tuple of two values. 
  * 
@@ -97,22 +97,13 @@ public class Vector2 {
     public double dist(Vector2 q){
         return  Math.sqrt(Math.pow(this.getX() - q.getX(), 2) + Math.pow(this.getY() - q.getY(), 2));
     }
-    
-    /**
-     * Measures the distance to an IntVector.
-     * @param q the other vector to which the distance will be measured
-     * @return the distance as absolute value
-     */
-    public double dist(IntVector2 q){
-        return  Math.sqrt(Math.pow(this.getX() - q.getX(), 2) + Math.pow(this.getY() - q.getY(), 2));
-    }
-    
+        
     /**
      * Returns the subtraction of other vector with this.
      * @param q the vector to be subtracted.
      * @return a new vector product of the subtraction.
      */
-    public Vector2 dif(Vector2 q){
+    public Vector2 sub(Vector2 q){
         return  new Vector2(q.getX() - getX(), q.getY() - getY());
     }
     
@@ -123,6 +114,34 @@ public class Vector2 {
      */
     public Vector2 add(Vector2 q){
         return  new Vector2(q.getX() + getX(), q.getY() + getY());
+    }
+    
+    public Vector2 scalar(double c){
+        return  new Vector2(getX() * c, getY() * c);
+    }
+    
+    public Vector2 div(double c){
+        return  new Vector2(getX() / c, getY() / c);
+    }
+    
+    public double dot(Vector2 c){
+        return (getX() * c.getX()) + (getY() * c.getY());
+    }
+    
+    public double dotDiv(Vector2 c){
+        return (getX() / c.getX()) + (getY() / c.getY());
+    }
+    
+    public double mag(){
+        return Math.sqrt(Math.pow(getX(), 2) + Math.pow(getY(), 2));
+    }
+    
+    public Vector2 norm(){
+        double m = this.mag();
+        if(m > 0){
+            return this.div(m);
+        }
+        return new Vector2(0,0);
     }
     
     /**

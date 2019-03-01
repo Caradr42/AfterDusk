@@ -7,7 +7,8 @@ package Scene;
 
 /**
  * Manages the scenes in a structure.
- * To be used by the main thread
+ * TODO: be used by the main thread
+ *       To be implemented
  * 
  * @author Carlos Adrián Guerra Vázquez
  * @date 14/02/2019

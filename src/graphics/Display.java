@@ -9,14 +9,19 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 
-/*
+/**
 * Display
 *
 * Class that creates the window that is shown to the user
 * in which the player and background are displayed, thanks to
-* the canvas that is also created in this class.
+* the canvas that is also created in this class. A buffer strategy and a 
+* Graphics2D object are attached to the Display so that they can be used to 
+* render to the window.
 *
-* @author Pablo Moreno
+* The display has a KeyManager and a MouseManager attached to it, from were 
+* input is obtained
+* 
+* @author Pablo Moreno 
 * A00823402
 * @date 25/01/2018 
 * @versión 1.0 

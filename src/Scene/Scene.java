@@ -10,11 +10,19 @@ import graphics.Display;
 import java.util.HashMap;
 
 /**
- * This is what we could call the manager
- * it should allow us to create new EntityManager 
+ * The scene is an abstract class used to create user defined scenes.
+ * The scene contains an entityManager to contain the scene's Entities, and a 
+ * systemJobManager to contain the scene's Systems.
+ * The scene also necessitates a Display on construction, so entities can render
+ * in this Display, and so input can be fetched from it.
+ * You cannot assign the scene's Entity manager of SysteJobmManager, they 
+ * are created on construction.
+ * 
+ * Entities are added on creation. 
+ * Systems are added after entities are added.
  * 
  * @author Carlos Adrián Guerra Vázquez
- * @date 09/02/2019
+ * @date 12/02/2019
  * @version 1.0
  */
 
@@ -33,6 +41,7 @@ public abstract class Scene {
         active = true;
         addSystems();
         addEntities();
+        systemJobManager.init();//initialize this systemJobManager. must be done after adding the systems
     }
     
     abstract protected void addEntities();

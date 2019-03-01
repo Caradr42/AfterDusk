@@ -21,7 +21,7 @@ import java.util.HashMap;
  */
 public class SpriteRender extends SystemJob{
     
-    private ArrayList<Integer> entities; //A List of references to each Eantity that also has the necesarie components
+    //private ArrayList<Integer> entities; //A List of references to each Eantity that also has the necesarie components
     //private HashMap<Integer, ? extends Component> spriteMap;
     //private HashMap<Integer, ? extends Component> transformMap;
     //private ArrayList<Component> componentGroup;
