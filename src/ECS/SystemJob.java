@@ -33,8 +33,8 @@ public abstract class SystemJob {
     public Listener<ArrayList<Integer>> onRemoveEntitiesListener = new Listener<ArrayList<Integer>>(){
         @Override
         public void receive(Signal<ArrayList<Integer>> signal, ArrayList<Integer> entitiesToRemove) {
-            entities.removeAll(entitiesToRemove); 
-            System.out.println("Removed: " + entities.size());
+            System.out.println("Removed: " + entitiesToRemove.size() + " \tLeft: " + entities.size());
+            entities.removeAll(entitiesToRemove);   
         }        
     };
     

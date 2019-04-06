@@ -50,19 +50,7 @@ public class SpriteRender extends SystemJob{
      */
     @Override
     public void update() {
-        //entities = scene.entityManager.getEntitiesWithComponents(sprite.getClass(), transform.getClass());
-        
-        //System.out.println( "bbbbbbbbbbbbbbbbbbbbbbbb");
-        
-        //spriteMap = scene.entityManager.getComponentMap(sprite.getClass());
-        //transformMap = scene.entityManager.getComponentMap(transform.getClass());
-                
-        /*for(Entity e : entities){
-            sprite = scene.entityManager.getEntityComponentInstance(e, sprite.getClass());
-            transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());
-            
-            //System.out.println("Name: " +  e.getName() + " Pos: (" + transform.position.getX() + ", " + transform.position.getY() + ")");
-        }  */   
+       
     }  
 
     @Override

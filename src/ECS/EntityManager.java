@@ -74,6 +74,7 @@ public class EntityManager{
         lowestUnasignedID = Integer.MIN_VALUE; //We use tha smalles Integer as the first id to be assignedd.
         removeEntitiesSignal = new Signal<>();
         addEntitiesSignal = new  Signal<>();
+        deletionQueue = new LinkedList<>();
     }  
     
     /**
@@ -160,32 +161,25 @@ public class EntityManager{
         return null; //if the entity was not found
     }
     
-    public Integer removeEntity(int ent){
-        //for that iterates for each key of the upper HashMap
-        for (Map.Entry pair : componentsDictionary.entrySet()) {
-            //the inner HashMap contained at the current KEY of the upper HashMap
-            HashMap<Integer, ? extends Component > componentsMap = (HashMap<Integer,  ? extends Component>)pair.getValue(); 
-            //for that iterates for each key of the inner HashMap
-            for (Map.Entry entryPair : componentsMap.entrySet()) {
-                if((Integer)entryPair.getKey() == ent) //if the KEY (int) is equal to the id of the searched Entity
-                {
-                    ArrayList<Integer> elementToRemove = new ArrayList<>();
-                    elementToRemove.add(ent);
-                    removeEntitiesSignal.dispatch(elementToRemove);
-                    
-                    componentsMap.remove((Integer)entryPair.getKey());
-                    //entities.remove(ent);
-                    for(Entity e : entities){
-                        if(e.getID() == ent){
-                            entities.remove(e);
-                            //System.out.println("ccccccccccccccccc");
-                        }
-                    }
-                    return  ent;
+    public void removeEntity(int ent){
+        deletionQueue.add(ent);
+    }
+    
+    public void flushRemoveEntityQueue(){
+        //for(int ent  : deletionQueue){
+            //for that iterates for each key of the upper HashMap
+            for (Map.Entry pair : componentsDictionary.entrySet()) {
+                //the inner HashMap contained at the current KEY of the upper HashMap
+                HashMap<Integer, ? extends Component > componentsMap = (HashMap<Integer,  ? extends Component>)pair.getValue(); 
+                for(int ent  : deletionQueue){
+                    componentsMap.remove(ent);
                 }
             }
+        entities.removeAll(deletionQueue);
+        if(!deletionQueue.isEmpty()){
+            removeEntitiesSignal.dispatch( new ArrayList<Integer>(deletionQueue));
         }
-        return null; //if the entity was not found
+        deletionQueue = new LinkedList<>();
     }
         
     /**

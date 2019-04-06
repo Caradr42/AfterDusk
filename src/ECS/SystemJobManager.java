@@ -60,7 +60,7 @@ public class SystemJobManager extends SystemJob{
 
     public SystemJobManager(Scene scene) {
         super(scene);
-        executorService = Executors.newFixedThreadPool(2);
+        executorService = Executors.newFixedThreadPool(4);
         completionService = new ExecutorCompletionService(executorService);
         
         systemsList = new ArrayList<>();

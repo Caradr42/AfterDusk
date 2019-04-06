@@ -32,7 +32,7 @@ public class MainThread implements Runnable{
     //Frames per second stuff
     private double tps; //ticks per second
     private final boolean showTPS = true; //controls if the tps will be show on the console
-    private int fps = 1000;
+    private int fps = 60;
     public static double deltaTime;
     public static double nomalizedDeltaTime;
     public int currentFrame;
@@ -79,6 +79,7 @@ public class MainThread implements Runnable{
             initTime = System.nanoTime();
             tick();
             render();
+            scene.entityManager.flushRemoveEntityQueue();
             
             endTime = System.nanoTime();
             sleepTime = timeTick - (endTime - initTime);
@@ -91,9 +92,9 @@ public class MainThread implements Runnable{
                 } catch (InterruptedException ex) {
                     Logger.getLogger(MainThread.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }else{
-                
             }
+            
+            //FPS calculator
             tps = 1000000000 / (System.nanoTime() - initTime);
             deltaTime = 1 / tps;
             nomalizedDeltaTime = fps / tps;

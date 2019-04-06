@@ -24,6 +24,7 @@ public class Movement extends SystemJob{
     //private ArrayList<Integer> entities; //A List of references to each Eantity that also has the necesarie components
     Random rng;
     Transform transform;  
+    boolean removed = false;
     
     public Movement(Scene scene) {
         super(scene);
@@ -40,27 +41,29 @@ public class Movement extends SystemJob{
             transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());
                         
             if(scene.display.getKeyManager().right){
-                transform.position.setX(transform.position.getX() + 200 * MainThread.deltaTime);
+                transform.position.setX(transform.position.getX() + rng.nextInt(400) * MainThread.deltaTime);
             }
             
             if(scene.display.getKeyManager().left){
-                transform.position.setX(transform.position.getX() - 200 * MainThread.deltaTime);
+                transform.position.setX(transform.position.getX() - rng.nextInt(400) * MainThread.deltaTime);
             }
             
             if(scene.display.getKeyManager().up){
-                transform.position.setY(transform.position.getY() - 200 * MainThread.deltaTime);
+                transform.position.setY(transform.position.getY() - rng.nextInt(400) * MainThread.deltaTime);
             }
             
             if(scene.display.getKeyManager().down){
-                transform.position.setY(transform.position.getY() + 200 * MainThread.deltaTime);
+                transform.position.setY(transform.position.getY() + rng.nextInt(400) * MainThread.deltaTime);
             }
             
-            if(scene.display.getKeyManager().keys[KeyEvent.VK_SPACE]){
-                scene.entityManager.removeEntity(e);            
+            if(scene.display.getKeyManager().keys[KeyEvent.VK_SPACE] && !removed){
+                scene.entityManager.removeEntity(e);     
+                removed = true;
             }
             
-            System.out.println("ID: " +  e + " Pos: (" + transform.position.getX() + ", " + transform.position.getY() + ")");
+            //System.out.println("ID: " +  e + " Pos: (" + transform.position.getX() + ", " + transform.position.getY() + ")");
         }
+        removed = false;
     }
 
     @Override
