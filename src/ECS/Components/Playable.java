@@ -19,7 +19,10 @@ public class Playable extends Component {
     int inventory;
     public Vector3 velocity;
 
+
+
     public Playable(int hp, int inventory, Vector3 velocity) {
+
         this.hp = hp;
         this.inventory = inventory;
         this.velocity = velocity;

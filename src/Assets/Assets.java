@@ -14,12 +14,13 @@ import videoGame.ImageLoader;
  * @author carlo
  */
 public class Assets {
-    public static BufferedImage coso;
+    public static BufferedImage coso, inventory;
     
     public static HashMap<String, BufferedImage[]> animations;
     
     public static void init(){
         coso = ImageLoader.loadImage("/Resources/Images/coso.png");
+        inventory = ImageLoader.loadImage("/Resources/Images/Inventory.png");
         animations = new HashMap<>();
         
         animations.put("player_down", crop(32, 32, 1, "/Resources/Images/player_down.png"));

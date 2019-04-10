@@ -21,6 +21,7 @@ public class Sprite extends Component{
     public BufferedImage bi;
     public int width;
     public int height;
+    public boolean active;
     
     //code to initialize the data
     public Sprite(String name, int width, int height, BufferedImage bi) {
@@ -28,6 +29,7 @@ public class Sprite extends Component{
         this.bi = bi;
         this.width = width;
         this.height = height;
+        active = true;
     }
 
     public Sprite() {

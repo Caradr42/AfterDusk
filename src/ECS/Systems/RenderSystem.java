@@ -12,10 +12,12 @@ import ECS.Components.Tile;
 import ECS.Components.Transform;
 import ECS.SystemJob;
 import Scene.Scene;
+import UI.UserInterface;
 import java.awt.Graphics2D;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import Utility.Pair;
+import java.awt.event.KeyEvent;
 
 /**
  * 
@@ -25,6 +27,7 @@ import Utility.Pair;
 public class RenderSystem extends SystemJob{
     
     Transform transform;
+    public UserInterface inventory;
     Sprite sprite;
     public PriorityQueue <Pair<Transform, Sprite> > queue;
             
@@ -69,6 +72,13 @@ public class RenderSystem extends SystemJob{
             g.drawImage(t.second.bi, (int) t.first.position.x,(int) t.first.position.y,t.second.width,t.second.height,null);
            //g.drawRect((int) t.position.x,(int) t.position.y,16,16);
         } 
+        
+            if (scene.display.getKeyManager().keys[KeyEvent.VK_P]) {
+                //Display the inventory
+                inventory = new UserInterface(1);
+                
+                inventory.render(g);
+            }
         
     }
     

@@ -7,6 +7,7 @@ package ECS.Components;
 
 import ECS.Component;
 import Maths.Vector2;
+import Maths.Vector3;
 
 /**
  *
@@ -15,16 +16,12 @@ import Maths.Vector2;
 public class Item extends Component {
     
     boolean bInventory;
-    public Vector2 position;
     int inventory;
-    String animation;
     String name;
 
-    public Item(String name, boolean bInventory, Vector2 position, int inventory, String animation) {
+    public Item(String name, boolean bInventory, int inventory) {
         this.bInventory = bInventory;
-        this.position = position;
         this.inventory = inventory;
-        this.animation = animation;
         this.name = name;
     }
 }
