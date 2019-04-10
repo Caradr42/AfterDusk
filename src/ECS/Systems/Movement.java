@@ -5,6 +5,7 @@
  */
 package ECS.Systems;
 
+import ECS.Components.Player;
 import ECS.Components.Transform;
 import ECS.Entity;
 import ECS.SystemJob;
@@ -12,7 +13,7 @@ import Scene.Scene;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Random;
-import maths.Vector2;
+import Maths.Vector2;
 import proyecto_videojuegos.MainThread;
 
 /**
@@ -23,6 +24,7 @@ public class Movement extends SystemJob{
     
     //private ArrayList<Integer> entities; //A List of references to each Eantity that also has the necesarie components
     Random rng;
+    Player player;
     Transform transform;  
     boolean removed = false;
     
@@ -30,6 +32,7 @@ public class Movement extends SystemJob{
         super(scene);
         entities = new ArrayList<>();
         transform = new Transform();
+        player = new Player();
         rng = new Random(System.currentTimeMillis());
     }
 
@@ -69,7 +72,7 @@ public class Movement extends SystemJob{
 
     @Override
     public void init() {
-        entities = scene.entityManager.getEntitiesWithComponents(transform.getClass());
+        entities = scene.entityManager.getEntitiesWithComponents(transform.getClass(), player.getClass());
     }
 
     @Override

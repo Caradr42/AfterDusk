@@ -5,6 +5,7 @@
  */
 package ECS.Components;
 
+import ECS.Component;
 import java.util.ArrayList;
 import java.util.Vector;
 import javafx.util.Pair;
@@ -13,7 +14,7 @@ import javafx.util.Pair;
  *
  * @author pablo
  */
-public class Player {
+public class Player extends Component{
     public int energy;
     
     public int leftObject;

@@ -1,4 +1,4 @@
-package maths;
+package Maths;
 
 /**
  * A maths utility class.

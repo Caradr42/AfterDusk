@@ -16,15 +16,9 @@ public class Tile extends Component{
     public ArrayList<BufferedImage> topTextureRef;
     public ArrayList<BufferedImage> sideTextureRef;
     
-    public Vector3 position;
     String name;
 
-    public Tile(String name, ArrayList<String> topTextures, ArrayList<String> sideTextures, Vector3 position) {
-        this.topTextures = topTextures;
-        this.sideTextures = sideTextures;
-        this.topTextureRef = new ArrayList<>(1);
-        this.sideTextureRef = new ArrayList<>(1);
-        this.position = position;
+    public Tile(String name) {
         this.name = name;
     }
 

@@ -2,7 +2,7 @@ package CBA.GameObjects;
 
 import CBA.Components.Transform;
 import CBA.GameObject;
-import maths.Vector2;
+import Maths.Vector2;
 
 /**
  * Example CBA GameObject
