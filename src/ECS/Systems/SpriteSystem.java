@@ -31,8 +31,10 @@ public class SpriteSystem extends SystemJob{
         for(Integer e: entities){
             sprite = scene.entityManager.getEntityComponentInstance(e, sprite.getClass());
             if(sprite.active){
-                double framneNanos = 1000000000 / sprite.fps;
+                sprite.currentFrame = sprite.animation[(int)(sprite.frameCounter) % sprite.animationLenght];
                 
+                sprite.frameCounter+= sprite.speed;
+                //System.out.println(sprite.speed);
             }
         }
         
@@ -49,10 +51,14 @@ public class SpriteSystem extends SystemJob{
                 sprite.animations.add(Assets.animations.get(sprite.animationsNames.get(i)));
             }
             
-            sprite.animation = sprite.animations.get(0);
+            sprite.animation = sprite.animations.get(0).first;
+            sprite.animationLenght = sprite.animations.get(0).second;
+            
             sprite.currentFrame = sprite.animation[0];
         }
     }
+    
+    
 
     @Override
     public void onCreate() {

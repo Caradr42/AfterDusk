@@ -14,6 +14,11 @@ import Maths.Vector2;
  */
 public class Camera {
     private Vector2 ortogonalPosition;
+    Graphics2D tempG;
+    AffineTransform UItransform = new AffineTransform();
+        
+    
+    private AffineTransform oldTransform;
     private int scale;
     
     private Display display;
@@ -22,16 +27,19 @@ public class Camera {
         this.ortogonalPosition = ortogonalPosition;
         this.scale = scale;
         this.display = display;
-        //init();
+        init();
     }
     
     public Camera(int x, int y, int scale, Display display) {
         this.ortogonalPosition = new Vector2(x, y);
         this.scale = scale;
         this.display = display;
-        //init();
+        init();
     }
     
+    private void init(){
+        UItransform.setTransform(scale, 0, 0, scale, 1, 0);
+    }
     /*private void init(){
         at = new AffineTransform();
         at.translate(-ortogonalPosition.getX(), -ortogonalPosition.getY());
@@ -42,18 +50,19 @@ public class Camera {
         //at.translate(-ortogonalPosition.getX(), -ortogonalPosition.getY());
         //at.scale(scale, scale);
         AffineTransform at = new AffineTransform();
+        //previousTransform = g.getTransform();
         
         if(display.getKeyManager().keys[KeyEvent.VK_I]) {
-            ortogonalPosition.set(ortogonalPosition.x,ortogonalPosition.y - 1);
+            ortogonalPosition.set(ortogonalPosition.x,ortogonalPosition.y - 6);
         }
         if(display.getKeyManager().keys[KeyEvent.VK_K]) {
-            ortogonalPosition.set(ortogonalPosition.x,ortogonalPosition.y + 1);
+            ortogonalPosition.set(ortogonalPosition.x,ortogonalPosition.y + 6);
         }
         if(display.getKeyManager().keys[KeyEvent.VK_J]) {
-            ortogonalPosition.set(ortogonalPosition.x - 1,ortogonalPosition.y);
+            ortogonalPosition.set(ortogonalPosition.x - 6,ortogonalPosition.y);
         }
         if(display.getKeyManager().keys[KeyEvent.VK_L]) {
-            ortogonalPosition.set(ortogonalPosition.x + 1,ortogonalPosition.y);
+            ortogonalPosition.set(ortogonalPosition.x + 6,ortogonalPosition.y);
         }
         
         at.translate(-ortogonalPosition.x, -ortogonalPosition.y);
@@ -74,5 +83,9 @@ public class Camera {
         return ortogonalPosition;
     }
     
-    
+    public void tickUI(Graphics2D g){
+        g.setTransform(UItransform);
+        
+        
+    }
 }

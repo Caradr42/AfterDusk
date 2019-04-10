@@ -34,13 +34,12 @@ public class TileSystem extends SystemJob {
     @Override
     public void init() {
       entities = scene.entityManager.getEntitiesWithComponents(tile.getClass());
-      for(Integer e:entities){
+      /*for(Integer e:entities){
             tile=scene.entityManager.getEntityComponentInstance(e, tile.getClass());
             for(int i=0;i<tile.topTextures.size();i++){
-                tile.topTextureRef.add(i, Assets.animations.get(tile.topTextures.get(i))[0]);
+                //tile.topTextureRef.add(i, Assets.animations.get(tile.topTextures.get(i))[0]);
             }
-        }
-
+        }*/
     }
 
     @Override

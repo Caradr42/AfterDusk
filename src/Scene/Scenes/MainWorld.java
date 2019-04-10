@@ -17,6 +17,7 @@ import graphics.Camera;
 import graphics.Display;
 import java.util.ArrayList;
 import Maths.Vector2;
+import java.util.Arrays;
 
 /**
  * Test scene. extends Scene 
@@ -53,14 +54,14 @@ public class MainWorld extends Scene{
         Entity i = entityManager.createEntityWithComponents("tool", 
                 new Item ("tool", true, e.getID()),
                 new Transform(new Vector3(50, 50, 0)),
-                new Sprite("tool", true,16, 16, 10, tempAnim)
+                new Sprite("tool", true,16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
         );
         
         tempAnim = new ArrayList<>();
         tempAnim.add("player_down");
         
         entityManager.createEntityWithComponents("Player",
-            new Sprite("sprite", true, 32, 32, 10, tempAnim),
+            new Sprite("sprite", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down"))),
             new Transform(new Vector3(50,50, 16)),
             new Player(),
             new Playable(100, e.getID(), new Vector3()) /*,
@@ -77,7 +78,7 @@ public class MainWorld extends Scene{
         entityManager.createEntityWithComponents("grass",
                 new Tile("grass1"),
                 new Transform(new Vector3(0,0,0)),
-                new Sprite("grass", true, 16, 16, 10, tempAnim)
+                new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
         );
     }
     

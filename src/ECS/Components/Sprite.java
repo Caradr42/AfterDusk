@@ -1,8 +1,10 @@
 package ECS.Components;
 
 import ECS.Component;
+import Utility.Pair;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import proyecto_videojuegos.MainThread;
 import videoGame.ImageLoader;
 
 /**
@@ -24,12 +26,14 @@ public class Sprite extends Component{
     public int mode; // 0 is no animation, 1 is animation one, n is animation n
     public BufferedImage currentFrame;
     public BufferedImage[] animation;
-    public ArrayList<BufferedImage[]> animations;
+    public int animationLenght;
+    
+    public ArrayList<Pair<BufferedImage[], Integer>> animations;
     
     public ArrayList<String> animationsNames;
     
-    public double fps;
-    public double flameAccum = 0;
+    public double speed;
+    public double frameCounter = 0;
     
     public int width;
     public int height;
@@ -42,12 +46,13 @@ public class Sprite extends Component{
      * @param active
      * @param width
      * @param height
-     * @param animationsPaths 
+     * @param speed
+     * @param animationsNames 
      */
-    public Sprite(String name, boolean active, int width, int height, double fps, ArrayList<String> animationsNames) {
+    public Sprite(String name, boolean active, int width, int height, double speed, ArrayList<String> animationsNames) {
         this.name = name;
         this.active = active;
-        this.fps = fps;
+        this.speed = speed / MainThread.fps;
         //this.currentFrame ;
         this.animations = new ArrayList<>();
         this.animationsNames = animationsNames;
