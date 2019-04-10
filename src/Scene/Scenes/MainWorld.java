@@ -10,6 +10,7 @@ import ECS.Components.*;
 import ECS.Entity;
 import ECS.SystemJob;
 import ECS.Systems.*;
+import Maths.Vector3;
 import Scene.Scene;
 import Signals.Listener;
 import graphics.Camera;
@@ -45,6 +46,13 @@ public class MainWorld extends Scene{
             new Sprite("sprite", 32, 32, Assets.animations.get("player_down")[0]),
             new Transform(new Vector2(50,50))
         );
+        
+         ArrayList<String> a = new ArrayList<String>(1);
+         a.add("grass");
+         
+        entityManager.createEntityWithComponents("grass",
+                new Tile("grass1", a, new ArrayList<>(1), 
+                new Vector3(0,0,0)));
     }
     
     /**
@@ -55,7 +63,8 @@ public class MainWorld extends Scene{
     protected void addSystems(){
         systemJobManager.addSystems(
             new SpriteRender(this), 
-            new Movement(this)
+            new Movement(this),
+            new TileSystem(this)
         );
     }
 }

@@ -7,7 +7,7 @@ package ECS.Components;
 
 import ECS.Component;
 import java.util.ArrayList;
-import maths.Vector2;
+import Maths.Vector3;
 
 /**
  *
@@ -16,13 +16,13 @@ import maths.Vector2;
 public class Playable extends Component {
     
     int hp;
-    public Vector2 position;
+    public Vector3 position;
     int inventory;
-    public Vector2 hitbox;
+    public Vector3 hitbox;
     public ArrayList<String> animations;
-    public Vector2 velocity;
+    public Vector3 velocity;
 
-    public Playable(int hp, Vector2 position, int inventory, Vector2 hitbox, ArrayList<String> animations, Vector2 velocity) {
+    public Playable(int hp, Vector3 position, int inventory, Vector3 hitbox, ArrayList<String> animations, Vector3 velocity) {
         this.hp = hp;
         this.position = position;
         this.inventory = inventory;

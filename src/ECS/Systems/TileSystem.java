@@ -5,11 +5,15 @@
  */
 package ECS.Systems;
 
+import Assets.Assets;
 import ECS.Components.Playable;
 import ECS.Components.Tile;
 import ECS.SystemJob;
 import Scene.Scene;
 import java.awt.Graphics2D;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import javafx.util.Pair;
 
 /**
  * 
@@ -19,7 +23,8 @@ import java.awt.Graphics2D;
 public class TileSystem extends SystemJob{
     
     Tile tile;
-    
+    public PriorityQueue <Tile> queue;
+            
     public TileSystem(Scene scene) {
         super(scene);
         tile = new Tile();
@@ -27,17 +32,24 @@ public class TileSystem extends SystemJob{
 
     @Override
     public void update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //To change body of generated methods, choose Tools | Templates.
+        for(Integer e:entities){
+            tile=scene.entityManager.getEntityComponentInstance(e, tile.getClass());
+            queue.add(tile);
+        }
     }
 
-    @Override
-    public void fixedUpdate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public void init() {
       entities = scene.entityManager.getEntitiesWithComponents(tile.getClass());
+      queue = new PriorityQueue<Tile>(entities.size(), new myComparator());
+      for(Integer e:entities){
+            tile=scene.entityManager.getEntityComponentInstance(e, tile.getClass());
+            for(int i=0;i<tile.topTextures.size();i++){
+                tile.topTextureRef.add(i, Assets.animations.get(tile.topTextures.get(i))[0]);
+            }
+        }
     }
 
     @Override
@@ -53,25 +65,28 @@ public class TileSystem extends SystemJob{
         @Override
     public void render(Graphics2D g) {
         //System.out.println(entities.get(0));
-        for(Integer e : entities){
-            tile = scene.entityManager.getEntityComponentInstance(e, tile.getClass());
-            
-            
-            
-        }
+        for(Tile t : queue){
+            g.drawImage(t.topTextureRef.get(0), (int) t.position.x,(int) t.position.y,16,16,null);
+           //g.drawRect((int) t.position.x,(int) t.position.y,16,16);
+        } 
         
     }
     
+    
+    
+ public class myComparator implements Comparator <Tile> {
 
-int compare(Tile o1, Tile o2){
-    o1.
     
-    return 
-   //a negative integer, zero, 
-  //or a positive integer as the first argument is less than, equal to, or greater than the second
+        @Override
+        public int compare(Tile o1, Tile o2) {
+         if((Math.pow(o1.position.y , 2) + Math.pow(o1.position.z , 2)) > (Math.pow(o2.position.y , 2) + Math.pow(o2.position.z , 2))){
+        return 1;
+    } else {
+        return -1;
     }
-    
-    
-    
+        }
+     
+     
+ }
     
 }
