@@ -58,16 +58,9 @@ public abstract class SystemJob {
      * Code to be executed each update cycle (tick) of the mainThread
      */
     abstract public void update();
-    
+        
     /**
-     * Code to be executed on a Fixed interval independent of frame rate,
-     * eg. Fisics 
-     */
-    abstract public void fixedUpdate();
-    
-    /**
-     * code to be executed just after the initialization of the Component 
-     * instance. Executes once.
+     * code to be executed just after the initialization of the scene. Executes once.
      */
     abstract public void init();
         
@@ -78,6 +71,9 @@ public abstract class SystemJob {
     public void render(Graphics2D g){
     }
     
+    /**
+     * code to be executed just after the initialization of the entity. Executes once.
+     */
     abstract public void onCreate();
     
     /**

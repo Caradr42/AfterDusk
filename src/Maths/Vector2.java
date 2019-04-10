@@ -14,8 +14,8 @@ package maths;
 public class Vector2 {
     
     //the vector touple of double values x and y.
-    private double x;
-    private double y;
+    public double x;
+    public double y;
     
     /**
      * vector constructor.
@@ -36,57 +36,25 @@ public class Vector2 {
         this.x = x;
         this.y = y;
     }
-    
-    /**
-     * returns vector's x value
-     * @return x 
-     */
-    public double getX() {
-        return x;
-    }
-    
-    /**
-     * returns vector's y value
-     * @return y 
-     */
-    public double getY() {
-        return y;
-    }
-    
-    /**
-     * sets the vector's x value
-     * @param x 
-     */
-    public void setX(double x) {
-        this.x = x;
-    }
-    
-    /**
-     * sets the vector's y value
-     * @param y 
-     */
-    public void setY(double y) {
-        this.y = y;
-    }
-    
+        
     /**
      * sets both x and y values from the vector
      * @param x
      * @param y 
      */
     public void set(double x, double y){
-        setX(x);
-        setY(y);
+        this.x = x;
+        this.y = y;
     }
     
     /**
      * sets the vectors x and y values as the same as the parameter vector ones.
      * gets the x and by value.
-     * @param vect the vector from which x and y will be equaled
+     * @param v the vector from which x and y will be equaled
      */
-    public void set(Vector2 vect){
-        setX(vect.getX());
-        setY(vect.getY());
+    public void set(Vector2 v){
+        x = v.x;
+        y = v.x;
     }
     
     /**
@@ -95,7 +63,7 @@ public class Vector2 {
      * @return the distance as absolute value
      */
     public double dist(Vector2 q){
-        return  Math.sqrt(Math.pow(this.getX() - q.getX(), 2) + Math.pow(this.getY() - q.getY(), 2));
+        return  Math.sqrt(Math.pow(this.x - q.x, 2) + Math.pow(this.y - q.y, 2));
     }
         
     /**
@@ -104,7 +72,7 @@ public class Vector2 {
      * @return a new vector product of the subtraction.
      */
     public Vector2 sub(Vector2 q){
-        return  new Vector2(q.getX() - getX(), q.getY() - getY());
+        return  new Vector2(q.x - x, q.y - y);
     }
     
     /**
@@ -113,27 +81,27 @@ public class Vector2 {
      * @return a new vector product of the addition.
      */
     public Vector2 add(Vector2 q){
-        return  new Vector2(q.getX() + getX(), q.getY() + getY());
+        return  new Vector2(q.x + x, q.y + y);
     }
     
     public Vector2 scalar(double c){
-        return  new Vector2(getX() * c, getY() * c);
+        return  new Vector2(x * c, y * c);
     }
     
     public Vector2 div(double c){
-        return  new Vector2(getX() / c, getY() / c);
+        return  new Vector2(x / c, y / c);
     }
     
     public double dot(Vector2 c){
-        return (getX() * c.getX()) + (getY() * c.getY());
+        return (x * c.x) + (y * c.y);
     }
     
     public double dotDiv(Vector2 c){
-        return (getX() / c.getX()) + (getY() / c.getY());
+        return (x / c.x) + (y / c.y);
     }
     
     public double mag(){
-        return Math.sqrt(Math.pow(getX(), 2) + Math.pow(getY(), 2));
+        return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     }
     
     public Vector2 norm(){
@@ -151,7 +119,7 @@ public class Vector2 {
      * @return a new vector product of the subtraction.
      */
     public static double distance(Vector2 p, Vector2 q){
-        return  Math.sqrt(Math.pow(p.getX() - q.getX(), 2) + Math.pow(p.getY() - q.getY(), 2));
+        return  Math.sqrt(Math.pow(p.x - q.x, 2) + Math.pow(p.y - q.y, 2));
     }       
     
     /**
