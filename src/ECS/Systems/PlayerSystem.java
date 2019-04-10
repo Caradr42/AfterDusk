@@ -5,7 +5,9 @@ import ECS.Components.Player;
 import ECS.Components.Transform;
 import ECS.SystemJob;
 import Scene.Scene;
+import UI.UserInterface;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 
@@ -18,6 +20,7 @@ public class PlayerSystem extends SystemJob{
     Player player;
     Transform transform;  
     Playable playable;
+    
     
     public PlayerSystem(Scene scene) {
         super(scene);
@@ -46,6 +49,11 @@ public class PlayerSystem extends SystemJob{
             
             if(scene.display.getKeyManager().down){
                 transform.position.y = transform.position.y +2;//+ 100 * MainThread.deltaTime);
+            }
+            
+            if(scene.display.getKeyManager().keys[KeyEvent.VK_P]) {
+
+                
             }
         }
     }
