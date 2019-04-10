@@ -1,0 +1,65 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ECS.Systems;
+
+import ECS.Components.Sprite;
+import ECS.SystemJob;
+import Scene.Scene;
+import Assets.Assets;
+import java.awt.image.BufferedImage;
+
+/**
+ *
+ * @author carlo
+ */
+public class SpriteSystem extends SystemJob{
+
+    Sprite sprite;
+    
+    public SpriteSystem(Scene scene) {
+        super(scene);
+        sprite = new Sprite();
+    }
+
+    @Override
+    public void update() {
+        entities = scene.entityManager.getEntitiesWithComponents(sprite.getClass());
+        
+        for(Integer e: entities){
+            sprite = scene.entityManager.getEntityComponentInstance(e, sprite.getClass());
+            if(sprite.active){
+                double framneNanos = 1000000000 / sprite.fps;
+                
+            }
+        }
+        
+    }
+
+    @Override
+    public void init() {
+        entities = scene.entityManager.getEntitiesWithComponents(sprite.getClass());
+        
+        for(Integer e: entities){
+            sprite = scene.entityManager.getEntityComponentInstance(e, sprite.getClass());
+            
+            for(int i = 0; i < sprite.animationsNames.size(); ++i){
+                sprite.animations.add(Assets.animations.get(sprite.animationsNames.get(i)));
+            }
+            
+            sprite.animation = sprite.animations.get(0);
+            sprite.currentFrame = sprite.animation[0];
+        }
+    }
+
+    @Override
+    public void onCreate() {
+    }
+
+    @Override
+    public void onDestroy() {
+    }
+    
+}

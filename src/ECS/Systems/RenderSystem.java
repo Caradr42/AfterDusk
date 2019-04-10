@@ -52,7 +52,6 @@ public class RenderSystem extends SystemJob{
     public void init() {
       entities = scene.entityManager.getEntitiesWithComponents(transform.getClass(), sprite.getClass());
       queue = new PriorityQueue<>(entities.size(), new myComparator());
-      
     }
 
     @Override
@@ -69,7 +68,7 @@ public class RenderSystem extends SystemJob{
     public void render(Graphics2D g) {
         //System.out.println(entities.get(0));
         for(Pair<Transform, Sprite> t : queue){
-            g.drawImage(t.second.bi, (int) t.first.position.x,(int) t.first.position.y,t.second.width,t.second.height,null);
+            g.drawImage(t.second.currentFrame, (int) t.first.position.x,(int) t.first.position.y,t.second.width,t.second.height,null);
            //g.drawRect((int) t.position.x,(int) t.position.y,16,16);
         } 
         

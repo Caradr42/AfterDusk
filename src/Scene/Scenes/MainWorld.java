@@ -42,20 +42,25 @@ public class MainWorld extends Scene{
      */
     @Override
     protected void addEntities() {
+        ArrayList<String> tempAnim = new ArrayList<>();
         
         Entity e = entityManager.createEntityWithComponents("InventoryPlayer", 
                 new Inventory(0)
         );
         
+        tempAnim.add("grass");
+        
         Entity i = entityManager.createEntityWithComponents("tool", 
                 new Item ("tool", true, e.getID()),
                 new Transform(new Vector3(50, 50, 0)),
-                new Sprite("tool", true,16, 16, Assets.animations.get("grass")[0])
+                new Sprite("tool", true,16, 16, 10, tempAnim)
         );
         
+        tempAnim = new ArrayList<>();
+        tempAnim.add("player_down");
         
         entityManager.createEntityWithComponents("Player",
-            new Sprite("sprite", true, 32, 32, Assets.animations.get("player_down")[0]),
+            new Sprite("sprite", true, 32, 32, 10, tempAnim),
             new Transform(new Vector3(50,50, 16)),
             new Player(),
             new Playable(100, e.getID(), new Vector3()) /*,
@@ -66,10 +71,13 @@ public class MainWorld extends Scene{
 
         );
         
+        tempAnim = new ArrayList<>();
+        tempAnim.add("grass");
+        
         entityManager.createEntityWithComponents("grass",
                 new Tile("grass1"),
                 new Transform(new Vector3(0,0,0)),
-                new Sprite("grass", true, 16, 16, Assets.animations.get("grass")[0])
+                new Sprite("grass", true, 16, 16, 10, tempAnim)
         );
     }
     
@@ -81,7 +89,8 @@ public class MainWorld extends Scene{
     protected void addSystems(){
         systemJobManager.addSystems(
             new RenderSystem(this),
-            new PlayerSystem(this)
+            new PlayerSystem(this),
+            new SpriteSystem(this)
         );
     }
 }
