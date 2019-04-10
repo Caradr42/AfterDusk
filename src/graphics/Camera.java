@@ -3,7 +3,7 @@ package graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
-import maths.Vector2;
+import Maths.Vector2;
 
 /**
  * 

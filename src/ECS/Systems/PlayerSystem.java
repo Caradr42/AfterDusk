@@ -2,9 +2,11 @@ package ECS.Systems;
 
 import ECS.Components.Playable;
 import ECS.Components.Player;
+import ECS.Components.Transform;
 import ECS.SystemJob;
 import Scene.Scene;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 
 /**
@@ -14,39 +16,43 @@ import java.awt.Graphics2D;
 public class PlayerSystem extends SystemJob{
     
     Player player;
+    Transform transform;  
     Playable playable;
     
     public PlayerSystem(Scene scene) {
         super(scene);
+        entities = new ArrayList<>();
+        transform = new Transform();
+        player = new Player();
     }
 
     @Override
     public void update() {
         for(Integer e : entities){
             player = scene.entityManager.getEntityComponentInstance(e, player.getClass());
-            playable = scene.entityManager.getEntityComponentInstance(e, playable.getClass());
+            transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());
                         
             if(scene.display.getKeyManager().right){
-                playable.position.x = playable.position.x + 2;//+ 100 * MainThread.deltaTime);
+                transform.position.x = transform.position.x + 2;//+ 100 * MainThread.deltaTime);
             }
             
             if(scene.display.getKeyManager().left){
-                playable.position.x = playable.position.x -2;//- 100 * MainThread.deltaTime);
+                transform.position.x = transform.position.x -2;//- 100 * MainThread.deltaTime);
             }
             
             if(scene.display.getKeyManager().up){
-                playable.position.y = playable.position.y -2;//- 100 * MainThread.deltaTime);
+                transform.position.y = transform.position.y -2;//- 100 * MainThread.deltaTime);
             }
             
             if(scene.display.getKeyManager().down){
-                playable.position.y = playable.position.y +2;//+ 100 * MainThread.deltaTime);
+                transform.position.y = transform.position.y +2;//+ 100 * MainThread.deltaTime);
             }
         }
     }
 
     @Override
     public void init() {
-        entities = scene.entityManager.getEntitiesWithComponents(player.getClass());
+        entities = scene.entityManager.getEntitiesWithComponents(transform.getClass(), player.getClass());
     }
 
     @Override

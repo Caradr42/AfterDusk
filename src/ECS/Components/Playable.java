@@ -15,19 +15,13 @@ import Maths.Vector3;
  */
 public class Playable extends Component {
     
-    int hp;
-    public Vector3 position;
+    int hp; 
     int inventory;
-    public Vector3 hitbox;
-    public ArrayList<String> animations;
     public Vector3 velocity;
 
-    public Playable(int hp, Vector3 position, int inventory, Vector3 hitbox, ArrayList<String> animations, Vector3 velocity) {
+    public Playable(int hp, int inventory, Vector3 velocity) {
         this.hp = hp;
-        this.position = position;
         this.inventory = inventory;
-        this.hitbox = hitbox;
-        this.animations = animations;
         this.velocity = velocity;
     }
 

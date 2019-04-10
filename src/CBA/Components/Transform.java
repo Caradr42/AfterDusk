@@ -1,7 +1,7 @@
 package CBA.Components;
 
 import CBA.Behaviour;
-import maths.Vector2;
+import Maths.Vector2;
 
 /**
  * Example CBA component

@@ -6,7 +6,7 @@
 package ECS.Components;
 
 import ECS.Component;
-import maths.Vector2;
+import Maths.Vector2;
 
 /**
  *

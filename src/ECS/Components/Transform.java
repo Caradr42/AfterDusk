@@ -1,7 +1,8 @@
 package ECS.Components;
 
 import ECS.Component;
-import maths.Vector2;
+import Maths.Vector3;
+import Maths.Vector2;
 
 /**
  *
@@ -9,12 +10,12 @@ import maths.Vector2;
  */
 public class Transform extends Component{
     
-    public Vector2 position;
+    public Vector3 position;
 
     public Transform() {
     }
 
-    public Transform(Vector2 position) {
+    public Transform(Vector3 position) {
         this.position = position;
     }    
 }

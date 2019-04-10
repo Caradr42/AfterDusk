@@ -5,7 +5,6 @@ import ECS.Entity;
 import ECS.EntityManager;
 import ECS.SystemJob;
 import ECS.SystemJobManager;
-import ECS.Systems.SpriteRender;
 import graphics.Camera;
 import graphics.Display;
 import java.util.HashMap;

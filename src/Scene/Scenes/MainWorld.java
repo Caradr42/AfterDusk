@@ -10,12 +10,13 @@ import ECS.Components.*;
 import ECS.Entity;
 import ECS.SystemJob;
 import ECS.Systems.*;
+import Maths.Vector3;
 import Scene.Scene;
 import Signals.Listener;
 import graphics.Camera;
 import graphics.Display;
 import java.util.ArrayList;
-import maths.Vector2;
+import Maths.Vector2;
 
 /**
  * Test scene. extends Scene 
@@ -43,8 +44,16 @@ public class MainWorld extends Scene{
     protected void addEntities() {
         entityManager.createEntityWithComponents("Player",
             new Sprite("sprite", 32, 32, Assets.animations.get("player_down")[0]),
-            new Transform(new Vector2(50,50))
+            new Transform(new Vector3(50,50,50)),
+            new Player(),
+            new Playable(100, 1, new Vector3())
         );
+        
+         
+        entityManager.createEntityWithComponents("grass",
+                new Tile("grass1"),
+                new Transform(new Vector3(0,0,0)),
+                new Sprite("grass", 16, 16, Assets.animations.get("grass")[0]));
     }
     
     /**
@@ -54,8 +63,8 @@ public class MainWorld extends Scene{
     @Override
     protected void addSystems(){
         systemJobManager.addSystems(
-            new SpriteRender(this), 
-            new Movement(this)
+            new Movement(this),
+            new RenderSystem(this)
         );
     }
 }
