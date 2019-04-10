@@ -63,7 +63,7 @@ public class MainWorld extends Scene{
     @Override
     protected void addSystems(){
         systemJobManager.addSystems(
-            new Movement(this),
+            new PlayerSystem(this),
             new RenderSystem(this)
         );
     }
