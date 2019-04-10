@@ -41,12 +41,10 @@ public class MainWorld extends Scene{
      */
     @Override
     protected void addEntities() {
-        for(int i = 0; i < 1; i++){
-            entityManager.createEntityWithComponents("COSO_" + Integer.toString(i),
-                new Sprite("sprite_" + Integer.toString(i), 32, 32, Assets.animations.get("player_down")[0]),
-                new Transform(new Vector2(50,50))
-            );           
-        }       
+        entityManager.createEntityWithComponents("Player",
+            new Sprite("sprite", 32, 32, Assets.animations.get("player_down")[0]),
+            new Transform(new Vector2(50,50))
+        );
     }
     
     /**

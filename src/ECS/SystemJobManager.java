@@ -91,14 +91,6 @@ public class SystemJobManager extends SystemJob{
             completionService.submit(sjw);
         }   
     }
-
-    @Override
-    public void fixedUpdate() {
-        for(SystemJob sj : systemsList){
-            if(sj.isActive())
-                sj.fixedUpdate();
-        }
-    }
     
     /**
      * initialize each system in the systemsList at the start of the game. 

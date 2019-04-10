@@ -54,10 +54,6 @@ public class SpriteRender extends SystemJob{
     }  
 
     @Override
-    public void fixedUpdate() {
-    }
-
-    @Override
     public void init() {
         entities = scene.entityManager.getEntitiesWithComponents(sprite.getClass(), transform.getClass());
         //spriteMap = scene.entityManager.getComponentMap(sprite.getClass());
@@ -77,9 +73,13 @@ public class SpriteRender extends SystemJob{
             transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());
             
             //not render outside of camera
-            if(transform.position.getX() + sprite.width >= scene.c.getPosition().getX() && transform.position.getX() <= scene.c.getPosition().getX() + scene.display.getWidth() && transform.position.getY() + sprite.height >= scene.c.getPosition().getY() && transform.position.getY() <= scene.c.getPosition().getY() + scene.display.getHeight()){
-                g.drawImage(sprite.bi, (int)transform.position.getX(),  (int)transform.position.getY(), sprite.width, sprite.height, null);
-            } 
+            /*if(transform.position.x + sprite.width >= scene.c.getPosition().x  
+                    && transform.position.x <= scene.c.getPosition().x + scene.display.getWidth() 
+                    && transform.position.y + sprite.height >= scene.c.getPosition().y 
+                    && transform.position.y <= scene.c.getPosition().y + scene.display.getHeight()){*/
+            
+                g.drawImage(sprite.bi, (int)transform.position.x,  (int)transform.position.y, sprite.width, sprite.height, null);
+            //} 
         }
     }
     

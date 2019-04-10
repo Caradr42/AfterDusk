@@ -41,19 +41,19 @@ public class Movement extends SystemJob{
             transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());
                         
             if(scene.display.getKeyManager().right){
-                transform.position.setX(transform.position.getX() +2);//+ 100 * MainThread.deltaTime);
+                transform.position.x = transform.position.x +2;//+ 100 * MainThread.deltaTime);
             }
             
             if(scene.display.getKeyManager().left){
-                transform.position.setX(transform.position.getX() -2);//- 100 * MainThread.deltaTime);
+                transform.position.x = transform.position.x -2;//- 100 * MainThread.deltaTime);
             }
             
             if(scene.display.getKeyManager().up){
-                transform.position.setY(transform.position.getY() -2);//- 100 * MainThread.deltaTime);
+                transform.position.y = transform.position.y -2;//- 100 * MainThread.deltaTime);
             }
             
             if(scene.display.getKeyManager().down){
-                transform.position.setY(transform.position.getY() +2);//+ 100 * MainThread.deltaTime);
+                transform.position.y = transform.position.y +2;//+ 100 * MainThread.deltaTime);
             }
             
             if(scene.display.getKeyManager().keys[KeyEvent.VK_SPACE] && !removed){
@@ -65,10 +65,6 @@ public class Movement extends SystemJob{
         }
                         
         removed = false;
-    }
-
-    @Override
-    public void fixedUpdate() {
     }
 
     @Override

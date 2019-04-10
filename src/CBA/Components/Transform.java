@@ -30,7 +30,7 @@ public class Transform implements Behaviour{
     
     @Override
     public void update() {
-        System.out.println("x = " + position.getX() + "\ty = " + position.getY());
+        System.out.println("x = " + position.x + "\ty = " + position.y);
     }
 
     @Override

@@ -23,10 +23,6 @@ public class GameManagerSystem extends SystemJob{
     }
 
     @Override
-    public void fixedUpdate() {
-    }
-
-    @Override
     public void init() {
         
     }

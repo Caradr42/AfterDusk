@@ -44,19 +44,19 @@ public class Camera {
         AffineTransform at = new AffineTransform();
         
         if(display.getKeyManager().keys[KeyEvent.VK_I]) {
-            ortogonalPosition.set(ortogonalPosition.getX(),ortogonalPosition.getY() - 1);
+            ortogonalPosition.set(ortogonalPosition.x,ortogonalPosition.y - 1);
         }
         if(display.getKeyManager().keys[KeyEvent.VK_K]) {
-            ortogonalPosition.set(ortogonalPosition.getX(),ortogonalPosition.getY() + 1);
+            ortogonalPosition.set(ortogonalPosition.x,ortogonalPosition.y + 1);
         }
         if(display.getKeyManager().keys[KeyEvent.VK_J]) {
-            ortogonalPosition.set(ortogonalPosition.getX() - 1,ortogonalPosition.getY());
+            ortogonalPosition.set(ortogonalPosition.x - 1,ortogonalPosition.y);
         }
         if(display.getKeyManager().keys[KeyEvent.VK_L]) {
-            ortogonalPosition.set(ortogonalPosition.getX() + 1,ortogonalPosition.getY());
+            ortogonalPosition.set(ortogonalPosition.x + 1,ortogonalPosition.y);
         }
         
-        at.translate(-ortogonalPosition.getX(), -ortogonalPosition.getY());
+        at.translate(-ortogonalPosition.x, -ortogonalPosition.y);
         at.scale(scale, scale);
         
         g.transform(at);
