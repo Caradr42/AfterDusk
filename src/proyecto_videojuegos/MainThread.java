@@ -3,9 +3,11 @@ import Assets.Assets;
 import ECS.SystemJobManager;
 import Scene.Scenes.*;
 import Signals.Listener;
+import graphics.Camera;
 import graphics.Display;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +28,8 @@ public class MainThread implements Runnable{
     String title;               // title of the window
     final private int width;          // width of the window
     final private int height;         // height of the window    
+    //Camera
+    public Camera c;
     //thread stuff
     private Thread thread;      // thread to create the game. points to the instance of this Game as a Runnable
     private boolean running;    // to set the game running status (controls the in thread execution)
@@ -113,9 +117,10 @@ public class MainThread implements Runnable{
      */
     private void init() {   
         display = new Display(title, width, height);
+        c = new Camera(-width / 2, -height / 2, 4, display);
         
         Assets.init(); //initializes the game assets
-        scene = new MainWorld(display);
+        scene = new MainWorld(display, c);
         
         /* //DEBUG : prints all listeners class attache dto the scene
         for(Listener<?> l : scene.entityManager.removeEntitiesSignal.listeners){
@@ -175,10 +180,19 @@ public class MainThread implements Runnable{
             display.g = (Graphics2D)display.bs.getDrawGraphics();
             /* This draws a grey rectangle al the back of every image so the 
              * buffer is flushed.*/
+                        
             display.g.setColor(Color.GRAY);
             display.g.fillRect(0, 0, width, height);
             display.g.setColor(Color.RED);
             
+            /*AffineTransform at = new AffineTransform();
+            
+            at.scale(4, 4);
+            at.translate(100, 100);
+            display.g.transform(at);*/
+            
+            c.tick(display.g);
+                      
             //Here you render scenes
             scene.systemJobManager.render(display.g);
             

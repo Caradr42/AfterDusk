@@ -12,6 +12,7 @@ import ECS.SystemJob;
 import ECS.Systems.*;
 import Scene.Scene;
 import Signals.Listener;
+import graphics.Camera;
 import graphics.Display;
 import java.util.ArrayList;
 import maths.Vector2;
@@ -30,8 +31,8 @@ public class MainWorld extends Scene{
      * render.
      * @param display 
      */
-    public MainWorld(Display display) {
-        super(display);
+    public MainWorld(Display display, Camera c) {
+        super(display, c);
     }
     
     /**
@@ -40,10 +41,9 @@ public class MainWorld extends Scene{
      */
     @Override
     protected void addEntities() {
-        
-        for(int i = 0; i < 200000; i++){
+        for(int i = 0; i < 1; i++){
             entityManager.createEntityWithComponents("COSO_" + Integer.toString(i),
-                new Sprite("sprite_" + Integer.toString(i), 50, 50,Assets.coso),
+                new Sprite("sprite_" + Integer.toString(i), 32, 32, Assets.animations.get("player_down")[0]),
                 new Transform(new Vector2(50,50))
             );           
         }       

@@ -75,7 +75,9 @@ public class SpriteRender extends SystemJob{
         for(Integer e : entities){
             sprite = scene.entityManager.getEntityComponentInstance(e, sprite.getClass());
             transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());
-            if(transform.position.getX() + sprite.width >= 0 && transform.position.getX() <= scene.display.getWidth() && transform.position.getY() + sprite.height >= 0 && transform.position.getY() <= scene.display.getHeight()){
+            
+            //not render outside of camera
+            if(transform.position.getX() + sprite.width >= scene.c.getPosition().getX() && transform.position.getX() <= scene.c.getPosition().getX() + scene.display.getWidth() && transform.position.getY() + sprite.height >= scene.c.getPosition().getY() && transform.position.getY() <= scene.c.getPosition().getY() + scene.display.getHeight()){
                 g.drawImage(sprite.bi, (int)transform.position.getX(),  (int)transform.position.getY(), sprite.width, sprite.height, null);
             } 
         }

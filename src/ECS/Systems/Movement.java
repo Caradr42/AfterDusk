@@ -41,19 +41,19 @@ public class Movement extends SystemJob{
             transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());
                         
             if(scene.display.getKeyManager().right){
-                transform.position.setX(transform.position.getX() + rng.nextInt(400) * MainThread.deltaTime);
+                transform.position.setX(transform.position.getX() +2);//+ 100 * MainThread.deltaTime);
             }
             
             if(scene.display.getKeyManager().left){
-                transform.position.setX(transform.position.getX() - rng.nextInt(400) * MainThread.deltaTime);
+                transform.position.setX(transform.position.getX() -2);//- 100 * MainThread.deltaTime);
             }
             
             if(scene.display.getKeyManager().up){
-                transform.position.setY(transform.position.getY() - rng.nextInt(400) * MainThread.deltaTime);
+                transform.position.setY(transform.position.getY() -2);//- 100 * MainThread.deltaTime);
             }
             
             if(scene.display.getKeyManager().down){
-                transform.position.setY(transform.position.getY() + rng.nextInt(400) * MainThread.deltaTime);
+                transform.position.setY(transform.position.getY() +2);//+ 100 * MainThread.deltaTime);
             }
             
             if(scene.display.getKeyManager().keys[KeyEvent.VK_SPACE] && !removed){
@@ -63,6 +63,7 @@ public class Movement extends SystemJob{
             
             //System.out.println("ID: " +  e + " Pos: (" + transform.position.getX() + ", " + transform.position.getY() + ")");
         }
+                        
         removed = false;
     }
 

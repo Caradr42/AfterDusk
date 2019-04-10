@@ -6,6 +6,7 @@ import ECS.EntityManager;
 import ECS.SystemJob;
 import ECS.SystemJobManager;
 import ECS.Systems.SpriteRender;
+import graphics.Camera;
 import graphics.Display;
 import java.util.HashMap;
 
@@ -33,11 +34,13 @@ public abstract class Scene {
     public EntityManager entityManager;
     public SystemJobManager systemJobManager;
     public Display display;
+    public Camera c;
     
-    public Scene(Display display) {
+    public Scene(Display display, Camera c) {
         entityManager = new EntityManager();
         systemJobManager = new SystemJobManager(this);
         this.display = display;
+        this.c = c;
         active = true;
         addSystems();
         addEntities();
