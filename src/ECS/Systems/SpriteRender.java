@@ -35,7 +35,7 @@ public class SpriteRender extends SystemJob{
      * Constructor of our system
      * Initializes all the components to be used.
      * Initializes the list of entities to be used.
-     * @param entityManager 
+     * @param scene 
      */
     public SpriteRender(Scene scene) {
         super(scene);
