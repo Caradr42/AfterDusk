@@ -18,13 +18,11 @@ public class Playable extends Component {
     int hp;
    
     int inventory;
-    public ArrayList<String> animations;
     public Vector3 velocity;
 
-    public Playable(int hp, int inventory, ArrayList<String> animations, Vector3 velocity) {
+    public Playable(int hp, int inventory,  Vector3 velocity) {
         this.hp = hp;
         this.inventory = inventory;
-        this.animations = animations;
         this.velocity = velocity;
     }
 
