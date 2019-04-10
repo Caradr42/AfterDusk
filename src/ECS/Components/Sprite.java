@@ -2,6 +2,7 @@ package ECS.Components;
 
 import ECS.Component;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import videoGame.ImageLoader;
 
 /**
@@ -18,14 +19,21 @@ import videoGame.ImageLoader;
 public class Sprite extends Component{
     //data
     public String name;
+    public boolean active;
+    
+    /*public int mode; // 0 is no animation, 1 is animation one, n is animation n
+    public BufferedImage currentFrame;
+    public BufferedImage[] animation;
+    public ArrayList<BufferedImage[]> animations;*/
     public BufferedImage bi;
     public int width;
     public int height;
-    public boolean active;
+    
     
     //code to initialize the data
-    public Sprite(String name, int width, int height, BufferedImage bi) {
+    public Sprite(String name, boolean active,  int width, int height, BufferedImage bi) {
         this.name = name;
+        this.active = active;
         this.bi = bi;
         this.width = width;
         this.height = height;

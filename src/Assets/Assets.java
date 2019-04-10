@@ -23,7 +23,7 @@ public class Assets {
         inventory = ImageLoader.loadImage("/Resources/Images/Inventory.png");
         animations = new HashMap<>();
         
-        animations.put("player_down", crop(32, 32, 1, "/Resources/Images/player_down.png"));
+        animations.put("player_down", crop(32, 32, 4, "/Resources/Images/player_down.png"));
         animations.put("grass", crop(16, 16, 1, "/Resources/Images/grass.png"));
     }
     

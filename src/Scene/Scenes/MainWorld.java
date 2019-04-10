@@ -44,30 +44,33 @@ public class MainWorld extends Scene{
     protected void addEntities() {
         
         Entity e = entityManager.createEntityWithComponents("InventoryPlayer", 
-                new Inventory(0));
+                new Inventory(0)
+        );
+        
         Entity i = entityManager.createEntityWithComponents("tool", 
                 new Item ("tool", true, e.getID()),
-                new Transform(new Vector3(50, 50, 16)),
-                new Sprite("tool", 16, 16, Assets.animations.get("grass")[0]));
+                new Transform(new Vector3(50, 50, 0)),
+                new Sprite("tool", true,16, 16, Assets.animations.get("grass")[0])
+        );
         
         
         entityManager.createEntityWithComponents("Player",
-            new Sprite("sprite", 32, 32, Assets.animations.get("player_down")[0]),
-            new Transform(new Vector3(50,50,0)),
+            new Sprite("sprite", true, 32, 32, Assets.animations.get("player_down")[0]),
+            new Transform(new Vector3(50,50, 16)),
             new Player(),
-            new Playable(100, e.getID(), new Vector3()),
+            new Playable(100, e.getID(), new Vector3()) /*,
 
             new Transform(new Vector3(50,50,50)),
             new Player(),
-            new Playable(100, 1, new Vector3())
+            new Playable(100, 1, new Vector3())*/
 
         );
         
-         
         entityManager.createEntityWithComponents("grass",
                 new Tile("grass1"),
                 new Transform(new Vector3(0,0,0)),
-                new Sprite("grass", 16, 16, Assets.animations.get("grass")[0]));
+                new Sprite("grass", true, 16, 16, Assets.animations.get("grass")[0])
+        );
     }
     
     /**
@@ -77,8 +80,8 @@ public class MainWorld extends Scene{
     @Override
     protected void addSystems(){
         systemJobManager.addSystems(
-            new PlayerSystem(this),
-            new RenderSystem(this)
+            new RenderSystem(this),
+            new PlayerSystem(this)
         );
     }
 }

@@ -40,7 +40,7 @@ public class ImageLoader {
             System.out.println("Error Loading Image " + path + ioe.toString() );
             System.exit(1);
         }
-        BufferedImage biCom = gc.createCompatibleImage(bi.getHeight(), bi.getWidth(), Transparency.BITMASK);
+        BufferedImage biCom = gc.createCompatibleImage(bi.getWidth(), bi.getHeight(), Transparency.BITMASK);
         biCom.setData(bi.getRaster());
         
         return biCom;

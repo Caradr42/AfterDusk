@@ -18,7 +18,7 @@ import java.util.Queue;
  *
  * @author pablo
  */
-public class UserInterface extends Component{
+public class UserInterface{
     ArrayList<BufferedImage> arr; 
     
     boolean display = false;
@@ -35,7 +35,7 @@ public class UserInterface extends Component{
     
     public void render(Graphics2D g) {
         if(display) {
-            g.drawImage(Assets.inventory, -150, -100, 50, 50, null);
+            g.drawImage(Assets.inventory, -150, -100, 240, 135, null);
                   
         }
     }

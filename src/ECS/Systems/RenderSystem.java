@@ -73,13 +73,14 @@ public class RenderSystem extends SystemJob{
            //g.drawRect((int) t.position.x,(int) t.position.y,16,16);
         } 
         
-            if (scene.display.getKeyManager().keys[KeyEvent.VK_P]) {
-                //Display the inventory
-                inventory = new UserInterface(1);
-                
-                inventory.render(g);
-            }
+        if (scene.display.getKeyManager().keys[KeyEvent.VK_P]) {
+            //Display the inventory
+            inventory = new UserInterface(1);
+
+            inventory.render(g);
+        }
         
+        queue.clear();
     }
     
     public class myComparator implements Comparator <Pair<Transform, Sprite> >
@@ -88,16 +89,13 @@ public class RenderSystem extends SystemJob{
 
         @Override
         public int compare
-        (Pair<Transform, Sprite> o1, Pair<Transform, Sprite > o2
-        
-            ) {
-         if ((Math.pow(o1.first.position.y, 2) + Math.pow(o1.first.position.z, 2)) > (Math.pow(o2.first.position.y, 2) + Math.pow(o2.first.position.z, 2))) {
+        (Pair<Transform, Sprite> o1, Pair<Transform, Sprite > o2) {
+            if ((Math.pow(o1.first.position.y, 2) + Math.pow(o1.first.position.z, 2)) > (Math.pow(o2.first.position.y, 2) + Math.pow(o2.first.position.z, 2))) {
                 return 1;
             } else {
                 return -1;
             }
         }
-
     }
 
 }
