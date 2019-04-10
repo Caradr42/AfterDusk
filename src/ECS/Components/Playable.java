@@ -30,4 +30,9 @@ public class Playable extends Component {
         this.animations = animations;
         this.velocity = velocity;
     }
+
+    public Playable() {
+    }
+    
+    
 }

@@ -2,7 +2,7 @@ package ECS.Components;
 
 import ECS.Component;
 import java.util.ArrayList;
-import maths.Vector2;
+import Maths.Vector3;
 
 /**
  *
@@ -13,7 +13,7 @@ public class Tile extends Component{
     public ArrayList<String> topTextures;
     public ArrayList<String> sideTextures;
     
-    public Vector2 position;
+    public Vector3 position;
     String name;
 
     public Tile(String name, ArrayList<String> topTextures, ArrayList<String> sideTextures, Vector2 position) {
@@ -22,4 +22,9 @@ public class Tile extends Component{
         this.position = position;
         this.name = name;
     }
+
+    public Tile() {
+    }
+    
+    
 }
