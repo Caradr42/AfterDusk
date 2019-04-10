@@ -13,9 +13,11 @@ import java.util.Vector;
  * @author pepe_
  */
 public class Tool extends Component{
-    
+    //we have max 9 actives
     public ArrayList<Integer> activos;
+    
     int pasiva;
+    
     public ArrayList<Integer> activosDesbloqueados ;
 
     public Tool(ArrayList<Integer> activos, int pasiva, ArrayList<Integer> activosDesbloqueados) {
