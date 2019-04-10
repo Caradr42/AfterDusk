@@ -1,13 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Utility;
 
 /**
  *
- * @author pablo
+ * @author carlo
  */
 public class Pair<A, B> {
     public A first;
@@ -18,7 +13,4 @@ public class Pair<A, B> {
         this.first = first;
         this.second = second;
     }
-    
-    
-    
 }

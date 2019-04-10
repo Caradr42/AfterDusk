@@ -55,7 +55,12 @@ public class MainWorld extends Scene{
             new Sprite("sprite", 32, 32, Assets.animations.get("player_down")[0]),
             new Transform(new Vector3(50,50,0)),
             new Player(),
-            new Playable(100, e.getID(), new Vector3())
+            new Playable(100, e.getID(), new Vector3()),
+
+            new Transform(new Vector3(50,50,50)),
+            new Player(),
+            new Playable(100, 1, new Vector3())
+
         );
         
          
@@ -72,7 +77,6 @@ public class MainWorld extends Scene{
     @Override
     protected void addSystems(){
         systemJobManager.addSystems(
-            new SpriteRender(this), 
             new Movement(this),
             new RenderSystem(this)
         );

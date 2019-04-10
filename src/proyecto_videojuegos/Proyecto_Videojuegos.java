@@ -1,7 +1,6 @@
 package proyecto_videojuegos;
 
 //import CBA.GameObjects.Player;
-import ECS.Systems.SpriteRender;
 import ECS.EntityManager;
 import ECS.Components.Sprite;
 import ECS.Entity;

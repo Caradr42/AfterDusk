@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ECS.Components;
 
 import ECS.Component;
+import Utility.Pair;
 import java.util.ArrayList;
-import java.util.Vector;
-import javafx.util.Pair;
+
 
 /**
  *
@@ -16,36 +11,30 @@ import javafx.util.Pair;
  */
 public class Player extends Component{
     public int energy;
-    
-    public int leftObject;
-    
-    public int rightObject;
-    
-    public int leftHand = 0;
-    
-    public int rightHand = 0;
-    
+    public int maxEnergy;
+    public int leftHand;
+    public int rightHand;
     //current size of te actives (the maximum is 9)
-    public int activesSize = 2;
-    
-    public int passivesSize = 2;
+    public int activesSize;
+    public int passivesSize;
     /////
-    ArrayList<Integer> arrayList1;
-    ArrayList<Integer> arrayList2;
-    
-    public Pair p1, p2, p3;
+    public Pair<Pair<Integer,ArrayList<Integer>>, Pair<Integer,ArrayList<Integer>>> actives;
+    public ArrayList<Integer> pasives;
     
     public String name = "INeedAName";
 
-    public Player() {
-        this.arrayList1 = new ArrayList<>();
-        this.arrayList2 = new ArrayList<>();
-        
+    public Player(String name) {
+        leftHand = 0;
+        rightHand = 0;
+        activesSize = 2;
+        passivesSize = 2;
+        maxEnergy = 100;
         //spells that are held by the player with the right weapon
-        p1 = new Pair(rightObject, arrayList1);
-        
         //spells that are held by the player with the left weapon
-        p2 = new Pair(leftObject, arrayList2);
-        p3 = new Pair(p1, p2);
+        actives = new Pair<>(new Pair<>(leftHand, new ArrayList<Integer>(activesSize)), new Pair<>(rightHand, new ArrayList<Integer>(activesSize)));        
+        pasives = new ArrayList<>(passivesSize);
     }
+
+    public Player() {
+    }    
 }
