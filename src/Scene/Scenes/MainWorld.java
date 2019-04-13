@@ -63,8 +63,13 @@ public class MainWorld extends Scene{
         
         
         entityManager.createEntityWithComponents("Player",
+
             new Sprite("sprite", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down", "player_up" , "player_right", "player_left"))),
             new Transform(new Vector3(50,50, 64)),
+
+            new Sprite("sprite", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down","player_up","player_left","player_right"))),
+            new Transform(new Vector3(50,50, 32)),
+
             new Player(),
             new Playable(100, e.getID(), new Vector3()) /*,
 
