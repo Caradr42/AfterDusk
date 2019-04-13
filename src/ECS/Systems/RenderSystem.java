@@ -15,6 +15,7 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 import Utility.Pair;
 import java.awt.event.KeyEvent;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import proyecto_videojuegos.MainThread;
 
@@ -78,7 +79,10 @@ public class RenderSystem extends SystemJob{
             }
         }
         //resets the camera transform
-        MainThread.c.tick(g);
+        //MainThread.c.tick(g);
+        AffineTransform at = new AffineTransform();
+        at.setTransform(4, 0, 0, 4, 1, 0);
+        g.setTransform(at);  
         
         //Renders UIEntities aafter rendering the game entities
         for(Integer ui: UIentities){

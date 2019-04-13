@@ -4,6 +4,7 @@ import Assets.Assets;
 import ECS.Components.UIEntity;
 import ECS.SystemJob;
 import Scene.Scene;
+import java.awt.event.KeyEvent;
 
 /**
  *
@@ -13,9 +14,12 @@ public class UIEntitiesSystem extends SystemJob{
     
     UIEntity uiEntity;
     
+    boolean PlayerInventoryBuffer;
+    
     public UIEntitiesSystem(Scene scene) {
         super(scene);
         uiEntity = new UIEntity();
+        PlayerInventoryBuffer = false;
     }
 
     @Override
@@ -30,7 +34,24 @@ public class UIEntitiesSystem extends SystemJob{
                 uiEntity.frameCounter += uiEntity.speed;
                 //System.out.println(sprite.speed);
             }
-        }        
+            
+            
+            
+            if(uiEntity.name.equals("Player_Inventory")){
+                if(scene.display.getKeyManager().keys[KeyEvent.VK_X] || scene.display.getKeyManager().keys[KeyEvent.VK_I]){
+                    if(PlayerInventoryBuffer == false){
+                        if(uiEntity.visible){
+                            uiEntity.visible = false;
+                        }else{
+                            uiEntity.visible = true;
+                        }
+                    }
+                    PlayerInventoryBuffer = true;
+                }else{
+                    PlayerInventoryBuffer = false;
+                }
+            }
+        } 
     }
 
     @Override

@@ -125,5 +125,9 @@ public class Vector3 {
      */
     public IntVector2 toIntVector2(){
         return new IntVector2((int)x,(int)y);
-    }                 
+    }  
+    
+    public Vector2 toVector2(){
+        return new Vector2(x,y);
+    } 
 }
