@@ -8,6 +8,7 @@ import Scene.Scene;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import proyecto_videojuegos.MainThread;
 
 
 /**
@@ -50,10 +51,9 @@ public class PlayerSystem extends SystemJob{
                 transform.position.y = transform.position.y +2;//+ 100 * MainThread.deltaTime);
             }
             
-            if(scene.display.getKeyManager().keys[KeyEvent.VK_P]) {
-
-                
-            }
+            MainThread.c.ortogonalPosition.set(
+                    transform.position.x * MainThread.c.scale + 32 - (scene.display.width / 2), 
+                    transform.position.y * MainThread.c.scale + 32 - (scene.display.height / 2));
         }
     }
 

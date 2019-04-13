@@ -1,7 +1,7 @@
 package ECS.Components;
 
 import ECS.Component;
-import Maths.Vector3;
+import Maths.Vector2;
 import Utility.Pair;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import proyecto_videojuegos.MainThread;
  */
 public class UIEntity extends Component{
     //Transform Data
-    public Vector3 position; //position on screen (pixels)
+    public Vector2 position; //position on screen (pixels)
     
     //Sprite data
     public String name;
@@ -35,7 +35,8 @@ public class UIEntity extends Component{
     
     public int animationNo; // 0 is no animation, 1 is animation one, n is animation n
     
-    public UIEntity(String name, boolean active, int width, int height, double speed, ArrayList<String> animationsNames) {
+    public UIEntity(String name, boolean active, int width, int height, int x, int y, double speed, ArrayList<String> animationsNames) {
+        this.position = new Vector2(x,y);
         this.name = name;
         this.visible = active;
         this.frozen = false;

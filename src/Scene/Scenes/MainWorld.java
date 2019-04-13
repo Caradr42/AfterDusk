@@ -58,7 +58,7 @@ public class MainWorld extends Scene{
         
         entityManager.createEntityWithComponents("Player",
             new Sprite("sprite", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down"))),
-            new Transform(new Vector3(50,50, 16)),
+            new Transform(new Vector3(50,50, -32)),
             new Player(),
             new Playable(100, e.getID(), new Vector3()) /*,
 
@@ -67,9 +67,13 @@ public class MainWorld extends Scene{
             new Playable(100, 1, new Vector3())*/
         );
         
-     
-        for(int x = 0; x < 480; x += 16){
-            for(int y = 0; y < 480; y += 16){
+         entityManager.createEntityWithComponents("Player_Inventory", 
+                new UIEntity("Player_Inventory", false, 240, 135, 52 , 30 , 0, new ArrayList<>(Arrays.asList("inventory")) )
+         );
+        
+        //draw grass grid
+        for(int x = 0; x < 960; x += 16){
+            for(int y = 0; y < 960; y += 16){
                 entityManager.createEntityWithComponents("grass",
                         new Tile("grass" + Integer.toString(x) + "_" + Integer.toString(y)),
                         new Transform(new Vector3(x,y,0)),

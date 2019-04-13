@@ -29,18 +29,18 @@ import javax.swing.JFrame;
 */
 public class Display {
     //title of the window
-    private String title; 
+    public String title; 
     //window dimensions
-    private int width; 
-    private int height; 
+    public int width; 
+    public int height; 
     //Window & graphics stuff
     private JFrame jframe; 
     private Canvas canvas; //to display images
     public BufferStrategy bs;  // to have several buffers when displaying in a canvas
     public Graphics2D g;         // to paint objects in the display canvas
     //InputStuff
-    private KeyManager keyManager;  //key manager asociated with the display
-    private MouseManager mouseManager; //mouse manager asociated with the display
+    public KeyManager keyManager;  //key manager asociated with the display
+    public MouseManager mouseManager; //mouse manager asociated with the display
     
     /**
      * Initializes the values for the application game.
