@@ -63,6 +63,10 @@ public class PlayerSystem extends SystemJob{
                 sprite.animationLenght = sprite.animations.get(0).second;
             }
             
+            if(!(scene.display.getKeyManager().right || scene.display.getKeyManager().left || scene.display.getKeyManager().up || scene.display.getKeyManager().down)){
+                sprite.frameCounter = 0;
+            }
+            
             MainThread.c.ortogonalPosition.set(
                     transform.position.x * MainThread.c.scale + 32 - (scene.display.width / 2), 
                     transform.position.y * MainThread.c.scale + 32 - (scene.display.height / 2));
