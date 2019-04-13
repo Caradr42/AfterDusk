@@ -52,10 +52,12 @@ public class SpriteSystem extends SystemJob{
                 sprite.animations.add(Assets.animations.get(sprite.animationsNames.get(i)));
             }
             
+            
             sprite.animation = sprite.animations.get(0).first;
             sprite.animationLenght = sprite.animations.get(0).second;
             
             sprite.currentFrame = sprite.animation[0];
+            
         }
     }
     
