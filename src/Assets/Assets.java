@@ -26,6 +26,9 @@ public class Assets {
         
         //ALL animmations goes here
         animations.put("player_down", new Pair<>(crop(32, 32, 4, "/Resources/Images/player_down.png"), 4));
+        animations.put("player_up", new Pair<>(crop(32, 32, 4, "/Resources/Images/player_up.png"), 4));
+        animations.put("player_left", new Pair<>(crop(32, 32, 4, "/Resources/Images/player_left.png"), 4));
+        animations.put("player_right", new Pair<>(crop(32, 32, 4, "/Resources/Images/player_right.png"), 4));
         animations.put("grass", new Pair<>(crop(16, 16, 1, "/Resources/Images/grass.png"), 1));
         animations.put("inventory", new Pair<>(crop(240, 135, 1, "/Resources/Images/inventory.png"), 1));
         
