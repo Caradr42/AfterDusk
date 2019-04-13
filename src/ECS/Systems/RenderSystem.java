@@ -20,9 +20,15 @@ import java.util.ArrayList;
 import proyecto_videojuegos.MainThread;
 
 /**
- * 
+ * System that renders all entities with Sprite and Transform Components
  *
- * @author pablo
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
+ *
+ * @date 12/04/2019
+ * @version 1.0
  */
 public class RenderSystem extends SystemJob{
     

@@ -13,8 +13,15 @@ import proyecto_videojuegos.MainThread;
 
 
 /**
+ * System that executes player behabiour
  *
- * @author carlo
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
+ *
+ * @date 12/04/2019
+ * @version 1.0
  */
 public class PlayerSystem extends SystemJob{
     
@@ -23,6 +30,10 @@ public class PlayerSystem extends SystemJob{
     Playable playable;
     Sprite sprite;
     
+    /**
+     * Constructor
+     * @param scene 
+     */
     public PlayerSystem(Scene scene) {
         super(scene);
         entities = new ArrayList<>();
@@ -31,38 +42,43 @@ public class PlayerSystem extends SystemJob{
         sprite = new Sprite();
     }
 
+    /**
+     * Updates the position and animation of the player
+     */
     @Override
     public void update() {
         for(Integer e : entities){
             player = scene.entityManager.getEntityComponentInstance(e, player.getClass());
             transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());
             sprite = scene.entityManager.getEntityComponentInstance(e, sprite.getClass());
-            System.out.println(transform.position.x);
             
+            
+            //if the player goes to the right change the position and the animation to the right
             if(scene.display.getKeyManager().right){
                 transform.position.x = transform.position.x + 2;//+ 100 * MainThread.deltaTime);
                 sprite.animation = sprite.animations.get(3).first;
                 sprite.animationLenght = sprite.animations.get(3).second;
             }
-            
+            //if the player goes to the left change the position and the animation to the left
             if(scene.display.getKeyManager().left){
                 transform.position.x = transform.position.x -2;//- 100 * MainThread.deltaTime);
                 sprite.animation = sprite.animations.get(2).first;
                 sprite.animationLenght = sprite.animations.get(2).second;
             }
-            
+            //if the player goes to up change the position and the animation to up
             if(scene.display.getKeyManager().up){
                 transform.position.y = transform.position.y -2;//- 100 * MainThread.deltaTime);
                 sprite.animation = sprite.animations.get(1).first;
                 sprite.animationLenght = sprite.animations.get(1).second;
             }
-            
+            //if the player goes down change the position and the animation to down
             if(scene.display.getKeyManager().down){
                 transform.position.y = transform.position.y +2;//+ 100 * MainThread.deltaTime);
                 sprite.animation = sprite.animations.get(0).first;
                 sprite.animationLenght = sprite.animations.get(0).second;
             }
             
+            //if its not moving, stop the animation
             if(!(scene.display.getKeyManager().right || scene.display.getKeyManager().left || scene.display.getKeyManager().up || scene.display.getKeyManager().down)){
                 sprite.frameCounter = 0;
             }
@@ -73,6 +89,9 @@ public class PlayerSystem extends SystemJob{
         }
     }
 
+    /**
+     * initializes the entities
+     */
     @Override
     public void init() {
         entities = scene.entityManager.getEntitiesWithComponents(transform.getClass(), player.getClass(), sprite.getClass());
@@ -92,3 +111,4 @@ public class PlayerSystem extends SystemJob{
     }
     
 }
+
