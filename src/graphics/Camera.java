@@ -13,13 +13,11 @@ import Maths.Vector2;
  * @version 1.0
  */
 public class Camera {
-    private Vector2 ortogonalPosition;
+    public Vector2 ortogonalPosition;
     Graphics2D tempG;
-    AffineTransform UItransform = new AffineTransform();
-        
-    
-    private AffineTransform oldTransform;
-    private int scale;
+    public AffineTransform UItransform = new AffineTransform();
+
+    public int scale;
     
     private Display display;
     
@@ -71,6 +69,15 @@ public class Camera {
         g.transform(at);
     }
     
+    
+    /**
+     * 
+     * @param g 
+     */
+    public void tickUI(Graphics2D g){
+        g.setTransform(UItransform);  
+    }
+    
     public void setPosition(Vector2 position){
         ortogonalPosition = position;
     }
@@ -81,11 +88,5 @@ public class Camera {
 
     public Vector2 getPosition() {
         return ortogonalPosition;
-    }
-    
-    public void tickUI(Graphics2D g){
-        g.setTransform(UItransform);
-        
-        
     }
 }

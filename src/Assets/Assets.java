@@ -24,9 +24,18 @@ public class Assets {
         inventory = ImageLoader.loadImage("/Resources/Images/Inventory.png");
         animations = new HashMap<>();
         
+        //ALL animmations goes here
         animations.put("player_down", new Pair<>(crop(32, 32, 4, "/Resources/Images/player_down.png"), 4));
         animations.put("grass", new Pair<>(crop(16, 16, 1, "/Resources/Images/grass.png"), 1));
+        animations.put("inventory", new Pair<>(crop(240, 135, 1, "/Resources/Images/inventory.png"), 1));
+        
+        
+        
+        
+        
+        
     }
+    
     
     private static BufferedImage[] crop(int width, int height, int N, String path){
         BufferedImage temp = ImageLoader.loadImage(path);  

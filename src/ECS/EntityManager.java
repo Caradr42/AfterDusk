@@ -264,6 +264,8 @@ public class EntityManager{
         //gets the inner HashMap contained at the current KEY of the upper HashMap. using the component Class as a KEY.
         HashMap<Integer, ? extends Component > componentsMap = componentsDictionary.get(component); 
         
+        if(componentsMap == null) return new ArrayList<>();   
+        
         if(!componentsMap.isEmpty()){
             //saves in a list the IDs of the entities found to have the component.
             /*ArrayList<Integer> entitiesIDs = new ArrayList<>();    
@@ -303,6 +305,9 @@ public class EntityManager{
         for(Class component : componentsClass){
             //gets the inner HashMap contained at the current KEY of the upper HashMap. using the component Class as a KEY.
             HashMap<Integer, ? extends Component > componentsMap = componentsDictionary.get(component); 
+            
+            if(componentsMap == null) return new ArrayList<>();
+            
             if(!componentsMap.isEmpty()){
                 //union of sets
                 entitiesSet.retainAll(new HashSet<>(getAllEntitiesPosessingComponentOfClass(component)) );

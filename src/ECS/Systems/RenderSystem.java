@@ -5,19 +5,18 @@
  */
 package ECS.Systems;
 
-import Assets.Assets;
-import ECS.Components.Playable;
 import ECS.Components.Sprite;
-import ECS.Components.Tile;
 import ECS.Components.Transform;
+import ECS.Components.UIEntity;
 import ECS.SystemJob;
 import Scene.Scene;
-import UI.UserInterface;
 import java.awt.Graphics2D;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import Utility.Pair;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import proyecto_videojuegos.MainThread;
 
 /**
  * 
@@ -26,65 +25,81 @@ import java.awt.event.KeyEvent;
  */
 public class RenderSystem extends SystemJob{
     
-    Transform transform;
-    public UserInterface inventory;
-    Sprite sprite;
-    public PriorityQueue <Pair<Transform, Sprite> > queue;
+    private ArrayList<Integer> UIentities; //this are entities that can not be errased or 
+    private UIEntity uiEntity;
+    
+    private Transform transform;
+    private Sprite sprite;
+    //Pririty Queue of entities to render
+    private PriorityQueue <Pair<Transform, Sprite> > queue;
             
     public RenderSystem(Scene scene) {
         super(scene);
         transform = new Transform();
         sprite = new Sprite();
+        uiEntity = new UIEntity();
     }
 
     @Override
     public void update() {
-        //To change body of generated methods, choose Tools | Templates.
+        //adds components Pairs to the queue
         for(Integer e:entities){
-            transform=scene.entityManager.getEntityComponentInstance(e, transform.getClass());
+            transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());
             sprite = scene.entityManager.getEntityComponentInstance(e, sprite.getClass());
             queue.add(new Pair(transform, sprite));
         }
     }
 
-
     @Override
     public void init() {
+      //Fetch entities with the Transform and Sprite components
       entities = scene.entityManager.getEntitiesWithComponents(transform.getClass(), sprite.getClass());
+      //Fetch User interface entities //This entities cannot be deleted or added after init()
+      UIentities = scene.entityManager.getEntitiesWithComponents(uiEntity.getClass());
+              
       queue = new PriorityQueue<>(entities.size(), new myComparator());
     }
 
     @Override
     public void onCreate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void onDestroy() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-        @Override
+    @Override
     public void render(Graphics2D g) {
-        //System.out.println(entities.get(0));
-        for(Pair<Transform, Sprite> t : queue){
-            g.drawImage(t.second.currentFrame, (int) t.first.position.x,(int) t.first.position.y,t.second.width,t.second.height,null);
-           //g.drawRect((int) t.position.x,(int) t.position.y,16,16);
-        } 
         
-        if (scene.display.getKeyManager().keys[KeyEvent.VK_P]) {
+        //Render all entities with a Transform and Sprite Component
+        for(Pair<Transform, Sprite> t : queue){
+            if(t.second.visible) {
+                g.drawImage(t.second.currentFrame, (int) t.first.position.x,(int) t.first.position.y,t.second.width,t.second.height,null);
+            }
+        }
+        //resets the camera transform
+        MainThread.c.tick(g);
+        
+        //Renders UIEntities aafter rendering the game entities
+        for(Integer ui: UIentities){
+            uiEntity = scene.entityManager.getEntityComponentInstance(ui, uiEntity.getClass());
+            
+            if(uiEntity.visible) {
+                g.drawImage(uiEntity.currentFrame, (int) uiEntity.position.x,(int) uiEntity.position.y, uiEntity.width, uiEntity.height, null);
+            }
+        }
+        
+        /*if (scene.display.getKeyManager().keys[KeyEvent.VK_P]) {
             //Display the inventory
             inventory = new UserInterface(1);
 
             inventory.render(g);
-        }
+        }*/
         
         queue.clear();
     }
     
-    public class myComparator implements Comparator <Pair<Transform, Sprite> >
-
-    {
+    private class myComparator implements Comparator <Pair<Transform, Sprite> >{
 
         @Override
         public int compare

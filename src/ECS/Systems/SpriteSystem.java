@@ -30,7 +30,7 @@ public class SpriteSystem extends SystemJob{
         
         for(Integer e: entities){
             sprite = scene.entityManager.getEntityComponentInstance(e, sprite.getClass());
-            if(sprite.active){
+            if(sprite.visible){
                 sprite.currentFrame = sprite.animation[(int)(sprite.frameCounter) % sprite.animationLenght];
                 
                 sprite.frameCounter+= sprite.speed;
@@ -44,6 +44,7 @@ public class SpriteSystem extends SystemJob{
     public void init() {
         entities = scene.entityManager.getEntitiesWithComponents(sprite.getClass());
         
+        //initializes al sprites by assignig the actual Buffered image animations based on the animations names
         for(Integer e: entities){
             sprite = scene.entityManager.getEntityComponentInstance(e, sprite.getClass());
             
