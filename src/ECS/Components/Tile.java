@@ -11,10 +11,10 @@ import java.awt.image.BufferedImage;
  */
 public class Tile extends Component{
     //Array of textures to be rendered one avobe the other
-    public ArrayList<String> topTextures;
+    /*public ArrayList<String> topTextures;
     public ArrayList<String> sideTextures;
     public ArrayList<BufferedImage> topTextureRef;
-    public ArrayList<BufferedImage> sideTextureRef;
+    public ArrayList<BufferedImage> sideTextureRef;*/
     
     String name;
 

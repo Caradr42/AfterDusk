@@ -1,25 +1,21 @@
 package ECS.Components;
 
 import ECS.Component;
+import Maths.Vector3;
 import Utility.Pair;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import proyecto_videojuegos.MainThread;
-import videoGame.ImageLoader;
 
 /**
- * Example ECS component
- * 
- * a ECS component contains 
- * //data
- * 
- * //code to initialize the data
- * @author Carlos Adrián Guerra Vázquez
- * @date 09/02/2019
- * @version 1.0
+ *
+ * @author carlo
  */
-public class Sprite extends Component{
-    //data
+public class UIEntity extends Component{
+    //Transform Data
+    public Vector3 position; //position on screen (pixels)
+    
+    //Sprite data
     public String name;
     public boolean visible;
     public boolean frozen;
@@ -39,17 +35,7 @@ public class Sprite extends Component{
     
     public int animationNo; // 0 is no animation, 1 is animation one, n is animation n
     
-    /**
-     * Sprite constructor
-     * 
-     * @param name
-     * @param active
-     * @param width
-     * @param height
-     * @param speed
-     * @param animationsNames 
-     */
-    public Sprite(String name, boolean active, int width, int height, double speed, ArrayList<String> animationsNames) {
+    public UIEntity(String name, boolean active, int width, int height, double speed, ArrayList<String> animationsNames) {
         this.name = name;
         this.visible = active;
         this.frozen = false;
@@ -62,7 +48,6 @@ public class Sprite extends Component{
         this.animations = new ArrayList<>();
     }
 
-    public Sprite() {
+    public UIEntity() {
     }
-    
 }

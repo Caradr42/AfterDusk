@@ -20,7 +20,7 @@ public class Inventory extends Component{
     //if it has 0, do nothing
     public ArrayList<Integer> slots = new ArrayList<>();
     
-    public int maxSlots = 6;
+    public int availableSlots = 6;
 
     public Inventory() {
     }

@@ -24,23 +24,25 @@ import java.util.logging.Logger;
 public class MainThread implements Runnable{
     
     //Display's stuff
-    private Display display;    // to display in the game in its canvas
-    String title;               // title of the window
-    final private int width;          // width of the window
-    final private int height;         // height of the window    
+    public static Display display;    // to display in the game in its canvas
+    public static String title;               // title of the window
+    public static int width;          // width of the window
+    public static int height;         // height of the window    
     //Camera
-    public Camera c;
+    public static Camera c;
     //thread stuff
     private Thread thread;      // thread to create the game. points to the instance of this Game as a Runnable
     private boolean running;    // to set the game running status (controls the in thread execution)
     //Frames per second stuff
-    private double tps; //ticks per second
+    public static double tps; //ticks per second
     private final boolean showTPS = true; //controls if the tps will be show on the console
-    private int fps = 60;
+    
+    public static int fps = 60;
+    
     public static double deltaTime;
     public static double nomalizedDeltaTime;
-    public int currentFrame;
-    private double tpsBuffer;
+    public static int currentFrame;
+    public static double tpsBuffer;
     
     //ECS stuff
     MainWorld scene;
@@ -117,11 +119,10 @@ public class MainThread implements Runnable{
      */
     private void init() {   
         display = new Display(title, width, height);
-        c = new Camera(-width / 2, -height / 2, 4, display);
-        
         Assets.init(); //initializes the game assets
         scene = new MainWorld(display, c);
         
+        c = new Camera(-width / 2, -height / 2, 4, display);
         /* //DEBUG : prints all listeners class attache dto the scene
         for(Listener<?> l : scene.entityManager.removeEntitiesSignal.listeners){
             System.out.println(l.getClass());
@@ -196,6 +197,8 @@ public class MainThread implements Runnable{
             //Here you render scenes
             scene.systemJobManager.render(display.g);
             
+            c.tickUI(display.g);
+            
             //Shows the frames per second(tps) on scereen on the top left corner
             if(showTPS){
                 if(currentFrame % 10 == 0){
@@ -203,6 +206,8 @@ public class MainThread implements Runnable{
                 }
                 display.g.setColor(Color.GREEN);
                 display.g.drawString(Integer.toString((int)tpsBuffer), 0, 10);
+                display.g.drawString(Integer.toString((int)currentFrame), 16, 10);
+                //display.g.drawRect(0, 0, 16, 16);
             }            
             
             display.bs.show();

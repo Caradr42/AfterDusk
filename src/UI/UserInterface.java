@@ -6,23 +6,20 @@
 package UI;
 
 import Assets.Assets;
-import ECS.Component;
-import Utility.Pair;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Queue;
 
 /**
  *
  * @author pablo
  */
-public class UserInterface{
+/*public class UserInterface{
     ArrayList<BufferedImage> arr; 
     
     boolean display = false;
 
+    
     public UserInterface() {
     }
 
@@ -40,4 +37,4 @@ public class UserInterface{
         }
     }
     
-}
+}*/

@@ -5,6 +5,7 @@
  */
 package Assets;
 
+import Utility.Pair;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import videoGame.ImageLoader;
@@ -16,16 +17,25 @@ import videoGame.ImageLoader;
 public class Assets {
     public static BufferedImage coso, inventory;
     
-    public static HashMap<String, BufferedImage[]> animations;
+    public static HashMap<String, Pair<BufferedImage[], Integer>> animations;
     
     public static void init(){
         coso = ImageLoader.loadImage("/Resources/Images/coso.png");
         inventory = ImageLoader.loadImage("/Resources/Images/Inventory.png");
         animations = new HashMap<>();
         
-        animations.put("player_down", crop(32, 32, 4, "/Resources/Images/player_down.png"));
-        animations.put("grass", crop(16, 16, 1, "/Resources/Images/grass.png"));
+        //ALL animmations goes here
+        animations.put("player_down", new Pair<>(crop(32, 32, 4, "/Resources/Images/player_down.png"), 4));
+        animations.put("grass", new Pair<>(crop(16, 16, 1, "/Resources/Images/grass.png"), 1));
+        animations.put("inventory", new Pair<>(crop(240, 135, 1, "/Resources/Images/inventory.png"), 1));
+        
+        
+        
+        
+        
+        
     }
+    
     
     private static BufferedImage[] crop(int width, int height, int N, String path){
         BufferedImage temp = ImageLoader.loadImage(path);  

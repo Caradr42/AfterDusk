@@ -15,12 +15,12 @@ import Maths.Vector3;
  */
 public class Item extends Component {
     
-    boolean bInventory;
+    boolean isInInventory;
     int inventory;
     String name;
 
     public Item(String name, boolean bInventory, int inventory) {
-        this.bInventory = bInventory;
+        this.isInInventory = bInventory;
         this.inventory = inventory;
         this.name = name;
     }
