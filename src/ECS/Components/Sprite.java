@@ -60,6 +60,7 @@ public class Sprite extends Component{
         this.speed = speed / MainThread.fps;
         this.animationsNames = animationsNames;
         this.animations = new ArrayList<>();
+        
     }
 
     public Sprite() {

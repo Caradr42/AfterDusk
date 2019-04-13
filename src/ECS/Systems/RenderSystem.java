@@ -107,12 +107,13 @@ public class RenderSystem extends SystemJob{
 
         @Override
         public int compare
-        (Pair<Transform, Sprite> o1, Pair<Transform, Sprite > o2) {
-            if ((Math.pow(o1.first.position.y, 2) + Math.pow(o1.first.position.z, 2)) > (Math.pow(o2.first.position.y, 2) + Math.pow(o2.first.position.z, 2))) {
+        (Pair<Transform, Sprite> p1, Pair<Transform, Sprite > p2) {
+            //System.out.println(p1.second.name + " : " + p1.first.position.z);
+            if(p1.first.position.z > p2.first.position.z){
                 return 1;
-            } else {
+            }else if (p1.first.position.z < p2.first.position.z){
                 return -1;
-            }
+            }else return 0;
         }
     }
 

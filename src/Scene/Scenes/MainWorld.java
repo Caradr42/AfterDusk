@@ -51,14 +51,20 @@ public class MainWorld extends Scene{
         
         Entity i = entityManager.createEntityWithComponents("tool", 
                 new Item ("tool", true, e.getID()),
-                new Transform(new Vector3(50, 50, 16)),
-                new Sprite("tool", true, 16, 16, 10, new ArrayList<>(Arrays.asList("player_down")))
+                new Transform(new Vector3(50, 50, 32)),
+                new Sprite("tool", true, 16, 16, 10, new ArrayList<>(Arrays.asList("weird")))
+        );
+        
+        entityManager.createEntityWithComponents("tool", 
+                new Item ("tool", true, e.getID()),
+                new Transform(new Vector3(55, 55, 28)),
+                new Sprite("tool", true, 16, 16, 10, new ArrayList<>(Arrays.asList("shield")))
         );
         
         
         entityManager.createEntityWithComponents("Player",
-            new Sprite("sprite", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down"))),
-            new Transform(new Vector3(50,50, -32)),
+            new Sprite("sprite", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down", "player_up" , "player_right", "player_left"))),
+            new Transform(new Vector3(50,50, 64)),
             new Player(),
             new Playable(100, e.getID(), new Vector3()) /*,
 
@@ -76,7 +82,7 @@ public class MainWorld extends Scene{
             for(int y = 0; y < 960; y += 16){
                 entityManager.createEntityWithComponents("grass",
                         new Tile("grass" + Integer.toString(x) + "_" + Integer.toString(y)),
-                        new Transform(new Vector3(x,y,0)),
+                        new Transform(new Vector3(x,y,16)),
                         new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
                 );
             }
