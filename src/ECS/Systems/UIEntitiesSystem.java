@@ -7,8 +7,15 @@ import Scene.Scene;
 import java.awt.event.KeyEvent;
 
 /**
+ * System that executes User interface behabiour
+ * 
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
  *
- * @author carlo
+ * @date 12/04/2019
+ * @version 1.0
  */
 public class UIEntitiesSystem extends SystemJob{
     
@@ -38,7 +45,7 @@ public class UIEntitiesSystem extends SystemJob{
             
             
             if(uiEntity.name.equals("Player_Inventory")){
-                if(scene.display.getKeyManager().keys[KeyEvent.VK_X] || scene.display.getKeyManager().keys[KeyEvent.VK_I]){
+                if(scene.display.getKeyManager().keys[KeyEvent.VK_X] || scene.display.getKeyManager().keys[KeyEvent.VK_I] || scene.display.getKeyManager().keys[KeyEvent.VK_Q]){
                     if(PlayerInventoryBuffer == false){
                         if(uiEntity.visible){
                             uiEntity.visible = false;

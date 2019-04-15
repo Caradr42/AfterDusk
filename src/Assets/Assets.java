@@ -1,18 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Assets;
 
 import Utility.Pair;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import videoGame.ImageLoader;
-
-/**
+ /**
+ * Class containing statically all the game assets
+ * 
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
  *
- * @author carlo
+ * @date 12/04/2019
+ * @version 1.0
  */
 public class Assets {
     public static BufferedImage coso, inventory;
@@ -20,7 +22,6 @@ public class Assets {
     public static HashMap<String, Pair<BufferedImage[], Integer>> animations;
     
     public static void init(){
-        coso = ImageLoader.loadImage("/Resources/Images/coso.png");
         inventory = ImageLoader.loadImage("/Resources/Images/Inventory.png");
         animations = new HashMap<>();
         
@@ -31,15 +32,21 @@ public class Assets {
         animations.put("player_right", new Pair<>(crop(32, 32, 4, "/Resources/Images/player_right.png"), 4));
         animations.put("grass", new Pair<>(crop(16, 16, 1, "/Resources/Images/grass.png"), 1));
         animations.put("inventory", new Pair<>(crop(240, 135, 1, "/Resources/Images/Inventory.png"), 1));
-        
-        
-        
-        
-        
+        animations.put("weird", new Pair<>(crop(16, 16, 1, "/Resources/Images/weird.png"), 1));
+        animations.put("shield", new Pair<>(crop(16, 16, 1, "/Resources/Images/shield.png"), 1));
         
     }
     
-    
+    /**
+     * Crop
+     * 
+     * Cuts the images 
+     * @param width
+     * @param height
+     * @param N
+     * @param path
+     * @return animation
+     */
     private static BufferedImage[] crop(int width, int height, int N, String path){
         BufferedImage temp = ImageLoader.loadImage(path);  
         BufferedImage[] animation = new BufferedImage[N];

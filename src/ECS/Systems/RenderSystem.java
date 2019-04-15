@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -20,9 +21,15 @@ import java.util.ArrayList;
 import proyecto_videojuegos.MainThread;
 
 /**
- * 
+ * System that renders all entities with Sprite and Transform Components
  *
- * @author pablo
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
+ *
+ * @date 12/04/2019
+ * @version 1.0
  */
 public class RenderSystem extends SystemJob{
     
@@ -96,7 +103,6 @@ public class RenderSystem extends SystemJob{
         /*if (scene.display.getKeyManager().keys[KeyEvent.VK_P]) {
             //Display the inventory
             inventory = new UserInterface(1);
-
             inventory.render(g);
         }*/
         
@@ -107,17 +113,13 @@ public class RenderSystem extends SystemJob{
 
         @Override
         public int compare
-        (Pair<Transform, Sprite> o1, Pair<Transform, Sprite > o2) {
-            if (o1.first.position.z > o2.first.position.z) {
+        (Pair<Transform, Sprite> p1, Pair<Transform, Sprite > p2) {
+            //System.out.println(p1.second.name + " : " + p1.first.position.z);
+            if(p1.first.position.z > p2.first.position.z){
                 return 1;
-            }
-            else if (o1.first.position.z < o2.first.position.z){
+            }else if (p1.first.position.z < p2.first.position.z){
                 return -1;
-            }
-            
-            else {
-                return 0;
-            }
+            }else return 0;
         }
     }
 
