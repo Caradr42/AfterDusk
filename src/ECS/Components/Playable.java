@@ -26,8 +26,17 @@ public class Playable extends Component {
     int hp; 
     int inventory;
     public Vector3 velocity;
+    public int collidable;
 
 
+
+    public Playable(int hp, int inventory, Vector3 velocity, int collidable) {
+
+        this.hp = hp;
+        this.inventory = inventory;
+        this.velocity = velocity;
+        this.collidable = collidable;
+    }
 
     public Playable(int hp, int inventory, Vector3 velocity) {
 
@@ -35,7 +44,7 @@ public class Playable extends Component {
         this.inventory = inventory;
         this.velocity = velocity;
     }
-
+    
     public Playable() {
     }
 }

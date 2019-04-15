@@ -44,33 +44,70 @@ public class MainWorld extends Scene{
     @Override
     protected void addEntities() {
         
+        //collidables
+        ArrayList<Entity> cols= new ArrayList<>();
+        
         Entity e = entityManager.createEntityWithComponents("InventoryPlayer", 
                 new Inventory(0)
         );
         
+        Entity e2 = entityManager.createEntityWithComponents("InventoryEnemy1", 
+                new Inventory(1));
         
+        /*for(int i = 0; i < 5; i++) {
+            cols.add(
+                    entityManager.createEntityWithComponents("colls" + i , 
+                            new Collidable()));
+        }*/
+        
+        //The hitbox has the same measurement as the sprite
+        cols.add(
+                entityManager.createEntityWithComponents("colls" + 0,
+                        new Collidable(new Vector3(16, 16,1))));
+
         Entity i = entityManager.createEntityWithComponents("tool", 
-                new Item ("tool", true, e.getID()),
+                new Item ("tool", true, e.getID(), cols.get(0).getID()),
                 new Transform(new Vector3(50, 50, 32)),
                 new Sprite("tool", true, 16, 16, 10, new ArrayList<>(Arrays.asList("weird")))
         );
         
+                //The hitbox has the same measurement as the sprite
+        cols.add(
+                entityManager.createEntityWithComponents("colls" + 1,
+                        new Collidable(new Vector3(16, 16,1))));
+        
         entityManager.createEntityWithComponents("tool", 
-                new Item ("tool", true, e.getID()),
+                new Item ("tool", true, e.getID(), cols.get(1).getID()),
                 new Transform(new Vector3(55, 55, 28)),
                 new Sprite("tool", true, 16, 16, 10, new ArrayList<>(Arrays.asList("shield")))
         );
         
         
+                //The hitbox has the same measurement as the sprite
+        cols.add(
+                entityManager.createEntityWithComponents("colls" + 2,
+                        new Collidable(new Vector3(32, 32,1))));
+        
         entityManager.createEntityWithComponents("Player",            
             new Transform(new Vector3(50,50, 64)),
             new Sprite("sprite", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down","player_up","player_left","player_right"))),
             new Player(),
-            new Playable(100, e.getID(), new Vector3()) /*,
+            new Playable(100, e.getID(), new Vector3(), cols.get(2).getID()),
             new Transform(new Vector3(50,50,50)),
             new Player(),
-            new Playable(100, 1, new Vector3())*/
+            new Playable(100, 1, new Vector3())
         );
+        
+        
+                //The hitbox has the same measurement as the sprite
+        cols.add(
+                entityManager.createEntityWithComponents("colls" + 3,
+                        new Collidable(new Vector3(64, 80,1))));
+        
+        entityManager.createEntityWithComponents("Enemy1", 
+                new Transform(new Vector3(77, 77, 30)),
+                new Sprite("enemy", true, 64, 80, 10, new ArrayList<>(Arrays.asList("enemy"))),
+                new Playable(300, e2.getID(), new Vector3(), cols.get(3).getID()));
         
          entityManager.createEntityWithComponents("Player_Inventory", 
                 new UIEntity("Player_Inventory", false, 240, 135, 52 , 30 , 0, new ArrayList<>(Arrays.asList("inventory")) )

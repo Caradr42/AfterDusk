@@ -24,8 +24,17 @@ public class Item extends Component {
     
     boolean isInInventory;
     int inventory;
+    public int collidable;
     String name;
 
+    public Item(String name, boolean bInventory, int inventory, int collidable) {
+        this.isInInventory = bInventory;
+        this.inventory = inventory;
+        this.name = name;
+        this.collidable = collidable;
+    }
+    
+    
     public Item(String name, boolean bInventory, int inventory) {
         this.isInInventory = bInventory;
         this.inventory = inventory;
