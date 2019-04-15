@@ -40,4 +40,8 @@ public class Item extends Component {
         this.inventory = inventory;
         this.name = name;
     }
+    
+    public Item() {
+        
+    }
 }
