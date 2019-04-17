@@ -68,7 +68,7 @@ public class MainWorld extends Scene{
         entityManager.createEntityWithComponents("tool2", 
                 new Item ("tool", true, e.getID()),
                 new Collidable(new Vector3(16,16,1)),
-                new Transform(new Vector3(55, 55, 28)),
+                new Transform(new Vector3(175, 55, 28)),
                 new Sprite("tool", true, 16, 16, 10, new ArrayList<>(Arrays.asList("shield")))
         );
         
@@ -82,6 +82,7 @@ public class MainWorld extends Scene{
             new Player(),
             new Playable(100, 1, new Vector3())
         );
+
         
         entityManager.createEntityWithComponents("Enemy1", 
                 new Transform(new Vector3(77, 77, 30)),

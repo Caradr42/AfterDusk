@@ -130,13 +130,6 @@ public class CollisionSystem extends SystemJob{
         double firstCenterZ;
         
         
-        ////////////
-        
-        //System.out.println(e.getName() + ": " + transformi.position.x + ", " + transformi.position.y);
-        
-        //////////
-        
-        
         //The length of the first object in the x axis from the center to the border
         double firstLengthX = collidablei.hitbox.x / 2;
         
@@ -205,21 +198,67 @@ public class CollisionSystem extends SystemJob{
                 && Point.isBetween(firstPoint1, secondPoint3, secondPoint1, 'y');
         
         
-        if(bDown) {
+        if (bDown) {
             System.out.println("collision down");
+
+            System.out.println(e.getName() + ": " + transformi.position.x + ", " + transformi.position.y);
+            firstPoint1.print();
+            firstPoint2.print();
+            firstPoint3.print();
+            firstPoint4.print();
+            System.out.println(e2.getName() + ": " + transformj.position.x + ", " + transformj.position.y);
+            secondPoint1.print();
+            secondPoint2.print();
+            secondPoint3.print();
+            secondPoint4.print();
+            System.out.println("");
         }
-        
-        if(bUp) {
+
+        if (bUp) {
             System.out.println("collision up");
+            System.out.println(e.getName() + ": " + transformi.position.x + ", " + transformi.position.y);
+            firstPoint1.print();
+            firstPoint2.print();
+            firstPoint3.print();
+            firstPoint4.print();
+            System.out.println(e2.getName() + ": " + transformj.position.x + ", " + transformj.position.y);
+            secondPoint1.print();
+            secondPoint2.print();
+            secondPoint3.print();
+            secondPoint4.print();
+            System.out.println("");
         }
-        
-        if(bRight) {
+
+        if (bRight) {
             System.out.println("collision right");
+            System.out.println(e.getName() + ": " + transformi.position.x + ", " + transformi.position.y);
+            firstPoint1.print();
+            firstPoint2.print();
+            firstPoint3.print();
+            firstPoint4.print();
+            System.out.println(e2.getName() + ": " + transformj.position.x + ", " + transformj.position.y);
+            secondPoint1.print();
+            secondPoint2.print();
+            secondPoint3.print();
+            secondPoint4.print();
+            System.out.println("");
         }
         
-        if(bLeft) {
+        if (bLeft) {
             System.out.println("collision left");
+            System.out.println(e.getName() + ": " + transformi.position.x + ", " + transformi.position.y);
+            firstPoint1.print();
+            firstPoint2.print();
+            firstPoint3.print();
+            firstPoint4.print();
+            System.out.println(e2.getName() + ": " + transformj.position.x + ", " + transformj.position.y);
+            secondPoint1.print();
+            secondPoint2.print();
+            secondPoint3.print();
+            secondPoint4.print();
+            System.out.println("");
         }
+
     }
     
     public void initializeEntities() {

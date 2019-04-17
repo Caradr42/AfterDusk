@@ -50,4 +50,8 @@ public class Point {
         return result;
     }
     
+    public void print() {
+        System.out.println("" + x + ", " + y);
+    }
+
 }
