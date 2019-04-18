@@ -8,6 +8,7 @@ package ECS.Systems;
 import ECS.Components.Collidable;
 import ECS.Components.Item;
 import ECS.Components.Playable;
+import ECS.Components.Sprite;
 import ECS.Components.Transform;
 import ECS.Entity;
 import ECS.SystemJob;
@@ -216,6 +217,8 @@ public class CollisionSystem extends SystemJob{
             if(!bUp)
                 bDown = D < C;
             
+            Sprite sprite = new Sprite();
+            
             //Warning: The order of the ifs DOES matter here
 
             //entity1 collides in the left border of entity2
@@ -240,7 +243,39 @@ public class CollisionSystem extends SystemJob{
             System.out.println(e2.getName() + ": " + transformj.position.x + ", " + transformj.position.y);
             System.out.println("");
             
-            //
+
+            //if the first entity is the player
+            if("Player".equals(e.getName())) {
+                
+                //And the second an item
+                if(arrItems.contains(e2.getID())) {
+                    
+                    //If the user press the E in the collision
+                    if(scene.display.getKeyManager().isE) {
+                        System.out.println("E pressed");
+                        scene.entityManager.getEntityComponentInstance(i, (new Item()).getClass()).isInInventory = true;
+                        sprite = scene.entityManager.getEntityComponentInstance(i, sprite.getClass());
+                        sprite.visible = false;
+                    }
+                }
+                
+            }
+            
+            //Or the second entity is the player
+            else if("Player".equals(e2.getName())) {
+                
+                //And the first an item
+                if(arrItems.contains(e.getID())) {
+                    
+                    //If the user press the E in the collision
+                    if(scene.display.getKeyManager().isE) {
+                        System.out.println("E pressed");
+                        scene.entityManager.getEntityComponentInstance(j, (new Item()).getClass()).isInInventory = true;
+                        sprite = scene.entityManager.getEntityComponentInstance(j, sprite.getClass());
+                        sprite.visible = false;
+                    }
+                }
+            }
         }
     }
     

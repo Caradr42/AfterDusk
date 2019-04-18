@@ -22,7 +22,7 @@ import Maths.Vector3;
  */
 public class Item extends Component {
     
-    boolean isInInventory;
+    public boolean isInInventory;
     int inventory;
     String name;
 
