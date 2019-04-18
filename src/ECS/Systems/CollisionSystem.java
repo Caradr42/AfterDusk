@@ -150,7 +150,13 @@ public class CollisionSystem extends SystemJob{
         //The length of the second object in the z axis from the center to the border
         double secondLengthZ;
 
+        //
         if (firstRect.intersects(secondRect)) {
+            
+            Boolean bRight = false;
+            Boolean bLeft = false;
+            Boolean bUp = false;
+            Boolean bDown = false;
 
             //Point of the upper left corner of the first object
             Point firstPoint1 = new Point(firstCenterX - firstLengthX, firstCenterY - firstLengthY);
@@ -196,27 +202,45 @@ public class CollisionSystem extends SystemJob{
                 Distance in the y axis between the ideally closest pair of points of both entities.
                 Assuming that the first entity is below the second*/
             int D = abs((int) (firstPoint1.y - secondPoint3.y));
+            
+
+            //Just one boolean can be true, that is why there are several ifs
+            bLeft = A < B && A <= min(C, D);
+            
+            if(!bLeft)
+                bRight = B < A && B <= min(C, D);
+            
+            if(!bRight)
+                bUp = C < D;
+            
+            if(!bUp)
+                bDown = D < C;
+            
+            //Warning: The order of the ifs DOES matter here
 
             //entity1 collides in the left border of entity2
-            if (A < B && A <= min(C, D)) {
+            if (bLeft) {
                 System.out.println("collision left");
+
             } //if entity1 collides in the right border of entity2
-            else if (B < A && B <= min(C, D)) {
+            else if (bRight) {
                 System.out.println("collision right");
             }
             
             //entity1 collides in the upper limit of entity2
-            else if( C < D) {
+            else if(bUp) {
                 System.out.println("collision up");
             }
             
-            //else if( D < C) (e1 collides in the bottom limit of e2)
+            //else if( bDown) (e1 collides in the bottom limit of e2)
             else {
                 System.out.println("collision down");
             }
             System.out.println(e.getName() + ": " + transformi.position.x + ", " + transformi.position.y);
             System.out.println(e2.getName() + ": " + transformj.position.x + ", " + transformj.position.y);
             System.out.println("");
+            
+            //
         }
     }
     
