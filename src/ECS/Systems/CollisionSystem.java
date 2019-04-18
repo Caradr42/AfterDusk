@@ -27,7 +27,8 @@ public class CollisionSystem extends SystemJob{
     //A playable must have a collidable assigned by reference
     private Playable playable;
     
-    
+    //collision margin in pixels
+    private static double colMargin = 5;
     
     private ArrayList<Integer> arrPlayables;
     
@@ -90,6 +91,11 @@ public class CollisionSystem extends SystemJob{
         
     }
     
+    /**
+     * Check if entity i is to the left/right/up/down of entity j
+     * @param i
+     * @param j 
+     */
     public void makeCollision(int i, int j) {
 
         Transform transformi = new Transform();
@@ -181,21 +187,25 @@ public class CollisionSystem extends SystemJob{
         //Point of the bottom right corner of the first object
         Point secondPoint4 = new Point(secondCenterX + secondLengthX, secondCenterY + secondLengthY);
         
-        bRight = Point.isBetween(firstPoint2, secondPoint1, secondPoint2, 'x')
+        bRight = (Point.isBetween(firstPoint1, secondPoint1, secondPoint2, 'x')
                 && (Point.isBetween(firstPoint2, secondPoint3, secondPoint1, 'y') || 
-                Point.isBetween(firstPoint4, secondPoint3, secondPoint1, 'y'));
+                Point.isBetween(firstPoint4, secondPoint3, secondPoint1, 'y')))
+                && firstPoint1.x - secondPoint4.x <= colMargin;
         
-        bLeft = Point.isBetween(firstPoint1, secondPoint1, secondPoint2, 'x')
+        bLeft = (Point.isBetween(firstPoint2, secondPoint1, secondPoint2, 'x')
                 && (Point.isBetween(firstPoint2, secondPoint3, secondPoint1, 'y') || 
-                Point.isBetween(firstPoint4, secondPoint3, secondPoint1, 'y'));
+                Point.isBetween(firstPoint4, secondPoint3, secondPoint1, 'y')))
+                && secondPoint3.x - firstPoint2.x <= colMargin;
         
-        bUp = (Point.isBetween(firstPoint3, secondPoint1, secondPoint2, 'x') ||
+        bUp = ((Point.isBetween(firstPoint3, secondPoint1, secondPoint2, 'x') ||
                 Point.isBetween(firstPoint4, secondPoint1, secondPoint2, 'x')) 
-                && Point.isBetween(firstPoint3, secondPoint3, secondPoint1, 'y');
+                && Point.isBetween(firstPoint3, secondPoint3, secondPoint1, 'y'))
+                && firstPoint3.y - secondPoint1.y <= colMargin;
         
-        bDown = (Point.isBetween(firstPoint3, secondPoint1, secondPoint2, 'x') ||
+        bDown = ((Point.isBetween(firstPoint3, secondPoint1, secondPoint2, 'x') ||
                 Point.isBetween(firstPoint4, secondPoint1, secondPoint2, 'x')) 
-                && Point.isBetween(firstPoint1, secondPoint3, secondPoint1, 'y');
+                && Point.isBetween(firstPoint1, secondPoint3, secondPoint1, 'y'))
+                && secondPoint3.y - firstPoint1.y <= colMargin;
         
         
         if (bDown) {
