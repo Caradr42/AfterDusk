@@ -1,3 +1,4 @@
+
 package Assets;
 
 import Utility.Pair;
@@ -33,6 +34,7 @@ public class Assets {
         animations.put("inventory", new Pair<>(crop(240, 135, 1, "/Resources/Images/Inventory.png"), 1));
         animations.put("weird", new Pair<>(crop(16, 16, 1, "/Resources/Images/weird.png"), 1));
         animations.put("shield", new Pair<>(crop(16, 16, 1, "/Resources/Images/shield.png"), 1));
+        animations.put("enemy", new Pair<>(crop(64, 80, 1, "/Resources/Images/enemy.png"), 1));
         
     }
     

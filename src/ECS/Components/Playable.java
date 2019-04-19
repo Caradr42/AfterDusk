@@ -29,14 +29,13 @@ public class Playable extends Component {
     public Vector3 velocity;
 
 
-
     public Playable(int hp, Entity inventory, Vector3 velocity) {
-
         this.hp = hp;
         this.inventory = inventory;
         this.velocity = velocity;
     }
 
+    
     public Playable() {
     }
 }

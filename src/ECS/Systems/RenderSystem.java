@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -101,7 +102,6 @@ public class RenderSystem extends SystemJob{
         /*if (scene.display.getKeyManager().keys[KeyEvent.VK_P]) {
             //Display the inventory
             inventory = new UserInterface(1);
-
             inventory.render(g);
         }*/
         

@@ -15,7 +15,11 @@ import Maths.Vector3;
  * @version 1.0
  */
 public class Collidable extends Component{
-    
+    /**
+     * Denotes the box of an item or a playable entity.
+     * Without considering its position in the space.
+     * Normally it has the same measurements as the sprite.
+     */
     public Vector3 hitbox;
 
     public Collidable() {

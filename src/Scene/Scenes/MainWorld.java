@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Scene.Scenes;
 
 import Assets.Assets;
@@ -31,7 +26,8 @@ public class MainWorld extends Scene{
     /**
      * This scene constructor. assigns a display were this scene's entities will
      * render.
-     * @param display 
+     * @param display
+     * @param c
      */
     public MainWorld(Display display, Camera c) {
         super(display, c);
@@ -43,18 +39,21 @@ public class MainWorld extends Scene{
      */
     @Override
     protected void addEntities() {
+
         //A weird item in tht players inventory
         Entity weirdItm = entityManager.createEntityWithComponents("weird", 
                 new Item ("weird", true),
+                new Collidable(new Vector3(16, 16, 1)),
                 new Transform(new Vector3(50, 50, 32)),
                 new Sprite("weird", true, 16, 16, 10, new ArrayList<>(Arrays.asList("weird")))
         );
-        
+
         //a shield in the players inventory
         Entity shieldItm = entityManager.createEntityWithComponents("shield", 
                 new Tool(new Entity(0), new ArrayList<>(Arrays.asList(0)), new ArrayList<>(Arrays.asList(0))),
                 new Item ("shield", true),
-                new Transform(new Vector3(55, 55, 28)),
+                new Collidable(new Vector3(16, 16, 1)),
+                new Transform(new Vector3(70, 70, 28)),
                 new Sprite("shield", true, 16, 16, 10, new ArrayList<>(Arrays.asList("shield")))
         );
         
@@ -62,22 +61,33 @@ public class MainWorld extends Scene{
         Entity payerInv = entityManager.createEntityWithComponents("Player_Inventory", 
                 new Inventory(new  Entity(0), 6, new ArrayList<>(Arrays.asList(weirdItm , shieldItm)))
         );
+        
+        Entity enemyInv = entityManager.createEntityWithComponents("Enemy_Inventory", 
+                new Inventory(new  Entity(0), 5, new ArrayList<>(Arrays.asList(weirdItm)))
+         );
+        
+        
         //The players Inventory user interface, has a reference to the player internal inventory
         Entity UIe = entityManager.createEntityWithComponents("Player_UIInventory", 
                new UIInventory("Player_Inventory", false, 240, 135, 52 , 30 , 0, new ArrayList<>(Arrays.asList("inventory")), new ArrayList<>(Arrays.asList(payerInv))) 
         );
         
         //The player, initialized with empty hands ans an inventory
+
         entityManager.createEntityWithComponents("Player",            
             new Transform(new Vector3(50,50, 64)),
             new Sprite("sprite", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down","player_up","player_left","player_right"))),
             new Player(),
-            new Playable(100, payerInv, new Vector3()) /*,
-
-            new Transform(new Vector3(50,50,50)),
-            new Player(),
-            new Playable(100, 1, new Vector3())*/
+            new Playable(100, payerInv, new Vector3()),
+            new Collidable(new Vector3(32, 32, 1))
         );
+
+        
+        entityManager.createEntityWithComponents("Enemy1", 
+                new Transform(new Vector3(90, 90, 30)),
+                new Sprite("enemy", true, 64, 80, 10, new ArrayList<>(Arrays.asList("enemy"))),
+                new Collidable(new Vector3(64, 80, 1)),
+                new Playable(300, enemyInv, new Vector3()));
         
          
         
@@ -103,7 +113,8 @@ public class MainWorld extends Scene{
             new RenderSystem(this),
             new PlayerSystem(this),
             new SpriteSystem(this),
-            new UIEntitiesSystem(this)
+            new UIEntitiesSystem(this),
+            new CollisionSystem(this)
         );
     }
 }

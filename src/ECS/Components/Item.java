@@ -23,9 +23,10 @@ import Maths.Vector3;
  */
 public class Item extends Component {
     
-    boolean isInInventory;
-    //Entity inventory;
-    String name;
+    public boolean isInInventory;
+    //Entity inventory; //No longer needed
+
+    public String name;
     
 
     /*public Item(String name, boolean bInventory, Entity inventory) {
@@ -37,5 +38,9 @@ public class Item extends Component {
     public Item(String name, boolean bInventory) {
         this.isInInventory = bInventory;
         this.name = name;
+    }
+    
+    public Item() {
+        
     }
 }

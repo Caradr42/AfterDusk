@@ -3,22 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/ECS/EntityManager.java</file>
-            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/ECS/Systems/Movement.java</file>
-            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/IO/ImageLoader.java</file>
-            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/CBA/Behaviour.java</file>
-            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/proyecto_videojuegos/Proyecto_Videojuegos.java</file>
-            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/ECS/Component.java</file>
-            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/ECS/SystemJob.java</file>
-            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/ECS/SystemJobManager.java</file>
-            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/proyecto_videojuegos/MainThread.java</file>
-            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/ECS/Components/Sprite.java</file>
-            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/Scene/Scene.java</file>
-            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/ECS/Components/Transform.java</file>
-            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/Scene/SceneManager.java</file>
-            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/ECS/Systems/SpriteRender.java</file>
-            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/Scene/Scenes/MainWorld.java</file>
-            <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/ECS/EntityFactory.java</file>
+            <file>file:/home/pablo/Documents/git/Proyecto_Videojuegos/src/IO/KeyManager.java</file>
+            <file>file:/home/pablo/Documents/git/Proyecto_Videojuegos/src/ECS/Systems/EnemySystem.java</file>
+            <file>file:/home/pablo/Documents/git/Proyecto_Videojuegos/src/ECS/Components/Item.java</file>
+            <file>file:/home/pablo/Documents/git/Proyecto_Videojuegos/src/ECS/Components/Collidable.java</file>
+            <file>file:/home/pablo/Documents/git/Proyecto_Videojuegos/src/ECS/Systems/RenderSystem.java</file>
+            <file>file:/home/pablo/Documents/git/Proyecto_Videojuegos/src/ECS/Components/Sprite.java</file>
+            <file>file:/home/pablo/Documents/git/Proyecto_Videojuegos/src/ECS/Components/Playable.java</file>
+            <file>file:/home/pablo/Documents/git/Proyecto_Videojuegos/src/ECS/Systems/CollisionSystem.java</file>
+            <file>file:/home/pablo/Documents/git/Proyecto_Videojuegos/src/Scene/Scenes/MainWorld.java</file>
+            <file>file:/home/pablo/Documents/git/Proyecto_Videojuegos/src/ECS/Systems/PlayerSystem.java</file>
         </group>
     </open-files>
 </project-private>

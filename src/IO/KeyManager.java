@@ -25,6 +25,7 @@ public class KeyManager implements KeyListener{
     public boolean down;
     public boolean left;
     public boolean right;
+    public boolean isE;
     
     //key array for pressed and released keys
     public boolean keys[];
@@ -73,6 +74,7 @@ public class KeyManager implements KeyListener{
         down = keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S];
         left = keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A];
         right = keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D]; 
+        isE = keys[KeyEvent.VK_E];
         
     }
     
