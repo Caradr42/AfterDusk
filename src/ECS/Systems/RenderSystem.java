@@ -50,7 +50,7 @@ public class RenderSystem extends SystemJob{
     @Override
     public void update() {
         //adds components Pairs to the queue
-        for(Integer e:entities){
+        for(Integer e: entities){
             transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());
             sprite = scene.entityManager.getEntityComponentInstance(e, sprite.getClass());
             queue.add(new Pair(transform, sprite));
@@ -84,8 +84,7 @@ public class RenderSystem extends SystemJob{
                 g.drawImage(t.second.currentFrame, (int) t.first.position.x,(int) t.first.position.y,t.second.width,t.second.height,null);
             }
         }
-        //resets the camera transform
-        //MainThread.c.tick(g);
+        
         AffineTransform at = new AffineTransform();
         at.setTransform(4, 0, 0, 4, 1, 0);
         g.setTransform(at);  

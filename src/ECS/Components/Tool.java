@@ -5,6 +5,7 @@
  */
 package ECS.Components;
 import ECS.Component;
+import ECS.Entity;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -22,10 +23,10 @@ import java.util.Vector;
 public class Tool extends Component{
     
     public ArrayList<Integer> activos;
-    int pasiva;
+    Entity pasiva;
     public ArrayList<Integer> activosDesbloqueados ;
 
-    public Tool(ArrayList<Integer> activos, int pasiva, ArrayList<Integer> activosDesbloqueados) {
+    public Tool( Entity pasiva, ArrayList<Integer> activos, ArrayList<Integer> activosDesbloqueados) {
         this.activos = activos;
         this.pasiva = pasiva;
         this.activosDesbloqueados = activosDesbloqueados;

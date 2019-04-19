@@ -6,6 +6,7 @@
 package ECS.Components;
 
 import ECS.Component;
+import ECS.Entity;
 import Maths.Vector2;
 import Maths.Vector3;
 
@@ -23,12 +24,18 @@ import Maths.Vector3;
 public class Item extends Component {
     
     boolean isInInventory;
-    int inventory;
+    //Entity inventory;
     String name;
+    
 
-    public Item(String name, boolean bInventory, int inventory) {
+    /*public Item(String name, boolean bInventory, Entity inventory) {
         this.isInInventory = bInventory;
         this.inventory = inventory;
+        this.name = name;
+    }*/
+    
+    public Item(String name, boolean bInventory) {
+        this.isInInventory = bInventory;
         this.name = name;
     }
 }

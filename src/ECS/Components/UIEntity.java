@@ -2,7 +2,9 @@ package ECS.Components;
 
 import ECS.Component;
 import Maths.Vector2;
+import Scene.Scene;
 import Utility.Pair;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import proyecto_videojuegos.MainThread;
@@ -58,4 +60,8 @@ public class UIEntity extends Component{
 
     public UIEntity() {
     }
+    
+    //I'm sorry ECS :(
+    public void UIRender(Graphics2D g, Scene s){
+    }   
 }

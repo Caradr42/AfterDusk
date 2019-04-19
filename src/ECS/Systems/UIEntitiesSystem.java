@@ -43,7 +43,6 @@ public class UIEntitiesSystem extends SystemJob{
             }
             
             
-            
             if(uiEntity.name.equals("Player_Inventory")){
                 if(scene.display.getKeyManager().keys[KeyEvent.VK_X] || scene.display.getKeyManager().keys[KeyEvent.VK_I] || scene.display.getKeyManager().keys[KeyEvent.VK_Q]){
                     if(PlayerInventoryBuffer == false){
@@ -58,6 +57,8 @@ public class UIEntitiesSystem extends SystemJob{
                     PlayerInventoryBuffer = false;
                 }
             }
+            
+            
         } 
     }
 

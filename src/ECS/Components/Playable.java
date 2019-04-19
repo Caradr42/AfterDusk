@@ -6,6 +6,7 @@
 package ECS.Components;
 
 import ECS.Component;
+import ECS.Entity;
 import java.util.ArrayList;
 import Maths.Vector3;
 
@@ -24,12 +25,12 @@ import Maths.Vector3;
 public class Playable extends Component {
     
     int hp; 
-    int inventory;
+    Entity inventory;
     public Vector3 velocity;
 
 
 
-    public Playable(int hp, int inventory, Vector3 velocity) {
+    public Playable(int hp, Entity inventory, Vector3 velocity) {
 
         this.hp = hp;
         this.inventory = inventory;

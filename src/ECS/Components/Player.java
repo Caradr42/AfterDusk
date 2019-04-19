@@ -1,6 +1,7 @@
 package ECS.Components;
 
 import ECS.Component;
+import ECS.Entity;
 import Utility.Pair;
 import java.util.ArrayList;
 
@@ -31,10 +32,10 @@ public class Player extends Component{
     public int maxEnergy;
     
     //references the weapon that the player has equiped in the left hand, if any
-    public int leftHand;
+    public Entity leftHand;
     
     //references the weapon that the player has equiped in the right hand, if any
-    public int rightHand;
+    public Entity rightHand;
     
     //current size of the actives (the maximum is 9)
     public int activesSize;
@@ -56,9 +57,9 @@ public class Player extends Component{
 
     public Player(String name) {
         //Initializing the values for a new player
-        leftHand = 0;
+        leftHand = new Entity(0);
         
-        rightHand = 0;
+        rightHand = new Entity(0);
         
         activesSize = 2;
         
@@ -66,7 +67,7 @@ public class Player extends Component{
         
         maxEnergy = 100;
         
-        actives = new Pair<>(new Pair<>(leftHand, new ArrayList<Integer>(activesSize)), new Pair<>(rightHand, new ArrayList<Integer>(activesSize))); 
+        actives = new Pair<>(new Pair<>(leftHand.getID(), new ArrayList<Integer>(activesSize)), new Pair<>(rightHand.getID(), new ArrayList<Integer>(activesSize))); 
         
         pasives = new ArrayList<>(passivesSize);
     }

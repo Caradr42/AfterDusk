@@ -126,6 +126,9 @@ public class EntityManager{
      */
     private int GenerateNewID(){
         if(lowestUnasignedID < Integer.MAX_VALUE){
+            if(lowestUnasignedID == 0){
+                lowestUnasignedID++;
+            }
             return lowestUnasignedID++;
         }/*else{
             //TO DO: if there are no more IDs available, search for unassigned ids in the entities list
@@ -243,6 +246,17 @@ public class EntityManager{
         //gets the inner HashMap contained at the current KEY of the upper HashMap. using the component Class as a KEY.
         HashMap<Integer, ? extends Component> store = componentsDictionary.get(component);
         T resultComponet = (T) store.get(entity); //uses the Entity's ID as KEY to get the component instance.
+
+        if(resultComponet == null) //trows an exeption if no component is attached.
+            return null; //no component was found
+        
+        return resultComponet;
+    }
+    
+    public <T> T getEntityComponentInstance(Entity entity, Class<T> component){
+        //gets the inner HashMap contained at the current KEY of the upper HashMap. using the component Class as a KEY.
+        HashMap<Integer, ? extends Component> store = componentsDictionary.get(component);
+        T resultComponet = (T) store.get(entity.getID()); //uses the Entity's ID as KEY to get the component instance.
 
         if(resultComponet == null) //trows an exeption if no component is attached.
             return null; //no component was found

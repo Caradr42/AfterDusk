@@ -22,13 +22,14 @@ import videoGame.ImageLoader;
 public class Sprite extends Component{
     //data
     public String name;
+    
     public boolean visible;
     public boolean frozen;
      
     public int width;
     public int height;
     
-    public int animationLenght;
+    
     public double speed;
     public double frameCounter = 0;
     
@@ -36,6 +37,7 @@ public class Sprite extends Component{
     
     public ArrayList<Pair<BufferedImage[], Integer>> animations;
     public BufferedImage[] animation;
+    public int animationLenght;
     public BufferedImage currentFrame;
     
     public int animationNo; // 0 is no animation, 1 is animation one, n is animation n

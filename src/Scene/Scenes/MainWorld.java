@@ -43,39 +43,43 @@ public class MainWorld extends Scene{
      */
     @Override
     protected void addEntities() {
-        
-        Entity e = entityManager.createEntityWithComponents("InventoryPlayer", 
-                new Inventory(0)
-        );
-        
-        
-        Entity i = entityManager.createEntityWithComponents("tool", 
-                new Item ("tool", true, e.getID()),
+        //A weird item in tht players inventory
+        Entity weirdItm = entityManager.createEntityWithComponents("weird", 
+                new Item ("weird", true),
                 new Transform(new Vector3(50, 50, 32)),
-                new Sprite("tool", true, 16, 16, 10, new ArrayList<>(Arrays.asList("weird")))
+                new Sprite("weird", true, 16, 16, 10, new ArrayList<>(Arrays.asList("weird")))
         );
         
-        entityManager.createEntityWithComponents("tool", 
-                new Item ("tool", true, e.getID()),
+        //a shield in the players inventory
+        Entity shieldItm = entityManager.createEntityWithComponents("shield", 
+                new Tool(new Entity(0), new ArrayList<>(Arrays.asList(0)), new ArrayList<>(Arrays.asList(0))),
+                new Item ("shield", true),
                 new Transform(new Vector3(55, 55, 28)),
-                new Sprite("tool", true, 16, 16, 10, new ArrayList<>(Arrays.asList("shield")))
+                new Sprite("shield", true, 16, 16, 10, new ArrayList<>(Arrays.asList("shield")))
         );
         
+        //The player's internal inventory
+        Entity payerInv = entityManager.createEntityWithComponents("Player_Inventory", 
+                new Inventory(new  Entity(0), 6, new ArrayList<>(Arrays.asList(weirdItm , shieldItm)))
+        );
+        //The players Inventory user interface, has a reference to the player internal inventory
+        Entity UIe = entityManager.createEntityWithComponents("Player_UIInventory", 
+               new UIInventory("Player_Inventory", false, 240, 135, 52 , 30 , 0, new ArrayList<>(Arrays.asList("inventory")), new ArrayList<>(Arrays.asList(payerInv))) 
+        );
         
+        //The player, initialized with empty hands ans an inventory
         entityManager.createEntityWithComponents("Player",            
             new Transform(new Vector3(50,50, 64)),
             new Sprite("sprite", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down","player_up","player_left","player_right"))),
             new Player(),
-            new Playable(100, e.getID(), new Vector3()) /*,
+            new Playable(100, payerInv, new Vector3()) /*,
 
             new Transform(new Vector3(50,50,50)),
             new Player(),
             new Playable(100, 1, new Vector3())*/
         );
         
-         entityManager.createEntityWithComponents("Player_Inventory", 
-                new UIEntity("Player_Inventory", false, 240, 135, 52 , 30 , 0, new ArrayList<>(Arrays.asList("inventory")) )
-         );
+         
         
         //draw grass grid
         for(int x = 0; x < 960; x += 16){

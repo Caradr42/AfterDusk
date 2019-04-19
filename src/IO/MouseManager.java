@@ -20,16 +20,16 @@ import java.awt.event.MouseMotionListener;
 
 public class MouseManager implements MouseListener, MouseMotionListener {
     //To check if left has been pushed
-    private boolean left;
+    public boolean left;
     
     //To check if right has been pushed
-    private boolean right;
+    public boolean right;
     
     //To get x position of the mouse
-    private int x;
+    public int x;
     
     //To get the y position of the mouse
-    private int y;
+    public int y;
     
     /**
      * Constructor of the class MouseManager
