@@ -3,6 +3,7 @@ package ECS.Components;
 import ECS.Component;
 import ECS.Entity;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Component of an entity that is an inventory containing Items 
@@ -17,25 +18,30 @@ import java.util.ArrayList;
  */
 public class Inventory extends Component{
     //points to the next inventory
-    public Entity nextInventory;
+    public Integer nextInventory;
     
     //max 6
     //if it has 0, do nothing
-    public ArrayList<Entity> slots = new ArrayList<>(6);
+    public ArrayList<Integer> slots = new ArrayList<>(9);
     
-    public int size = 6;
+    public int size = 9;
 
     public Inventory() {
     }
     
-    public Inventory(Entity nextInventory, int size) {
-        this.size = (size > 6) ? 6 : size;        
+    public Inventory(Integer nextInventory, int size) {
+        this.size = (size > 9) ? 9 : size;        
         this.nextInventory = nextInventory;
+        this.slots = new ArrayList<>(Collections.nCopies(size, 0));
     }
     
-    public Inventory(Entity nextInventory, int size, ArrayList<Entity> slots) {
-        this.size = (size > 6) ? 6 : size;        
+    public Inventory(Integer nextInventory, int size, ArrayList<Integer> slots) {
+        this.size = (size > 9) ? 9 : size;        
         this.nextInventory = nextInventory;
         this.slots = slots;
+        
+        for(int i = slots.size(); i < size; ++i){
+            this.slots.add(0);
+        }
     }
 }

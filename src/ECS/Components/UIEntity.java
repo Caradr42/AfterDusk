@@ -1,6 +1,7 @@
 package ECS.Components;
 
 import ECS.Component;
+import ECS.Entity;
 import Maths.Vector2;
 import Scene.Scene;
 import Utility.Pair;
@@ -27,7 +28,6 @@ public class UIEntity extends Component{
     //Sprite data
     public String name;
     public boolean visible;
-    public boolean frozen;
      
     public int width;
     public int height;
@@ -41,21 +41,27 @@ public class UIEntity extends Component{
     public ArrayList<Pair<BufferedImage[], Integer>> animations;
     public BufferedImage[] animation;
     public BufferedImage currentFrame;
+    //UI data
+    public ArrayList<Integer> subInterfaces; //the smaller UIEntities or UIInventories inside this UIEntity
+    public ArrayList<UIEntity> subInterfacesComponents; //polimorfic list of components instances
+    public boolean mainUI;
     
-    public int animationNo; // 0 is no animation, 1 is animation one, n is animation n
-    
-    public UIEntity(String name, boolean active, int width, int height, int x, int y, double speed, ArrayList<String> animationsNames) {
+    public UIEntity(String name, boolean visible,boolean mainUI, int width, int height, int x, int y, double speed, ArrayList<String> animationsNames, ArrayList<Integer> subInterfaces) {
         this.position = new Vector2(x,y);
         this.name = name;
-        this.visible = active;
-        this.frozen = false;
+        this.visible = visible;
+        this.mainUI = mainUI;
         
         this.width = width;
         this.height = height;
         
         this.speed = speed / MainThread.fps;
+        
         this.animationsNames = animationsNames;
         this.animations = new ArrayList<>();
+        
+        this.subInterfaces = subInterfaces;
+        subInterfacesComponents = new ArrayList<>();
     }
 
     public UIEntity() {
@@ -63,5 +69,8 @@ public class UIEntity extends Component{
     
     //I'm sorry ECS :(
     public void UIRender(Graphics2D g, Scene s){
+        for(UIEntity sub: subInterfacesComponents){
+            sub.UIRender(g, s);
+        }
     }   
 }

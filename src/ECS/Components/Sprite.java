@@ -24,7 +24,7 @@ public class Sprite extends Component{
     public String name;
     
     public boolean visible;
-    public boolean frozen;
+    //public boolean frozen;
      
     public int width;
     public int height;
@@ -40,7 +40,7 @@ public class Sprite extends Component{
     public int animationLenght;
     public BufferedImage currentFrame;
     
-    public int animationNo; // 0 is no animation, 1 is animation one, n is animation n
+   // public int animationNo; // 0 is no animation, 1 is animation one, n is animation n
     
     /**
      * Sprite constructor
@@ -55,7 +55,7 @@ public class Sprite extends Component{
     public Sprite(String name, boolean active, int width, int height, double speed, ArrayList<String> animationsNames) {
         this.name = name;
         this.visible = active;
-        this.frozen = false;
+        //this.frozen = false;
         
         this.width = width;
         this.height = height;
@@ -63,7 +63,6 @@ public class Sprite extends Component{
         this.speed = speed / MainThread.fps;
         this.animationsNames = animationsNames;
         this.animations = new ArrayList<>();
-        
     }
 
     public Sprite() {

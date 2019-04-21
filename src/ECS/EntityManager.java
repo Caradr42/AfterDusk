@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Queue;
 
 /**
@@ -59,14 +58,22 @@ public class EntityManager{
     private HashMap<Class, HashMap<Integer, ? extends Component>> componentsDictionary;
     
     /**
-     * the smallest id yet to be assigned to an Entity
+     * Data structure that holds lists of entities with the components in the 
+     * Archetype set. This is so any system can use this lists to iterate the entities
+     * The list are defined at wold initialization
+     * And are only altered with deletion or instantiation of new entities
+     * TODO: be able to create archetypes to be added as keys to this map
+     * TODO: ADD and remove entities from the map
+     * TODO: 
      */
+    public HashMap<HashSet<? extends Component>, ArrayList<Integer>> arquetipesMap;
+    
+    //the smallest id yet to be assigned to an Entity
     int lowestUnasignedID;
     
     /**
      * EntityManager Constructor
      * initializes the list and the HashMap
-     * @param id
      */
     public EntityManager() {
         entities = new  ArrayList<>();
@@ -80,7 +87,7 @@ public class EntityManager{
     /**
      * Creates a new Entity and returns a reference to it.
      * It also adds the entity to the list of entities in this EntityManager
-     * As such, no all entities managed by this EntityManager are required to
+     * As such, not all entities managed by this EntityManager are required to
      * have components attached.
      * 
      * @return a new Entity.
@@ -108,20 +115,27 @@ public class EntityManager{
         return createdEnt;
     }
     
+    /**
+     * Creates a new Entity that has the following components.
+     * @param <T> some component child
+     * @param name the name of the created Entity
+     * @param components the list of components to attach to the entity
+     * @return returns the newly created entity
+     */
     public <T extends Component> Entity createEntityWithComponents(String name, T ...components){
-        int id = GenerateNewID(); 
-        Entity createdEnt = new Entity(id, name); //assigns a unique id to the created entity
-        entities.add(createdEnt); //Adds the created entity to the entities list
+        Entity createdEnt = createEntity(name); //assigns a unique id to the created entity
         
         for(Component c : components){
-            addComponetToEntity(id, c);
+            addComponetToEntity(createdEnt.getID(), c);
         }   
         return createdEnt;
     } 
     
+    
     /**
      * Generates a new id to be used by an entity.
      * Ids are local to an instance of an entity manager
+     * The id 0 is reserved as a NULL id
      * @return 
      */
     private int GenerateNewID(){
@@ -135,39 +149,20 @@ public class EntityManager{
         }*/
         throw new ArrayIndexOutOfBoundsException("No more unique Entity IDs available beyond: " + Integer.MAX_VALUE);
     }
+        
+    /**
+     * removes an entity from the entity manager
+     * This can be called from a system
+     * @param e 
+     */
+    public void removeEntity(int e){
+        deletionQueue.add(e);
+    }
     
     /**
-     * removes the entered Entity from this EntityManager, as such the entity is
-     * removed from the entities list and the componentsDictionary along with
-     * its attached components.
-     * Returns the removed entity if it was able to remove it.
-     * If no it returns null as the entity was not in the EntityManager.
-     * @param ent the entity to be removed.
-     * @return Returns the removed entity if it was able to remove it. If not it
-     * returns null.
+     * removes all queued entities
+     * Executed at the main thread after update(tick) and render
      */
-    public Entity removeEntity(Entity ent){
-        //for that iterates for each key of the upper HashMap
-        for (Map.Entry pair : componentsDictionary.entrySet()) {
-            //the inner HashMap contained at the current KEY of the upper HashMap
-            HashMap<Integer, ? extends Component > componentsMap = (HashMap<Integer,  ? extends Component>)pair.getValue(); 
-            //for that iterates for each key of the inner HashMap
-            for (Map.Entry entryPair : componentsMap.entrySet()) {
-                if((Integer)entryPair.getKey() == ent.getID()) //if the KEY (int) is equal to the id of the searched Entity
-                {
-                    componentsMap.remove((Integer)entryPair.getKey());
-                    entities.remove(ent);
-                    return  ent;
-                }
-            }
-        }
-        return null; //if the entity was not found
-    }
-    
-    public void removeEntity(int ent){
-        deletionQueue.add(ent);
-    }
-    
     public void flushRemoveEntityQueue(){
         //for(int ent  : deletionQueue){
             //for that iterates for each key of the upper HashMap
@@ -211,6 +206,8 @@ public class EntityManager{
             //Stores the (component, Entity key) pair in the map.  
     }
     
+    
+    
     /**
      * Adds a specific instance of a component to the Entity entered;
      * 
@@ -240,9 +237,11 @@ public class EntityManager{
      * @param entity The entity from which the component will be searched an 
      * retrieved.
      * @param component the <b>Class</b> of the component to be retrieved.
-     * @return 
+     * @return the searched component instance
      */
     public <T> T getEntityComponentInstance(Integer entity, Class<T> component){
+        if(entity == 0) return null;
+        
         //gets the inner HashMap contained at the current KEY of the upper HashMap. using the component Class as a KEY.
         HashMap<Integer, ? extends Component> store = componentsDictionary.get(component);
         T resultComponet = (T) store.get(entity); //uses the Entity's ID as KEY to get the component instance.
@@ -253,15 +252,18 @@ public class EntityManager{
         return resultComponet;
     }
     
-    public <T> T getEntityComponentInstance(Entity entity, Class<T> component){
-        //gets the inner HashMap contained at the current KEY of the upper HashMap. using the component Class as a KEY.
-        HashMap<Integer, ? extends Component> store = componentsDictionary.get(component);
-        T resultComponet = (T) store.get(entity.getID()); //uses the Entity's ID as KEY to get the component instance.
-
-        if(resultComponet == null) //trows an exeption if no component is attached.
-            return null; //no component was found
-        
-        return resultComponet;
+    /**
+     * Returns a reference to the specific instance of the sub class of 
+     * Component that is attached to the specific Entity.
+     *  @param <T> the type of a sub class of Component, of the component to be 
+     * retrieved.  
+     * @param entity The entity from which the component will be searched an 
+     * retrieved.
+     * @param component the <b>Class</b> of the component to be retrieved.
+     * @return the searched component instance
+     */
+    public <T> T getEntityComponentInstance(Entity entity, Class<T> component){               
+        return getEntityComponentInstance(entity.getID(), component);
     }
     
     /**
@@ -274,7 +276,7 @@ public class EntityManager{
      * @return an <b>ArrayList<Entity></b> with a reference to the entities that
      * have the searched component attached.
      */
-    public ArrayList<Integer> getAllEntitiesPosessingComponentOfClass(Class component){
+    private ArrayList<Integer> getAllEntitiesPosessingComponentOfClass(Class component){
         //gets the inner HashMap contained at the current KEY of the upper HashMap. using the component Class as a KEY.
         HashMap<Integer, ? extends Component > componentsMap = componentsDictionary.get(component); 
         
@@ -293,21 +295,6 @@ public class EntityManager{
         }     
     }
     
-    /**
-     * Returns a list containing all the Entities which have a component of the
-     * introduced sub class of Component.
-     * If there are no classes with such component the method returns an empty 
-     * list.
-     * 
-     * @param <T> the type of a sub class of Component, of the component to be 
-     * searched. 
-     * @param component The sub class of <b>Component</b> to be searched.
-     * @return an <b>ArrayList<Entity></b> with a reference to the entities that
-     * have the searched component attached. 
-     */
-   /* public <T> ArrayList<Entity> getAllEntitiesPosessingComponentOfClass(T component){
-        return getAllEntitiesPosessingComponentOfClass(component.getClass());
-    }*/
     
     /**
      * get entities containing exclusively all the listed components classes in the parameters
@@ -350,8 +337,16 @@ public class EntityManager{
      * @return true if the entered Entity has the component attached
      */
     public <T> boolean hasComponent(Entity entity, Class<T> component){
+        if(entity.getID() == 0) return false;
         HashMap<Integer, ? extends Component> store = componentsDictionary.get(component);
         T resultComponet = (T) store.get(entity.id);
+        return resultComponet != null;
+    }
+    
+    public <T> boolean hasComponent(Integer entity, Class<T> component){
+        if(entity == 0) return false;
+        HashMap<Integer, ? extends Component> store = componentsDictionary.get(component);
+        T resultComponet = (T) store.get(entity);
         return resultComponet != null;
     }
     
@@ -410,6 +405,8 @@ public class EntityManager{
      * @return the Entity of ID id
      */
     public Entity getEntityByID(int id){
+        if(id == 0) return null;
+        
         for(Entity e : entities ){
             if(e.getID() == id)
                 return  e;

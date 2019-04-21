@@ -220,7 +220,7 @@ public class CollisionSystem extends SystemJob{
             Sprite sprite = new Sprite();
             
             //Warning: The order of the ifs DOES matter here
-
+/*
             //entity1 collides in the left border of entity2
             if (bLeft) {
                 System.out.println("collision left");
@@ -243,7 +243,7 @@ public class CollisionSystem extends SystemJob{
             System.out.println(e2.getName() + ": " + transformj.position.x + ", " + transformj.position.y);
             System.out.println("");
             
-
+*/
             //if the first entity is the player
             if("Player".equals(e.getName())) {
                 

@@ -6,6 +6,7 @@
  */
 package ECS.Systems;
 
+import ECS.Components.MousePointer;
 import ECS.Components.Sprite;
 import ECS.Components.Transform;
 import ECS.Components.UIEntity;
@@ -34,10 +35,12 @@ import proyecto_videojuegos.MainThread;
 public class RenderSystem extends SystemJob{
     
     private ArrayList<Integer> UIentities; //this are entities that can not be errased or 
+    private ArrayList<Integer> mousePointers;
     private UIEntity uiEntity;
     
     private Transform transform;
     private Sprite sprite;
+    private MousePointer mousePointer;
     //Pririty Queue of entities to render
     private PriorityQueue <Pair<Transform, Sprite> > queue;
             
@@ -46,6 +49,7 @@ public class RenderSystem extends SystemJob{
         transform = new Transform();
         sprite = new Sprite();
         uiEntity = new UIEntity();
+        mousePointer = new MousePointer();
     }
 
     @Override
@@ -64,6 +68,8 @@ public class RenderSystem extends SystemJob{
       entities = scene.entityManager.getEntitiesWithComponents(transform.getClass(), sprite.getClass());
       //Fetch User interface entities //This entities cannot be deleted or added after init()
       UIentities = scene.entityManager.getEntitiesWithComponents(uiEntity.getClass());
+      //Fetch mouse pointers
+      mousePointers = scene.entityManager.getEntitiesWithComponents(mousePointer.getClass());
               
       queue = new PriorityQueue<>(entities.size(), new myComparator());
     }
@@ -90,12 +96,25 @@ public class RenderSystem extends SystemJob{
         at.setTransform(4, 0, 0, 4, 1, 0);
         g.setTransform(at);  
         
-        //Renders UIEntities aafter rendering the game entities
+        //Renders UIEntities after rendering the game entities
         for(Integer ui: UIentities){
             uiEntity = scene.entityManager.getEntityComponentInstance(ui, uiEntity.getClass());
             
-            if(uiEntity.visible) {
+            if(uiEntity.visible && uiEntity.mainUI) {
                 g.drawImage(uiEntity.currentFrame, (int) uiEntity.position.x,(int) uiEntity.position.y, uiEntity.width, uiEntity.height, null);
+                uiEntity.UIRender(g, scene);
+            }
+        }
+        
+        //render mouse pointer
+        for(Integer mp: mousePointers){
+            mousePointer = scene.entityManager.getEntityComponentInstance(mp, mousePointer.getClass());
+            //draws held item
+            mousePointer.UIRender(g, scene);
+            //draws tthe poiter sprite if it has one
+            if(scene.entityManager.hasComponent(mp, sprite.getClass())){
+                sprite = scene.entityManager.getEntityComponentInstance(mp, sprite.getClass());
+                g.drawImage(sprite.currentFrame,(int)mousePointer.position.x, (int)mousePointer.position.y, sprite.width, sprite.height, null);
             }
         }
         

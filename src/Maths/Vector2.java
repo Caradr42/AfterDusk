@@ -54,7 +54,7 @@ public class Vector2 {
      */
     public void set(Vector2 v){
         x = v.x;
-        y = v.x;
+        y = v.y;
     }
     
     /**

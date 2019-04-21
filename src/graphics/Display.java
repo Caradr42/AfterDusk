@@ -100,8 +100,10 @@ public class Display {
        jframe.addKeyListener(keyManager);
        jframe.addMouseListener(mouseManager);
        jframe.addMouseMotionListener(mouseManager);
-       jframe.addMouseListener(mouseManager);
-       jframe.addMouseMotionListener(mouseManager);
+       canvas.addMouseListener(mouseManager);
+       canvas.addMouseMotionListener(mouseManager);
+       //jframe.addMouseListener(mouseManager);
+       //jframe.addMouseMotionListener(mouseManager);
     }
     
     /**

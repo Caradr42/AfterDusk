@@ -7,6 +7,7 @@ package ECS.Systems;
 
 import ECS.SystemJob;
 import Scene.Scene;
+import java.util.HashSet;
 
 /**
  * System that executes behabiour not associated with any entity
@@ -26,7 +27,8 @@ public class GameManagerSystem extends SystemJob{
     }
 
     @Override
-    public void update() {
+    public void update() {            
+        
     }
 
     @Override

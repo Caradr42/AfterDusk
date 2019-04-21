@@ -14,225 +14,163 @@
 
 package IO;
 
+import Maths.Vector2;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-public class MouseManager implements MouseListener, MouseMotionListener {
-    //To check if left has been pushed
-    public boolean left;
-    
-    //To check if right has been pushed
+/**
+ * class inn charge of managing mouse inputs from a given window
+ * implements MouseListener and MouseMotionListener so that it overrides them
+ * with the wanted callbacks.
+ */
+public class MouseManager implements MouseListener , MouseMotionListener {
+    //booleans indicating if a button is pressed
+    public boolean left; 
     public boolean right;
     
-    //To get x position of the mouse
-    public int x;
+    public boolean leftClick; 
+    public boolean rightClick;
+    public boolean leftRelease; 
+    public boolean rightRelease;
     
-    //To get the y position of the mouse
-    public int y;
+    public boolean moving = false;
+    
+    //the position of the mouse as a vector
+    public Vector2 position;
     
     /**
-     * Constructor of the class MouseManager
-     * 
-     * By default, the left and right buttons flags are off
+     * constructor, assigns a mouse position of (0,0)
      */
-    public MouseManager() {
-        left = false;
-        
-        right = false;
-    }
-
-    /**
-     * mouseClicked
-     * 
-     * Method called whenever the mouse is clicked
-     * 
-     * @param e the mouse event that just occurred
-     */
+    public MouseManager(){
+        position = new Vector2();
+    } 
+  
     @Override
     public void mouseClicked(MouseEvent e) {
         
+        //System.out.println("click");
     }
-
-     /**
-     * mousePressed
-     * 
-     * Method called whenever the mouse is pressed
-     * 
-     * @param e the mouse event that just occurred
+    
+    /**
+     * Executes when a mouse button is pressed.
+     * Updates buttons and position when so
+     * @param e mouse event
      */
     @Override
     public void mousePressed(MouseEvent e) {
-        //If the left button was pressed
-        if (e.getButton() == MouseEvent.BUTTON1) {
-            //Put its boolean to true
-            setLeft(true);
-                       
-           //Set the x position of the object to the one of the mouse
-           setX(e.getX());
-           
-           //Set the y position of the object to the one of the one
-           setY(e.getY());
-        }
+        //System.out.println("press");
         
-        //If the right button was pressed
-        if (e.getButton() == MouseEvent.BUTTON3) {
-            setRight(true);
+        if(e.getButton() == MouseEvent.BUTTON1){
+            left = true;
+            leftClick = true;
+            leftRelease = false;
+        }
+        if(e.getButton() == MouseEvent.BUTTON3){
+            right = true;
+            rightClick = true;
+            rightRelease = false;
         }
     }
 
     /**
-     * mouseReleased
-     * 
-     * Method called whenever the mouse is released
-     * 
-     * @param e the mouse event that just occurred
+     * Executes when a mouse button is released.
+     * Updates buttons and position when so
+     * @param e mouse event
      */
     @Override
     public void mouseReleased(MouseEvent e) {
-        //If the left button was released
-       if (e.getButton() == MouseEvent.BUTTON1) {
-           //set to false its boolean
-           setLeft(false);
-           
-           //Set the x position of the object to the one of the mouse
-           setX(e.getX());
-           
-           //Set the y position of the object to the one of the one
-           setY(e.getY());
-       }
-       
-       if (e.getButton() == MouseEvent.BUTTON3) {
-           setRight(false);
-       }
-    }
-
-    /**
-     * mouseEntered
-     * 
-     * Method called whenever the mouse enters in the screen
-     * 
-     * @param e the mouse event that just occurred
-     */
-    @Override
-    public void mouseEntered(MouseEvent e) {
+        //System.out.println("release");
         
-    }
-
-    /**
-     * mouseExited
-     * 
-     * Method called whenever the mouse gets out of the screen
-     * 
-     * @param e the mouse event that just occurred
-     */
-    @Override
-    public void mouseExited(MouseEvent e) {
         
-    }
-
-    /**
-     * mouseDragged
-     * 
-     * Method called whenever the mouse is dragged
-     * 
-     * @param e the mouse event that just occurred
-     */
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        if(e.getModifiersEx() == MouseEvent.BUTTON1_DOWN_MASK) {
-            //set to true its boolean
-            setLeft(true);
-
-            //Set the x position of the object to the one of the mouse
-            setX(e.getX());
-
-            //Set the y position of the object to the one of the one
-            setY(e.getY());
+        if(e.getButton() == MouseEvent.BUTTON1){
+            left = false;
+            leftClick = false;
+            leftRelease = true;
+        }
+        if(e.getButton() == MouseEvent.BUTTON3){
+            right = false;
+            rightClick = false;
+            rightRelease = true;
         }
     }
 
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        //System.out.println("enter");
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        //System.out.println("exit");
+    }
+    
     /**
-     * mouseMoved
-     * 
-     * Method called whenever the mouse is moved
-     * 
-     * @param e the mouse event that just occurred
+     * Executes when a mouse button is dragged.
+     * Updates buttons and position when so
+     * @param e mouse event
      */
     @Override
+    public void mouseDragged(MouseEvent e) {
+        position.x = (e.getX());
+        position.y = (e.getY());
+        
+        leftClick = false;
+        rightClick = false;
+        leftRelease = false;
+        rightRelease = false;
+        
+        /*
+        if(e.getModifiersEx() == MouseEvent.BUTTON1_DOWN_MASK){
+            left = true;
+        }
+        if(e.getButton() == MouseEvent.BUTTON2_DOWN_MASK){
+            right = true;
+        }*/
+    }
+
+    @Override
     public void mouseMoved(MouseEvent e) {
+        position.x = (e.getX());
+        position.y = (e.getY());
+        
+        leftClick = false;
+        rightClick = false;
+        leftRelease = false;
+        rightRelease = false;
 
     }
-
-    /**
-     * Void to set the x position of the object of class MouseManager
-     * 
-     * @param x is the new x position of the instance
-     */
-    public void setX(int x) {
-        this.x = x;
+    
+    public void tick(){
+        //leftClick = false;
     }
-
-    /**
-     * Void to set the y position of the object of class MouseManager.
-     * 
-     * @param y is the new y position of the instance
-     */
-    public void setY(int y) {
-        this.y = y;
+    
+    public boolean wasLeftClicked(){
+        boolean temp;
+        temp = leftClick;
+        leftClick = false;
+        return temp;
     }
-
-    /**
-     * Method to get the X position of the mouse
-     * 
-     * @return the x position of the mouse
-     */
-    public int getX() {
-        return x;
+    
+    public boolean wasRighttClicked(){
+        boolean temp;
+        temp = rightClick;
+        rightClick = false;
+        return temp;
     }
-
-    /**
-     * Method to get the Y position of the mouse
-     * 
-     * @return the y position of the mouse
-     */
-    public int getY() {
-        return y;
+    
+    public boolean wasLeftReleased(){
+        boolean temp;
+        temp = leftRelease;
+        leftRelease = false;
+        return temp;
     }
-
-    /**
-     * A boolean to know if the left button was clicked
-     * 
-     * @return the boolean representing the left button
-     */
-    public boolean isLeft() {
-        return left;
-    }
-
-    /**
-     * A boolean to know if the right button was clicked
-     * 
-     * @return the boolean representing the right button
-     */
-    public boolean isRight() {
-        return right;
-    }
-
-    /**
-     * Void to modify the state of the left button
-     * 
-     * @param left, true for clicked, 0 for released
-     */
-    public void setLeft(boolean left) {
-        this.left = left;
-    }
-
-    /**
-     * Void to modify the state of the right button
-     * 
-     * @param right, true for clicked, 0 for released
-     */
-    public void setRight(boolean right) {
-        this.right = right;
+    
+    public boolean wasRightReleased(){
+        boolean temp;
+        temp = rightRelease;
+        rightRelease = false;
+        return temp;
     }
 }
+

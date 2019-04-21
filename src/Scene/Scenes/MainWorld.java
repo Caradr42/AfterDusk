@@ -39,6 +39,10 @@ public class MainWorld extends Scene{
      */
     @Override
     protected void addEntities() {
+        
+        Entity pointer = entityManager.createEntityWithComponents("pointer", 
+                new MousePointer()
+        );
 
         //A weird item in tht players inventory
         Entity weirdItm = entityManager.createEntityWithComponents("weird", 
@@ -57,23 +61,80 @@ public class MainWorld extends Scene{
                 new Sprite("shield", true, 16, 16, 10, new ArrayList<>(Arrays.asList("shield")))
         );
         
-        //The player's internal inventory
-        Entity payerInv = entityManager.createEntityWithComponents("Player_Inventory", 
-                new Inventory(new  Entity(0), 6, new ArrayList<>(Arrays.asList(weirdItm , shieldItm)))
+        //enemy inventory     
+        Entity enemyInv = entityManager.createEntityWithComponents("Enemy_Inventory", 
+                new Inventory(0, 5, new ArrayList<>(Arrays.asList(weirdItm.getID())))
         );
         
-        Entity enemyInv = entityManager.createEntityWithComponents("Enemy_Inventory", 
-                new Inventory(new  Entity(0), 5, new ArrayList<>(Arrays.asList(weirdItm)))
-         );
+        //The player's internal inventories
+        Entity payerInv4 = entityManager.createEntityWithComponents("Player_Inventory4", 
+                new Inventory(0, 6, new ArrayList<>(Arrays.asList()))
+        );
         
+        Entity payerInv3 = entityManager.createEntityWithComponents("Player_Inventory3", 
+                new Inventory(payerInv4.getID(), 6, new ArrayList<>(Arrays.asList(weirdItm.getID(),weirdItm.getID(),weirdItm.getID())))
+        );
+        
+        Entity payerInv2 = entityManager.createEntityWithComponents("Player_Inventory2", 
+                new Inventory(payerInv3.getID(), 6, new ArrayList<>(Arrays.asList(weirdItm.getID())))
+        );
+        
+        Entity payerInv = entityManager.createEntityWithComponents("Player_Inventory", 
+                new Inventory(payerInv2.getID(), 6, new ArrayList<>(Arrays.asList(weirdItm.getID() , shieldItm.getID(),shieldItm.getID(),shieldItm.getID(),shieldItm.getID(),shieldItm.getID())))
+        );
+        //------
+        Entity payerLR = entityManager.createEntityWithComponents("Player_LR_Inventory", 
+                new Inventory(0 , 2, new ArrayList<>(Arrays.asList(shieldItm.getID())))
+        );
+        //----
+        Entity payerPassives3 = entityManager.createEntityWithComponents("Player_Passives_Inventory3", 
+                new Inventory(0 , 3, new ArrayList<>(Arrays.asList()))
+        );
+        
+        Entity payerPassives2 = entityManager.createEntityWithComponents("Player_Passives_Inventory2", 
+                new Inventory(payerPassives3.getID() , 3, new ArrayList<>(Arrays.asList()))
+        );
+        
+        Entity payerPassives = entityManager.createEntityWithComponents("Player_Player_Passives_Inventory", 
+                new Inventory(payerPassives2.getID() , 3, new ArrayList<>(Arrays.asList()))
+        );
+        //------
+        
+        Entity payerActives = entityManager.createEntityWithComponents("Player_Player_Actives_Inventory", 
+                new Inventory(0 , 9, new ArrayList<>(Arrays.asList()))
+        );
+        
+        //player ui inventories
+        Entity mainInventory = entityManager.createEntityWithComponents("Player_UIInventory_grid", 
+                new UIInventory("grid", true, 103, 18, 85, 75, new ArrayList<>(Arrays.asList("1x6Slots_light")), payerInv.getID())
+            );
+        
+        Entity LRInventory = entityManager.createEntityWithComponents("Player_UIInventory_LR", 
+                new UIInventory("LR", true, 35, 18, 85, 50, new ArrayList<>(Arrays.asList("1x2Slots_dark")), payerLR.getID())
+            );
+        
+        Entity passivesInventory = entityManager.createEntityWithComponents("Player_UI_Passives_Inventory", 
+                    new UIInventory("Passives", true, 52, 18, 200, 50, new ArrayList<>(Arrays.asList("1x3Slots_dark")), payerPassives.getID())
+            );
+        
+        Entity activesInventory = entityManager.createEntityWithComponents("Player_UI_Actives_Inventory", 
+                    new UIInventory("Actives", true, 154, 18, display.width / c.scale / 2 - (154/2), display.height / c.scale - 18 , new ArrayList<>(Arrays.asList("1x9Slots_dark")), payerActives.getID())
+            );
+        
+        //USER INTERFACES
         
         //The players Inventory user interface, has a reference to the player internal inventory
-        Entity UIe = entityManager.createEntityWithComponents("Player_UIInventory", 
-               new UIInventory("Player_Inventory", false, 240, 135, 52 , 30 , 0, new ArrayList<>(Arrays.asList("inventory")), new ArrayList<>(Arrays.asList(payerInv))) 
+        Entity InventoryUI = entityManager.createEntityWithComponents("Player_UIInventory", 
+               new UIEntity("Player_Inventory", false, true, 195, 135, display.width / c.scale / 2 - (195/2) , display.height / c.scale / 2 - (135 / 2) -2, 0, new ArrayList<>(Arrays.asList("inventory")), new ArrayList<>(Arrays.asList( mainInventory.getID(), LRInventory.getID(), passivesInventory.getID() ))) 
         );
         
-        //The player, initialized with empty hands ans an inventory
-
+        //the player actives hotbar
+        Entity activesUI = entityManager.createEntityWithComponents("Player_actives", 
+               //new UIInventory("Player_Inventory", false, 240, 135, 52 , 30 , 0, new ArrayList<>(Arrays.asList("inventory")), new ArrayList<>(Arrays.asList(payerInv))) 
+               new UIEntity("actives_bar", true, true, 160, 32, display.width / c.scale / 2 - (160/2) + 3, display.height / c.scale - 28 , 0, new ArrayList<>(Arrays.asList("actives_bar")), new ArrayList<>(Arrays.asList(activesInventory.getID()))) 
+        );
+        
+        //Playable entities creation
         entityManager.createEntityWithComponents("Player",            
             new Transform(new Vector3(50,50, 64)),
             new Sprite("sprite", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down","player_up","player_left","player_right"))),
@@ -110,11 +171,14 @@ public class MainWorld extends Scene{
     @Override
     protected void addSystems(){
         systemJobManager.addSystems(
+            new GameManagerSystem(this),
             new RenderSystem(this),
             new PlayerSystem(this),
             new SpriteSystem(this),
             new UIEntitiesSystem(this),
-            new CollisionSystem(this)
+            new UIInventorySystem(this),
+            new CollisionSystem(this),
+            new MousePointerSystem(this)
         );
     }
 }

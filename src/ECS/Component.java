@@ -17,9 +17,13 @@ public abstract class Component {
     /**
      * boolean to determine if the data contained in this component must be used
      */
-    boolean active = true;
-
-    public boolean isActive() {
+    protected boolean active = true;
+    
+    /**
+     * Returns the active atribute of the component. 
+     * @return if the component is active
+     */
+    public boolean isActive(){
         return active;
-    } 
+    }
 }

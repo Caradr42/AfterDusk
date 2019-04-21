@@ -19,49 +19,72 @@ import java.util.HashMap;
  * @author carlo
  */
 public class UIInventory extends UIEntity{
-    ArrayList<Entity> inventories;
-    HashMap<Integer, Vector2> UIItesmPositions;
-    ArrayList<ArrayList<Rectangle>> UISlotPosition;
     
-    Inventory inventory;
-    Sprite itemSprite;
+    public Integer firstInventory; //the inventory linkedList
+    //public HashMap<Integer, Vector2> UIItemsPositions;
+    public ArrayList<ArrayList<Rectangle>> UISlots; //each hitbox for each slot in the inventory
+        
+    public Inventory inventory; //temp inventory to hold the Inventory component of the inventories
+    public Sprite itemSprite;
 
     public UIInventory() {
     }
-
-    public UIInventory(String name, boolean active, int width, int height, int x, int y, double speed, ArrayList<String> animationsNames, ArrayList<Entity> inventories) {
-        super(name, active, width, height, x, y, speed, animationsNames);
-        this.inventories = inventories;
-        UIItesmPositions = new HashMap<>();
-        UISlotPosition = new ArrayList<>(4);
+    
+    /**
+     * 
+     * @param name
+     * @param visible
+     * @param width
+     * @param height
+     * @param x
+     * @param y
+     * @param animationsNames
+     * @param firstInventory 
+     */
+    public UIInventory(String name, boolean visible, int width, int height, int x, int y, ArrayList<String> animationsNames, Integer firstInventory) {
+        super(name, false, false ,width, height, x, y, 0, animationsNames, null);
+        this.firstInventory = firstInventory;
+        //UIItemsPositions = new HashMap<>();
+        UISlots = new ArrayList<>(4);
+        
         inventory = new Inventory();
-        itemSprite = new Sprite();
-        
-        for(int i = 0; i < 4; ++i){
-            UISlotPosition.add(new ArrayList<>());
-        }
-        
-        for(int i = 0; i < 6; ++i){
-            for(int j = 0; j < 4; ++j){
-                 UISlotPosition.get(j).add(new Rectangle(i* 17 + (int)position.x + 18, j *17 + (int)position.y + 42,16,16));
-            }
-        }
-        
-        /*for(int i = (int)position.x + 18; i < (int)position.x + 18 + 17 * 6 ;i += 17){
-            for(int j = (int)position.y + 42; j < (int)position.y + 42 + 17 * 3 ; j += 17){
-                UISlotPosition.get(j).add(new Rectangle(i, j,16,16));
-            }
-        }*/
-    }   
+        itemSprite = new Sprite();     
+    }
     
     @Override
     public void UIRender(Graphics2D g, Scene s){
-        for(Entity e: inventories){
-            inventory = s.entityManager.getEntityComponentInstance(e.getID(), inventory.getClass());
-            for(int i = 0; i < inventory.slots.size(); ++i){
-                itemSprite = s.entityManager.getEntityComponentInstance(inventory.slots.get(i), itemSprite.getClass());
-                g.drawImage(itemSprite.currentFrame, UISlotPosition.get(0).get(i).x ,UISlotPosition.get(0).get(i).y ,16,16,null);
+        //renders itself
+        if(visible){
+            for(int i = 0; i < UISlots.size(); ++i){
+                /*if(UISlots.get(i).size() > 3){
+                    g.drawImage(currentFrame, (int)position.x, (int)position.y + (17 * i), width, height, null);
+                    g.drawImage(currentFrame, (int)position.x + 51, (int)position.y + (17 * i), width, height, null);
+                }else{*/
+                    g.drawImage(currentFrame, (int)position.x, (int)position.y + (17 * i), width, height, null);
+                //}
             }
+            
+        }
+        
+        //renders the items
+        int temp = firstInventory;
+        inventory = s.entityManager.getEntityComponentInstance(temp , inventory.getClass());
+        
+        for(int row = 0; temp != 0; ++row){            
+            for(int sl = 0; sl < inventory.slots.size(); ++sl){
+                if(inventory.slots.get(sl) != 0){
+                    itemSprite = s.entityManager.getEntityComponentInstance(inventory.slots.get(sl), itemSprite.getClass());
+
+                    if(inventory.slots.get(sl) != 0){
+                        g.drawImage(itemSprite.currentFrame, UISlots.get(row).get(sl).x /*+ (int)position.x*/ , UISlots.get(row).get(sl).y /*+ (int)position.y*/ ,16,16,null);
+                        //g.drawRect(UISlots.get(row).get(sl).x , UISlots.get(row).get(sl).y, UISlots.get(row).get(sl).width, UISlots.get(row).get(sl).height);
+                        //sg.drawRect(x, y, 16, 16);
+                    }
+                }
+            }
+            temp = inventory.nextInventory;
+            if(temp != 0)
+                inventory = s.entityManager.getEntityComponentInstance(temp, inventory.getClass());
         }
     }
 }

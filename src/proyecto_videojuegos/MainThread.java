@@ -120,9 +120,8 @@ public class MainThread implements Runnable{
     private void init() {   
         display = new Display(title, width, height);
         Assets.init(); //initializes the game assets
-        scene = new MainWorld(display, c);
-        
         c = new Camera(-width / 2, -height / 2, 4, display);
+        scene = new MainWorld(display, c);
         /* //DEBUG : prints all listeners class attache dto the scene
         for(Listener<?> l : scene.entityManager.removeEntitiesSignal.listeners){
             System.out.println(l.getClass());
@@ -136,8 +135,11 @@ public class MainThread implements Runnable{
     private void tick() {
         //TODO: not only execute one scene but all scenes
         scene.display.getKeyManager().tick();
+        
+        
         scene.systemJobManager.update();
         
+        scene.display.getMouseManager().tick();
         /*
          * This loop waits for the end of the execution of the 
          * completionExecutorService in the systemJob manager of the scene.
