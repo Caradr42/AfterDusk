@@ -9,8 +9,15 @@ import ECS.Component;
 import Maths.Vector3;
 
 /**
+ * Component of an entity to considered as part of the game world 
+ * 
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
  *
- * @author pablo
+ * @date 12/04/2019
+ * @version 1.0
  */
 public class WorldEntity extends Component{
      public Vector3 position;

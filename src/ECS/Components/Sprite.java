@@ -8,14 +8,15 @@ import proyecto_videojuegos.MainThread;
 import videoGame.ImageLoader;
 
 /**
- * Example ECS component
+ * Component containing the sprite data necessary for the rendering of an entity
  * 
- * a ECS component contains 
- * //data
  * 
- * //code to initialize the data
- * @author Carlos Adrián Guerra Vázquez
- * @date 09/02/2019
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
+ *
+ * @date 12/04/2019
  * @version 1.0
  */
 public class Sprite extends Component{
@@ -60,6 +61,7 @@ public class Sprite extends Component{
         this.speed = speed / MainThread.fps;
         this.animationsNames = animationsNames;
         this.animations = new ArrayList<>();
+        
     }
 
     public Sprite() {
