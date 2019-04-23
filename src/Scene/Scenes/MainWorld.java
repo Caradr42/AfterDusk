@@ -148,7 +148,7 @@ public class MainWorld extends Scene{
                 new Transform(new Vector3(90, 90, 30)),
                 new Sprite("enemy", true, 64, 80, 10, new ArrayList<>(Arrays.asList("enemy"))),
                 new Collidable(new Vector3(64, 80, 1)),
-                new Playable(300, enemyInv, new Vector3()));
+                new Playable(300, enemyInv, new Vector3(1.5, 1.5, 0)));
         
          
         
@@ -175,6 +175,7 @@ public class MainWorld extends Scene{
             new RenderSystem(this),
             new PlayerSystem(this),
             new SpriteSystem(this),
+            new EnemySystem(this),
             new UIEntitiesSystem(this),
             new UIInventorySystem(this),
             new CollisionSystem(this),
