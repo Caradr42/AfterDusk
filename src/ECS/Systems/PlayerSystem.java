@@ -44,7 +44,7 @@ public class PlayerSystem extends SystemJob{
         transform = new Transform();
         player = new Player();
         sprite = new Sprite();
-        //MainThread.c.position2.set(transform.position.x + 20, 0);
+        
     }
 
     /**
@@ -134,70 +134,8 @@ public class PlayerSystem extends SystemJob{
                         transform.position.y * MainThread.c.scale - scene.display.height + 50 * MainThread.c.scale );
                  MainThread.c.position1.y = MainThread.c.position1.y + 2;
                  MainThread.c.position2.y = MainThread.c.position2.y + 2;
-            }
-            
-            //System.out.println( "ortogonal" + MainThread.c.ortogonalPosition.x + "," + MainThread.c.ortogonalPosition.y );
-            
-            /* MainThread.c.ortogonalPosition.set(
-                    transform.position.x * MainThread.c.scale + 32 - (scene.display.width / 2), 
-                    transform.position.y * MainThread.c.scale + 32 - (scene.display.height / 2));*/
-           
-            //System.out.println(MainThread.c.position1.y);
-            
-            //System.out.println(MainThread.c.position2.x);
-            //System.out.println(MainThread.c.position2.y);
-            //System.out.println(transform.position.y);
-            /*if(MainThread.c.position1.y > transform.position.y){
-               
-                MainThread.c.ortogonalPosition.set(
-                    transform.position.x  /** MainThread.c.scale - scene.display.width / 2*///, 
-                   // transform.position.y - 20 );
-                //MainThread.c.position1.x = MainThread.c.position1.x - 120;
-               
-             // MainThread.c.setRectC((int)(transform.position.x + scene.display.width) / 2, (int)(transform.position.y + scene.display.height) / 2);
-            //}
-            
-           // System.out.println("width " + scene.display.width);
-            //System.out.println("height " + scene.display.height);
-            //System.out.println("screen " + MainThread.c.screenSize.height);
-            
-            //if(MainThread.c.position1.y > transform.position.y){
-            /*  // System.out.println("estoy afuera del rec");
-                MainThread.c.ortogonalPosition.set(
-                    transform.position.x + 32 * MainThread.c.scale, 
-                    transform.position.y  + 32 * MainThread.c.scale/** MainThread.c.scale + 32*///);
-               /* MainThread.c.position1.set(transform.position.x - 180 *MainThread.c.scale , transform.position.y - 70* MainThread.c.scale);
-                MainThread.c.position2.set(transform.position.x + 100*MainThread.c.scale , transform.position.y + 70*MainThread.c.scale);
-           */
-               
-           /* }
-            
-            if(MainThread.c.position2.y == transform.position.y){
-               //System.out.println("jajks");
-                MainThread.c.ortogonalPosition.set(
-                    transform.position.x /** MainThread.c.scale - 50 - scene.display.width / 2*///, 
-                   // transform.position.y /** MainThread.c.scale + 50 - scene.display.height / 2*/);
-               /* MainThread.c.position1.set(transform.position.x - 180 , transform.position.y - 70);
-                MainThread.c.position2.set(transform.position.x + 100 , transform.position.y + 70);
-            }
-            
-            if(MainThread.c.position1.x == transform.position.x){
-              // System.out.println("o sea equis");
-                MainThread.c.ortogonalPosition.set(
-                    transform.position.x /** MainThread.c.scale - 100 - scene.display.width / 2*///, 
-                    //transform.position.y /** MainThread.c.scale + 50 - scene.display.height / 2*/);
-                /*MainThread.c.position1.set(transform.position.x - 180 , transform.position.y - 70);
-                MainThread.c.position2.set(transform.position.x + 100 , transform.position.y + 70);
-            }
-            if(MainThread.c.position2.x <= transform.position.x){
-               //System.out.println("o sea la otra equis");
-                MainThread.c.ortogonalPosition.set(
-                    transform.position.x /** MainThread.c.scale - 100 - scene.display.width / 2*///, 
-                   // transform.position.y /** MainThread.c.scale + 50 - scene.display.height / 2*/);
-               /* MainThread.c.position1.set(transform.position.x - 180 , transform.position.y - 70);
-                MainThread.c.position2.set(transform.position.x + 100 , transform.position.y + 70);
-            }
-        */}
+            }  
+        }
     }
 
     public void initialPosition(double x, double y){
