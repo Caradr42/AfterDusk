@@ -113,6 +113,7 @@ public class MainThread implements Runnable{
         stop();
     }
         
+    
     /**
      * Initializes objects inside the thread, and initializes all objects 
      * related to the game, including assets, scenes, 
@@ -120,6 +121,7 @@ public class MainThread implements Runnable{
     private void init() {   
         display = new Display(title, width, height);
         Assets.init(); //initializes the game assets
+        System.out.print(width/2);
         c = new Camera(-width / 2, -height / 2, 4, display);
         scene = new MainWorld(display, c);
         /* //DEBUG : prints all listeners class attache dto the scene
@@ -209,6 +211,7 @@ public class MainThread implements Runnable{
                 display.g.setColor(Color.GREEN);
                 display.g.drawString(Integer.toString((int)tpsBuffer), 0, 10);
                 display.g.drawString(Integer.toString((int)currentFrame), 16, 10);
+                
                 //display.g.drawRect(0, 0, 16, 16);
             }            
             

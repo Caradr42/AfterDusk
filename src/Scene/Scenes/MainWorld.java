@@ -150,8 +150,8 @@ public class MainWorld extends Scene{
         
         //PLAYABLE ENTITIES
         
-        entityManager.createEntityWithComponents("Player",            
-            new Transform(new Vector3(50,50, 64)),
+         entityManager.createEntityWithComponents("Player",            
+            new Transform(new Vector3(50,0, 64)),
             new Sprite("sprite", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down","player_up","player_left","player_right"))),
             new Player("player", playerLR.getID(), playerPassives.getID(), playerActives.getID() ),
             new Playable(100, playerInv.getID(), new Vector3()),

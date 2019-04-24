@@ -1,9 +1,15 @@
 package graphics;
 
+
+import ECS.Components.Player;
+import ECS.Components.Transform;
 import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
+//import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import Maths.Vector2;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 
 /**
  * 
@@ -14,13 +20,21 @@ import Maths.Vector2;
  */
 public class Camera {
     public Vector2 ortogonalPosition;
+
     public Vector2 worldPosition;
-    
+
+    public Vector2 position1;
+    public Vector2 position2;
+    Player player;
+    Transform transform;
+
     Graphics2D tempG;
     public AffineTransform UItransform = new AffineTransform();
-
-    public int scale;
+    public Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     
+    
+ 
+    public int scale;
     private Display display;
     
     public Camera(Vector2 ortogonalPosition, int scale, Display display) {
@@ -38,8 +52,16 @@ public class Camera {
         init();
     }
     
+  
+   
     private void init(){
         UItransform.setTransform(scale, 0, 0, scale, 1, 0);
+//      player.getClass();
+  //      transform.getClass();
+  
+        //System.out.println("position" + transform.position.);
+        position1 = new Vector2();
+        position2 = new Vector2();
     }
     /*private void init(){
         at = new AffineTransform();
@@ -53,6 +75,8 @@ public class Camera {
         AffineTransform at = new AffineTransform();
         //previousTransform = g.getTransform();
         
+        
+      /* 
         if(display.getKeyManager().keys[KeyEvent.VK_I]) {
             ortogonalPosition.set(ortogonalPosition.x,ortogonalPosition.y - 6);
         }
@@ -65,13 +89,19 @@ public class Camera {
         if(display.getKeyManager().keys[KeyEvent.VK_L]) {
             ortogonalPosition.set(ortogonalPosition.x + 6,ortogonalPosition.y);
         }
+<<<<<<< HEAD
         worldPosition.set(ortogonalPosition.div(scale));
         
+        */
+      
+      
+
         at.translate(-ortogonalPosition.x, -ortogonalPosition.y);
         at.scale(scale, scale);
         
         g.transform(at);
     }
+
     
     
     /**
@@ -89,13 +119,14 @@ public class Camera {
     public void setPosition(double x, double y){
         ortogonalPosition.set(x, y);
     }
+    
 
     public Vector2 getPosition() {
         return ortogonalPosition;
     }
     
     public Vector2 UIToWorldCoodinates(Vector2 UIcoordinates){
-        //System.out.println("camera: " + worldPosition.x + " " + worldPosition.y );
+        System.out.println("world position: " + worldPosition.x + " " + worldPosition.y );
         return worldPosition.add(UIcoordinates);
     }
     

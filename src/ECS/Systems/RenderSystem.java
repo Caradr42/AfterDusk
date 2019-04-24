@@ -41,7 +41,7 @@ public class RenderSystem extends SystemJob{
     private Transform transform;
     private Sprite sprite;
     private MousePointer mousePointer;
-    //Pririty Queue of entities to render
+    //Priority Queue of entities to render
     private PriorityQueue <Pair<Transform, Sprite> > queue;
             
     public RenderSystem(Scene scene) {
@@ -133,9 +133,9 @@ public class RenderSystem extends SystemJob{
         public int compare
         (Pair<Transform, Sprite> p1, Pair<Transform, Sprite > p2) {
             //System.out.println(p1.second.name + " : " + p1.first.position.z);
-            if(p1.first.position.z > p2.first.position.z){
+            if(p1.first.position.z + p1.first.position.y > p2.first.position.z + p2.first.position.y){
                 return 1;
-            }else if (p1.first.position.z < p2.first.position.z){
+            }else if (p1.first.position.z + p1.first.position.y < p2.first.position.z + p2.first.position.y){
                 return -1;
             }else return 0;
         }
