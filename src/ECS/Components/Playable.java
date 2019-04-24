@@ -24,12 +24,12 @@ import Maths.Vector3;
  */
 public class Playable extends Component {
     
-    int hp; 
-    Entity inventory;
+    public int hp; 
+    public Integer inventory;
     public Vector3 velocity;
 
 
-    public Playable(int hp, Entity inventory, Vector3 velocity) {
+    public Playable(int hp, Integer inventory, Vector3 velocity) {
         this.hp = hp;
         this.inventory = inventory;
         this.velocity = velocity;

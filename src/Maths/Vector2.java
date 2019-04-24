@@ -72,7 +72,7 @@ public class Vector2 {
      * @return a new vector product of the subtraction.
      */
     public Vector2 sub(Vector2 q){
-        return  new Vector2(q.x - x, q.y - y);
+        return  new Vector2(this.x - q.x, this.y - q.y);
     }
     
     /**

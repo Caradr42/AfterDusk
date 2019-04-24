@@ -1,9 +1,13 @@
 package ECS.Systems;
 
 import Assets.Assets;
+import ECS.Components.Item;
+import ECS.Components.MousePointer;
+import ECS.Components.Transform;
 import ECS.Components.UIEntity;
 import ECS.Components.UIInventory;
 import ECS.SystemJob;
+import Maths.Vector2;
 import Scene.Scene;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -30,19 +34,44 @@ public class UIEntitiesSystem extends SystemJob{
     
     boolean PlayerInventoryBuffer;
     
+    //Pointer info
+    ArrayList<Integer> mousePointers;
+    MousePointer mousePointer;
+    boolean pointerOutsideUI = true;
+    
+    //held item data
+    Transform itemTransform; //to update the item position
+    Item item; //for the is in inventory boolean
+    //the visible boolean in sprite is automatically updated 
+    
     public UIEntitiesSystem(Scene scene) {
         super(scene);
         PlayerInventoryBuffer = false;
         
         uiEntity = new UIEntity();
         uiInventory = new UIInventory();
+        
+        mousePointers = new ArrayList<>();
+        mousePointer = new MousePointer();
+        
+        itemTransform = new Transform();
+        item = new Item();
     }
 
     @Override
     public void update() {
-             
+        pointerOutsideUI = true;
+        
         for(Integer e: entities){
             uiEntity = scene.entityManager.getEntityComponentInstance(e, uiEntity.getClass());
+            
+            //System.out.println(mousePointer.position + " " + mousePointer.mouseManager.position.y);
+            
+            if(uiEntity.UIcollider.contains((int)mousePointer.position.x, (int)mousePointer.position.y) && uiEntity.visible){
+                pointerOutsideUI = false;
+            }
+            
+            //render subInterfaces if the parent is visible
             for(UIEntity sub: uiEntity.subInterfacesComponents){
                 sub.visible = uiEntity.visible;
             }
@@ -58,7 +87,7 @@ public class UIEntitiesSystem extends SystemJob{
             if(uiEntity.name.equals("Player_Inventory")){
                 //System.out.println("pI: " + uiEntity.visible);
                 if(scene.display.getKeyManager().keys[KeyEvent.VK_X] || scene.display.getKeyManager().keys[KeyEvent.VK_I] || scene.display.getKeyManager().keys[KeyEvent.VK_Q]){
-                    if(PlayerInventoryBuffer == false){
+                    if(!PlayerInventoryBuffer){
                         if(uiEntity.visible){
                             uiEntity.visible = false;
                         }else{
@@ -70,13 +99,33 @@ public class UIEntitiesSystem extends SystemJob{
                     PlayerInventoryBuffer = false;
                 }
             }  
+            //if tab is pressed show battle gui
+            //if()
         } 
+        
+        //drop item if outside o UI
+        if(pointerOutsideUI){
+            if(mousePointer.mouseManager.wasLeftClicked() && mousePointer.heldItem != 0){
+                int tempItem = mousePointer.heldItem;
+                mousePointer.heldItem = 0;
+                itemTransform = scene.entityManager.getEntityComponentInstance(tempItem, itemTransform.getClass());
+                item = scene.entityManager.getEntityComponentInstance(tempItem, item.getClass());
+                
+                itemTransform.position.set(scene.c.UIToWorldCoodinates(mousePointer.position.add(new Vector2(-8, -8))));
+                //System.out.println(itemTransform.position.x + " " + itemTransform.position.y);
+                item.isInInventory = false;
+                
+            }
+        }
+        //System.out.println(pointerOutsideUI);
     }
 
     @Override
     public void init() {
         entities = scene.entityManager.getEntitiesWithComponents(uiEntity.getClass());
         
+        mousePointers = scene.entityManager.getEntitiesWithComponents(mousePointer.getClass());
+        mousePointer = scene.entityManager.getEntityComponentInstance(mousePointers.get(0), mousePointer.getClass());
         
         for(Integer e: entities){
             //System.out.println(e);

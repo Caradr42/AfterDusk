@@ -33,6 +33,6 @@ public class Tool extends Component{
         this.activosDesbloqueados = activosDesbloqueados;
     }
 
-    
-    
+    public Tool() {
+    } 
 }

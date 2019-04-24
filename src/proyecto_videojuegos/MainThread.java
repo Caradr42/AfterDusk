@@ -135,11 +135,11 @@ public class MainThread implements Runnable{
     private void tick() {
         //TODO: not only execute one scene but all scenes
         scene.display.getKeyManager().tick();
-        
+        scene.display.getMouseManager().tick();
         
         scene.systemJobManager.update();
         
-        scene.display.getMouseManager().tick();
+        
         /*
          * This loop waits for the end of the execution of the 
          * completionExecutorService in the systemJob manager of the scene.

@@ -14,6 +14,8 @@ import Maths.Vector2;
  */
 public class Camera {
     public Vector2 ortogonalPosition;
+    public Vector2 worldPosition;
+    
     Graphics2D tempG;
     public AffineTransform UItransform = new AffineTransform();
 
@@ -30,6 +32,7 @@ public class Camera {
     
     public Camera(int x, int y, int scale, Display display) {
         this.ortogonalPosition = new Vector2(x, y);
+        this.worldPosition = new Vector2( x / scale, y / scale);
         this.scale = scale;
         this.display = display;
         init();
@@ -62,6 +65,7 @@ public class Camera {
         if(display.getKeyManager().keys[KeyEvent.VK_L]) {
             ortogonalPosition.set(ortogonalPosition.x + 6,ortogonalPosition.y);
         }
+        worldPosition.set(ortogonalPosition.div(scale));
         
         at.translate(-ortogonalPosition.x, -ortogonalPosition.y);
         at.scale(scale, scale);
@@ -88,5 +92,14 @@ public class Camera {
 
     public Vector2 getPosition() {
         return ortogonalPosition;
+    }
+    
+    public Vector2 UIToWorldCoodinates(Vector2 UIcoordinates){
+        //System.out.println("camera: " + worldPosition.x + " " + worldPosition.y );
+        return worldPosition.add(UIcoordinates);
+    }
+    
+    public Vector2 WorldToUICoodinates(Vector2 WorldCoordinates){
+        return worldPosition.sub(WorldCoordinates);
     }
 }

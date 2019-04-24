@@ -29,10 +29,17 @@ public class MouseManager implements MouseListener , MouseMotionListener {
     public boolean left; 
     public boolean right;
     
-    public boolean leftClick; 
-    public boolean rightClick;
-    public boolean leftRelease; 
-    public boolean rightRelease;
+    public boolean wasLeftClick;
+    public boolean wasLeftClickBlock;
+    
+    public boolean wasRightClick;
+    public boolean wasRightClickBlock;
+    
+    public boolean wasLeftRelease; 
+    public boolean wasLeftReleaseBlock = true;
+    
+    public boolean wasRightRelease;
+    public boolean wasRightReleaseBlock = true;
     
     public boolean moving = false;
     
@@ -48,20 +55,12 @@ public class MouseManager implements MouseListener , MouseMotionListener {
   
     @Override
     public void mouseClicked(MouseEvent e) {
-        
-        //System.out.println("click");
     }
     
-    /**
-     * Executes when a mouse button is pressed.
-     * Updates buttons and position when so
-     * @param e mouse event
-     */
     @Override
     public void mousePressed(MouseEvent e) {
         //System.out.println("press");
-        
-        if(e.getButton() == MouseEvent.BUTTON1){
+        /*if(e.getButton() == MouseEvent.BUTTON1){
             left = true;
             leftClick = true;
             leftRelease = false;
@@ -70,6 +69,12 @@ public class MouseManager implements MouseListener , MouseMotionListener {
             right = true;
             rightClick = true;
             rightRelease = false;
+        }*/
+        if(e.getButton() == MouseEvent.BUTTON1){
+            left = true;
+        }
+        if(e.getButton() == MouseEvent.BUTTON3){
+            right = true;
         }
     }
 
@@ -82,8 +87,7 @@ public class MouseManager implements MouseListener , MouseMotionListener {
     public void mouseReleased(MouseEvent e) {
         //System.out.println("release");
         
-        
-        if(e.getButton() == MouseEvent.BUTTON1){
+        /*if(e.getButton() == MouseEvent.BUTTON1){
             left = false;
             leftClick = false;
             leftRelease = true;
@@ -92,7 +96,7 @@ public class MouseManager implements MouseListener , MouseMotionListener {
             right = false;
             rightClick = false;
             rightRelease = true;
-        }
+        }*/
     }
 
     @Override
@@ -115,10 +119,10 @@ public class MouseManager implements MouseListener , MouseMotionListener {
         position.x = (e.getX());
         position.y = (e.getY());
         
-        leftClick = false;
+        /*leftClick = false;
         rightClick = false;
         leftRelease = false;
-        rightRelease = false;
+        rightRelease = false;*/
         
         /*
         if(e.getModifiersEx() == MouseEvent.BUTTON1_DOWN_MASK){
@@ -134,43 +138,73 @@ public class MouseManager implements MouseListener , MouseMotionListener {
         position.x = (e.getX());
         position.y = (e.getY());
         
-        leftClick = false;
+        /*leftClick = false;
         rightClick = false;
         leftRelease = false;
-        rightRelease = false;
+        rightRelease = false;*/
 
     }
     
     public void tick(){
-        //leftClick = false;
+        if(left){
+            if(!wasLeftClickBlock){
+                wasLeftClick = true;
+            }else{
+                wasLeftClick = false;
+            }
+            wasLeftClickBlock = true;
+        }else{
+            wasLeftClickBlock = false;
+        }
+        
+        if(right){
+            if(!wasRightClickBlock){
+                wasRightClick = true;
+            }else{
+                wasRightClick = false;
+            }
+            wasRightClickBlock = true;
+        }else{
+            wasRightClickBlock = false;
+        }
+        
+        if(!left){
+            if(!wasLeftReleaseBlock){
+                wasLeftRelease = true;
+            }else{
+                wasLeftRelease = false;
+            }
+            wasLeftReleaseBlock = true;
+        }else{
+            wasLeftReleaseBlock = false;
+        }
+        
+        if(!right){
+            if(!wasRightReleaseBlock){
+                wasRightRelease = true;
+            }else{
+                wasRightRelease = false;
+            }
+            wasRightReleaseBlock = true;
+        }else{
+            wasRightReleaseBlock = false;
+        }
     }
     
     public boolean wasLeftClicked(){
-        boolean temp;
-        temp = leftClick;
-        leftClick = false;
-        return temp;
+        return wasLeftClick;
     }
     
     public boolean wasRighttClicked(){
-        boolean temp;
-        temp = rightClick;
-        rightClick = false;
-        return temp;
+        return  wasRightClick;
     }
     
     public boolean wasLeftReleased(){
-        boolean temp;
-        temp = leftRelease;
-        leftRelease = false;
-        return temp;
+        return wasLeftRelease;
     }
     
     public boolean wasRightReleased(){
-        boolean temp;
-        temp = rightRelease;
-        rightRelease = false;
-        return temp;
+        return wasRightRelease;
     }
 }
 

@@ -61,7 +61,7 @@ public class Vector3 {
      */
     public void set(Vector2 v){
         x = v.x;
-        y = v.x;
+        y = v.y;
     }
     
     /**
@@ -79,7 +79,7 @@ public class Vector3 {
      * @return a new vector product of the subtraction.
      */
     public Vector2 sub(Vector2 q){
-        return  new Vector2(q.x - x, q.y - y);
+        return  new Vector2(this.x - q.x,this.y - q.y);
     }
     
     /**
@@ -88,7 +88,7 @@ public class Vector3 {
      * @return a new vector product of the addition.
      */
     public Vector2 add(Vector2 q){
-        return  new Vector2(q.x + x, q.y + y);
+        return  new Vector2(q.x + this.x, q.y + this.y);
     }
     
     public Vector2 scalar(double c){
