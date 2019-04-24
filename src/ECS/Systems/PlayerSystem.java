@@ -33,6 +33,10 @@ public class PlayerSystem extends SystemJob{
     Playable playable;
     Sprite sprite;
     boolean firstTime;
+    int leftBorder;
+    int rightBorder;
+    int upperBorder;
+    int downBorder;
     
     /**
      * Constructor
@@ -56,11 +60,15 @@ public class PlayerSystem extends SystemJob{
             player = scene.entityManager.getEntityComponentInstance(e, player.getClass());
             transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());
             sprite = scene.entityManager.getEntityComponentInstance(e, sprite.getClass());
+            leftBorder = 50;
+            rightBorder = 80;
+            upperBorder =  20;
+            downBorder =  60;
             
+            //Save the position of the initial position of the player
             if(firstTime){
-                MainThread.c.position1.set(-scene.display.width / (2 * MainThread.c.scale) + 80, -scene.display.height / (2 * MainThread.c.scale) + 60);
-                MainThread.c.position2.set((scene.display.width / (2 * MainThread.c.scale) - 80), scene.display.height / (2 * MainThread.c.scale) - 50);
-                        System.out.println("oli");
+                MainThread.c.position1.set(-scene.display.width / (2 * MainThread.c.scale) + leftBorder, -scene.display.height / (2 * MainThread.c.scale) +  upperBorder);
+                MainThread.c.position2.set(scene.display.width / (2 * MainThread.c.scale) - rightBorder, scene.display.height / (2 * MainThread.c.scale) - downBorder);
                         firstTime = false;
             }
             
@@ -75,18 +83,21 @@ public class PlayerSystem extends SystemJob{
                 sprite.animation = sprite.animations.get(3).first;
                 sprite.animationLenght = sprite.animations.get(3).second;
             }
+            
             //if the player goes to the left change the position and the animation to the left
             if(scene.display.getKeyManager().left){
                 transform.position.x = transform.position.x -2;//- 100 * MainThread.deltaTime);
                 sprite.animation = sprite.animations.get(2).first;
                 sprite.animationLenght = sprite.animations.get(2).second;
             }
+            
             //if the player goes to up change the position and the animation to up
             if(scene.display.getKeyManager().up){
                 transform.position.y = transform.position.y -2;//- 100 * MainThread.deltaTime);
                 sprite.animation = sprite.animations.get(1).first;
                 sprite.animationLenght = sprite.animations.get(1).second;
             }
+            
             //if the player goes down change the position and the animation to down
             if(scene.display.getKeyManager().down){
                 transform.position.y = transform.position.y +2;//+ 100 * MainThread.deltaTime);
@@ -99,39 +110,38 @@ public class PlayerSystem extends SystemJob{
                 sprite.frameCounter = 0;
             }
             
-            //if colides with the left border
+            //if colides with the left border, move the camera to the left
             if (transform.position.x == MainThread.c.position1.x){
                 MainThread.c.ortogonalPosition.set(
-                        transform.position.x * MainThread.c.scale - 80 * MainThread.c.scale /*transform.position.x*/ ,
+                        transform.position.x * MainThread.c.scale - leftBorder * MainThread.c.scale,
                         MainThread.c.ortogonalPosition.y);
                  MainThread.c.position1.x = MainThread.c.position1.x - 2;
                  MainThread.c.position2.x = MainThread.c.position2.x -2;
             }
             
-            //if collides with the rigth border
-            if (transform.position.x == MainThread.c.position2.x/*scene.display.width/*MainThread.c.position2.x*/){
+            //if collides with the rigth border, move the camera to the right
+            if (transform.position.x == MainThread.c.position2.x){
                 MainThread.c.ortogonalPosition.set(
-                       transform.position.x * MainThread.c.scale - scene.display.width + 80 * MainThread.c.scale /*MainThread.c.ortogonalPosition.x + transform.position.x*/ ,
+                       transform.position.x * MainThread.c.scale - scene.display.width + rightBorder * MainThread.c.scale,
                         MainThread.c.ortogonalPosition.y);
                 MainThread.c.position2.x = MainThread.c.position2.x + 2;
                 MainThread.c.position1.x = MainThread.c.position1.x + 2;
             }
             
-            //if colides with the upper border
+            //if colides with the upper border lift camera
             if (transform.position.y == MainThread.c.position1.y){
                 MainThread.c.ortogonalPosition.set(
-                         MainThread.c.ortogonalPosition.x/*transform.position.x*/ ,
-                        transform.position.y * MainThread.c.scale - 60 * MainThread.c.scale);
+                         MainThread.c.ortogonalPosition.x,
+                        transform.position.y * MainThread.c.scale - upperBorder * MainThread.c.scale);
                 MainThread.c.position1.y = MainThread.c.position1.y - 2;
                  MainThread.c.position2.y = MainThread.c.position2.y - 2;
             }
             
-            //System.out.println("width " + scene.display.width);
-            //if colides with the down border
+            //if colides with the down border move camera down
             if (transform.position.y == MainThread.c.position2.y){
                 MainThread.c.ortogonalPosition.set(
-                         MainThread.c.ortogonalPosition.x/*transform.position.x*/ ,
-                        transform.position.y * MainThread.c.scale - scene.display.height + 50 * MainThread.c.scale );
+                         MainThread.c.ortogonalPosition.x,
+                        transform.position.y * MainThread.c.scale - scene.display.height + downBorder * MainThread.c.scale );
                  MainThread.c.position1.y = MainThread.c.position1.y + 2;
                  MainThread.c.position2.y = MainThread.c.position2.y + 2;
             }  
