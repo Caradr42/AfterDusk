@@ -32,8 +32,8 @@ public class GameManagerSystem extends SystemJob{
         /*if(scene.display.keyManager.wasPressed[KeyEvent.VK_F]){
             System.out.println("typed");
         }*/
-        if(scene.display.mouseManager.wasLeftClicked()){
-            System.out.println("left");
+        if(scene.display.mouseManager.wasLeftReleased()){
+            System.out.println("leftRelease");
         }
     }
 

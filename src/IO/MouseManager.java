@@ -36,19 +36,16 @@ public class MouseManager implements MouseListener , MouseMotionListener {
     public boolean wasRightClickBlock;
     
     public boolean wasLeftRelease; 
-    public boolean wasLeftReleaseBlock = true;
+    public boolean wasLeftReleaseBlock = false;
     
     public boolean wasRightRelease;
-    public boolean wasRightReleaseBlock = true;
+    public boolean wasRightReleaseBlock = false;
     
-    public boolean moving = false;
     
     //the position of the mouse as a vector
     public Vector2 position;
     
-    /**
-     * constructor, assigns a mouse position of (0,0)
-     */
+    //constructor, assigns a mouse position of (0,0)
     public MouseManager(){
         position = new Vector2();
     } 
@@ -59,17 +56,6 @@ public class MouseManager implements MouseListener , MouseMotionListener {
     
     @Override
     public void mousePressed(MouseEvent e) {
-        //System.out.println("press");
-        /*if(e.getButton() == MouseEvent.BUTTON1){
-            left = true;
-            leftClick = true;
-            leftRelease = false;
-        }
-        if(e.getButton() == MouseEvent.BUTTON3){
-            right = true;
-            rightClick = true;
-            rightRelease = false;
-        }*/
         if(e.getButton() == MouseEvent.BUTTON1){
             left = true;
         }
@@ -78,25 +64,14 @@ public class MouseManager implements MouseListener , MouseMotionListener {
         }
     }
 
-    /**
-     * Executes when a mouse button is released.
-     * Updates buttons and position when so
-     * @param e mouse event
-     */
     @Override
     public void mouseReleased(MouseEvent e) {
-        //System.out.println("release");
-        
-        /*if(e.getButton() == MouseEvent.BUTTON1){
+        if(e.getButton() == MouseEvent.BUTTON1){
             left = false;
-            leftClick = false;
-            leftRelease = true;
         }
         if(e.getButton() == MouseEvent.BUTTON3){
             right = false;
-            rightClick = false;
-            rightRelease = true;
-        }*/
+        }
     }
 
     @Override
@@ -109,40 +84,16 @@ public class MouseManager implements MouseListener , MouseMotionListener {
         //System.out.println("exit");
     }
     
-    /**
-     * Executes when a mouse button is dragged.
-     * Updates buttons and position when so
-     * @param e mouse event
-     */
     @Override
     public void mouseDragged(MouseEvent e) {
         position.x = (e.getX());
         position.y = (e.getY());
-        
-        /*leftClick = false;
-        rightClick = false;
-        leftRelease = false;
-        rightRelease = false;*/
-        
-        /*
-        if(e.getModifiersEx() == MouseEvent.BUTTON1_DOWN_MASK){
-            left = true;
-        }
-        if(e.getButton() == MouseEvent.BUTTON2_DOWN_MASK){
-            right = true;
-        }*/
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
         position.x = (e.getX());
         position.y = (e.getY());
-        
-        /*leftClick = false;
-        rightClick = false;
-        leftRelease = false;
-        rightRelease = false;*/
-
     }
     
     public void tick(){
