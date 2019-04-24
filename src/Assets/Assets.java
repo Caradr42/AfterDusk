@@ -4,6 +4,7 @@ import Utility.Pair;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import videoGame.ImageLoader;
+import videoGame.SoundClip;
  /**
  * Class containing statically all the game assets
  * 
@@ -20,6 +21,14 @@ public class Assets {
     //A map containing all the sprite animations
     //the inner Pair has as first: a BufferedImage animation, and as second: the number of frames of such animation
     public static HashMap<String, Pair<BufferedImage[], Integer>> animations;
+    public static SoundClip backgroundTheme;
+    public static SoundClip houseTheme;
+    public static SoundClip aldeaTheme;
+    public static SoundClip battleTheme;
+    public static SoundClip cityTheme;
+    public static SoundClip bossTheme;
+    public static SoundClip explorationTheme;
+    public static SoundClip fatherTheme;
     
     public static void init(){
         
@@ -47,6 +56,14 @@ public class Assets {
         animations.put("1x2Slots_dark", new Pair<>(crop(35, 18, 1, "/Resources/Images/1x2Slots_dark.png")   , 1));
         animations.put("actives_bar",   new Pair<>(crop(160, 32, 1, "/Resources/Images/actives_bar.png")    , 1));
         animations.put("RL_bar",        new Pair<>(crop(48, 32, 1, "/Resources/Images/RL_bar.png")          , 1));
+        backgroundTheme= new SoundClip("/Resources/Sounds/Casa.wav"); //Background sound
+        houseTheme= new SoundClip("/Resources/Sounds/Casa.wav");
+        aldeaTheme= new SoundClip("/Resources/Sounds/Aldea_primitiva.wav");
+        battleTheme= new SoundClip("/Resources/Sounds/batalla.wav");
+        cityTheme= new SoundClip("/Resources/Sounds/ciudad.wav");
+        bossTheme= new SoundClip("/Resources/Sounds/boss.wav");
+        explorationTheme= new SoundClip("/Resources/Sounds/exploration.wav");
+        fatherTheme= new SoundClip("/Resources/Sounds/father.wav");
         
         //System.out.println("found: " + animations.get("actives_bar").first);
     }
