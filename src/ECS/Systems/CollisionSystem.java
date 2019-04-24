@@ -31,9 +31,9 @@ public class CollisionSystem extends SystemJob{
     //A playable must have a collidable assigned by reference
     private Playable playable;
     
-    private ArrayList<Integer> arrPlayables;
+    private static ArrayList<Integer> arrPlayables;
     
-    private ArrayList<Integer> arrItems;
+    private static ArrayList<Integer> arrItems;
     
     //private ArrayList<Integer> arr;
 
@@ -67,7 +67,7 @@ public class CollisionSystem extends SystemJob{
                     //System.out.println(i + ", " + j);
                     //System.out.println("size: " + entities.size());
                     //System.out.println("");
-                    makeCollision(entities.get(i), entities.get(j));
+                    checkCollision(entities.get(i), entities.get(j));
                     
                 }
             }
@@ -97,7 +97,12 @@ public class CollisionSystem extends SystemJob{
      * @param i
      * @param j 
      */
-    public void makeCollision(int i, int j) {
+    public static boolean checkCollision(int i, int j) {
+
+        Boolean bRight = false;
+        Boolean bLeft = false;
+        Boolean bUp = false;
+        Boolean bDown = false;
 
         Transform transformi = new Transform();
         Collidable collidablei = new Collidable();
@@ -154,10 +159,7 @@ public class CollisionSystem extends SystemJob{
         //
         if (firstRect.intersects(secondRect)) {
             
-            Boolean bRight = false;
-            Boolean bLeft = false;
-            Boolean bUp = false;
-            Boolean bDown = false;
+
 
             //Point of the upper left corner of the first object
             Point firstPoint1 = new Point(firstCenterX - firstLengthX, firstCenterY - firstLengthY);
@@ -277,6 +279,8 @@ public class CollisionSystem extends SystemJob{
                 }
             }
         }
+        
+        return bRight && bLeft && bUp && bDown;
     }
     
     public void initializeEntities() {

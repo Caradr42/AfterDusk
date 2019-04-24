@@ -135,13 +135,16 @@ public class MainWorld extends Scene{
         );
         
         //Playable entities creation
-        entityManager.createEntityWithComponents("Player",            
+        Entity player = entityManager.createEntityWithComponents("Player",            
             new Transform(new Vector3(50,50, 64)),
             new Sprite("sprite", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down","player_up","player_left","player_right"))),
             new Player(),
             new Playable(100, payerInv, new Vector3()),
             new Collidable(new Vector3(32, 32, 1))
         );
+        
+        entityManager.addComponetToEntity(player.getID(),
+                new AttackCollider(new Vector3(40, 40, 1), new Vector3()));
 
         
         entityManager.createEntityWithComponents("Enemy1", 
@@ -179,6 +182,7 @@ public class MainWorld extends Scene{
             new UIEntitiesSystem(this),
             new UIInventorySystem(this),
             new CollisionSystem(this),
+            new CollisionEntityWeapon(this),
             new MousePointerSystem(this)
         );
     }
