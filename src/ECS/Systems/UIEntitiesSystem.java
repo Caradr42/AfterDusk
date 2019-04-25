@@ -116,6 +116,8 @@ public class UIEntitiesSystem extends SystemJob{
                 
                 itemTransform.position.set(scene.c.UIToWorldCoodinates(mousePointer.position.add(new Vector2(-8, -8))));
                 //System.out.println(itemTransform.position.x + " " + itemTransform.position.y);
+                //Play drop sound
+                Assets.pickUp.play();
                 item.isInInventory = false;
                 
             }
