@@ -29,6 +29,7 @@ public class Assets {
     public static SoundClip bossTheme;
     public static SoundClip explorationTheme;
     public static SoundClip fatherTheme;
+    public static SoundClip grassWalk;
     
     public static void init(){
         
@@ -64,7 +65,7 @@ public class Assets {
         bossTheme= new SoundClip("/Resources/Sounds/boss.wav");
         explorationTheme= new SoundClip("/Resources/Sounds/exploration.wav");
         fatherTheme= new SoundClip("/Resources/Sounds/father.wav");
-        
+        grassWalk= new SoundClip("/Resources/Sounds/grassWalk.wav");
         //System.out.println("found: " + animations.get("actives_bar").first);
     }
     

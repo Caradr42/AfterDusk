@@ -122,7 +122,6 @@ public class MainThread implements Runnable{
         Assets.init(); //initializes the game assets
         c = new Camera(-width / 2, -height / 2, 4, display);
         scene = new MainWorld(display, c);
-        Assets.backgroundTheme.play(); //Play background theme
         /* //DEBUG : prints all listeners class attache dto the scene
         for(Listener<?> l : scene.entityManager.removeEntitiesSignal.listeners){
             System.out.println(l.getClass());
