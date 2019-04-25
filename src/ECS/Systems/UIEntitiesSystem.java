@@ -87,7 +87,10 @@ public class UIEntitiesSystem extends SystemJob{
             if(uiEntity.name.equals("Player_Inventory")){
                 //System.out.println("pI: " + uiEntity.visible);
                 if(scene.display.getKeyManager().keys[KeyEvent.VK_X] || scene.display.getKeyManager().keys[KeyEvent.VK_I] || scene.display.getKeyManager().keys[KeyEvent.VK_Q]){
+                    
                     if(!PlayerInventoryBuffer){
+                        //Play open inventory
+                         Assets.menu.play();
                         if(uiEntity.visible){
                             uiEntity.visible = false;
                         }else{
