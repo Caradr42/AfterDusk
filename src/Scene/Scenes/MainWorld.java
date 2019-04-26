@@ -39,6 +39,11 @@ public class MainWorld extends Scene{
      */
     @Override
     protected void addEntities() {
+        //The colliders are for the tools, but we are testing, lets put it in the player
+        ArrayList<AttackCollider>playerColliders = new ArrayList<>();
+
+                
+        playerColliders.add(new AttackCollider(new Vector3(32, 32, 1), new Vector3(10,10,10)));
         
         Entity pointer = entityManager.createEntityWithComponents("pointer", 
                 new MousePointer()
@@ -134,6 +139,13 @@ public class MainWorld extends Scene{
                new UIEntity("actives_bar", true, true, 160, 32, display.width / c.scale / 2 - (160/2) + 3, display.height / c.scale - 28 , 0, new ArrayList<>(Arrays.asList("actives_bar")), new ArrayList<>(Arrays.asList(activesInventory.getID()))) 
         );
         
+        Entity swordOne = entityManager.createEntityWithComponents("sword1", 
+                new Item ("sword1", true),
+                new Collidable(new Vector3(16, 16, 1)),
+                new Transform(new Vector3(70, 70, 28)),
+                new AttackComponent(playerColliders)
+        );
+        
         //Playable entities creation
         Entity player = entityManager.createEntityWithComponents("Player",            
             new Transform(new Vector3(50,50, 64)),
@@ -143,8 +155,8 @@ public class MainWorld extends Scene{
             new Collidable(new Vector3(32, 32, 1))
         );
         
-        entityManager.addComponetToEntity(player.getID(),
-                new AttackCollider(new Vector3(40, 40, 1), new Vector3()));
+        //the sword one will be in the right hand of the player
+        entityManager.getEntityComponentInstance(player, (new Player()).getClass()).rightHand = swordOne.getID();
 
         
         entityManager.createEntityWithComponents("Enemy1", 

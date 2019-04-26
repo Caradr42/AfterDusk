@@ -3,6 +3,7 @@ package ECS.Systems;
 import ECS.Components.Playable;
 import ECS.Components.Player;
 import ECS.Components.Sprite;
+import ECS.Components.Tool;
 import ECS.Components.Transform;
 import ECS.SystemJob;
 import Scene.Scene;
@@ -13,7 +14,7 @@ import proyecto_videojuegos.MainThread;
 
 
 /**
- * System that executes player behabiour
+ * System that executes player behaviour
  *
  * @author José Alberto González Arteaga [A01038061]
  * @author Tanya Yaretzi González Elizondo [A00823408]
@@ -29,6 +30,7 @@ public class PlayerSystem extends SystemJob{
     Transform transform;  
     Playable playable;
     Sprite sprite;
+    Tool rightHand;
     
     /**
      * Constructor
@@ -40,6 +42,7 @@ public class PlayerSystem extends SystemJob{
         transform = new Transform();
         player = new Player();
         sprite = new Sprite();
+        rightHand = new Tool();
     }
 
     /**
@@ -77,6 +80,15 @@ public class PlayerSystem extends SystemJob{
                 sprite.animation = sprite.animations.get(0).first;
                 sprite.animationLenght = sprite.animations.get(0).second;
             }
+            
+            //if the player presses the space key, an attack is done with the right hand
+            if(scene.display.getKeyManager().space) {
+                rightHand = scene.entityManager.getEntityComponentInstance(player.rightHand, rightHand.getClass());
+                
+                //0 for the base attack
+                rightHand.currentActive = 0;
+            }
+            
             
             //if its not moving, stop the animation
             if(!(scene.display.getKeyManager().right || scene.display.getKeyManager().left || scene.display.getKeyManager().up || scene.display.getKeyManager().down)){

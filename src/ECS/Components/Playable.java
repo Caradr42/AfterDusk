@@ -24,7 +24,7 @@ import Maths.Vector3;
  */
 public class Playable extends Component {
     
-    int hp; 
+    public int hp; 
     Entity inventory;
     public Vector3 velocity;
 
