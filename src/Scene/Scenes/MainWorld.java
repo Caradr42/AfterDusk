@@ -51,7 +51,7 @@ public class MainWorld extends Scene{
         Entity weirdItm = entityManager.createEntityWithComponents("weird", 
                 new Item ("weird", true),
                 new Collidable(new Vector3(16, 16, 1)),
-                new Transform(new Vector3(50, 50, 32)),
+                new Transform(new Vector3(50, 50, 16)),
                 new Sprite("weird", true, 16, 16, 10, new ArrayList<>(Arrays.asList("weird")))
         );
 
@@ -60,7 +60,7 @@ public class MainWorld extends Scene{
                 new Tool(new Entity(0), new ArrayList<>(Arrays.asList(0)), new ArrayList<>(Arrays.asList(0))),
                 new Item ("shield", true),
                 new Collidable(new Vector3(16, 16, 1)),
-                new Transform(new Vector3(70, 70, 28)),
+                new Transform(new Vector3(70, 70, 16)),
                 new Sprite("shield", true, 16, 16, 10, new ArrayList<>(Arrays.asList("shield")))
         );
         //==============
@@ -164,7 +164,7 @@ public class MainWorld extends Scene{
         //PLAYABLE ENTITIES
         
         entityManager.createEntityWithComponents("Player",            
-            new Transform(new Vector3(50,50, 64)),
+            new Transform(new Vector3(50,50, 32)),
             new Sprite("sprite", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down","player_up","player_left","player_right"))),
             new Player("player", playerLR.getID(), playerPassives.getID(), playerActives.getID() ),
             new Playable(100, playerInv.getID(), new Vector3()),
@@ -173,7 +173,7 @@ public class MainWorld extends Scene{
 
         
         entityManager.createEntityWithComponents("Enemy1", 
-                new Transform(new Vector3(90, 90, 30)),
+                new Transform(new Vector3(90, 90, 48)),
                 new Sprite("enemy", true, 64, 80, 10, new ArrayList<>(Arrays.asList("enemy"))),
                 new Collidable(new Vector3(64, 80, 1)),
                 new Playable(300, enemyInv.getID(), new Vector3()));
@@ -185,7 +185,7 @@ public class MainWorld extends Scene{
             for(int y = 0; y < 960; y += 16){
                 entityManager.createEntityWithComponents("grass",
                         new Tile("grass" + Integer.toString(x) + "_" + Integer.toString(y)),
-                        new Transform(new Vector3(x,y,16)),
+                        new Transform(new Vector3(x,y,0)),
                         new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
                 );
             }

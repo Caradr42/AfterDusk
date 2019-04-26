@@ -267,7 +267,8 @@ public class CollisionSystem extends SystemJob{
                     //If the user press the E in the collision
                     if(scene.display.getKeyManager().isE) {
                         //System.out.println("E pressed B");                        
-                        
+                        //Play pick up sound
+                        Assets.Assets.pickUp.play();
                         //fetch the player's inventory ID and instance
                         Integer inventoryID = scene.entityManager.getEntityComponentInstance(j, (new Playable()).getClass()).inventory;
                         //if space available in the players inventory it will add the item to it

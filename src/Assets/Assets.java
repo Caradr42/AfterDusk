@@ -4,6 +4,8 @@ import Utility.Pair;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import IO.ImageLoader;
+import IO.SoundClip;
+
  /**
  * Class containing statically all the game assets
  * 
@@ -20,7 +22,19 @@ public class Assets {
     //A map containing all the sprite animations
     //the inner Pair has as first: a BufferedImage animation, and as second: the number of frames of such animation
     public static HashMap<String, Pair<BufferedImage[], Integer>> animations;
+    public static SoundClip backgroundTheme;
+    public static SoundClip houseTheme;
+    public static SoundClip aldeaTheme;
+    public static SoundClip battleTheme;
+    public static SoundClip cityTheme;
+    public static SoundClip bossTheme;
+    public static SoundClip explorationTheme;
+    public static SoundClip fatherTheme;
+    public static SoundClip grassWalk;
+    public static SoundClip pickUp;
+    public static SoundClip menu;
     
+            
     public static void init(){
         
         animations = new HashMap<>();
@@ -45,6 +59,7 @@ public class Assets {
         animations.put("1x9Slots_dark", new Pair<>(crop(154, 18, 1, "/Resources/Images/1x9Slots_dark.png", false)       , 1));
         animations.put("1x2Slots_dark", new Pair<>(crop(35, 18, 1, "/Resources/Images/1x2Slots_dark.png", false)        , 1));
         
+
         animations.put("actives_bar",   new Pair<>(crop(160, 32, 1, "/Resources/Images/actives_bar.png", false)         , 1));
         animations.put("RL_bar",        new Pair<>(crop(48, 32, 1, "/Resources/Images/RL_bar.png", false)               , 1));
         animations.put("menu_game",     new Pair<>(crop(278, 150, 1, "/Resources/Images/menu_game.png", false)          , 1));
@@ -52,6 +67,21 @@ public class Assets {
         
         animations.put("Button_48_selected",     new Pair<>(crop(48, 10, 1, "/Resources/Images/Button_48_selected.png", true), 1));
         //Button_48_selected
+        
+        //SOUND
+        
+        backgroundTheme = new SoundClip("/Resources/Sounds/Casa.wav"); //Background sound
+        houseTheme = new SoundClip("/Resources/Sounds/Casa.wav");
+        aldeaTheme = new SoundClip("/Resources/Sounds/Aldea_primitiva.wav");
+        battleTheme = new SoundClip("/Resources/Sounds/batalla.wav");
+        cityTheme = new SoundClip("/Resources/Sounds/ciudad.wav");
+        bossTheme = new SoundClip("/Resources/Sounds/boss.wav");
+        explorationTheme = new SoundClip("/Resources/Sounds/exploration.wav");
+        fatherTheme = new SoundClip("/Resources/Sounds/father.wav");
+        grassWalk = new SoundClip("/Resources/Sounds/grassWalk.wav");
+        pickUp = new SoundClip("/Resources/Sounds/pickUpWoods.wav");
+        menu = new SoundClip("/Resources/Sounds/Menu.wav");
+
         //System.out.println("found: " + animations.get("actives_bar").first);
     }
     

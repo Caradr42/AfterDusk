@@ -88,7 +88,7 @@ public class RenderSystem extends SystemJob{
         //Render all entities with a Transform and Sprite Component
         for(Pair<Transform, Sprite> t : queue){
             if(t.second.visible) {
-                g.drawImage(t.second.currentFrame, (int) t.first.position.x,(int) t.first.position.y,t.second.width,t.second.height,null);
+                g.drawImage(t.second.currentFrame, (int) t.first.position.x,(int) (t.first.position.y - t.first.position.z) ,t.second.width,t.second.height,null);
             }
         }
         
