@@ -142,7 +142,9 @@ public class MainWorld extends Scene{
         Entity swordOne = entityManager.createEntityWithComponents("sword1", 
                 new Item ("sword1", true),
                 new Collidable(new Vector3(16, 16, 1)),
-                new Transform(new Vector3(70, 70, 28)),
+                new Tool(-1),
+                //the x and y of enemy are 90 and 90
+                new Transform(new Vector3(93, 93, 28)),
                 new AttackComponent(playerColliders)
         );
         

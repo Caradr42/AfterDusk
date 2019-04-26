@@ -42,17 +42,21 @@ public class CollisionEntityWeapon extends SystemJob{
     public void update() {
         
         //For each entity with the AttackComponent
-        for(Integer i : arrAttack) {
-            
-            //Check if it collides with a collidable entity
-            for(Integer j : arrCollidable) {
-                //if they are not the same
-                if(!Objects.equals(i, j)) {
-                    
-                    //for each collider  that collides with the entity
-                    for(AttackCollider k : checkAttack(i, j)) {
-                        //Do something to the collidable entity
-                        executeAttack(i, j);
+        for (Integer i : arrAttack) {
+
+            //if the weapon has not a -1
+            if (scene.entityManager.getEntityComponentInstance(i, tool.getClass()).currentActive != - 1) {
+
+                //Check if it collides with a collidable entity
+                for (Integer j : arrCollidable) {
+                    //if they are not the same
+                    if (!Objects.equals(i, j)) {
+
+                        //for each collider  that collides with the entity
+                        for (AttackCollider k : checkAttack(i, j)) {
+                            //Do something to the collidable entity
+                            executeAttack(i, j);
+                        }
                     }
                 }
             }
@@ -101,6 +105,10 @@ public class CollisionEntityWeapon extends SystemJob{
             }
         }
         
+  
+        
+        
+        //adding collidables to entities
         for(int i = 0; i < arrCollidable.size(); i++) {
             entities.add(arrCollidable.get(i));
         }
@@ -188,6 +196,7 @@ public class CollisionEntityWeapon extends SystemJob{
         
         //The attack has been done
         tool.currentActive = -1;
+        System.out.println("Attack done");
     }
     
 }

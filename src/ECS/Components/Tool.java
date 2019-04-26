@@ -40,6 +40,10 @@ public class Tool extends Component{
     public Tool() {
         
     }
+    
+    public Tool(int currentActive) {
+        this.currentActive = currentActive;
+    }
 
     
     
