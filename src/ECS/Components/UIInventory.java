@@ -32,14 +32,14 @@ public class UIInventory extends UIEntity{
     
     /**
      * 
-     * @param name
-     * @param visible
-     * @param width
-     * @param height
-     * @param x
-     * @param y
-     * @param animationsNames
-     * @param firstInventory 
+     * @param name name of the Inventory
+     * @param visible if the Inventory is visible
+     * @param width width
+     * @param height height
+     * @param x x pos
+     * @param y y pos
+     * @param animationsNames Inventory slots sprite
+     * @param firstInventory the id of the first inventory in the inventories linked list
      */
     public UIInventory(String name, boolean visible, int width, int height, int x, int y, ArrayList<String> animationsNames, Integer firstInventory) {
         super(name, false, false ,width, height, x, y, 0, animationsNames, null);

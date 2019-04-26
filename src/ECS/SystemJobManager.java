@@ -102,8 +102,8 @@ public class SystemJobManager extends SystemJob{
     public void init() {   
         for(SystemJob sj : systemsList){
             sj.init();
-            scene.entityManager.removeEntitiesSignal.add(sj.onRemoveEntitiesListener);
-            scene.entityManager.addEntitiesSignal.add(sj.onAddEntitesListener);
+            //scene.entityManager.removeEntitiesSignal.add(sj.onRemoveEntitiesListener);
+           // scene.entityManager.addEntitiesSignal.add(sj.onAddEntitesListener);
         }
     }
 

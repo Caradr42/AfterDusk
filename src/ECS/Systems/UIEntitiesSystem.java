@@ -4,6 +4,7 @@ import Assets.Assets;
 import ECS.Components.Item;
 import ECS.Components.MousePointer;
 import ECS.Components.Transform;
+import ECS.Components.UIButton;
 import ECS.Components.UIEntity;
 import ECS.Components.UIInventory;
 import ECS.SystemJob;
@@ -31,6 +32,7 @@ public class UIEntitiesSystem extends SystemJob{
     
     //UIEntity subclasses
     UIInventory uiInventory;
+    UIButton uiButton;
     
     boolean PlayerInventoryBuffer;
     
@@ -50,6 +52,7 @@ public class UIEntitiesSystem extends SystemJob{
         
         uiEntity = new UIEntity();
         uiInventory = new UIInventory();
+        uiButton = new UIButton();
         
         mousePointers = new ArrayList<>();
         mousePointer = new MousePointer();
@@ -136,6 +139,7 @@ public class UIEntitiesSystem extends SystemJob{
             for(Integer sub: uiEntity.subInterfaces){
                 instances.add(scene.entityManager.getEntityComponentInstance(sub, uiEntity.getClass()));
                 instances.add(scene.entityManager.getEntityComponentInstance(sub, uiInventory.getClass()));
+                instances.add(scene.entityManager.getEntityComponentInstance(sub, uiButton.getClass()));
                 //expand here for all UIEntity subclass...
             }
             instances.remove(null);

@@ -5,7 +5,7 @@ import Utility.Pair;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import proyecto_videojuegos.MainThread;
-import videoGame.ImageLoader;
+import IO.ImageLoader;
 
 /**
  * Component containing the sprite data necessary for the rendering of an entity

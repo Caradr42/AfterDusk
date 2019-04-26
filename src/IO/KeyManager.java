@@ -1,6 +1,3 @@
-/*
- *
- */
 package IO;
 
 import java.awt.event.KeyEvent;

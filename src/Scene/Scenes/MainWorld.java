@@ -131,12 +131,22 @@ public class MainWorld extends Scene{
         Entity activesInventory = entityManager.createEntityWithComponents("Player_UI_Actives_Inventory", 
                     new UIInventory("Actives", true, 154, 18, display.width / c.scale / 2 - (154/2), display.height / c.scale - 18 , new ArrayList<>(Arrays.asList("1x9Slots_dark")), playerActives.getID())
             );
+        //UI Buttons
+        
+        Entity button = entityManager.createEntityWithComponents("button", 
+               new UIButton("Button", true, 48, 10, 50, 50, new ArrayList<>(Arrays.asList("Button_48_selected")))
+        );
         
         //USER INTERFACES
         
         //The players Inventory user interface, has a reference to the player internal inventory
         Entity InventoryUI = entityManager.createEntityWithComponents("Player_UIInventory", 
-               new UIEntity("Player_Inventory", false, true, 195, 135, display.width / c.scale / 2 - (195/2) , display.height / c.scale / 2 - (135 / 2) -2, 0, new ArrayList<>(Arrays.asList("inventory")), new ArrayList<>(Arrays.asList( mainInventory.getID(), LRInventory.getID(), passivesInventory.getID() ))) 
+               new UIEntity("Player_Inventory", false, true, 195, 135, display.width / c.scale / 2 - (195/2) , display.height / c.scale / 2 - (135 / 2) -2, 0, new ArrayList<>(Arrays.asList("inventory")), 
+                    new ArrayList<>(Arrays.asList( 
+                        mainInventory.getID(), 
+                        LRInventory.getID(), 
+                        passivesInventory.getID(), 
+                        button.getID()))) 
         );
         
         //the player actives hotbar
@@ -147,6 +157,9 @@ public class MainWorld extends Scene{
         Entity LRUI = entityManager.createEntityWithComponents("Player_RL", 
                new UIEntity("RL_bar", true, true, 48, 32, 16 , display.height / c.scale - 28 , 0, new ArrayList<>(Arrays.asList("RL_bar")), new ArrayList<>(Arrays.asList(LRUIInventory.getID()))) 
         );
+        
+        
+        
         
         //PLAYABLE ENTITIES
         
@@ -194,7 +207,8 @@ public class MainWorld extends Scene{
             new UIInventorySystem(this),
             new CollisionSystem(this),
             new MousePointerSystem(this),
-            new ItemSystem(this)
+            new ItemSystem(this),
+            new UIButtonSystem(this)
         );
     }
 }

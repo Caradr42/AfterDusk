@@ -32,9 +32,11 @@ public class GameManagerSystem extends SystemJob{
         /*if(scene.display.keyManager.wasPressed[KeyEvent.VK_F]){
             System.out.println("typed");
         }*/
-        if(scene.display.mouseManager.wasLeftReleased()){
+        /*if(scene.display.mouseManager.wasLeftReleased()){
             System.out.println("leftRelease");
-        }
+        }*/
+        //scene.entityManager.printArchetypesMap();
+        //scene.entityManager.printEntitiesArchetypeMap();
     }
 
     @Override

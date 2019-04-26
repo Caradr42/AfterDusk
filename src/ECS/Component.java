@@ -1,5 +1,6 @@
 package ECS;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
 /**
@@ -14,7 +15,7 @@ import java.util.HashSet;
  * @date 09/02/2019
  * @version 1.0
  */
-public abstract class Component {
+public abstract class Component implements Serializable{
    // private static HashSet<Class> componentExtendors;//all the Instantiated classes that extend component
 
     //boolean to determine if the data contained in this component must be used
