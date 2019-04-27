@@ -126,7 +126,7 @@ public class Camera {
     }
     
     public Vector2 UIToWorldCoodinates(Vector2 UIcoordinates){
-        System.out.println("world position: " + worldPosition.x + " " + worldPosition.y );
+        //System.out.println("world position: " + worldPosition.x + " " + worldPosition.y );
         return worldPosition.add(UIcoordinates);
     }
     

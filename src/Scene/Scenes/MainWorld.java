@@ -151,7 +151,7 @@ public class MainWorld extends Scene{
         //PLAYABLE ENTITIES
         
          entityManager.createEntityWithComponents("Player",            
-            new Transform(new Vector3(50,0, 64)),
+            new Transform(new Vector3(50,0, 32)),
             new Sprite("sprite", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down","player_up","player_left","player_right"))),
             new Player("player", playerLR.getID(), playerPassives.getID(), playerActives.getID() ),
             new Playable(100, playerInv.getID(), new Vector3()),
@@ -160,7 +160,7 @@ public class MainWorld extends Scene{
 
         
         entityManager.createEntityWithComponents("Enemy1", 
-                new Transform(new Vector3(90, 90, 30)),
+                new Transform(new Vector3(90, 90, 48)),
                 new Sprite("enemy", true, 64, 80, 10, new ArrayList<>(Arrays.asList("enemy"))),
                 new Collidable(new Vector3(64, 80, 1)),
                 new Playable(300, enemyInv.getID(), new Vector3()));
@@ -168,8 +168,8 @@ public class MainWorld extends Scene{
         //TILES 
         
         //draw grass grid
-        for(int x = 0; x < 960; x += 16){
-            for(int y = 0; y < 960; y += 16){
+        for(int x = 0; x < 600; x += 16){
+            for(int y = 0; y < 600; y += 16){
                 entityManager.createEntityWithComponents("grass",
                         new Tile("grass" + Integer.toString(x) + "_" + Integer.toString(y)),
                         new Transform(new Vector3(x,y,16)),

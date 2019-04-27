@@ -19,6 +19,9 @@ import Utility.Pair;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import javafx.scene.input.KeyCode;
 import proyecto_videojuegos.MainThread;
 
 /**
@@ -42,7 +45,7 @@ public class RenderSystem extends SystemJob{
     private Sprite sprite;
     private MousePointer mousePointer;
     //Priority Queue of entities to render
-    private PriorityQueue <Pair<Transform, Sprite> > queue;
+    private List <Pair<Transform, Sprite>> array;
             
     public RenderSystem(Scene scene) {
         super(scene);
@@ -58,8 +61,11 @@ public class RenderSystem extends SystemJob{
         for(Integer e: entities){
             transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());
             sprite = scene.entityManager.getEntityComponentInstance(e, sprite.getClass());
-            queue.add(new Pair(transform, sprite));
+           
+            array.add(new Pair(transform, sprite));
+    
         }
+         
     }
 
     @Override
@@ -71,7 +77,9 @@ public class RenderSystem extends SystemJob{
       //Fetch mouse pointers
       mousePointers = scene.entityManager.getEntitiesWithComponents(mousePointer.getClass());
               
-      queue = new PriorityQueue<>(entities.size(), new myComparator());
+      //queue = new ArrayList<>(entities.size(), new myComparator());
+      array = new ArrayList <Pair<Transform, Sprite>>();
+        
     }
 
     @Override
@@ -85,10 +93,15 @@ public class RenderSystem extends SystemJob{
     @Override
     public void render(Graphics2D g) {
         
+        array.sort(new myComparator());
+        /*for(Pair <Transform,Sprite> i : array){
+                System.out.println(i.second.name);
+            }
+       */
         //Render all entities with a Transform and Sprite Component
-        for(Pair<Transform, Sprite> t : queue){
+        for(Pair<Transform, Sprite> t : array){
             if(t.second.visible) {
-                g.drawImage(t.second.currentFrame, (int) t.first.position.x,(int) t.first.position.y,t.second.width,t.second.height,null);
+                g.drawImage(t.second.currentFrame, (int) t.first.position.x,(int) (t.first.position.y - t.first.position.z) ,t.second.width,t.second.height,null);
             }
         }
         
@@ -116,29 +129,29 @@ public class RenderSystem extends SystemJob{
                 sprite = scene.entityManager.getEntityComponentInstance(mp, sprite.getClass());
                 g.drawImage(sprite.currentFrame,(int)mousePointer.position.x, (int)mousePointer.position.y, sprite.width, sprite.height, null);
             }
-        }
-        
+        }        
         /*if (scene.display.getKeyManager().keys[KeyEvent.VK_P]) {
             //Display the inventory
             inventory = new UserInterface(1);
             inventory.render(g);
         }*/
         
-        queue.clear();
+        array.clear();
     }
+
     
     private class myComparator implements Comparator <Pair<Transform, Sprite> >{
 
         @Override
         public int compare
         (Pair<Transform, Sprite> p1, Pair<Transform, Sprite > p2) {
-            //System.out.println(p1.second.name + " : " + p1.first.position.z);
+            
             if(p1.first.position.z + p1.first.position.y > p2.first.position.z + p2.first.position.y){
                 return 1;
             }else if (p1.first.position.z + p1.first.position.y < p2.first.position.z + p2.first.position.y){
                 return -1;
-            }else return 0;
+            }else return 0; 
         }
+            
     }
-
 }

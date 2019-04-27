@@ -121,7 +121,6 @@ public class MainThread implements Runnable{
     private void init() {   
         display = new Display(title, width, height);
         Assets.init(); //initializes the game assets
-        System.out.print(width/2);
         c = new Camera(-width / 2, -height / 2, 4, display);
         scene = new MainWorld(display, c);
         /* //DEBUG : prints all listeners class attache dto the scene

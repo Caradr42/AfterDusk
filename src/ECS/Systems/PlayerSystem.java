@@ -62,8 +62,8 @@ public class PlayerSystem extends SystemJob{
             sprite = scene.entityManager.getEntityComponentInstance(e, sprite.getClass());
             leftBorder = 50;
             rightBorder = 80;
-            upperBorder =  20;
-            downBorder =  60;
+            upperBorder =  50;
+            downBorder =  30;
             
             //Save the position of the initial position of the player
             if(firstTime){
@@ -72,11 +72,11 @@ public class PlayerSystem extends SystemJob{
                         firstTime = false;
             }
             
-           /* System.out.println("position 1 " + MainThread.c.position1.x + ","+ MainThread.c.position1.y);
-            //System.out.println("ortogonal  " + MainThread.c.ortogonalPosition.x + ","+ MainThread.c.ortogonalPosition.y);
+            System.out.println("position 1 " + MainThread.c.position1.x + ","+ MainThread.c.position1.y);
+            System.out.println("ortogonal  " + MainThread.c.ortogonalPosition.x + ","+ MainThread.c.ortogonalPosition.y);
             System.out.println("position 2 " + MainThread.c.position2.x + ","+ MainThread.c.position2.y);
             System.out.println("transform " + transform.position.x + ","+ transform.position.y);
-            */
+            
             //if the player goes to the right change the position and the animation to the right
             if(scene.display.getKeyManager().right){
                 transform.position.x = transform.position.x + 2;//+ 100 * MainThread.deltaTime);
@@ -113,10 +113,10 @@ public class PlayerSystem extends SystemJob{
             //if colides with the left border, move the camera to the left
             if (transform.position.x == MainThread.c.position1.x){
                 MainThread.c.ortogonalPosition.set(
-                        transform.position.x * MainThread.c.scale - leftBorder * MainThread.c.scale,
+                        transform.position.x * MainThread.c.scale - leftBorder * MainThread.c.scale - 1,
                         MainThread.c.ortogonalPosition.y);
                  MainThread.c.position1.x = MainThread.c.position1.x - 2;
-                 MainThread.c.position2.x = MainThread.c.position2.x -2;
+                 MainThread.c.position2.x = MainThread.c.position2.x - 2;
                  
                  MainThread.c.worldPosition.set(MainThread.c.worldPosition.x - 2, MainThread.c.worldPosition.y);
             }
@@ -124,7 +124,7 @@ public class PlayerSystem extends SystemJob{
             //if collides with the rigth border, move the camera to the right
             if (transform.position.x == MainThread.c.position2.x){
                 MainThread.c.ortogonalPosition.set(
-                       transform.position.x * MainThread.c.scale - scene.display.width + rightBorder * MainThread.c.scale,
+                       transform.position.x * MainThread.c.scale - scene.display.width + rightBorder * MainThread.c.scale + 1,
                         MainThread.c.ortogonalPosition.y);
                 MainThread.c.position2.x = MainThread.c.position2.x + 2;
                 MainThread.c.position1.x = MainThread.c.position1.x + 2;
@@ -136,7 +136,7 @@ public class PlayerSystem extends SystemJob{
             if (transform.position.y == MainThread.c.position1.y){
                 MainThread.c.ortogonalPosition.set(
                          MainThread.c.ortogonalPosition.x,
-                        transform.position.y * MainThread.c.scale - upperBorder * MainThread.c.scale);
+                        transform.position.y * MainThread.c.scale - upperBorder * MainThread.c.scale - 1);
                 MainThread.c.position1.y = MainThread.c.position1.y - 2;
                  MainThread.c.position2.y = MainThread.c.position2.y - 2;
                  
@@ -147,7 +147,7 @@ public class PlayerSystem extends SystemJob{
             if (transform.position.y == MainThread.c.position2.y){
                 MainThread.c.ortogonalPosition.set(
                          MainThread.c.ortogonalPosition.x,
-                        transform.position.y * MainThread.c.scale - scene.display.height + downBorder * MainThread.c.scale );
+                        transform.position.y * MainThread.c.scale - scene.display.height + downBorder * MainThread.c.scale + 1);
                  MainThread.c.position1.y = MainThread.c.position1.y + 2;
                  MainThread.c.position2.y = MainThread.c.position2.y + 2;
                  
