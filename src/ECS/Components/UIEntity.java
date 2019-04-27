@@ -23,6 +23,10 @@ import proyecto_videojuegos.MainThread;
  * @version 1.0
  */
 public class UIEntity extends Component{
+    
+    public Integer parent;
+    public ArrayList<Integer> childs;
+    
     //Transform Data
     public Vector2 position; //position on screen (pixels)
     
@@ -44,7 +48,7 @@ public class UIEntity extends Component{
     public BufferedImage[] animation;
     public BufferedImage currentFrame;
     //UI data
-    public ArrayList<Integer> subInterfaces; //the smaller UIEntities or UIInventories inside this UIEntity
+    //public ArrayList<Integer> subInterfaces; //the smaller UIEntities or UIInventories inside this UIEntity
     public ArrayList<UIEntity> subInterfacesComponents; //polimorfic list of components instances
     public boolean mainUI;
     
@@ -62,7 +66,7 @@ public class UIEntity extends Component{
         this.animationsNames = animationsNames;
         this.animations = new ArrayList<>();
         
-        this.subInterfaces = subInterfaces;
+        this.childs = subInterfaces;
         subInterfacesComponents = new ArrayList<>();
     }
 
@@ -70,9 +74,12 @@ public class UIEntity extends Component{
     }
     
     //I'm sorry ECS :(
-    public void UIRender(Graphics2D g, Scene s){
+    public void UIRender(Graphics2D g, Scene s, Vector2 fatherPosition ){
+        
         for(UIEntity sub: subInterfacesComponents){
-            sub.UIRender(g, s);
+            if(sub.visible){
+                sub.UIRender(g, s, fatherPosition);
+            }
         }
     }   
 }

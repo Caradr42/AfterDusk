@@ -5,6 +5,9 @@
  */
 package ECS.Systems;
 
+import ECS.Component;
+import ECS.Components.Transform;
+import ECS.Components.UIEntity;
 import ECS.SystemJob;
 import Scene.Scene;
 import java.awt.event.KeyEvent;
@@ -28,7 +31,13 @@ public class GameManagerSystem extends SystemJob{
     }
 
     @Override
-    public void update() {            
+    public void update() {     
+        
+        //Component cl = new Transform();
+        //UIEntity ui = new UIEntity();
+       
+        
+        
         /*if(scene.display.keyManager.wasPressed[KeyEvent.VK_F]){
             System.out.println("typed");
         }*/

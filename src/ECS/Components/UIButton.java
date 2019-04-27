@@ -5,6 +5,7 @@
  */
 package ECS.Components;
 
+import Maths.Vector2;
 import Scene.Scene;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -37,8 +38,8 @@ public class UIButton extends  UIEntity{
     }
     
     @Override
-    public void UIRender(Graphics2D g, Scene s){
+    public void UIRender(Graphics2D g, Scene s, Vector2 fatherPosition){
         
-        g.drawImage(currentFrame, (int)position.x, (int)position.y, width, height, null);
+        g.drawImage(currentFrame, (int)(fatherPosition.x + position.x) , (int)(fatherPosition.y + position.y), width, height, null);
     }
 }

@@ -9,6 +9,7 @@ import ECS.Components.UIEntity;
 import ECS.Components.UIInventory;
 import ECS.SystemJob;
 import Maths.Vector2;
+import Maths.Vector3;
 import Scene.Scene;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -116,8 +117,9 @@ public class UIEntitiesSystem extends SystemJob{
                 mousePointer.heldItem = 0;
                 itemTransform = scene.entityManager.getEntityComponentInstance(tempItem, itemTransform.getClass());
                 item = scene.entityManager.getEntityComponentInstance(tempItem, item.getClass());
-                
+                double originalItemZ = itemTransform.position.z;
                 itemTransform.position.set(scene.c.UIToWorldCoodinates(mousePointer.position.add(new Vector2(-8, -8))));
+                itemTransform.position.y += originalItemZ;
                 //System.out.println(itemTransform.position.x + " " + itemTransform.position.y);
                 //Play drop sound
                 Assets.pickUp.play();
@@ -141,7 +143,7 @@ public class UIEntitiesSystem extends SystemJob{
             
             //adds all components instances for all types of uiEntities
             HashSet<UIEntity> instances = new HashSet<>(); //temp set
-            for(Integer sub: uiEntity.subInterfaces){
+            for(Integer sub: uiEntity.childs){
                 instances.add(scene.entityManager.getEntityComponentInstance(sub, uiEntity.getClass()));
                 instances.add(scene.entityManager.getEntityComponentInstance(sub, uiInventory.getClass()));
                 instances.add(scene.entityManager.getEntityComponentInstance(sub, uiButton.getClass()));
@@ -150,6 +152,8 @@ public class UIEntitiesSystem extends SystemJob{
             instances.remove(null);
             uiEntity.subInterfacesComponents.addAll(instances);
             instances.clear();
+            
+            ///sprite stuff
             
             //fetch the sprite for the uiEntity and sets it 
             for(int i = 0; i < uiEntity.animationsNames.size(); ++i){

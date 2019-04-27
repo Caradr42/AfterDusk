@@ -1,6 +1,7 @@
 package ECS;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -18,14 +19,6 @@ import java.util.HashSet;
 public abstract class Component implements Serializable{
    // private static HashSet<Class> componentExtendors;//all the Instantiated classes that extend component
 
-    //boolean to determine if the data contained in this component must be used
-    protected boolean active = true;
     
-    /**
-     * Returns the active atribute of the component. 
-     * @return if the component is active
-     */
-    public boolean isActive(){
-        return active;
-    }
+    
 }

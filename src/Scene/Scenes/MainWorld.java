@@ -52,7 +52,8 @@ public class MainWorld extends Scene{
                 new Item ("weird", true),
                 new Collidable(new Vector3(16, 16, 1)),
                 new Transform(new Vector3(50, 50, 16)),
-                new Sprite("weird", true, 16, 16, 10, new ArrayList<>(Arrays.asList("weird")))
+                new Sprite("weird", true, 16, 16, 10, new ArrayList<>(Arrays.asList("weird"))),
+                new WorldEntity()
         );
 
         //a shield in the players inventory
@@ -61,7 +62,8 @@ public class MainWorld extends Scene{
                 new Item ("shield", true),
                 new Collidable(new Vector3(16, 16, 1)),
                 new Transform(new Vector3(70, 70, 16)),
-                new Sprite("shield", true, 16, 16, 10, new ArrayList<>(Arrays.asList("shield")))
+                new Sprite("shield", true, 16, 16, 10, new ArrayList<>(Arrays.asList("shield"))),
+                new WorldEntity()
         );
         //==============
         
@@ -134,14 +136,15 @@ public class MainWorld extends Scene{
         //UI Buttons
         
         Entity button = entityManager.createEntityWithComponents("button", 
-               new UIButton("Button", true, 48, 10, 50, 50, new ArrayList<>(Arrays.asList("Button_48_selected")))
+                new UIButton("Button", true, 48, 10, 50, 50, new ArrayList<>(Arrays.asList("Button_48_selected")))
         );
         
         //USER INTERFACES
         
         //The players Inventory user interface, has a reference to the player internal inventory
         Entity InventoryUI = entityManager.createEntityWithComponents("Player_UIInventory", 
-               new UIEntity("Player_Inventory", false, true, 195, 135, display.width / c.scale / 2 - (195/2) , display.height / c.scale / 2 - (135 / 2) -2, 0, new ArrayList<>(Arrays.asList("inventory")), 
+                new UIEntity("Player_Inventory", false, true, 195, 135, display.width / c.scale / 2 - (195/2) , display.height / c.scale / 2 - (135 / 2) -2, 0, 
+                    new ArrayList<>(Arrays.asList("inventory")), 
                     new ArrayList<>(Arrays.asList( 
                         mainInventory.getID(), 
                         LRInventory.getID(), 
@@ -151,11 +154,15 @@ public class MainWorld extends Scene{
         
         //the player actives hotbar
         Entity activesUI = entityManager.createEntityWithComponents("Player_actives", 
-               new UIEntity("actives_bar", true, true, 160, 32, display.width / c.scale / 2 - (160/2) + 3, display.height / c.scale - 28 , 0, new ArrayList<>(Arrays.asList("actives_bar")), new ArrayList<>(Arrays.asList(activesInventory.getID()))) 
+                new UIEntity("actives_bar", true, true, 160, 32, display.width / c.scale / 2 - (160/2) + 3, display.height / c.scale - 28 , 0, 
+                    new ArrayList<>(Arrays.asList("actives_bar")), 
+                    new ArrayList<>(Arrays.asList(activesInventory.getID()))) 
         );
         
         Entity LRUI = entityManager.createEntityWithComponents("Player_RL", 
-               new UIEntity("RL_bar", true, true, 48, 32, 16 , display.height / c.scale - 28 , 0, new ArrayList<>(Arrays.asList("RL_bar")), new ArrayList<>(Arrays.asList(LRUIInventory.getID()))) 
+               new UIEntity("RL_bar", true, true, 48, 32, 16 , display.height / c.scale - 28 , 0, 
+                    new ArrayList<>(Arrays.asList("RL_bar")), 
+                    new ArrayList<>(Arrays.asList(LRUIInventory.getID()))) 
         );
         
         
@@ -166,6 +173,7 @@ public class MainWorld extends Scene{
         entityManager.createEntityWithComponents("Player",            
             new Transform(new Vector3(50,50, 32)),
             new Sprite("sprite", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down","player_up","player_left","player_right"))),
+            new WorldEntity(),
             new Player("player", playerLR.getID(), playerPassives.getID(), playerActives.getID() ),
             new Playable(100, playerInv.getID(), new Vector3()),
             new Collidable(new Vector3(32, 32, 1))
@@ -175,21 +183,47 @@ public class MainWorld extends Scene{
         entityManager.createEntityWithComponents("Enemy1", 
                 new Transform(new Vector3(90, 90, 48)),
                 new Sprite("enemy", true, 64, 80, 10, new ArrayList<>(Arrays.asList("enemy"))),
+                new WorldEntity(),
                 new Collidable(new Vector3(64, 80, 1)),
                 new Playable(300, enemyInv.getID(), new Vector3()));
         
         //TILES 
         
+        Sprite grassTopSprite = new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")));
+        Sprite grassSideSprite = new Sprite("grassSide", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grassSide")));
+        
         //draw grass grid
         for(int x = 0; x < 960; x += 16){
             for(int y = 0; y < 960; y += 16){
+                Entity side = entityManager.createEntityWithComponents("grassSide", 
+                        new Transform(new Vector3(x,y,-16)),
+                        grassSideSprite,
+                        new WorldEntity()
+                        );
+                
                 entityManager.createEntityWithComponents("grass",
-                        new Tile("grass" + Integer.toString(x) + "_" + Integer.toString(y)),
-                        new Transform(new Vector3(x,y,0)),
-                        new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
+                        new Tile("grass" + Integer.toString(x) + "_" + Integer.toString(y), grassTopSprite, side.getID()),
+                        new Transform(new Vector3(x,y,0)), 
+                        grassTopSprite,
+                        new WorldEntity()
+                        //new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
                 );
             }
         }
+        
+        Entity side = entityManager.createEntityWithComponents("grassSide", 
+                        new Transform(new Vector3(-80,-80,-16)),
+                        grassSideSprite,
+                        new WorldEntity()
+                        );
+        
+        entityManager.createEntityWithComponents("grass",
+                        new Tile("grass2", grassTopSprite, side.getID()),
+                        new Transform(new Vector3(-80,-80,0)), 
+                        grassTopSprite,
+                        new WorldEntity()
+                        //new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
+            );
     }
     
     /**

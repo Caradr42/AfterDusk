@@ -46,24 +46,18 @@ public class UIInventory extends UIEntity{
         this.firstInventory = firstInventory;
         //UIItemsPositions = new HashMap<>();
         UISlots = new ArrayList<>(4);
-        
         inventory = new Inventory();
         itemSprite = new Sprite();     
     }
     
     @Override
-    public void UIRender(Graphics2D g, Scene s){
+    public void UIRender(Graphics2D g, Scene s, Vector2 fatherPosition){
+        super.UIRender(g, s, fatherPosition);
         //renders itself
         if(visible){
             for(int i = 0; i < UISlots.size(); ++i){
-                /*if(UISlots.get(i).size() > 3){
                     g.drawImage(currentFrame, (int)position.x, (int)position.y + (17 * i), width, height, null);
-                    g.drawImage(currentFrame, (int)position.x + 51, (int)position.y + (17 * i), width, height, null);
-                }else{*/
-                    g.drawImage(currentFrame, (int)position.x, (int)position.y + (17 * i), width, height, null);
-                //}
             }
-            
         }
         
         //renders the items
