@@ -162,7 +162,7 @@ public class MainWorld extends Scene{
         //The players Inventory user interface, has a reference to the player internal inventory
         Entity InventoryUI = entityManager.createEntityWithComponents("Player_Inventory", 
                 new Transform( display.width / c.scale / 2 - (195/2) , display.height / c.scale / 2 - (135 / 2) -2),
-                new Sprite("Player_Inventory", true, 195, 135, 0, new ArrayList<>(Arrays.asList("inventory"))),
+                new Sprite("Player_Inventory", false, 195, 135, 0, new ArrayList<>(Arrays.asList("inventory"))),
                 new UIEntity("Player_Inventory", true, 
                     new ArrayList<>(Arrays.asList( 
                         mainInventory.getID(), 
