@@ -88,7 +88,10 @@ public class UIEntitiesSystem extends SystemJob{
             uiEntity = scene.entityManager.getEntityComponentInstance(e, uiEntity.getClass());
             uiSprite = scene.entityManager.getEntityComponentInstance(e, uiSprite.getClass());
             uiTransform = scene.entityManager.getEntityComponentInstance(e, uiTransform.getClass());
-
+            
+            //update UI collider Position
+            uiEntity.UIcollider.setLocation((int)uiTransform.position.x, (int)uiTransform.position.y);
+            
             //updte if the pointer is outside of any UIEntity
             if(uiEntity.UIcollider.contains((int)mousePointer.position.x, (int)mousePointer.position.y) && uiSprite.visible){
                 pointerOutsideUI = false;
