@@ -62,6 +62,7 @@ public class PlayerSystem extends SystemJob{
                 transform.position.x = transform.position.x + 2;//+ 100 * MainThread.deltaTime);
                 sprite.animation = sprite.animations.get(3).first;
                 sprite.animationLenght = sprite.animations.get(3).second;
+                
 
                 playable.right = true;
                 playable.left = false;
