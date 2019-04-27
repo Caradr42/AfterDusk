@@ -46,6 +46,7 @@ public class Assets {
         animations.put("enemy",         new Pair<>(crop(64, 80, 1, "/Resources/Images/enemy.png")           , 1));
         //tiles
         animations.put("grass",         new Pair<>(crop(16, 16, 1, "/Resources/Images/grass.png")           , 1));
+        animations.put("log",         new Pair<>(crop(16, 16, 1, "/Resources/Images/log.png")           , 1));
         //items
         animations.put("weird",         new Pair<>(crop(16, 16, 1, "/Resources/Images/weird.png")           , 1));
         animations.put("shield",        new Pair<>(crop(16, 16, 1, "/Resources/Images/shield.png")          , 1));

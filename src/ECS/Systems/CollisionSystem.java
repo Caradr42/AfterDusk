@@ -223,7 +223,6 @@ public class CollisionSystem extends SystemJob{
             //entity1 collides in the left border of entity2
             if (bLeft) {
                 System.out.println("collision left");
-
             } //if entity1 collides in the right border of entity2
             else if (bRight) {
                 System.out.println("collision right");

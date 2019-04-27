@@ -177,6 +177,15 @@ public class MainWorld extends Scene{
                 );
             }
         }
+        
+        //Example log
+        entityManager.createEntityWithComponents("wood",
+                        new Tile("log" + Integer.toString(200) + "_" + Integer.toString(200),true),
+                        new Transform(new Vector3(200,200,16)),
+                        new Sprite("log", true, 16, 16, 10, new ArrayList<>(Arrays.asList("log")))
+                );
+       
+        
     }
     
     /**

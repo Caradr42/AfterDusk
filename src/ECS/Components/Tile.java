@@ -19,11 +19,29 @@ import java.awt.image.BufferedImage;
 public class Tile extends Component{
     
     String name;
-
+    boolean tileCollidable;
+    
     public Tile(String name) {
         this.name = name;
+        tileCollidable=false;
+    }
+    
+    public Tile(String name, boolean tileCollidable) {
+        this.name = name;
+        this.tileCollidable=tileCollidable;
     }
 
+
     public Tile() {
+        tileCollidable=false;
     } 
+    
+    public boolean isCollidable(){
+        return tileCollidable;
+    }
+    
+    public void setCollidable(){
+        tileCollidable=!tileCollidable;
+    }
+    
 }
