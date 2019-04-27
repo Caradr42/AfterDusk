@@ -54,8 +54,6 @@ public class UIInventorySystem extends SystemJob{
                                     mousePointer.heldItem = getItemFromInventory(uiInventory.firstInventory, i, j);
                                     setItemFromInventory(uiInventory.firstInventory, i, j, 0);
                                 }*/
-                                //Play pick up sound
-                                Assets.pickUp.play();
                                 int itemBuffer = mousePointer.heldItem;
                                 mousePointer.heldItem = getItemFromInventory(uiInventory.firstInventory, i, j);
                                     setItemFromInventory(uiInventory.firstInventory, i, j, itemBuffer);
