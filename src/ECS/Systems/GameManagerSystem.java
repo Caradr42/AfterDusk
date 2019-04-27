@@ -7,6 +7,7 @@ package ECS.Systems;
 
 import ECS.SystemJob;
 import Scene.Scene;
+import java.awt.event.KeyEvent;
 import java.util.HashSet;
 
 /**
@@ -28,7 +29,12 @@ public class GameManagerSystem extends SystemJob{
 
     @Override
     public void update() {            
-        
+        /*if(scene.display.keyManager.wasPressed[KeyEvent.VK_F]){
+            System.out.println("typed");
+        }*/
+       /* if(scene.display.mouseManager.wasLeftReleased()){
+            //System.out.println("leftRelease");
+        }*/
     }
 
     @Override

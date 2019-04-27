@@ -2,6 +2,7 @@ package ECS.Components;
 
 import ECS.Component;
 import Maths.Vector3;
+import org.omg.PortableInterceptor.ACTIVE;
 
 /**
  * Component of an entity that has a hit box
@@ -21,12 +22,16 @@ public class Collidable extends Component{
      * Normally it has the same measurements as the sprite.
      */
     public Vector3 hitbox;
+    public boolean active;
 
     public Collidable() {
+        super();
     }
 
     public Collidable(Vector3 hitbox) {
+        super();
         this.hitbox = hitbox;
+        active = true;
     }
      
      

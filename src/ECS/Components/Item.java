@@ -35,12 +35,11 @@ public class Item extends Component {
         this.name = name;
     }*/
     
-    public Item(String name, boolean bInventory) {
-        this.isInInventory = bInventory;
+    public Item(String name, boolean isInInventory) {
+        this.isInInventory = isInInventory;
         this.name = name;
     }
     
     public Item() {
-        
     }
 }

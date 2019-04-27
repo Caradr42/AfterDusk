@@ -21,7 +21,7 @@ public class Proyecto_Videojuegos {
         
     public static void main(String[] args) {
        System.setProperty("sun.java2d.opengl", "true");
-       MainThread mt = new MainThread("Game", 1066, 568);
+       MainThread mt = new MainThread("Game", 1366, 768);
        mt.start();
     }
 }

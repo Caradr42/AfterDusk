@@ -1,13 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ECS.Systems;
 
 import ECS.Components.Collidable;
+import ECS.Components.Inventory;
 import ECS.Components.Item;
+import ECS.Components.MousePointer;
 import ECS.Components.Playable;
+import ECS.Components.Player;
 import ECS.Components.Sprite;
 import ECS.Components.Transform;
 import ECS.Entity;
@@ -27,29 +25,35 @@ public class CollisionSystem extends SystemJob{
     
     //An item must have a collidable assigned by reference
     private Item item;
-    
     //A playable must have a collidable assigned by reference
     private Playable playable;
     
+
     private static ArrayList<Integer> arrPlayables;
     
     private static ArrayList<Integer> arrItems;
+
+
+
     
     //private ArrayList<Integer> arr;
+    
+    //Mouse Pointer 
+    ArrayList<Integer> mousePointers;
+    MousePointer mousePointer;
+    //duplication bug prevention
 
     public CollisionSystem(Scene scene) {
         super(scene);
-       
-        //arr = new ArrayList<>();
+        mousePointer = new MousePointer();
+        mousePointers = new ArrayList<>();
     }
     
     @Override
     public void update() {
-        
         //System.out.println("update");
         initializeEntities();
-        
-        
+
         /*for(int i = 0; i < entities.size(); i++) {
             System.out.println(scene.entityManager.getEntityByID(entities.get(i)).getName());
         }*/
@@ -76,9 +80,9 @@ public class CollisionSystem extends SystemJob{
     }
 
     @Override
-    public void init() {
-
-        
+    public void init() { 
+        mousePointers = scene.entityManager.getEntitiesWithComponents(mousePointer.getClass());
+        mousePointer = scene.entityManager.getEntityComponentInstance(mousePointers.get(0), mousePointer.getClass());
         initializeEntities();
     }
 
@@ -157,7 +161,7 @@ public class CollisionSystem extends SystemJob{
         double secondLengthZ;
 
         //
-        if (firstRect.intersects(secondRect)) {
+        if (firstRect.intersects(secondRect) && collidablei.active && collidablej.active) {
             
 
 
@@ -247,34 +251,41 @@ public class CollisionSystem extends SystemJob{
             
 */
             //if the first entity is the player
-            if("Player".equals(e.getName())) {
-                
+            /*if("Player".equals(e.getName())) {
                 //And the second an item
                 if(arrItems.contains(e2.getID())) {
-                    
                     //If the user press the E in the collision
                     if(scene.display.getKeyManager().isE) {
-                        System.out.println("E pressed");
-                        scene.entityManager.getEntityComponentInstance(i, (new Item()).getClass()).isInInventory = true;
-                        sprite = scene.entityManager.getEntityComponentInstance(i, sprite.getClass());
-                        sprite.visible = false;
+                        System.out.println("E pressed A");
+                        scene.entityManager.getEntityComponentInstance(j, (new Item()).getClass()).isInInventory = true;
+                        
+                        //sprite = scene.entityManager.getEntityComponentInstance(i, sprite.getClass());
+                        //sprite.visible = false;
                     }
                 }
-                
             }
             
             //Or the second entity is the player
-            else if("Player".equals(e2.getName())) {
+            else */if("Player".equals(e2.getName())) {
                 
                 //And the first an item
                 if(arrItems.contains(e.getID())) {
                     
                     //If the user press the E in the collision
                     if(scene.display.getKeyManager().isE) {
-                        System.out.println("E pressed");
-                        scene.entityManager.getEntityComponentInstance(j, (new Item()).getClass()).isInInventory = true;
-                        sprite = scene.entityManager.getEntityComponentInstance(j, sprite.getClass());
-                        sprite.visible = false;
+                        //System.out.println("E pressed B");                        
+                        
+                        //fetch the player's inventory ID and instance
+                        Integer inventoryID = scene.entityManager.getEntityComponentInstance(j, (new Playable()).getClass()).inventory;
+                        //if space available in the players inventory it will add the item to it
+                        boolean added = addToInventory(inventoryID, i);
+                        if(added){
+                            scene.entityManager.getEntityComponentInstance(i, (new Item()).getClass()).isInInventory = true; 
+                            collidablei.active = false;
+                        }
+                        
+                        //sprite = scene.entityManager.getEntityComponentInstance(j, sprite.getClass());
+                        //sprite.visible = false;
                     }
                 }
             }
@@ -313,4 +324,29 @@ public class CollisionSystem extends SystemJob{
         //System.out.println("size: " + entities.size());
     }
     
+    /**
+     * adds an item to the inventory is space is available
+     * @param inventoryID
+     * @return 
+     */
+    private static boolean addToInventory(Integer inventoryID, Integer item){
+        int tempID = inventoryID;
+        Inventory inventory = scene.entityManager.getEntityComponentInstance(tempID, new Inventory().getClass());
+        
+        for(int inv = 0; tempID != 0; ++inv){ 
+            
+            for(int j = 0; j < inventory.size; ++j){
+                if(inventory.slots.get(j) == 0){
+                    inventory.slots.set(j, item);
+                    return true;
+                }
+            }
+            
+            tempID = inventory.nextInventory;
+            if(tempID != 0){
+                inventory = scene.entityManager.getEntityComponentInstance(tempID, inventory.getClass());
+            }
+        }
+        return false;
+    }    
 }

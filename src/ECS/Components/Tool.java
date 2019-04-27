@@ -45,6 +45,6 @@ public class Tool extends Component{
         this.currentActive = currentActive;
     }
 
-    
-    
 }
+
+

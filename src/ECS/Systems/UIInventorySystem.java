@@ -47,7 +47,7 @@ public class UIInventorySystem extends SystemJob{
                 for(int i = 0; i < uiInventory.UISlots.size(); ++i){
                     for(int j = 0; j < uiInventory.UISlots.get(i).size(); ++j){
                         //if the mouse is inside the UIslot rectangle
-                        if(uiInventory.UISlots.get(i).get(j).contains(mousePointer.position.x, mousePointer.position.y)){
+                        if(uiInventory.UISlots.get(i).get(j).contains((int)mousePointer.position.x, (int)mousePointer.position.y)){
                             //System.out.println("col: " + i + " " + j +  " : " + getItemFromInventory(uiInventory.firstInventory, i, j));
                             if(mousePointer.mouseManager.wasLeftClicked()){
                                 /*if(mousePointer.heldItem == 0){

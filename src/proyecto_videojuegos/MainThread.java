@@ -113,6 +113,7 @@ public class MainThread implements Runnable{
         stop();
     }
         
+    
     /**
      * Initializes objects inside the thread, and initializes all objects 
      * related to the game, including assets, scenes, 
@@ -135,11 +136,11 @@ public class MainThread implements Runnable{
     private void tick() {
         //TODO: not only execute one scene but all scenes
         scene.display.getKeyManager().tick();
-        
+        scene.display.getMouseManager().tick();
         
         scene.systemJobManager.update();
         
-        scene.display.getMouseManager().tick();
+        
         /*
          * This loop waits for the end of the execution of the 
          * completionExecutorService in the systemJob manager of the scene.
@@ -209,6 +210,7 @@ public class MainThread implements Runnable{
                 display.g.setColor(Color.GREEN);
                 display.g.drawString(Integer.toString((int)tpsBuffer), 0, 10);
                 display.g.drawString(Integer.toString((int)currentFrame), 16, 10);
+                
                 //display.g.drawRect(0, 0, 16, 16);
             }            
             

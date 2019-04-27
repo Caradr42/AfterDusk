@@ -8,6 +8,7 @@ import ECS.Components.AttackCollider;
 import ECS.Components.AttackComponent;
 import ECS.Components.Collidable;
 import ECS.Components.Playable;
+import ECS.Components.Player;
 import ECS.Components.Tool;
 import ECS.Components.Transform;
 import ECS.SystemJob;
@@ -36,6 +37,9 @@ public class CollisionEntityWeapon extends SystemJob{
     private ArrayList<Integer> arrAttack;
     private ArrayList<Integer>arrCollidable;
     Rectangle rectangle;
+    
+    private int playerID;
+    private Player player;
     
     
 
@@ -77,6 +81,7 @@ public class CollisionEntityWeapon extends SystemJob{
         attackComponent = new AttackComponent();
         tool = new Tool();
         rectangle = new Rectangle();
+        player = new Player();
         initializeEntities();
     }
 

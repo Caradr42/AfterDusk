@@ -25,7 +25,5 @@ public class Tile extends Component{
     }
 
     public Tile() {
-    }
-    
-    
+    } 
 }

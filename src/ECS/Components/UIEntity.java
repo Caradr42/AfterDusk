@@ -6,6 +6,7 @@ import Maths.Vector2;
 import Scene.Scene;
 import Utility.Pair;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import proyecto_videojuegos.MainThread;
@@ -31,6 +32,7 @@ public class UIEntity extends Component{
      
     public int width;
     public int height;
+    public Rectangle UIcollider;
     
     public int animationLenght;
     public double speed;
@@ -54,7 +56,7 @@ public class UIEntity extends Component{
         
         this.width = width;
         this.height = height;
-        
+        this.UIcollider = new Rectangle((int)position.x, (int)position.y, width,height);
         this.speed = speed / MainThread.fps;
         
         this.animationsNames = animationsNames;

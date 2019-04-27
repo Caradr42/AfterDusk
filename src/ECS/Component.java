@@ -1,5 +1,7 @@
 package ECS;
 
+import java.util.HashSet;
+
 /**
  * Entity Component System class.
  * A component is an encapsulation of data and as such it only contain data and
@@ -13,10 +15,9 @@ package ECS;
  * @version 1.0
  */
 public abstract class Component {
-    
-    /**
-     * boolean to determine if the data contained in this component must be used
-     */
+   // private static HashSet<Class> componentExtendors;//all the Instantiated classes that extend component
+
+    //boolean to determine if the data contained in this component must be used
     protected boolean active = true;
     
     /**

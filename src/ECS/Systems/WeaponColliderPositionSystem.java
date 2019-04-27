@@ -81,6 +81,8 @@ public class WeaponColliderPositionSystem extends SystemJob{
     
     public void updatePlayerColliders() {
         
+        
+        
         Integer rightTool;
         Integer leftTool;
         
@@ -109,14 +111,18 @@ public class WeaponColliderPositionSystem extends SystemJob{
         //height of the player
         int playerHeight = sprite.height;
         
+        //System.out.println("playerCols");
+        
         
         //if the player has a right hand weapon
         if(player.boolRight) {
             //obtain its ID
             rightTool = scene.entityManager.getEntityByID(player.rightHand).getID();
             
-            //colliders of the left weapon
+            //colliders of the right weapon
             rightComponent= scene.entityManager.getEntityComponentInstance(rightTool, attackComponent.getClass());    
+        
+            System.out.println(scene.entityManager.getEntityByID(rightTool).getName());
         }
         
         //if the player has a left hand weapon

@@ -30,7 +30,7 @@ public class Player extends Component{
     
     //max energy that the player can have
     public int maxEnergy;
-    
+
     //references the weapon that the player has equiped in the left hand, if any
     public Integer leftHand;
     
@@ -41,6 +41,14 @@ public class Player extends Component{
     //These are to know if the player has a tool equiped in any hand
     public boolean boolRight;
     public boolean boolLeft;
+
+    public Integer LRInventory;
+    
+    //passives that are currently active
+    public Integer pasivesInventory;
+    
+    public Integer activesInventory;
+    
     
     //current size of the actives (the maximum is 9)
     public int activesSize;
@@ -52,13 +60,21 @@ public class Player extends Component{
      * The first element of the pair is for the left hand, the second for the right hand.
      * It is an integer referencing the weapon ID, and the actives selected from the weapon
      */
+    //public Pair<Pair<Integer,ArrayList<Integer>>, Pair<Integer,ArrayList<Integer>>> actives;
+        
+    //The name of the player
+    public String name = "INeedAName";
+    
+    
+        /**
+     * The first element of the pair is for the left hand, the second for the right hand.
+     * It is an integer referencing the weapon ID, and the actives selected from the weapon
+     */
     public Pair<Pair<Integer,ArrayList<Integer>>, Pair<Integer,ArrayList<Integer>>> actives;
     
     //passives that are currently active
     public ArrayList<Integer> pasives;
-    
-    //The name of the player
-    public String name = "INeedAName";
+
 
     public Player(String name) {
         //Initializing the values for a new player
@@ -77,6 +93,19 @@ public class Player extends Component{
         pasives = new ArrayList<>(passivesSize);
         
         boolRight = true;
+    }
+
+    public Player(String name, Integer LRInventory, Integer pasivesInventory, Integer activesInventory) {
+        //Initializing the values for a new player        
+        maxEnergy = 100;
+        energy = maxEnergy;
+               
+        this.LRInventory = LRInventory;
+        this.pasivesInventory = pasivesInventory;
+        this.activesInventory = activesInventory;
+        
+        boolRight = true;
+
     }
 
     public Player() {

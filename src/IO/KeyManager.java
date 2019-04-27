@@ -5,6 +5,7 @@ package IO;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Arrays;
 
 /**
  * class in charge of managing keyboard inputs from a given window
@@ -30,8 +31,10 @@ public class KeyManager implements KeyListener{
     
     //key array for pressed and released keys
     public boolean keys[];
+    public boolean wasPressedBlock[];
     public boolean wasPressed[];
-    
+    public boolean wasReleasedBlock[];
+    public boolean wasReleased[];
     /**
      * Constructor initializes the array to 256 as it is the limit to which 
      * KeyEvent constants are registered.
@@ -39,6 +42,10 @@ public class KeyManager implements KeyListener{
     public KeyManager(){
         keys = new boolean[256];
         wasPressed = new boolean[256];
+        wasReleased =new boolean[256];
+        wasPressedBlock = new boolean[256];
+        wasReleasedBlock = new boolean[256];
+        Arrays.fill(wasReleasedBlock, true);
     }
     
     //pls dont use this
@@ -64,7 +71,6 @@ public class KeyManager implements KeyListener{
     @Override
     public void keyReleased(KeyEvent e) {
         keys[e.getKeyCode()] = false;
-        wasPressed[e.getKeyCode()] = true;
     }
     
     /**
@@ -78,6 +84,29 @@ public class KeyManager implements KeyListener{
         isE = keys[KeyEvent.VK_E];
         space = keys[KeyEvent.VK_SPACE];
         
+        for(int i = 0; i < 256; ++i){
+            if(!keys[i]){
+                if(!wasReleasedBlock[i]){
+                    wasReleased[i] = true;
+                }else{
+                    wasReleased[i] = false;
+                }
+                wasReleasedBlock[i] = true;
+            }else{
+                wasReleasedBlock[i] = false;
+            }
+            
+            if(keys[i]){
+                if(!wasPressedBlock[i]){
+                    wasPressed[i] = true;
+                }else{
+                    wasPressed[i] = false;
+                }
+                wasPressedBlock[i] = true;
+            }else{
+                wasPressedBlock[i] = false;
+            }
+        }
     }
     
     /**

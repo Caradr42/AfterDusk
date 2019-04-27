@@ -25,14 +25,17 @@ import Maths.Vector3;
 public class Playable extends Component {
     
     public int hp; 
-    Entity inventory;
+
+
+    public Integer inventory;
+
     public Vector3 velocity;
     
     //to indicate the direction of the playable
     public boolean right, left, up, down;
 
 
-    public Playable(int hp, Entity inventory, Vector3 velocity) {
+    public Playable(int hp, Integer inventory, Vector3 velocity) {
         this.hp = hp;
         this.inventory = inventory;
         this.velocity = velocity;

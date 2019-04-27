@@ -4,6 +4,7 @@ import java.lang.System;
 import ECS.*;
 import Signals.Signal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -58,6 +59,11 @@ public class EntityManager{
     private HashMap<Class, HashMap<Integer, ? extends Component>> componentsDictionary;
     
     /**
+     * Map that assigns an archetype for each entity
+     */
+    public HashMap<Integer, HashSet<Class>> entitiesArchetypeMap;
+    
+    /**
      * Data structure that holds lists of entities with the components in the 
      * Archetype set. This is so any system can use this lists to iterate the entities
      * The list are defined at wold initialization
@@ -66,7 +72,7 @@ public class EntityManager{
      * TODO: ADD and remove entities from the map
      * TODO: 
      */
-    public HashMap<HashSet<? extends Component>, ArrayList<Integer>> arquetipesMap;
+    public HashMap<HashSet<Class>, ArrayList<Integer>> archetypesMap;
     
     //the smallest id yet to be assigned to an Entity
     int lowestUnasignedID;
@@ -82,6 +88,10 @@ public class EntityManager{
         removeEntitiesSignal = new Signal<>();
         addEntitiesSignal = new  Signal<>();
         deletionQueue = new LinkedList<>();
+        
+        archetypesMap = new HashMap<>();
+        entitiesArchetypeMap = new HashMap<>();
+        //archetypesMap.putIfAbsent(null, null);
     }  
     
     /**
@@ -92,7 +102,7 @@ public class EntityManager{
      * 
      * @return a new Entity.
      */
-    public Entity createEntity(){
+    private Entity createEntity(){
         int id = GenerateNewID(); 
         Entity createdEnt = new Entity(id); //assigns a unique id to the created entity
         entities.add(createdEnt); //Adds the created entity to the entities list
@@ -108,7 +118,7 @@ public class EntityManager{
      * @param name the name to be assigned to the entity. 
      * @return  a new Entity.
      */
-    public Entity createEntity(String name){
+    private Entity createEntity(String name){
         int id = GenerateNewID();
         Entity createdEnt = new Entity(id, name);
         entities.add(createdEnt);
@@ -125,6 +135,25 @@ public class EntityManager{
     public <T extends Component> Entity createEntityWithComponents(String name, T ...components){
         Entity createdEnt = createEntity(name); //assigns a unique id to the created entity
         
+        //creates the set of classes with the components of the entities
+        HashSet<Class> thisEntityArchetype = new HashSet<>();
+        for(T comp: components){
+            thisEntityArchetype.add(comp.getClass());
+        }
+        
+        //adds the archetype to the entity
+        entitiesArchetypeMap.put(createdEnt.getID(), thisEntityArchetype);
+        
+        //TODO:  after systems initialization, search for alredy existing archetipes (creted by the systems init()) that are sdubsets of the thisEntityArchetype and add the entity to them
+        /*
+        //if the archetypes map alredy has the given archetype as an entry
+        if(archetypesMap.containsKey(thisEntityArchetype)){
+            archetypesMap.get(thisEntityArchetype).add(createdEnt.getID());
+        }else{
+            archetypesMap.put(thisEntityArchetype, new ArrayList<>(Arrays.asList(createdEnt.getID())));
+        }*/
+        
+        //adds the components to the newly created entity
         for(Component c : components){
             addComponetToEntity(createdEnt.getID(), c);
         }   
@@ -303,6 +332,22 @@ public class EntityManager{
      */
     public ArrayList<Integer> getEntitiesWithComponents(Class ... componentsClass){ //TODO
         HashSet<Integer> entitiesSet = new HashSet<>(getAllEntitiesPosessingComponentOfClass(componentsClass[0]));
+        
+        //TODO: anly do this at init() for better performance
+        //creates the set of classes with the components of the entities
+        HashSet<Class> classesSet = new HashSet<>();
+        for(Class comp: componentsClass){
+            classesSet.add(comp.getClass());
+        }
+         
+        //if the archetypes map alredy has does not have the given archetype as an entry, the archetipe is added,
+        //This is so we can acces it 
+        if(!archetypesMap.containsKey(classesSet)){
+            archetypesMap.put(classesSet, new ArrayList<>(Arrays.asList()));
+        }
+        
+        ///TODO: USE efficient fetch by using the archetypeMap
+        //fetch from the componentsDictionary the entities by appling a union of sets
         for(Class component : componentsClass){
             //gets the inner HashMap contained at the current KEY of the upper HashMap. using the component Class as a KEY.
             HashMap<Integer, ? extends Component > componentsMap = componentsDictionary.get(component); 
@@ -327,6 +372,7 @@ public class EntityManager{
         return componentMap;
     }
     
+    
     /**
      * Return true if the entered Entity has the component attached
      * @param <T> the type of a sub class of Component, of the component to be 
@@ -348,6 +394,15 @@ public class EntityManager{
         HashMap<Integer, ? extends Component> store = componentsDictionary.get(component);
         T resultComponet = (T) store.get(entity);
         return resultComponet != null;
+    }
+    
+    public <T> boolean hasComponents(Integer entity, Class<T> ... components){
+        for(Class cl: components){
+            if(!hasComponent(entity, cl)){
+                return false;
+            }
+        }
+        return true;
     }
     
     public <T> void removeComponentFormEntity(Entity entity, Class<T> component){
@@ -373,6 +428,36 @@ public class EntityManager{
                 System.out.println("\t" + entryPair.getKey() + " = " + entryPair.getValue());
             }
         }    
+    }
+    
+    public void printArchetypesMap(){
+        System.out.println("Archetypes Map: ");
+        for (Map.Entry pair : archetypesMap.entrySet()) {
+            HashSet<Class> archetype = (HashSet<Class>)pair.getKey();
+            ArrayList<Integer> archEntities = (ArrayList<Integer>)pair.getValue();
+            System.out.print("[");
+            for(Class cl: archetype){
+                System.out.print(cl.getName() + ", ");
+            }
+            System.out.print("] : (");
+            for(Integer i: archEntities){
+                System.out.print(i + ", ");
+            }
+            System.out.println(") ");
+        }
+    }
+    
+    public void printEntitiesArchetypeMap(){
+        System.out.println("Entities Archetype Map: ");
+        for (Map.Entry pair : entitiesArchetypeMap.entrySet()) {
+            Integer id = (Integer)pair.getKey();
+            HashSet<Class> archetype = (HashSet<Class>)pair.getValue();
+            System.out.print("id: " + id + " : [");
+            for(Class cl: archetype){
+                System.out.print(cl.getName() + ", ");
+            }
+            System.out.println("] ");
+        }
     }
     
     /**
