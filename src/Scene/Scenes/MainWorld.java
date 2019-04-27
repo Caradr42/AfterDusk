@@ -192,7 +192,7 @@ public class MainWorld extends Scene{
             new RenderSystem(this),
             new PlayerSystem(this),
             new SpriteSystem(this),
-            new EnemySystem(this),
+            //new EnemySystem(this),
             new UIEntitiesSystem(this),
             new UIInventorySystem(this),
             new CollisionSystem(this),

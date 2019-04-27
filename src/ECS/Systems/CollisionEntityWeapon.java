@@ -131,7 +131,7 @@ public class CollisionEntityWeapon extends SystemJob{
         //AttackComponent that contains all the AttackColliders of the attacker
         AttackComponent attacks = scene.entityManager.getEntityComponentInstance(i, attackComponent.getClass());
         
-        //Get the transform of each entity that has the weapon
+        //Get the transform of each tool/weapon
         wpnTrans = scene.entityManager.getEntityComponentInstance(i, transform.getClass());
         
         //position of the collidable entity

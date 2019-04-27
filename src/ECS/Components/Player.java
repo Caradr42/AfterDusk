@@ -37,6 +37,11 @@ public class Player extends Component{
     //references the weapon that the player has equiped in the right hand, if any
     public Integer rightHand;
     
+    //It is better to have booleans too to avoid a possible error in the random assignation of IDs
+    //These are to know if the player has a tool equiped in any hand
+    public boolean boolRight;
+    public boolean boolLeft;
+    
     //current size of the actives (the maximum is 9)
     public int activesSize;
     
