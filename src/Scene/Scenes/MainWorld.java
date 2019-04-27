@@ -115,36 +115,55 @@ public class MainWorld extends Scene{
         
         //player ui inventories
         Entity mainInventory = entityManager.createEntityWithComponents("Player_UIInventory_grid", 
-                new UIInventory("grid", true, 103, 18, 85, 75, new ArrayList<>(Arrays.asList("1x6Slots_light")), playerInv.getID())
+                new Transform(12, 43),
+                new Sprite("grid", true, 103, 18, 0, new ArrayList<>(Arrays.asList("1x6Slots_light"))),
+                new UIEntity("grid", false, null/*childs ID's go here*/),
+                new UIInventory("grid", playerInv.getID())
             );
         
         Entity LRInventory = entityManager.createEntityWithComponents("Player_UIInventory_LR", 
-                new UIInventory("LR", true, 35, 18, 85, 50, new ArrayList<>(Arrays.asList("1x2Slots_dark")), playerLR.getID())
+                new Transform(12, 23),
+                new Sprite("LR", true, 35, 18, 0, new ArrayList<>(Arrays.asList("1x2Slots_dark"))),
+                new UIEntity("LR", false, null),
+                new UIInventory("LR", playerLR.getID())
             );
         
-        Entity LRUIInventory = entityManager.createEntityWithComponents("Player_UI_LR", 
-                new UIInventory("LR", true, 35, 18, 16, display.height / c.scale - 18, new ArrayList<>(Arrays.asList("1x2Slots_dark")), playerLR.getID())
+        Entity LRUIInventory = entityManager.createEntityWithComponents("Player_UI_LR",
+                new Transform(0, 10),
+                new Sprite("LRUI", true, 35, 18, 0, new ArrayList<>(Arrays.asList("1x2Slots_dark"))),
+                new UIEntity("LRUI", false, null),
+                new UIInventory("LRUI", playerLR.getID())
             );
         
         Entity passivesInventory = entityManager.createEntityWithComponents("Player_UI_Passives_Inventory", 
-                    new UIInventory("Passives", true, 52, 18, 200, 50, new ArrayList<>(Arrays.asList("1x3Slots_dark")), playerPassives.getID())
+                new Transform(127, 23),
+                new Sprite("passives", true, 52, 18, 0, new ArrayList<>(Arrays.asList("1x3Slots_dark"))),
+                new UIEntity("passives", false, null),
+                new UIInventory("Passives", playerPassives.getID())
             );
         
         Entity activesInventory = entityManager.createEntityWithComponents("Player_UI_Actives_Inventory", 
-                    new UIInventory("Actives", true, 154, 18, display.width / c.scale / 2 - (154/2), display.height / c.scale - 18 , new ArrayList<>(Arrays.asList("1x9Slots_dark")), playerActives.getID())
+                new Transform(0, 10),
+                new Sprite("actives", true, 154, 18, 0,  new ArrayList<>(Arrays.asList("1x9Slots_dark"))),
+                new UIEntity("actives", false, null),
+                new UIInventory("Actives", playerActives.getID())
             );
         //UI Buttons
         
         Entity button = entityManager.createEntityWithComponents("button", 
-                new UIButton("Button", true, 48, 10, 50, 50, new ArrayList<>(Arrays.asList("Button_48_selected")))
+                new Transform(50, 50),
+                new Sprite("Button", false, 48, 10, 0, new ArrayList<>(Arrays.asList("Button_48_selected"))),
+                new UIEntity("Button", false, null),
+                new UIButton("Button")
         );
         
         //USER INTERFACES
         
         //The players Inventory user interface, has a reference to the player internal inventory
-        Entity InventoryUI = entityManager.createEntityWithComponents("Player_UIInventory", 
-                new UIEntity("Player_Inventory", false, true, 195, 135, display.width / c.scale / 2 - (195/2) , display.height / c.scale / 2 - (135 / 2) -2, 0, 
-                    new ArrayList<>(Arrays.asList("inventory")), 
+        Entity InventoryUI = entityManager.createEntityWithComponents("Player_Inventory", 
+                new Transform( display.width / c.scale / 2 - (195/2) , display.height / c.scale / 2 - (135 / 2) -2),
+                new Sprite("Player_Inventory", true, 195, 135, 0, new ArrayList<>(Arrays.asList("inventory"))),
+                new UIEntity("Player_Inventory", true, 
                     new ArrayList<>(Arrays.asList( 
                         mainInventory.getID(), 
                         LRInventory.getID(), 
@@ -154,14 +173,16 @@ public class MainWorld extends Scene{
         
         //the player actives hotbar
         Entity activesUI = entityManager.createEntityWithComponents("Player_actives", 
-                new UIEntity("actives_bar", true, true, 160, 32, display.width / c.scale / 2 - (160/2) + 3, display.height / c.scale - 28 , 0, 
-                    new ArrayList<>(Arrays.asList("actives_bar")), 
+                new Transform( display.width / c.scale / 2 - (160/2) + 3, display.height / c.scale - 28 ),
+                new Sprite("actives_bar", true, 160, 32, 0,new ArrayList<>(Arrays.asList("actives_bar"))),
+                new UIEntity("actives_bar", true, 
                     new ArrayList<>(Arrays.asList(activesInventory.getID()))) 
         );
         
         Entity LRUI = entityManager.createEntityWithComponents("Player_RL", 
-               new UIEntity("RL_bar", true, true, 48, 32, 16 , display.height / c.scale - 28 , 0, 
-                    new ArrayList<>(Arrays.asList("RL_bar")), 
+                new Transform( 16 , display.height / c.scale - 28),
+                new Sprite("RL_bar", true, 48, 32, 0, new ArrayList<>(Arrays.asList("RL_bar"))),
+                new UIEntity("RL_bar", true,
                     new ArrayList<>(Arrays.asList(LRUIInventory.getID()))) 
         );
         
@@ -206,7 +227,7 @@ public class MainWorld extends Scene{
                         new Transform(new Vector3(x,y,0)), 
                         grassTopSprite,
                         new WorldEntity()
-                        //new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
+                                                //new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
                 );
             }
         }
@@ -233,16 +254,18 @@ public class MainWorld extends Scene{
     @Override
     protected void addSystems(){
         systemJobManager.addSystems(
-            new GameManagerSystem(this),
-            new RenderSystem(this),
-            new PlayerSystem(this),
-            new SpriteSystem(this),
-            new UIEntitiesSystem(this),
-            new UIInventorySystem(this),
             new CollisionSystem(this),
-            new MousePointerSystem(this),
+                
+            new GameManagerSystem(this),
             new ItemSystem(this),
-            new UIButtonSystem(this)
+            new MousePointerSystem(this),
+            new PlayerSystem(this),
+            new RenderSystem(this),
+            new SpriteSystem(this),
+            new TransformSystem(this),
+            new UIButtonSystem(this),
+            new UIEntitiesSystem(this),
+            new UIInventorySystem(this)
         );
     }
 }

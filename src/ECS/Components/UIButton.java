@@ -5,6 +5,8 @@
  */
 package ECS.Components;
 
+import ECS.Component;
+import ECS.interfaces.UIChild;
 import Maths.Vector2;
 import Scene.Scene;
 import java.awt.Graphics2D;
@@ -15,31 +17,32 @@ import java.util.ArrayList;
  *
  * @author carlo
  */
-public class UIButton extends  UIEntity{
+public class UIButton extends  Component implements UIChild{
     
+    public Sprite _buttonSprite;
+    public Transform _buttonTransform;
+    public boolean buttonVisible;
+    public String name;
     
     /**
      * the button constructor
      * 
      * @param name name of the button
-     * @param visible if the button selector is visible
-     * @param width width
-     * @param height height
-     * @param x x pos
-     * @param y y pos
-     * @param animationsNames the button selector sprite
      */
-    public UIButton(String name, boolean visible, int width, int height, int x, int y,  ArrayList<String> animationsNames) {
-        super(name, visible, false, width, height, x, y, 0, animationsNames, null);
-        currentFrame = Assets.Assets.animations.get("Button_48_selected").first[0];
+    public UIButton(String name) {
+        this.name = name;
+        buttonVisible = false;
     }
 
     public UIButton() {
     }
     
     @Override
-    public void UIRender(Graphics2D g, Scene s, Vector2 fatherPosition){
-        
-        g.drawImage(currentFrame, (int)(fatherPosition.x + position.x) , (int)(fatherPosition.y + position.y), width, height, null);
+    public void UIRender(Graphics2D g, Scene s){
+        //System.out.println("button: " + _buttonSprite);
+        //System.out.println(_buttonSprite.visible);
+        if(_buttonSprite != null && _buttonTransform != null && buttonVisible){
+            g.drawImage(_buttonSprite.currentFrame, (int)(_buttonTransform.position.x) , (int)(_buttonTransform.position.y), _buttonSprite.width, _buttonSprite.height, null);
+        }
     }
 }

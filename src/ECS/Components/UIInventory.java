@@ -1,30 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ECS.Components;
 
-import ECS.Entity;
-import Maths.Vector2;
+import ECS.Component;
+import ECS.interfaces.UIChild;
 import Scene.Scene;
-import Utility.Pair;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  *
  * @author carlo
  */
-public class UIInventory extends UIEntity{
+public class UIInventory extends Component implements UIChild{
+    
+    String name;
+    
+    public Sprite _uiSprite; //the sprite reference is updated in the sistem
+    public Transform _uiTransform; //the transform reference is also updated in the sistem
     
     public Integer firstInventory; //the inventory linkedList
     //public HashMap<Integer, Vector2> UIItemsPositions;
     public ArrayList<ArrayList<Rectangle>> UISlots; //each hitbox for each slot in the inventory
         
     public Inventory inventory; //temp inventory to hold the Inventory component of the inventories
+    
     public Sprite itemSprite;
 
     public UIInventory() {
@@ -32,31 +31,25 @@ public class UIInventory extends UIEntity{
     
     /**
      * 
-     * @param name name of the Inventory
-     * @param visible if the Inventory is visible
-     * @param width width
-     * @param height height
-     * @param x x pos
-     * @param y y pos
-     * @param animationsNames Inventory slots sprite
-     * @param firstInventory the id of the first inventory in the inventories linked list
+     * @param name
+     * @param firstInventory 
      */
-    public UIInventory(String name, boolean visible, int width, int height, int x, int y, ArrayList<String> animationsNames, Integer firstInventory) {
-        super(name, false, false ,width, height, x, y, 0, animationsNames, null);
+    public UIInventory(String name, Integer firstInventory) {   
+        this.name = name;
         this.firstInventory = firstInventory;
-        //UIItemsPositions = new HashMap<>();
         UISlots = new ArrayList<>(4);
         inventory = new Inventory();
         itemSprite = new Sprite();     
     }
     
     @Override
-    public void UIRender(Graphics2D g, Scene s, Vector2 fatherPosition){
-        super.UIRender(g, s, fatherPosition);
+    public void UIRender(Graphics2D g, Scene s){
+        //super.UIRender(g, s);
+        
         //renders itself
-        if(visible){
+        if(_uiSprite.visible){
             for(int i = 0; i < UISlots.size(); ++i){
-                    g.drawImage(currentFrame, (int)position.x, (int)position.y + (17 * i), width, height, null);
+                    g.drawImage(_uiSprite.currentFrame, (int)_uiTransform.position.x, (int)_uiTransform.position.y + (17 * i), _uiSprite.width, _uiSprite.height, null);
             }
         }
         
@@ -75,6 +68,7 @@ public class UIInventory extends UIEntity{
                         //sg.drawRect(x, y, 16, 16);
                     }
                 }
+                //g.drawRect(UISlots.get(row).get(sl).x , UISlots.get(row).get(sl).y, UISlots.get(row).get(sl).width, UISlots.get(row).get(sl).height);
             }
             temp = inventory.nextInventory;
             if(temp != 0)
