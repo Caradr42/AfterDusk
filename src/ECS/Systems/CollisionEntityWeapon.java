@@ -12,6 +12,8 @@ import ECS.Components.Tool;
 import ECS.Components.Transform;
 import ECS.SystemJob;
 import Scene.Scene;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -27,10 +29,13 @@ public class CollisionEntityWeapon extends SystemJob{
     private Collidable collidable;
     private Transform transform;
     private Tool tool;
+    
+    private boolean judge = false;
 
    
     private ArrayList<Integer> arrAttack;
     private ArrayList<Integer>arrCollidable;
+    Rectangle rectangle;
     
     
 
@@ -71,7 +76,7 @@ public class CollisionEntityWeapon extends SystemJob{
         collidable = new Collidable();
         attackComponent = new AttackComponent();
         tool = new Tool();
-        
+        rectangle = new Rectangle();
         initializeEntities();
     }
 
@@ -145,7 +150,10 @@ public class CollisionEntityWeapon extends SystemJob{
         
             //Get the rectangle of the weapon/attack in that collider
             Rectangle wpnRect = new Rectangle((int) (wpnTrans.position.x + arrCollider.relativePosition.x), (int) (wpnTrans.position.y + arrCollider.relativePosition.y), (int) arrCollider.hitbox.x, (int) arrCollider.hitbox.y);
-
+            rectangle = wpnRect;
+            judge = true;
+            
+            
             if (wpnRect.intersects(collRect)) {
                 areColliding.add(arrCollider);
             }
@@ -197,6 +205,14 @@ public class CollisionEntityWeapon extends SystemJob{
         //The attack has been done
         tool.currentActive = -1;
         System.out.println("Attack done");
+    }
+    
+    @Override
+    public void render(Graphics2D g) {
+        if(judge) {
+            g.drawRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+            judge = false;
+        }
     }
     
 }

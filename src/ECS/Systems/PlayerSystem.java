@@ -43,6 +43,7 @@ public class PlayerSystem extends SystemJob{
         player = new Player();
         sprite = new Sprite();
         rightHand = new Tool();
+        playable = new Playable();
     }
 
     /**
@@ -50,35 +51,56 @@ public class PlayerSystem extends SystemJob{
      */
     @Override
     public void update() {
-        for(Integer e : entities){
+        for (Integer e : entities) {
             player = scene.entityManager.getEntityComponentInstance(e, player.getClass());
             transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());
             sprite = scene.entityManager.getEntityComponentInstance(e, sprite.getClass());
-            
-            
+            playable = scene.entityManager.getEntityComponentInstance(e, playable.getClass());
+
             //if the player goes to the right change the position and the animation to the right
-            if(scene.display.getKeyManager().right){
+            if (scene.display.getKeyManager().right) {
                 transform.position.x = transform.position.x + 2;//+ 100 * MainThread.deltaTime);
                 sprite.animation = sprite.animations.get(3).first;
                 sprite.animationLenght = sprite.animations.get(3).second;
+
+                playable.right = true;
+                playable.left = false;
+                playable.down = false;
+                playable.up = false;
+
             }
             //if the player goes to the left change the position and the animation to the left
-            if(scene.display.getKeyManager().left){
-                transform.position.x = transform.position.x -2;//- 100 * MainThread.deltaTime);
+            if (scene.display.getKeyManager().left) {
+                transform.position.x = transform.position.x - 2;//- 100 * MainThread.deltaTime);
                 sprite.animation = sprite.animations.get(2).first;
                 sprite.animationLenght = sprite.animations.get(2).second;
+
+                playable.right = false;
+                playable.left = true;
+                playable.down = false;
+                playable.up = false;
             }
             //if the player goes to up change the position and the animation to up
-            if(scene.display.getKeyManager().up){
-                transform.position.y = transform.position.y -2;//- 100 * MainThread.deltaTime);
+            if (scene.display.getKeyManager().up) {
+                transform.position.y = transform.position.y - 2;//- 100 * MainThread.deltaTime);
                 sprite.animation = sprite.animations.get(1).first;
                 sprite.animationLenght = sprite.animations.get(1).second;
+
+                playable.right = false;
+                playable.left = false;
+                playable.down = false;
+                playable.up = true;
             }
             //if the player goes down change the position and the animation to down
-            if(scene.display.getKeyManager().down){
-                transform.position.y = transform.position.y +2;//+ 100 * MainThread.deltaTime);
+            if (scene.display.getKeyManager().down) {
+                transform.position.y = transform.position.y + 2;//+ 100 * MainThread.deltaTime);
                 sprite.animation = sprite.animations.get(0).first;
                 sprite.animationLenght = sprite.animations.get(0).second;
+
+                playable.right = false;
+                playable.left = false;
+                playable.down = true;
+                playable.up = false;
             }
             
             //if the player presses the space key, an attack is done with the right hand

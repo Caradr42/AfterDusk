@@ -43,7 +43,7 @@ public class MainWorld extends Scene{
         ArrayList<AttackCollider>playerColliders = new ArrayList<>();
 
                 
-        playerColliders.add(new AttackCollider(new Vector3(32, 32, 1), new Vector3(10,10,10)));
+        playerColliders.add(new AttackCollider(new Vector3(32, 32, 1), new Vector3(), 30, 30));
         
         Entity pointer = entityManager.createEntityWithComponents("pointer", 
                 new MousePointer()
@@ -192,10 +192,11 @@ public class MainWorld extends Scene{
             new RenderSystem(this),
             new PlayerSystem(this),
             new SpriteSystem(this),
-            //new EnemySystem(this),
+            new EnemySystem(this),
             new UIEntitiesSystem(this),
             new UIInventorySystem(this),
             new CollisionSystem(this),
+            new WeaponColliderPositionSystem(this),
             new CollisionEntityWeapon(this),
             new MousePointerSystem(this)
         );

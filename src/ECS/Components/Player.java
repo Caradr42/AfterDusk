@@ -75,8 +75,11 @@ public class Player extends Component{
         actives = new Pair<>(new Pair<>(leftHand, new ArrayList<Integer>(activesSize)), new Pair<>(rightHand, new ArrayList<Integer>(activesSize))); 
         
         pasives = new ArrayList<>(passivesSize);
+        
+        boolRight = true;
     }
 
     public Player() {
+        boolRight = true;
     }    
 }
