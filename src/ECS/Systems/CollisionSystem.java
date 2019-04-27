@@ -7,6 +7,7 @@ import ECS.Components.MousePointer;
 import ECS.Components.Playable;
 import ECS.Components.Player;
 import ECS.Components.Sprite;
+import ECS.Components.Tile;
 import ECS.Components.Transform;
 import ECS.Entity;
 import ECS.SystemJob;
@@ -27,10 +28,11 @@ public class CollisionSystem extends SystemJob{
     private Item item;
     //A playable must have a collidable assigned by reference
     private Playable playable;
-    
+    private Tile tile;
+    private Tile tileCollidable;
     private ArrayList<Integer> arrPlayables;
     private ArrayList<Integer> arrItems;
-    
+    private ArrayList<Integer> arrTiles;
     //private ArrayList<Integer> arr;
     
     //Mouse Pointer 
@@ -69,6 +71,9 @@ public class CollisionSystem extends SystemJob{
                     makeCollision(entities.get(i), entities.get(j));
                     
                 }
+            }
+            for(int j=0;j<arrTiles.size();j++){
+                collisionTileEntity(entities.get(i), arrTiles.get(j));
             }
         }
         
@@ -285,11 +290,58 @@ public class CollisionSystem extends SystemJob{
         }
     }
     
+    public void collisionTileEntity(int i, int j){
+        
+        Transform transformi = new Transform();
+        Collidable collidablei = new Collidable();
+        
+        Transform transformj = new Transform();
+        tileCollidable = new Tile();
+        //Getting th collidable and the tranform of the first entity
+        Entity e = scene.entityManager.getEntityByID(i);
+        collidablei = scene.entityManager.getEntityComponentInstance(i, collidablei.getClass());
+        transformi = scene.entityManager.getEntityComponentInstance(i, transformi.getClass());
+        
+        //Getting the collidable and the transform of the second entity
+        
+        transformj = scene.entityManager.getEntityComponentInstance(j, transformj.getClass());
+        tileCollidable = scene.entityManager.getEntityComponentInstance(j, tile.getClass());
+        //Rectangle of the first entity
+        Rectangle firstRect = new Rectangle((int)transformi.position.x, (int)transformi.position.y, (int)collidablei.hitbox.x, (int)collidablei.hitbox.y);
+        
+        //Rectangle of the second entity
+        Rectangle secondRect = new Rectangle((int)transformj.position.x, (int)transformj.position.y, (int)16,(int)16);
+        
+        //The center of the first object(x, y, z)
+        double firstCenterX = transformi.position.x + collidablei.hitbox.x / 2;
+        double firstCenterY = transformi.position.y + collidablei.hitbox.y / 2;
+        double firstCenterZ;
+        
+        
+        //The length of the first object in the x axis from the center to the border
+        double firstLengthX = collidablei.hitbox.x / 2;
+        
+        //The length of the first object in the y axis from the center to the border
+        double firstLengthY = collidablei.hitbox.y / 2;
+
+        //The length of the first object in the z axis from the center to the border
+        double firstLengthZ;
+        
+        if (firstRect.intersects(secondRect) && collidablei.active && tileCollidable.isCollidable()) {
+            System.out.println("Collision");
+        }
+
+
+    }
+    
+    
     public void initializeEntities() {
         item = new Item();
+        tile = new Tile();
         playable = new Playable();
         arrItems = new ArrayList<>();
         arrPlayables = new ArrayList<>();
+        arrTiles = new ArrayList<>();
         entities = new ArrayList<>();
         
         //fetching the entities with the playable component
@@ -297,6 +349,9 @@ public class CollisionSystem extends SystemJob{
         
         //Fetching the entities with the item component
         arrPlayables = scene.entityManager.getEntitiesWithComponents(playable.getClass());
+        
+        //Fetching the tiles
+        arrTiles = scene.entityManager.getEntitiesWithComponents(tile.getClass());
         
         for(int i = 0; i < arrItems.size(); i++) {
             //System.out.println(arrItems.get(i));
