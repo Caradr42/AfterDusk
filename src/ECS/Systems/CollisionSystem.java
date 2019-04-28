@@ -315,7 +315,7 @@ public class CollisionSystem extends SystemJob{
         //The center of the first object(x, y, z)
         double firstCenterX = transformi.position.x + collidablei.hitbox.x / 2;
         double firstCenterY = transformi.position.y + collidablei.hitbox.y / 2;
-        double firstCenterZ;
+        double firstCenterZ = transformi.position.z + collidablei.hitbox.z / 2;
         
         
         //The length of the first object in the x axis from the center to the border
@@ -325,7 +325,7 @@ public class CollisionSystem extends SystemJob{
         double firstLengthY = collidablei.hitbox.y / 2;
 
         //The length of the first object in the z axis from the center to the border
-        double firstLengthZ;
+        double firstLengthZ = collidablei.hitbox.z / 2;
         
         if (firstRect.intersects(secondRect) && collidablei.active && tileCollidable.isCollidable()) {
             System.out.println("Collision");
