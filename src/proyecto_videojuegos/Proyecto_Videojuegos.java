@@ -32,3 +32,4 @@ public class Proyecto_Videojuegos {
        mt.start();
     }
 }
+//1366 y 768

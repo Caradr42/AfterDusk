@@ -26,13 +26,25 @@ public class Tool extends Component{
     public ArrayList<Integer> activos;
     Entity pasiva;
     public ArrayList<Integer> activosDesbloqueados ;
+    
+    //Current active/attack being used. If nothing is used, it has a -1
+    public int currentActive;
 
     public Tool( Entity pasiva, ArrayList<Integer> activos, ArrayList<Integer> activosDesbloqueados) {
         this.activos = activos;
         this.pasiva = pasiva;
         this.activosDesbloqueados = activosDesbloqueados;
+        currentActive = -1;
+    }
+    
+    public Tool() {
+        
+    }
+    
+    public Tool(int currentActive) {
+        this.currentActive = currentActive;
     }
 
-    public Tool() {
-    } 
 }
+
+

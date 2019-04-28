@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public abstract class SystemJob {
     
     protected ArrayList<Integer> entities; //A List of references to each Eantity that also has the necesarie components
-    public Scene scene; //Scene to which this System is attached and where it is executed
+    public static Scene scene; //Scene to which this System is attached and where it is executed
     protected boolean active = true; //Used to activate or deactate the system. if so wanted.
     
     //anonimous class that executes receive, every time it receives a signal with some entities to remove from the entities list.

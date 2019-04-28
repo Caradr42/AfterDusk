@@ -24,6 +24,7 @@ public class KeyManager implements KeyListener{
     public boolean left;
     public boolean right;
     public boolean isE;
+    public boolean space;
     
     //key array for pressed and released keys
     public boolean keys[];
@@ -78,6 +79,7 @@ public class KeyManager implements KeyListener{
         left = keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A];
         right = keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D]; 
         isE = keys[KeyEvent.VK_E];
+        space = keys[KeyEvent.VK_SPACE];
         
         for(int i = 0; i < 256; ++i){
             if(!keys[i]){

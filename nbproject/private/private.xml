@@ -3,6 +3,27 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
+<<<<<<< HEAD
+            <file>file:/home/pablo/Documents/git/Proyecto_Videojuegos/src/ECS/Systems/EnemySystem.java</file>
+            <file>file:/home/pablo/Documents/git/Proyecto_Videojuegos/src/ECS/Components/Collidable.java</file>
+            <file>file:/home/pablo/Documents/git/Proyecto_Videojuegos/src/ECS/Systems/RenderSystem.java</file>
+            <file>file:/home/pablo/Documents/git/Proyecto_Videojuegos/src/ECS/Components/Sprite.java</file>
+            <file>file:/home/pablo/Documents/git/Proyecto_Videojuegos/src/ECS/Components/Playable.java</file>
+            <file>file:/home/pablo/Documents/git/Proyecto_Videojuegos/src/ECS/Systems/CollisionSystem.java</file>
+            <file>file:/home/pablo/Documents/git/Proyecto_Videojuegos/src/Scene/Scenes/MainWorld.java</file>
+            <file>file:/home/pablo/Documents/git/Proyecto_Videojuegos/src/ECS/EntityManager.java</file>
+            <file>file:/home/pablo/Documents/git/Proyecto_Videojuegos/src/ECS/Systems/PlayerSystem.java</file>
+=======
+            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/ECS/EntityManager.java</file>
+            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/Assets/Assets.java</file>
+            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/ECS/Systems/PlayerSystem.java</file>
+            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/graphics/Camera.java</file>
+            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/Scene/Scenes/MainWorld.java</file>
+            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/ECS/Systems/RenderSystem.java</file>
+            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/proyecto_videojuegos/MainThread.java</file>
+>>>>>>> tanya
+=======
             <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/ECS/EntityManager.java</file>
             <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/Assets/Assets.java</file>
             <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/ECS/Systems/UIEntitiesSystem.java</file>
@@ -15,6 +36,7 @@
             <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/ECS/Components/UIEntity.java</file>
             <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/ECS/Components/Inventory.java</file>
             <file>file:/C:/Users/carlo/Documents/ProyectoClaseVideojuegos/Proyecto_Videojuegos/src/ECS/Components/UIInventory.java</file>
+>>>>>>> carlos
         </group>
     </open-files>
 </project-private>

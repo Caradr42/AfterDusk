@@ -139,6 +139,7 @@ public class MainThread implements Runnable{
         stop();
     }
         
+    
     /**
      * Initializes objects inside the thread, and initializes all objects 
      * related to the game, including assets, scenes, 
@@ -237,6 +238,7 @@ public class MainThread implements Runnable{
                 display.g.setColor(Color.GREEN);
                 display.g.drawString(Integer.toString((int)tpsBuffer), 0, 10);
                 display.g.drawString(Integer.toString((int)currentFrame), 16, 10);
+                
                 //display.g.drawRect(0, 0, 16, 16);
             }            
             
