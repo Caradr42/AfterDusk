@@ -1,5 +1,7 @@
 package Utility;
 
+import java.io.Serializable;
+
 /**
  * Utility class for handling a pair of data
  * @author Carlos Adrián Guerra Vázquez
@@ -8,7 +10,7 @@ package Utility;
  * @param <A> the type of the first element
  * @param <B> the type of the second element
  */
-public class Pair<A, B> {
+public class Pair<A, B> implements Serializable{
     public A first;
     public B second;
     

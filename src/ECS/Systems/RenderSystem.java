@@ -10,6 +10,7 @@ import ECS.Components.MousePointer;
 import ECS.Components.Sprite;
 import ECS.Components.Transform;
 import ECS.Components.UIEntity;
+import ECS.Components.WorldEntity;
 import ECS.SystemJob;
 import Scene.Scene;
 import java.awt.Graphics2D;
@@ -37,22 +38,34 @@ import proyecto_videojuegos.MainThread;
  */
 public class RenderSystem extends SystemJob{
     
-    private ArrayList<Integer> UIentities; //this are entities that can not be errased or 
+    private ArrayList<Integer> UIentities; //this are entities that are UI elements
     private ArrayList<Integer> mousePointers;
-    private UIEntity uiEntity;
+    private MousePointer mousePointer;
     
+    //archetype of the enitites lits
     private Transform transform;
     private Sprite sprite;
-    private MousePointer mousePointer;
+
+    
     //Priority Queue of entities to render
     private List <Pair<Transform, Sprite>> array;
     
     AffineTransform originalAT;
-   
+
+    private WorldEntity worldEntity;
+    
+    //archetype if the UI Entities list
+    private UIEntity uiEntity;
+    
+    
+            
+
     public RenderSystem(Scene scene) {
         super(scene);
         transform = new Transform();
         sprite = new Sprite();
+        worldEntity = new WorldEntity();
+        
         uiEntity = new UIEntity();
         mousePointer = new MousePointer();
     }
@@ -73,15 +86,18 @@ public class RenderSystem extends SystemJob{
     @Override
     public void init() {
       //Fetch entities with the Transform and Sprite components
-      entities = scene.entityManager.getEntitiesWithComponents(transform.getClass(), sprite.getClass());
+      entities = scene.entityManager.getEntitiesWithComponents(transform.getClass(), sprite.getClass(), worldEntity.getClass());
       //Fetch User interface entities //This entities cannot be deleted or added after init()
       UIentities = scene.entityManager.getEntitiesWithComponents(uiEntity.getClass());
       //Fetch mouse pointers
       mousePointers = scene.entityManager.getEntitiesWithComponents(mousePointer.getClass());
+
               
       //queue = new ArrayList<>(entities.size(), new myComparator());
       array = new ArrayList <Pair<Transform, Sprite>>();
         
+
+   
     }
 
     @Override
@@ -94,7 +110,7 @@ public class RenderSystem extends SystemJob{
     
     @Override
     public void render(Graphics2D g) {
-        
+
         array.sort(new myComparator());
         /*for(Pair <Transform,Sprite> i : array){
                 System.out.println(i.second.name);
@@ -116,8 +132,8 @@ public class RenderSystem extends SystemJob{
         for(Integer ui: UIentities){
             uiEntity = scene.entityManager.getEntityComponentInstance(ui, uiEntity.getClass());
             
-            if(uiEntity.visible && uiEntity.mainUI) {
-                g.drawImage(uiEntity.currentFrame, (int) uiEntity.position.x,(int) uiEntity.position.y, uiEntity.width, uiEntity.height, null);
+            if(uiEntity._uiSprite.visible && uiEntity.mainUI ) {
+                //g.drawImage(uiEntity.currentFrame, (int) uiEntity.position.x,(int) uiEntity.position.y, uiEntity.width, uiEntity.height, null);
                 uiEntity.UIRender(g, scene);
             }
         }

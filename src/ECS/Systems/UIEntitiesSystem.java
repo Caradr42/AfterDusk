@@ -1,14 +1,20 @@
 package ECS.Systems;
 
 import Assets.Assets;
+import ECS.Component;
 import ECS.Components.Item;
 import ECS.Components.MousePointer;
+import ECS.Components.Sprite;
 import ECS.Components.Transform;
+import ECS.Components.UIButton;
 import ECS.Components.UIEntity;
 import ECS.Components.UIInventory;
 import ECS.SystemJob;
+import ECS.interfaces.UIChild;
 import Maths.Vector2;
+import Maths.Vector3;
 import Scene.Scene;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -27,10 +33,19 @@ import java.util.HashSet;
 public class UIEntitiesSystem extends SystemJob{
     
     UIEntity uiEntity;
+    Transform uiTransform;
+    Sprite uiSprite;
+    Sprite childSprite;
+    Transform childTransform;
+            
+    
+    //player with an inventory to show
     ArrayList<Integer> player;
     
-    //UIEntity subclasses
+    //UIEntity subclasses //add as needed
     UIInventory uiInventory;
+    UIButton uiButton;
+    //**//
     
     boolean PlayerInventoryBuffer;
     
@@ -42,14 +57,20 @@ public class UIEntitiesSystem extends SystemJob{
     //held item data
     Transform itemTransform; //to update the item position
     Item item; //for the is in inventory boolean
-    //the visible boolean in sprite is automatically updated 
+    //the _visible boolean in sprite is automatically updated 
     
     public UIEntitiesSystem(Scene scene) {
         super(scene);
         PlayerInventoryBuffer = false;
         
         uiEntity = new UIEntity();
+        uiSprite = new Sprite();
+        uiTransform = new Transform();
+        childSprite = new Sprite();
+        childTransform = new Transform();
+                
         uiInventory = new UIInventory();
+        uiButton = new UIButton();
         
         mousePointers = new ArrayList<>();
         mousePointer = new MousePointer();
@@ -63,44 +84,51 @@ public class UIEntitiesSystem extends SystemJob{
         pointerOutsideUI = true;
         
         for(Integer e: entities){
+            
             uiEntity = scene.entityManager.getEntityComponentInstance(e, uiEntity.getClass());
+            uiSprite = scene.entityManager.getEntityComponentInstance(e, uiSprite.getClass());
+            uiTransform = scene.entityManager.getEntityComponentInstance(e, uiTransform.getClass());
             
-            //System.out.println(mousePointer.position + " " + mousePointer.mouseManager.position.y);
+            //update UI collider Position
+            uiEntity.UIcollider.setLocation((int)uiTransform.position.x, (int)uiTransform.position.y);
             
-            if(uiEntity.UIcollider.contains((int)mousePointer.position.x, (int)mousePointer.position.y) && uiEntity.visible){
+            //updte if the pointer is outside of any UIEntity
+            if(uiEntity.UIcollider.contains((int)mousePointer.position.x, (int)mousePointer.position.y) && uiSprite.visible){
                 pointerOutsideUI = false;
             }
             
-            //render subInterfaces if the parent is visible
-            for(UIEntity sub: uiEntity.subInterfacesComponents){
-                sub.visible = uiEntity.visible;
+            //Update the visibility of the childs so they render if the parent is _visible and not If notso.
+            for(Integer sub: uiEntity.childs){
+                childSprite = scene.entityManager.getEntityComponentInstance(sub, childSprite.getClass());
+                childSprite.visible = uiSprite.visible;
             }
-                        
-            //executes the animation
-            if(uiEntity.visible){
-                uiEntity.currentFrame = uiEntity.animation[(int)(uiEntity.frameCounter) % uiEntity.animationLenght];
-                
-                uiEntity.frameCounter += uiEntity.speed;
-            }
-            
+                                                
             //input 
-            if(uiEntity.name.equals("Player_Inventory")){
-                //System.out.println("pI: " + uiEntity.visible);
-                if(scene.display.getKeyManager().keys[KeyEvent.VK_X] || scene.display.getKeyManager().keys[KeyEvent.VK_I] || scene.display.getKeyManager().keys[KeyEvent.VK_Q]){
-                    if(!PlayerInventoryBuffer){
-                        if(uiEntity.visible){
-                            uiEntity.visible = false;
-                        }else{
-                            uiEntity.visible = true;
-                        }
+            //System.out.println(uiEntity.name);
+            if(uiEntity.name.equals("Player_Inventory")){ 
+                //ystem.out.println((int)mousePointer.position.x + " " + (int)mousePointer.position.y);
+                if(scene.display.keyManager.wasPressed[KeyEvent.VK_X] || scene.display.keyManager.wasPressed[KeyEvent.VK_I] || scene.display.keyManager.wasPressed[KeyEvent.VK_Q]){
+                    Assets.menu.play();
+                    if(uiSprite.visible){                            
+                            uiSprite.visible = false;
+                    }else{
+                        uiSprite.visible = true;
                     }
-                    PlayerInventoryBuffer = true;
-                }else{
-                    PlayerInventoryBuffer = false;
                 }
+                
+                /*if(scene.display.keyManager.up){
+                    uiTransform.position = uiTransform.position.add(new Vector3(0,-2,0));
+                }
+                if(scene.display.keyManager.down){
+                    uiTransform.position = uiTransform.position.add(new Vector3(0,2,0));
+                }
+                if(scene.display.keyManager.right){
+                    uiTransform.position = uiTransform.position.add(new Vector3(2,0,0));
+                }
+                if(scene.display.keyManager.left){
+                    uiTransform.position = uiTransform.position.add(new Vector3(-2,0,0));
+                }*/
             }  
-            //if tab is pressed show battle gui
-            //if()
         } 
         
         //drop item if outside o UI
@@ -110,14 +138,16 @@ public class UIEntitiesSystem extends SystemJob{
                 mousePointer.heldItem = 0;
                 itemTransform = scene.entityManager.getEntityComponentInstance(tempItem, itemTransform.getClass());
                 item = scene.entityManager.getEntityComponentInstance(tempItem, item.getClass());
-                
+                double originalItemZ = itemTransform.position.z;
                 itemTransform.position.set(scene.c.UIToWorldCoodinates(mousePointer.position.add(new Vector2(-8, -8))));
+                itemTransform.position.y += originalItemZ;
                 //System.out.println(itemTransform.position.x + " " + itemTransform.position.y);
+                //Play drop sound
+                Assets.pickUp.play();
                 item.isInInventory = false;
                 
             }
         }
-        //System.out.println(pointerOutsideUI);
     }
 
     @Override
@@ -127,33 +157,45 @@ public class UIEntitiesSystem extends SystemJob{
         mousePointers = scene.entityManager.getEntitiesWithComponents(mousePointer.getClass());
         mousePointer = scene.entityManager.getEntityComponentInstance(mousePointers.get(0), mousePointer.getClass());
         
+        //for each UIentity, it initializes it
         for(Integer e: entities){
-            //System.out.println(e);
             uiEntity = scene.entityManager.getEntityComponentInstance(e, uiEntity.getClass());
+            uiSprite = scene.entityManager.getEntityComponentInstance(e, uiSprite.getClass());
+            uiTransform = scene.entityManager.getEntityComponentInstance(e, uiTransform.getClass());
             
-            //adds all components instances for all types of uiEntities
-            HashSet<UIEntity> instances = new HashSet<>(); //temp set
-            for(Integer sub: uiEntity.subInterfaces){
+            //System.out.println("::::::::::: " + uiEntity.name + " -> " + uiSprite + " : " + uiTransform);
+            
+            //update the sprite and transform references in the inventoryUI
+            uiEntity._uiSprite = uiSprite;
+            uiEntity._uiTransform = uiTransform;
+            
+            //Adds the UI entities childs as childs of the Transform
+            //System.out.println(uiTransform.childs + " __ " + uiEntity.childs);
+            uiTransform.childs.addAll(uiEntity.childs);
+            //adds all components instances for all types of uiEntities to the childs list
+            HashSet<UIChild> instances = new HashSet<>(); //temp set
+            for(Integer sub: uiEntity.childs){
+                //Adds this entity as Transform parent in the Transform of the childs
+                childTransform = scene.entityManager.getEntityComponentInstance(sub, childTransform.getClass());
+                childTransform.parent = e;
+                //
                 instances.add(scene.entityManager.getEntityComponentInstance(sub, uiEntity.getClass()));
                 instances.add(scene.entityManager.getEntityComponentInstance(sub, uiInventory.getClass()));
+                instances.add(scene.entityManager.getEntityComponentInstance(sub, uiButton.getClass()));
                 //expand here for all UIEntity subclass...
             }
             instances.remove(null);
-            uiEntity.subInterfacesComponents.addAll(instances);
+            uiEntity.UIChildsInterfaces.addAll(instances);
             instances.clear();
             
-            //fetch the sprite for the uiEntity and sets it 
-            for(int i = 0; i < uiEntity.animationsNames.size(); ++i){
-                //System.out.println(uiEntity.animationsNames.get(i));
-                uiEntity.animations.add(Assets.animations.get(uiEntity.animationsNames.get(i)));
-            }
             
-            //System.out.println(uiEntity.animations.size());
-            uiEntity.animation = uiEntity.animations.get(0).first;
-            uiEntity.animationLenght = uiEntity.animations.get(0).second;
+            ///sprite stuff
             
-            uiEntity.currentFrame = uiEntity.animation[0];
+            //uiEntity._visible = uiSprite.visible;
+            uiEntity.UIcollider = new Rectangle((int)uiTransform.position.x, (int)uiTransform.position.y, uiSprite.width, uiSprite.height);
         }
+        
+        
     }
 
     @Override

@@ -88,7 +88,15 @@ public class PlayerSystem extends SystemJob{
             System.out.println("transform " + transform.position.x + ","+ transform.position.y);
             */
             //if the player goes to the right change the position and the animation to the right
-            if (scene.display.getKeyManager().right) {
+
+            if(scene.display.getKeyManager().right){
+                //check loop and play the grass walking sound.
+                if(!Assets.Assets.grassWalk.getLooping())
+                {
+                    Assets.Assets.grassWalk.setLooping(active);
+                    Assets.Assets.grassWalk.play();
+                }
+
                 transform.position.x = transform.position.x + 2;//+ 100 * MainThread.deltaTime);
                 sprite.animation = sprite.animations.get(3).first;
                 sprite.animationLenght = sprite.animations.get(3).second;
@@ -102,8 +110,16 @@ public class PlayerSystem extends SystemJob{
             }
             
             //if the player goes to the left change the position and the animation to the left
-            if (scene.display.getKeyManager().left) {
-                transform.position.x = transform.position.x - 2;//- 100 * MainThread.deltaTime);
+
+            if(scene.display.getKeyManager().left){
+                //check loop and play the grass walking sound.
+                if(!Assets.Assets.grassWalk.getLooping())
+                {
+                    Assets.Assets.grassWalk.setLooping(active);
+                    Assets.Assets.grassWalk.play();
+                }
+                transform.position.x = transform.position.x -2;//- 100 * MainThread.deltaTime);
+
                 sprite.animation = sprite.animations.get(2).first;
                 sprite.animationLenght = sprite.animations.get(2).second;
 
@@ -112,10 +128,18 @@ public class PlayerSystem extends SystemJob{
                 playable.down = false;
                 playable.up = false;
             }
-            
+
+           
             //if the player goes to up change the position and the animation to up
-            if (scene.display.getKeyManager().up) {
-                transform.position.y = transform.position.y - 2;//- 100 * MainThread.deltaTime);
+            if(scene.display.getKeyManager().up){
+               //check loop and play the grass walking sound.
+                if(!Assets.Assets.grassWalk.getLooping())
+                {
+                    Assets.Assets.grassWalk.setLooping(active);
+                    Assets.Assets.grassWalk.play();
+                }
+                transform.position.y = transform.position.y -2;//- 100 * MainThread.deltaTime);
+
                 sprite.animation = sprite.animations.get(1).first;
                 sprite.animationLenght = sprite.animations.get(1).second;
 
@@ -124,10 +148,18 @@ public class PlayerSystem extends SystemJob{
                 playable.down = false;
                 playable.up = true;
             }
-            
+
+ 
             //if the player goes down change the position and the animation to down
-            if (scene.display.getKeyManager().down) {
-                transform.position.y = transform.position.y + 2;//+ 100 * MainThread.deltaTime);
+            if(scene.display.getKeyManager().down){
+                //check loop and play the grass walking sound.
+                if(!Assets.Assets.grassWalk.getLooping())
+                {
+                    Assets.Assets.grassWalk.setLooping(active);
+                    Assets.Assets.grassWalk.play();
+                }
+                transform.position.y = transform.position.y +2;//+ 100 * MainThread.deltaTime);
+
                 sprite.animation = sprite.animations.get(0).first;
                 sprite.animationLenght = sprite.animations.get(0).second;
 
@@ -137,6 +169,7 @@ public class PlayerSystem extends SystemJob{
                 playable.up = false;
             }
             
+
             //if the player presses the space key, an attack is done with the right hand
             if(scene.display.getKeyManager().space) {
                 rightHand = scene.entityManager.getEntityComponentInstance(player.rightHand, rightHand.getClass());
@@ -147,7 +180,13 @@ public class PlayerSystem extends SystemJob{
                 System.out.println("Enter pressed");
             }
             
-            
+
+            //if its not moving, stop sound
+            if(!(scene.display.getKeyManager().down||scene.display.getKeyManager().up||scene.display.getKeyManager().left||scene.display.getKeyManager().right)){
+                Assets.Assets.grassWalk.setLooping(false);
+                Assets.Assets.grassWalk.stop();
+            }
+
             //if its not moving, stop the animation
             if(!(scene.display.getKeyManager().right || scene.display.getKeyManager().left || scene.display.getKeyManager().up || scene.display.getKeyManager().down)){
                 sprite.frameCounter = 0;

@@ -2,7 +2,9 @@ package ECS.Components;
 
 import ECS.Component;
 import ECS.Entity;
+import ECS.interfaces.UIChild;
 import Maths.Vector2;
+import Maths.Vector3;
 import Scene.Scene;
 import Utility.Pair;
 import java.awt.Graphics2D;
@@ -22,17 +24,25 @@ import proyecto_videojuegos.MainThread;
  * @date 12/04/2019
  * @version 1.0
  */
-public class UIEntity extends Component{
+public class UIEntity extends Component implements UIChild{
+    
+    Sprite sprite;
+    
+    public Integer parent;
+    public ArrayList<Integer> childs;
+    
+    public String name;
+    
     //Transform Data
-    public Vector2 position; //position on screen (pixels)
+    //public Vector2 position; //position on screen (pixels)
     
     //Sprite data
-    public String name;
-    public boolean visible;
+    /*public String name;
+    public boolean _visible;
      
     public int width;
     public int height;
-    public Rectangle UIcollider;
+    
     
     public int animationLenght;
     public double speed;
@@ -42,36 +52,56 @@ public class UIEntity extends Component{
     
     public ArrayList<Pair<BufferedImage[], Integer>> animations;
     public BufferedImage[] animation;
-    public BufferedImage currentFrame;
-    //UI data
-    public ArrayList<Integer> subInterfaces; //the smaller UIEntities or UIInventories inside this UIEntity
-    public ArrayList<UIEntity> subInterfacesComponents; //polimorfic list of components instances
-    public boolean mainUI;
+    public BufferedImage currentFrame;*/
     
-    public UIEntity(String name, boolean visible,boolean mainUI, int width, int height, int x, int y, double speed, ArrayList<String> animationsNames, ArrayList<Integer> subInterfaces) {
-        this.position = new Vector2(x,y);
+    //UI data
+    public ArrayList<UIChild> UIChildsInterfaces; //polimorfic list of components
+    public boolean mainUI;
+    public Rectangle UIcollider;
+    //public boolean _visible;
+    
+    public Sprite _uiSprite; //the sprite reference is updated in the sistem
+    public Transform _uiTransform; //the transform reference is also updated in the sistem
+    
+    /*public BufferedImage _currentSpriteReference;
+    public int _width;
+    public int _height;
+    public Vector3 _currentPositionReference;*/
+    
+    /**
+     * UI entity constructor 
+     * @param name the name used for the UI behabiour
+     * @param mainUI if the UI is a root UI, (no father)
+     * @param childs the list of child UI that this father manages
+     */
+    public UIEntity(String name,boolean mainUI, ArrayList<Integer> childs) {
         this.name = name;
-        this.visible = visible;
         this.mainUI = mainUI;
+        sprite = new Sprite();
+        //Move to system
+        //this.UIcollider = new Rectangle((int)position.x, (int)position.y, width,height);
+        if(childs != null){
+            this.childs = childs;
+        }else{
+            this.childs = new ArrayList<>();
+        }
+        UIChildsInterfaces = new ArrayList<>();
+        //_visible = false; //this is updated in the system
         
-        this.width = width;
-        this.height = height;
-        this.UIcollider = new Rectangle((int)position.x, (int)position.y, width,height);
-        this.speed = speed / MainThread.fps;
-        
-        this.animationsNames = animationsNames;
-        this.animations = new ArrayList<>();
-        
-        this.subInterfaces = subInterfaces;
-        subInterfacesComponents = new ArrayList<>();
     }
 
     public UIEntity() {
     }
     
     //I'm sorry ECS :(
-    public void UIRender(Graphics2D g, Scene s){
-        for(UIEntity sub: subInterfacesComponents){
+    @Override
+    public void UIRender(Graphics2D g, Scene s ){
+        //System.out.println("Rendering UI: " + name + " where: " + _uiSprite + " : " + _uiTransform);
+        if(_uiSprite != null && _uiTransform != null && mainUI){
+            //System.out.println("Rendering UI2w: " + name);
+            g.drawImage(_uiSprite.currentFrame, (int)_uiTransform.position.x, (int)_uiTransform.position.y, _uiSprite.width, _uiSprite.height, null);
+        }
+        for(UIChild sub: UIChildsInterfaces){
             sub.UIRender(g, s);
         }
     }   

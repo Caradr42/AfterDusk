@@ -64,6 +64,12 @@ public class Vector3 {
         y = v.y;
     }
     
+    public void set(Vector3 v){
+        x = v.x;
+        y = v.y;
+        z = v.z;
+    }
+    
     /**
      * Measures the distance to another vector.
      * @param q the other vector to which the distance will be measured
@@ -72,7 +78,11 @@ public class Vector3 {
     public double dist(Vector2 q){
         return  Math.sqrt(Math.pow(this.x - q.x, 2) + Math.pow(this.y - q.y, 2));
     }
-        
+    
+    public double dist(Vector3 q){
+        return  Math.sqrt(Math.pow(this.x - q.x, 2) + Math.pow(this.y - q.y, 2) + Math.pow(this.z - q.z, 2) );
+    }
+    
     /**
      * Returns the subtraction of other vector with this.
      * @param q the vector to be subtracted.
@@ -80,6 +90,10 @@ public class Vector3 {
      */
     public Vector2 sub(Vector2 q){
         return  new Vector2(this.x - q.x,this.y - q.y);
+    }
+    
+    public Vector3 sub(Vector3 q){
+        return  new Vector3(this.x - q.x,this.y - q.y, this.z - q.z);
     }
     
     /**
@@ -91,32 +105,48 @@ public class Vector3 {
         return  new Vector2(q.x + this.x, q.y + this.y);
     }
     
-    public Vector2 scalar(double c){
-        return  new Vector2(x * c, y * c);
+    public Vector3 add(Vector3 q){
+        return  new Vector3(q.x + this.x, q.y + this.y, q.z + this.z);
     }
     
-    public Vector2 div(double c){
-        return  new Vector2(x / c, y / c);
+    public Vector3 scalar(double c){
+        return  new Vector3(x * c, y * c, z * c);
+    }
+    
+    public Vector3 div(double c){
+        return  new Vector3(x / c, y / c, z / c);
     }
     
     public double dot(Vector2 c){
         return (x * c.x) + (y * c.y);
     }
     
+    public double dot(Vector3 c){
+        return (x * c.x) + (y * c.y) + (x * c.z);
+    }
+    
     public double dotDiv(Vector2 c){
         return (x / c.x) + (y / c.y);
     }
     
-    public double mag(){
+    public double dotDiv(Vector3 c){
+        return (x / c.x) + (y / c.y) + (z / c.z);
+    }
+    
+    public double mag2(){
         return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     }
     
-    public Vector2 norm(){
+    public double mag(){
+        return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
+    }
+    
+    public Vector3 norm(){
         double m = this.mag();
         if(m > 0){
             return this.div(m);
         }
-        return new Vector2(0,0);
+        return new Vector3(0,0,0);
     }    
     
     /**
