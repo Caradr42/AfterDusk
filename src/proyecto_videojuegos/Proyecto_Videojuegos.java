@@ -1,9 +1,9 @@
 package proyecto_videojuegos;
 
 //import CBA.GameObjects.Player;
-import ECS.EntityManager;
-import ECS.Components.Sprite;
-import ECS.Entity;
+
+import Utility.MSG;
+import graphics.Display;
 
 /**
  * Game entry point
@@ -21,7 +21,14 @@ public class Proyecto_Videojuegos {
         
     public static void main(String[] args) {
        System.setProperty("sun.java2d.opengl", "true");
-       MainThread mt = new MainThread("Game", 1366, 768);
+       Display display = new Display("Game", 1366, 768);
+       Boolean initRef = false;
+       MSG msg = new MSG();
+       
+       LoadingThread loading = new LoadingThread(display, msg);
+       loading.start();
+       
+       MainThread mt = new MainThread(display, msg);
        mt.start();
     }
 }

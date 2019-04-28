@@ -97,7 +97,7 @@ public class Assets {
      * @param path the path in the game file path
      * @return animation returns a BufferesImage[], this is an animation
      */
-    private static BufferedImage[] crop(int width, int height, int N, String path, boolean translucid){
+    public static BufferedImage[] crop(int width, int height, int N, String path, boolean translucid){
         BufferedImage temp = ImageLoader.loadImage(path, translucid);  
         BufferedImage[] animation = new BufferedImage[N];
         
