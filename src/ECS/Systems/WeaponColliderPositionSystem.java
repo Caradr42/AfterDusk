@@ -142,9 +142,9 @@ public class WeaponColliderPositionSystem extends SystemJob{
                 //for each collider of its right hand weapon
                 for (AttackCollider at : rightComponent.arrColliders) {
                     //System.out.println("Up");
-                    at.relativePosition.x = playerWidth;
+                    at.relativePosition.x = 0;
                     
-                    at.relativePosition.y = - playerHeight - at.a + 5;
+                    at.relativePosition.y = - playerHeight - at.b;
                     
                     //the y is the height of the collider
                     at.hitbox.y = at.a;
@@ -174,7 +174,7 @@ public class WeaponColliderPositionSystem extends SystemJob{
                 //for each collider of its right hand weapon
                 for (AttackCollider at : rightComponent.arrColliders) {
                    // System.out.println("Down");
-                    at.relativePosition.x = playerWidth;
+                    at.relativePosition.x = 0;
                     
                     at.relativePosition.y = 0;
                     
@@ -205,9 +205,9 @@ public class WeaponColliderPositionSystem extends SystemJob{
                 //for each collider of its right hand weapon
                 for (AttackCollider at : rightComponent.arrColliders) {
                     //System.out.println("Left");
-                    at.relativePosition.x = 8;
+                    at.relativePosition.x = - playerWidth;
 
-                    at.relativePosition.y = - playerHeight + 5;
+                    at.relativePosition.y = - playerHeight;
 
                     at.hitbox.y = at.b;
 
@@ -240,9 +240,9 @@ public class WeaponColliderPositionSystem extends SystemJob{
                 for (AttackCollider at : rightComponent.arrColliders) {
                     //System.out.println("Right");
                        
-                    at.relativePosition.x = playerWidth + 25;
+                    at.relativePosition.x = at.a;
 
-                    at.relativePosition.y = - playerHeight + 5;
+                    at.relativePosition.y = - playerHeight;
 
                     at.hitbox.y = at.b;
 
