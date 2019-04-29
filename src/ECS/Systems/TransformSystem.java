@@ -39,7 +39,7 @@ public class TransformSystem extends SystemJob{
         
         for(Integer e: entities){
             transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());
-                        
+            
             if(transform.parent != 0){
                 if(transform.position != transform.previousPosition){
                     transform.relativePosition = transform.relativePosition.add(transform.position.sub(transform.previousPosition));

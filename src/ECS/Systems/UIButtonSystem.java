@@ -26,6 +26,8 @@ public class UIButtonSystem extends SystemJob{
     
     UIEntity uiEntity;
     
+    UIEntity parentUIEntity;
+    
     MousePointer mousePointer;
     
     //ArrayList<MousePointer> mousePointers;
@@ -37,6 +39,7 @@ public class UIButtonSystem extends SystemJob{
         buttonSprite = new Sprite();
         buttonTransform = new Transform();
         uiEntity = new UIEntity();
+        parentUIEntity = new UIEntity();
     }
 
     @Override
@@ -52,13 +55,24 @@ public class UIButtonSystem extends SystemJob{
            // uiButton._buttonTransform = buttonTransform;
             
             //System.out.println(" --> " + uiEntity.UIcollider + " --> " + mousePointer.position.x + " " + mousePointer.position.y);
-            if(uiEntity.UIcollider.contains((int)mousePointer.position.x, (int)mousePointer.position.y)){
-                //System.out.println("innininininii");
-                uiButton.buttonVisible = false;
-            }else{
+            if(uiEntity.UIcollider.contains((int)mousePointer.position.x, (int)mousePointer.position.y) && buttonSprite.visible){
                 uiButton.buttonVisible = true;
+                if(mousePointer.mouseManager.left){
+                    uiButton.buttonPressed = true;
+                }else{
+                     uiButton.buttonPressed = false;
+                }
+            }else{
+                uiButton.buttonVisible = false;
             }
-            //System.out.println(buttonSprite.visible);
+            
+            if(uiButton.buttonPressed){
+                //System.out.println(uiEntity.parent);
+                parentUIEntity = scene.entityManager.getEntityComponentInstance(uiEntity.parent, parentUIEntity.getClass());
+                //System.out.println(parentUIEntity);
+                parentUIEntity.windowState = uiButton.parentState;
+            }
+            //System.out.println(uiButton.buttonPressed);
         }
     }
 

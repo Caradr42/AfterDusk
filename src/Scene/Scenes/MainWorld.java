@@ -164,10 +164,10 @@ public class MainWorld extends Scene {
         //UI Buttons
 
         Entity button = entityManager.createEntityWithComponents("button",
-                new Transform(50, 50),
-                new Sprite("Button", false, 48, 10, 0, new ArrayList<>(Arrays.asList("Button_48_selected"))),
+                new Transform(16, 15),
+                new Sprite("Button", true, 47, 13, 0, new ArrayList<>(Arrays.asList("Button_48"))),
                 new UIEntity("Button", false, null),
-                new UIButton("Button")
+                new UIButton("Button" , 0)
         );
 
         //USER INTERFACES
@@ -179,8 +179,8 @@ public class MainWorld extends Scene {
                         new ArrayList<>(Arrays.asList(
                                 mainInventory.getID(),
                                 LRInventory.getID(),
-                                passivesInventory.getID(),
-                                button.getID())))
+                                passivesInventory.getID()
+                                )))
         );
 
         //the player actives hotbar
@@ -197,6 +197,15 @@ public class MainWorld extends Scene {
                 new UIEntity("RL_bar", true,
                         new ArrayList<>(Arrays.asList(LRUIInventory.getID())))
         );
+        
+        //the Game menu
+        Entity menu = entityManager.createEntityWithComponents("menu",
+                new Transform(display.width / c.scale / 2 - (278/2), display.height / c.scale / 2 - (150/2)),
+                new Sprite("menu", false, 278, 150, 0, new ArrayList<>(Arrays.asList("menu_map", "menu_game"))),
+                new UIEntity("menu", true, new ArrayList<>(Arrays.asList(button.getID())))
+        );
+        
+        //menu_map
 
         //PLAYABLE ENTITIES
         Entity player = entityManager.createEntityWithComponents("Player",
@@ -222,14 +231,14 @@ public class MainWorld extends Scene {
         //draw grass grid
         for (int x = 0; x < 960; x += 16) {
             for (int y = 0; y < 960; y += 16) {
-                Entity side = entityManager.createEntityWithComponents("grassSide",
+                /*Entity side = entityManager.createEntityWithComponents("grassSide",
                         new Transform(new Vector3(x, y, -16)),
                         grassSideSprite,
                         new WorldEntity()
-                );
+                );*/
 
                 entityManager.createEntityWithComponents("grass",
-                        new Tile("grass" + Integer.toString(x) + "_" + Integer.toString(y), grassTopSprite, side.getID()),
+                        new Tile("grass" + Integer.toString(x / 16) + "_" + Integer.toString(y / 16) , grassTopSprite, grassSideSprite),
                         new Transform(new Vector3(x, y, 0)),
                         grassTopSprite,
                         new WorldEntity()
@@ -238,14 +247,14 @@ public class MainWorld extends Scene {
             }
         }
 
-        Entity side = entityManager.createEntityWithComponents("grassSide",
+        /*Entity side = entityManager.createEntityWithComponents("grassSide",
                 new Transform(new Vector3(-80, -80, 16)),
                 grassSideSprite,
                 new WorldEntity()
-        );
+        );*/
 
         entityManager.createEntityWithComponents("grass",
-                new Tile("grass2", grassTopSprite, side.getID()),
+                new Tile("grass2", grassTopSprite, grassSideSprite),
                 new Transform(new Vector3(-80, -80, 32)),
                 grassTopSprite,
                 new WorldEntity()
@@ -272,6 +281,7 @@ public class MainWorld extends Scene {
                 new MousePointerSystem(this),
                 new PlayerSystem(this),
                 new SpriteSystem(this),
+                new TileSystem(this),
                 new TransformSystem(this),
                 new UIButtonSystem(this),
                 new UIEntitiesSystem(this),

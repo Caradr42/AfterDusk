@@ -37,7 +37,7 @@ public class UIEntitiesSystem extends SystemJob{
     Sprite uiSprite;
     Sprite childSprite;
     Transform childTransform;
-            
+    UIEntity childUIEntity;
     
     //player with an inventory to show
     ArrayList<Integer> player;
@@ -68,6 +68,7 @@ public class UIEntitiesSystem extends SystemJob{
         uiTransform = new Transform();
         childSprite = new Sprite();
         childTransform = new Transform();
+        childUIEntity = new UIEntity();
                 
         uiInventory = new UIInventory();
         uiButton = new UIButton();
@@ -105,7 +106,33 @@ public class UIEntitiesSystem extends SystemJob{
                                                 
             //input 
             //System.out.println(uiEntity.name);
+              
+            
+            if(uiEntity.name.equals("menu")){ 
+                if(scene.display.keyManager.wasPressed[KeyEvent.VK_ESCAPE]){
+                    Assets.menu.play();
+                    if(uiSprite.visible){                            
+                            uiSprite.visible = false;
+                    }else{
+                        uiSprite.visible = true;
+                    }
+                }
+                //System.out.println(uiEntity.windowState);
+            }
+            if(uiEntity.name.equals("actives_bar") || uiEntity.name.equals("RL_bar")){ 
+
+                if(scene.display.keyManager.wasPressed[KeyEvent.VK_TAB]){
+                    Assets.menu.play();
+                    if(uiSprite.visible){                            
+                            uiSprite.visible = false;
+                    }else{
+                        uiSprite.visible = true;
+                    }
+                }
+            }
+            
             if(uiEntity.name.equals("Player_Inventory")){ 
+                
                 //ystem.out.println((int)mousePointer.position.x + " " + (int)mousePointer.position.y);
                 if(scene.display.keyManager.wasPressed[KeyEvent.VK_X] || scene.display.keyManager.wasPressed[KeyEvent.VK_I] || scene.display.keyManager.wasPressed[KeyEvent.VK_Q]){
                     Assets.menu.play();
@@ -128,7 +155,7 @@ public class UIEntitiesSystem extends SystemJob{
                 if(scene.display.keyManager.left){
                     uiTransform.position = uiTransform.position.add(new Vector3(-2,0,0));
                 }*/
-            }  
+            }
         } 
         
         //drop item if outside o UI
@@ -178,6 +205,8 @@ public class UIEntitiesSystem extends SystemJob{
                 //Adds this entity as Transform parent in the Transform of the childs
                 childTransform = scene.entityManager.getEntityComponentInstance(sub, childTransform.getClass());
                 childTransform.parent = e;
+                childUIEntity = scene.entityManager.getEntityComponentInstance(sub, childUIEntity.getClass());
+                childUIEntity.parent = e;
                 //
                 instances.add(scene.entityManager.getEntityComponentInstance(sub, uiEntity.getClass()));
                 instances.add(scene.entityManager.getEntityComponentInstance(sub, uiInventory.getClass()));

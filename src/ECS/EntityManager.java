@@ -134,7 +134,7 @@ public class EntityManager implements Serializable{
      * @param components the list of components to attach to the entity
      * @return returns the newly created entity
      */
-    public <T extends Component> Entity createEntityWithComponents(String name, T ...components){
+    public synchronized <T extends Component> Entity createEntityWithComponents(String name, T ...components){
         Entity createdEnt = createEntity(name); //assigns a unique id to the created entity
         
         //creates the set of classes with the components of the entities. also known as archetype
@@ -290,7 +290,7 @@ public class EntityManager implements Serializable{
      * @param component the <b>Class</b> of the component to be retrieved.
      * @return the searched component instance
      */
-    public <T> T getEntityComponentInstance(Integer entity, Class<T> component){
+    public synchronized <T> T getEntityComponentInstance(Integer entity, Class<T> component){
         if(entity == 0) return null;
         
         //gets the inner HashMap contained at the current KEY of the upper HashMap. using the component Class as a KEY.
@@ -313,7 +313,7 @@ public class EntityManager implements Serializable{
      * @param component the <b>Class</b> of the component to be retrieved.
      * @return the searched component instance
      */
-    public <T> T getEntityComponentInstance(Entity entity, Class<T> component){               
+    public synchronized <T> T getEntityComponentInstance(Entity entity, Class<T> component){               
         return getEntityComponentInstance(entity.getID(), component);
     }
     
@@ -353,7 +353,7 @@ public class EntityManager implements Serializable{
      * @param componentsClass
      * @return 
      */
-    public  ArrayList<Integer> getEntitiesWithComponents(Class ... componentsClass){ //TODO
+    public synchronized ArrayList<Integer> getEntitiesWithComponents(Class ... componentsClass){ //TODO
         HashSet<Integer> entitiesSet = new HashSet<>(getAllEntitiesPosessingComponentOfClass(componentsClass[0]));
         
         //TODO: anly do this at init() for better performance

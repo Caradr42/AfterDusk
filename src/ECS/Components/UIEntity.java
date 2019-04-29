@@ -26,7 +26,9 @@ import proyecto_videojuegos.MainThread;
  */
 public class UIEntity extends Component implements UIChild{
     
-    Sprite sprite;
+    public int windowState = 0;
+    
+    //public Sprite sprite;
     
     public Integer parent;
     public ArrayList<Integer> childs;
@@ -77,7 +79,7 @@ public class UIEntity extends Component implements UIChild{
     public UIEntity(String name,boolean mainUI, ArrayList<Integer> childs) {
         this.name = name;
         this.mainUI = mainUI;
-        sprite = new Sprite();
+        //sprite = new Sprite();
         //Move to system
         //this.UIcollider = new Rectangle((int)position.x, (int)position.y, width,height);
         if(childs != null){

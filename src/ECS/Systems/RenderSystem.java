@@ -121,8 +121,17 @@ public class RenderSystem extends SystemJob{
             if(t.second.visible) {
                 g.drawImage(t.second.currentFrame, (int) t.first.position.x,(int) (t.first.position.y - t.first.position.z) ,t.second.width,t.second.height,null);
             }
+            //System.out.println(t.second.name);
+            if("grassSide".equals(t.second.name)){
+                System.out.println("eeee");
+                g.drawRect((int)t.first.position.x,(int) t.first.position.y, 16, 16);
+                System.out.println(t.first.position.x + " " + (int) t.first.position.y);
+            }
         }
         
+        
+        
+        //transformthe grphic coordinates to the screen coordinates
         originalAT = g.getTransform();
         AffineTransform at = new AffineTransform();
         at.setTransform(4, 0, 0, 4, 1, 0);

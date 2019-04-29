@@ -36,7 +36,7 @@ public class ImageLoader {
     
     public static BufferedImage loadImage(String path, Boolean translucent){
         BufferedImage bi = null;
-       
+        
         try{
             bi = ImageIO.read(ImageLoader.class.getResource(path));
         }catch(IOException ioe){ //catch if no image was found at dir path
@@ -46,7 +46,9 @@ public class ImageLoader {
 
         BufferedImage biCom;
         if(translucent){
-            biCom = gc.createCompatibleImage(bi.getWidth(), bi.getHeight(), Transparency.TRANSLUCENT);
+            //biCom = gc.createCompatibleImage(bi.getWidth(), bi.getHeight(), Transparency.TRANSLUCENT);
+            //System.out.println("translucent: " + path);
+            return bi;
         }else{
             if(bi.getAlphaRaster() == null){
                 biCom = gc.createCompatibleImage(bi.getWidth(), bi.getHeight(), Transparency.OPAQUE);

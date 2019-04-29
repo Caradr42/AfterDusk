@@ -34,18 +34,21 @@ public class Transform extends Component{
      */
     public Transform(Vector3 position) {
         this.position = position;
+        this.previousPosition = position;
         parent = 0;
         childs = new ArrayList<>();
     }
     
     public Transform(double x, double y, double z) {
         this.position = new Vector3(x, y, z);
+        this.previousPosition = position;
         parent = 0;
         childs = new ArrayList<>();
     }
     
     public Transform(double x, double y) {
         this.position = new Vector3(x, y, 0);
+        this.previousPosition = position;
         parent = 0;
         childs = new ArrayList<>();
     }
@@ -62,6 +65,7 @@ public class Transform extends Component{
             this.childs = new ArrayList<>();
         }
         this.position = position;
+        this.previousPosition = position;
         parent = 0;
     }
     
@@ -78,6 +82,17 @@ public class Transform extends Component{
             this.childs = new ArrayList<>();
         }
         this.relativePosition = relativePosition;
+        this.previousPosition = relativePosition;
+        this.position = relativePosition;
+        this.parent = parent;
+    }
+    
+    public Transform(Vector3 relativePosition, Integer parent) {
+        
+        this.childs = new ArrayList<>();
+        
+        this.relativePosition = relativePosition;
+        this.previousPosition = relativePosition;
         this.position = relativePosition;
         this.parent = parent;
     }

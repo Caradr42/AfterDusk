@@ -5,6 +5,12 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import IO.ImageLoader;
 import IO.SoundClip;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
  /**
  * Class containing statically all the game assets
@@ -18,6 +24,8 @@ import IO.SoundClip;
  * @version 1.0
  */
 public class Assets {
+    
+    public static Font undefinedMedium;
     
     //A map containing all the sprite animations
     //the inner Pair has as first: a BufferedImage animation, and as second: the number of frames of such animation
@@ -36,7 +44,23 @@ public class Assets {
     
             
     public static void init(){
+        //load Fonts
         
+        try {
+            //URL url = Assets.class.getResource("/Resources/Fonts/undefined_medium.ttf");
+            //File font = new File(Assets.class.getResource("/Resources/Fonts/undefined_medium.ttf").getPath());
+            //create the font to use. Specify the size!
+            undefinedMedium = Font.createFont(Font.TRUETYPE_FONT, new File(Assets.class.getResource("/Resources/Fonts/undefined_medium.ttf").getPath())).deriveFont(10f);
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            //register the font
+            ge.registerFont(undefinedMedium);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (FontFormatException e) {
+            e.printStackTrace();
+        }
+        
+        //Load animations
         animations = new HashMap<>();
         
         //ALL animmations goes here
@@ -67,8 +91,12 @@ public class Assets {
         animations.put("menu_game",     new Pair<>(crop(278, 150, 1, "/Resources/Images/menu_game.png", false)          , 1));
         animations.put("menu_map",     new Pair<>(crop(278, 150, 1, "/Resources/Images/menu_map.png", false)            , 1));
         
-        animations.put("Button_48_selected",     new Pair<>(crop(48, 10, 1, "/Resources/Images/Button_48_selected.png", true), 1));
-        //Button_48_selected
+        animations.put("selected_transparency",     new Pair<>(crop(16, 16, 1, "/Resources/Images/selected_transparency.png", true), 1));
+        //buttons
+        animations.put("Button_32",     new Pair<>(crop(32, 10, 1, "/Resources/Images/Button_32.png", false), 1));
+        animations.put("Button_48",     new Pair<>(crop(48, 10, 1, "/Resources/Images/Button_48.png", false), 1));
+        animations.put("Button_long",     new Pair<>(crop(58, 10, 1, "/Resources/Images/Button_long.png", false), 1));
+        //Button_long
         
         //SOUND
         

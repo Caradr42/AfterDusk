@@ -81,12 +81,7 @@ public class PlayerSystem extends SystemJob{
                 MainThread.c.position2.set(scene.display.width / (2 * MainThread.c.scale) - rightBorder, scene.display.height / (2 * MainThread.c.scale) - downBorder);
                         firstTime = false;
             }
-            /*
-            System.out.println("position 1 " + MainThread.c.position1.x + ","+ MainThread.c.position1.y);
-            System.out.println("ortogonal  " + MainThread.c.ortogonalPosition.x + ","+ MainThread.c.ortogonalPosition.y);
-            System.out.println("position 2 " + MainThread.c.position2.x + ","+ MainThread.c.position2.y);
-            System.out.println("transform " + transform.position.x + ","+ transform.position.y);
-            */
+            
             //if the player goes to the right change the position and the animation to the right
 
             if(scene.display.getKeyManager().right){
@@ -98,6 +93,11 @@ public class PlayerSystem extends SystemJob{
                 }
 
                 transform.position.x = transform.position.x + 2;//+ 100 * MainThread.deltaTime);
+                
+                if(scene.display.keyManager.wasPressed[KeyEvent.VK_D] || scene.display.keyManager.wasPressed[KeyEvent.VK_RIGHT]){
+                    sprite.frameCounter = 1;
+                }
+                
                 sprite.animation = sprite.animations.get(3).first;
                 sprite.animationLenght = sprite.animations.get(3).second;
                 
@@ -119,7 +119,11 @@ public class PlayerSystem extends SystemJob{
                     Assets.Assets.grassWalk.play();
                 }
                 transform.position.x = transform.position.x -2;//- 100 * MainThread.deltaTime);
-
+                
+                if(scene.display.keyManager.wasPressed[KeyEvent.VK_A] || scene.display.keyManager.wasPressed[KeyEvent.VK_LEFT]){
+                    sprite.frameCounter = 1;
+                }
+                
                 sprite.animation = sprite.animations.get(2).first;
                 sprite.animationLenght = sprite.animations.get(2).second;
 
@@ -139,7 +143,11 @@ public class PlayerSystem extends SystemJob{
                     Assets.Assets.grassWalk.play();
                 }
                 transform.position.y = transform.position.y -2;//- 100 * MainThread.deltaTime);
-
+                
+                if(scene.display.keyManager.wasPressed[KeyEvent.VK_W] || scene.display.keyManager.wasPressed[KeyEvent.VK_UP]){
+                    sprite.frameCounter = 1;
+                }
+                
                 sprite.animation = sprite.animations.get(1).first;
                 sprite.animationLenght = sprite.animations.get(1).second;
 
@@ -159,7 +167,11 @@ public class PlayerSystem extends SystemJob{
                     Assets.Assets.grassWalk.play();
                 }
                 transform.position.y = transform.position.y +2;//+ 100 * MainThread.deltaTime);
-
+                
+                if(scene.display.keyManager.wasPressed[KeyEvent.VK_S] || scene.display.keyManager.wasPressed[KeyEvent.VK_DOWN]){
+                    sprite.frameCounter = 1;
+                }
+                
                 sprite.animation = sprite.animations.get(0).first;
                 sprite.animationLenght = sprite.animations.get(0).second;
 

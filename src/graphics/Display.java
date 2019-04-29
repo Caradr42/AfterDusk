@@ -68,6 +68,7 @@ public class Display {
        jframe.setSize(width, height);
        //setting not resizable, visible and possible to close
        jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       jframe.setFocusTraversalKeysEnabled(false);
        jframe.setResizable(false);
        //since it is null, the window will be centered at the center of the screen
        jframe.setLocationRelativeTo(null);
@@ -139,5 +140,7 @@ public class Display {
     public int getHeight() {
         return height;
     }
+    
+    
         
 }

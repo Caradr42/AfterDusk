@@ -30,7 +30,7 @@ public abstract class Scene {
     
     private boolean active;
     
-    public EntityManager entityManager;
+    public volatile EntityManager entityManager;
     public SystemJobManager systemJobManager;
     public Display display;
     public Camera c;

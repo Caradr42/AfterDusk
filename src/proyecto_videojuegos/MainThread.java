@@ -215,7 +215,9 @@ public class MainThread implements Runnable{
                         
             display.g.setColor(Color.GRAY);
             display.g.fillRect(0, 0, width, height);
-            display.g.setColor(Color.RED);
+            
+            display.g.setFont(Assets.undefinedMedium);
+            display.g.setColor(Color.WHITE);
             
             /*AffineTransform at = new AffineTransform();
             

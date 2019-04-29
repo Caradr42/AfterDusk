@@ -30,20 +30,20 @@ public abstract class SystemJob {
     protected boolean active = true; //Used to activate or deactate the system. if so wanted.
     
     //anonimous class that executes receive, every time it receives a signal with some entities to remove from the entities list.
-    public Listener<ArrayList<Integer>> onRemoveEntitiesListener = new Listener<ArrayList<Integer>>(){
+    /*public Listener<ArrayList<Integer>> onRemoveEntitiesListener = new Listener<ArrayList<Integer>>(){
         @Override
         public void receive(Signal<ArrayList<Integer>> signal, ArrayList<Integer> entitiesToRemove) {
             System.out.println("Removed: " + entitiesToRemove.size() + " \tLeft: " + entities.size());
             entities.removeAll(entitiesToRemove);   
         }        
-    };
+    };*/
     
-    public Listener<ArrayList<Integer>> onAddEntitesListener = new Listener<ArrayList<Integer>>(){
+    /*public Listener<ArrayList<Integer>> onAddEntitesListener = new Listener<ArrayList<Integer>>(){
         @Override
         public void receive(Signal<ArrayList<Integer>> signal, ArrayList<Integer> entitiesToAdd) {
             entities.addAll(entitiesToAdd);
         }        
-    };
+    };*/
     
     /**
      * Constructor of the SystemJob

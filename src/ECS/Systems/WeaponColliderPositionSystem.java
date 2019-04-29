@@ -122,7 +122,7 @@ public class WeaponColliderPositionSystem extends SystemJob{
             //colliders of the right weapon
             rightComponent= scene.entityManager.getEntityComponentInstance(rightTool, attackComponent.getClass());    
         
-            System.out.println(scene.entityManager.getEntityByID(rightTool).getName());
+            //System.out.println(scene.entityManager.getEntityByID(rightTool).getName());
         }
         
         //if the player has a left hand weapon
@@ -138,13 +138,10 @@ public class WeaponColliderPositionSystem extends SystemJob{
 
         //if the player is moving up
         if (playerPlayable.up) {
-            
-            
-            
             if (player.boolRight) {
                 //for each collider of its right hand weapon
                 for (AttackCollider at : rightComponent.arrColliders) {
-                    System.out.println("Up");
+                    //System.out.println("Up");
                     at.relativePosition.x = playerWidth;
                     
                     at.relativePosition.y = - playerHeight - at.a + 5;
@@ -172,12 +169,11 @@ public class WeaponColliderPositionSystem extends SystemJob{
                 }
             }
         } //if the player is moving down
-        else if (playerPlayable.down) {
-            
+        else if (playerPlayable.down) {  
             if (player.boolRight) {
                 //for each collider of its right hand weapon
                 for (AttackCollider at : rightComponent.arrColliders) {
-                    System.out.println("Down");
+                   // System.out.println("Down");
                     at.relativePosition.x = playerWidth;
                     
                     at.relativePosition.y = 0;
@@ -208,7 +204,7 @@ public class WeaponColliderPositionSystem extends SystemJob{
             if (player.boolRight) {
                 //for each collider of its right hand weapon
                 for (AttackCollider at : rightComponent.arrColliders) {
-                    System.out.println("Left");
+                    //System.out.println("Left");
                     at.relativePosition.x = 8;
 
                     at.relativePosition.y = - playerHeight + 5;
@@ -242,16 +238,8 @@ public class WeaponColliderPositionSystem extends SystemJob{
             if (player.boolRight) {
                 //for each collider of its right hand weapon
                 for (AttackCollider at : rightComponent.arrColliders) {
-                    System.out.println("Right");
-                    /*at.relativePosition.x = playerWidth;
-
-                    at.relativePosition.y = -1 * abs((at.b / 2) - (playerHeight / 2));
-
-                    at.hitbox.y = at.b;
-
-                    at.hitbox.x = at.a;*/
-                    
-                    
+                    //System.out.println("Right");
+                       
                     at.relativePosition.x = playerWidth + 25;
 
                     at.relativePosition.y = - playerHeight + 5;
