@@ -26,17 +26,17 @@ import java.util.Objects;
 public class CollisionEntityWeapon extends SystemJob{
     
     private AttackCollider attackCollider;
-    private AttackComponent attackComponent;
-    private Collidable collidable;
-    private Transform transform;
-    private Tool tool;
+    private static AttackComponent attackComponent;
+    private static Collidable collidable;
+    private static Transform transform;
+    private static Tool tool;
     
-    private boolean judge = false;
+    private static  boolean judge = false;
 
    
     private ArrayList<Integer> arrAttack;
     private ArrayList<Integer>arrCollidable;
-    Rectangle rectangle;
+    private static Rectangle  rectangle;
     
     private int playerID;
     private Player player;
@@ -130,7 +130,7 @@ public class CollisionEntityWeapon extends SystemJob{
      * @param j ID of the entity being attacked by i
      * @return 
      */
-    private ArrayList<AttackCollider> checkAttack(int i, int j) {
+    private static ArrayList<AttackCollider> checkAttack(int i, int j) {
         
         Transform wpnTrans = new Transform();
         
