@@ -52,14 +52,7 @@ public class MainWorld extends Scene {
         );
 
         //ITEMS
-        Entity swordOne = entityManager.createEntityWithComponents("sword1",
-                new Item("sword1", true),
-                new Collidable(new Vector3(16, 16, 1)),
-                new Tool(-1),
-                //the x and y of enemy are 90 and 90
-                new Transform(new Vector3(93, 93, 28)),
-                new AttackComponent(playerColliders)
-        );
+
 
         //A weird item in the players inventory
         Entity weirdItm = entityManager.createEntityWithComponents("weird",
@@ -238,6 +231,16 @@ public class MainWorld extends Scene {
                 new Collidable(new Vector3(32, 32, 1))
         );
 
+        //This item goes here because its transform is a child of the player's transform
+        Entity swordOne = entityManager.createEntityWithComponents("sword1",
+                new Item("sword1", true),
+                new Collidable(new Vector3(16, 16, 1)),
+                new Tool(-1),
+                //the x and y of enemy are 90 and 90
+                new Transform(new Vector3(), player.getID()),
+                new AttackComponent(playerColliders)
+        );
+
         entityManager.createEntityWithComponents("Enemy1",
                 new Transform(new Vector3(90, 90, 48)),
                 new Sprite("enemy", true, 64, 80, 10, new ArrayList<>(Arrays.asList("enemy"))),
@@ -299,7 +302,7 @@ public class MainWorld extends Scene {
     @Override
     protected void addSystems() {
         systemJobManager.addSystems(
-                
+                new RenderSystem(this),
                 new CollisionEntityWeapon(this),
                 new CollisionSystem(this),
                 new EnemySystem(this),
@@ -313,8 +316,8 @@ public class MainWorld extends Scene {
                 new UIButtonSystem(this),
                 new UIEntitiesSystem(this),
                 new UIInventorySystem(this),
-                new WeaponColliderPositionSystem(this),
-                new RenderSystem(this)
+                new WeaponColliderPositionSystem(this)
+                
         );
     }
 }
