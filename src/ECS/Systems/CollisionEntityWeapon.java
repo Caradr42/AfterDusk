@@ -189,23 +189,7 @@ public class CollisionEntityWeapon extends SystemJob{
         Playable attackedPlay = new Playable();
         attackedPlay = scene.entityManager.getEntityComponentInstance(entity, attackedPlay.getClass());
 
-        if ("Sword1".equals(weaponName)) {
-            switch(currentActive) {
-                //case 0 is always the basic attack
-                case 0:
-                    attackedPlay.hp -= 10;                    
-                    break;
-                    
-                    
-                case 1:
-                    
-                    break;
-                    
-                case 2:
-                    
-                    break;
-            }
-        }
+        ActivesSystem.executeActives(weapon, entity);
         
         //The attack has been done
         tool.currentActive = -1;
