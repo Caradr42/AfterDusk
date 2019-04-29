@@ -20,14 +20,13 @@ import Maths.Vector3;
  * @version 1.0
  */
 public class WorldEntity extends Component{
-     public Vector3 position;
+     public boolean active;
 
     public WorldEntity() {
+        active = true;
     }
-
-    public WorldEntity(Vector3 position) {
-        this.position = position;
+    
+    public WorldEntity(boolean active) {
+        this.active = active;
     }
-     
-     
 }

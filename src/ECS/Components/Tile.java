@@ -18,10 +18,23 @@ import java.awt.image.BufferedImage;
  */
 public class Tile extends Component{
     
-    String name;
+    public String name;
+    //Integer sideSpriteID;
+    
+    public Sprite topSprite;
+    public Sprite sideSprite;
+    
+    public boolean topVisible;
+    public boolean sideVisible;
 
-    public Tile(String name) {
+    public Tile(String name, Sprite topSprite, Sprite sideSprite) {
         this.name = name;
+        this.topSprite = topSprite;
+        this.sideSprite = sideSprite;
+        
+        //this.sideSpriteID = sideSpriteID;
+        topVisible = true;
+        sideVisible = true;
     }
 
     public Tile() {
