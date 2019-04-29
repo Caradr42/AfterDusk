@@ -327,11 +327,14 @@ public class CollisionSystem extends SystemJob{
         //The length of the first object in the z axis from the center to the border
         double firstLengthZ = collidablei.hitbox.z / 2;
         
-        if (firstRect.intersects(secondRect) && collidablei.active && tileCollidable.isCollidable()) {
+        //floor of player and Tile
+        double floorPlayer = (transformi.position.z-32); 
+        double floorTile = (transformj.position.z-16);
+        
+        //Check intersection in x & y & z.
+        if (firstRect.intersects(secondRect) && collidablei.active && tileCollidable.isCollidable()&&((transformi.position.z>=floorTile)&&(floorPlayer<=transformj.position.z))) {
             System.out.println("Collision");
         }
-
-
     }
     
     

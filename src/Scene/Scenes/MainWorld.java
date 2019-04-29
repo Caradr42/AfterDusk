@@ -149,13 +149,14 @@ public class MainWorld extends Scene{
         );
         
         //PLAYABLE ENTITIES
-        
+
+        //Collidable 32=32x32x32 player
         entityManager.createEntityWithComponents("Player",            
-            new Transform(new Vector3(50,50, 64)),
+            new Transform(new Vector3(50,50, 32)),
             new Sprite("sprite", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down","player_up","player_left","player_right"))),
             new Player("player", playerLR.getID(), playerPassives.getID(), playerActives.getID() ),
             new Playable(100, playerInv.getID(), new Vector3()),
-            new Collidable(new Vector3(32, 32, 1))
+            new Collidable(new Vector3(32, 32, 32))
         );
 
         
@@ -184,7 +185,11 @@ public class MainWorld extends Scene{
                         new Transform(new Vector3(200,200,16)),
                         new Sprite("log", true, 16, 16, 10, new ArrayList<>(Arrays.asList("log")))
                 );
-       
+        entityManager.createEntityWithComponents("wood",
+                        new Tile("log" + Integer.toString(200) + "_" + Integer.toString(200),true),
+                        new Transform(new Vector3(232,232,128)),
+                        new Sprite("log", true, 16, 16, 10, new ArrayList<>(Arrays.asList("log")))
+                );
         
     }
     
