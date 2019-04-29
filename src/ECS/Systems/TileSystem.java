@@ -29,6 +29,17 @@ public class TileSystem extends SystemJob{
 
     @Override
     public void update() {
+        //System.err.println("TileSyUpdate Thread: " + Thread.currentThread());
+        
+        /*Sprite grassSideSprite = new Sprite("grassSide", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grassSide")));
+        
+        scene.entityManager.createEntityWithComponents("grass",
+                new Tile("grass2", grassSideSprite, grassSideSprite),
+                new Transform(new Vector3(-16, -16, 32)),
+                grassSideSprite,
+                new WorldEntity()
+        //new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
+        );*/
     }
 
     @Override
@@ -41,25 +52,34 @@ public class TileSystem extends SystemJob{
             tileTransform =scene.entityManager.getEntityComponentInstance(e, tileTransform.getClass());
             //System.out.println(tile.sideSprite);
             
-            /*Entity gg = scene.entityManager.createEntityWithComponents( tile.name + "_side", 
+            /*Entity gg = scene.entityManager.createEntityWithComponents(tile.name + "_side", 
                     new Transform(new Vector3(0,0,-16), e),
                     tile.sideSprite,
                     new WorldEntity() 
                 );*/
+            
+            /*if(e == -2147483621){
+                System.out.println("child: " + gg.getID());
+            }*/
             //System.out.println("sp: " + scene.entityManager.getEntityComponentInstance(gg, tile.sideSprite.getClass()));
         }
-        Sprite grassSideSprite = new Sprite("grassSide", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grassSide")));
-        scene.entityManager.createEntityWithComponents("grass",
+        //System.err.println("TileSyInit Thread: " + Thread.currentThread());
+        Sprite grassSideSprite = new Sprite("grassSide", true, 16, 16, 0, new ArrayList<>(Arrays.asList("grass")));
+        
+        Entity ent = scene.entityManager.createEntityWithComponents("grassSide",
                 new Tile("grass2", grassSideSprite, grassSideSprite),
-                new Transform(new Vector3(-16, -16, 32)),
+                new Transform(new Vector3(-32, -32, 32)),
                 grassSideSprite,
                 new WorldEntity()
         //new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
         );
+        
+        System.out.println(ent.getID());
     }
 
     @Override
     public void onCreate() {
+        
     }
 
     @Override

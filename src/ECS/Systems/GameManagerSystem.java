@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -6,6 +6,7 @@
 package ECS.Systems;
 
 import ECS.Component;
+import ECS.Components.Sprite;
 import ECS.Components.Transform;
 import ECS.Components.UIEntity;
 import ECS.SystemJob;
@@ -36,7 +37,10 @@ public class GameManagerSystem extends SystemJob{
           if(scene.display.keyManager.wasPressed[KeyEvent.VK_TAB]){
               //System.out.println("TEA-TAB");
           }
-
+          /*Transform tr = scene.entityManager.getEntityComponentInstance(-2147476420, new Transform().getClass());
+          Sprite spr = scene.entityManager.getEntityComponentInstance(-2147476420, new Sprite().getClass());
+          System.out.println(tr.position.x + " " + tr.position.y);
+          System.out.println(spr.visible);*/
     }
 
     @Override

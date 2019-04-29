@@ -42,7 +42,9 @@ public abstract class Scene {
         this.c = c;
         active = true;
         addSystems();
+        
         addEntities();
+        
         systemJobManager.init();//initialize this systemJobManager. must be done after adding the systems
     }
     

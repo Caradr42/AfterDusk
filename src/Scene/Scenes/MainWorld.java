@@ -161,13 +161,34 @@ public class MainWorld extends Scene {
                 new UIEntity("actives", false, null),
                 new UIInventory("Actives", playerActives.getID())
         );
-        //UI Buttons
+        //UI BUTTONS
 
-        Entity button = entityManager.createEntityWithComponents("button",
+        Entity mapButton = entityManager.createEntityWithComponents("map_button",
                 new Transform(16, 15),
-                new Sprite("Button", true, 47, 13, 0, new ArrayList<>(Arrays.asList("Button_48"))),
-                new UIEntity("Button", false, null),
-                new UIButton("Button" , 0)
+                new Sprite("map_button", true, 48, 13, 0, new ArrayList<>(Arrays.asList("Tab_light", "Tab_dark"))),
+                new UIEntity("map_button", false, null),
+                new UIButton("map_button" ,"MAP" ,0)
+        );
+        
+        Entity questsButton = entityManager.createEntityWithComponents("quests_button",
+                new Transform(65, 15),
+                new Sprite("quests_button", true, 48, 13, 0, new ArrayList<>(Arrays.asList("Tab_light", "Tab_dark"))),
+                new UIEntity("quests_button", false, null),
+                new UIButton("quests_button" ,"QUESTS" ,1)
+        );
+        
+        Entity optionsButton = entityManager.createEntityWithComponents("options_button",
+                new Transform(114, 15),
+                new Sprite("options_button", true, 48, 13, 0, new ArrayList<>(Arrays.asList("Tab_light", "Tab_dark"))),
+                new UIEntity("options_button", false, null),
+                new UIButton("options_button" ,"OPTIONS" ,2)
+        );
+        
+        Entity gameButton = entityManager.createEntityWithComponents("game_button",
+                new Transform(163, 15),
+                new Sprite("game_button", true, 48, 13, 0, new ArrayList<>(Arrays.asList("Tab_light", "Tab_dark"))),
+                new UIEntity("game_button", false, null),
+                new UIButton("game_button" ,"GAME" ,3)
         );
 
         //USER INTERFACES
@@ -201,8 +222,8 @@ public class MainWorld extends Scene {
         //the Game menu
         Entity menu = entityManager.createEntityWithComponents("menu",
                 new Transform(display.width / c.scale / 2 - (278/2), display.height / c.scale / 2 - (150/2)),
-                new Sprite("menu", false, 278, 150, 0, new ArrayList<>(Arrays.asList("menu_map", "menu_game"))),
-                new UIEntity("menu", true, new ArrayList<>(Arrays.asList(button.getID())))
+                new Sprite("menu", false, 278, 150, 0, new ArrayList<>(Arrays.asList("menu_map","menu_quests", "menu_options" ,"menu_game"))),
+                new UIEntity("menu", true, new ArrayList<>(Arrays.asList(mapButton.getID(), questsButton.getID(), optionsButton.getID(), gameButton.getID())))
         );
         
         //menu_map
@@ -252,7 +273,7 @@ public class MainWorld extends Scene {
                 grassSideSprite,
                 new WorldEntity()
         );*/
-
+        //System.err.println("MainWorld Tread: " + Thread.currentThread());
         entityManager.createEntityWithComponents("grass",
                 new Tile("grass2", grassTopSprite, grassSideSprite),
                 new Transform(new Vector3(-80, -80, 32)),
@@ -272,7 +293,7 @@ public class MainWorld extends Scene {
     @Override
     protected void addSystems() {
         systemJobManager.addSystems(
-                new RenderSystem(this),
+                
                 new CollisionEntityWeapon(this),
                 new CollisionSystem(this),
                 new EnemySystem(this),
@@ -286,7 +307,8 @@ public class MainWorld extends Scene {
                 new UIButtonSystem(this),
                 new UIEntitiesSystem(this),
                 new UIInventorySystem(this),
-                new WeaponColliderPositionSystem(this)
+                new WeaponColliderPositionSystem(this),
+                new RenderSystem(this)
         );
     }
 }

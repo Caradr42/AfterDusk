@@ -156,6 +156,8 @@ public class UIEntitiesSystem extends SystemJob{
                     uiTransform.position = uiTransform.position.add(new Vector3(-2,0,0));
                 }*/
             }
+            
+            uiSprite.animation = uiSprite.animations.get(uiEntity.windowState).first;
         } 
         
         //drop item if outside o UI

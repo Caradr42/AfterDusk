@@ -36,9 +36,12 @@ public class MainThread implements Runnable{
     private boolean running;    // to set the game running status (controls the in thread execution)
     //Frames per second stuff
     public static double tps; //ticks per second
-    private final boolean showTPS = true; //controls if the tps will be show on the console
     
-    public static int fps = 60;
+    //Debug variables
+    private boolean showTPS = true; //controls if the tps will be show on the console
+    public static boolean showColliders = false;
+    ///
+    public static int fps = 60;   
     
     public static double deltaTime;
     public static double nomalizedDeltaTime;
@@ -80,11 +83,11 @@ public class MainThread implements Runnable{
     public void run() {
         //wait time for the logo
         try{
-            Thread.sleep(1500);
+            Thread.sleep(1200);
         }catch (InterruptedException ex){
             
         }
-        
+        System.err.println("Main Thread: " + Thread.currentThread());
         //System.out.println("aaa");
         init(); //Initialization of objects in the thread
         //initRef = true;

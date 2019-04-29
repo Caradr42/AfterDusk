@@ -2,6 +2,7 @@ package ECS;
 
 import java.lang.System;
 import ECS.*;
+import ECS.Components.Transform;
 import Signals.Signal;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -77,7 +78,7 @@ public class EntityManager implements Serializable{
     public HashMap<HashSet<Class>, ArrayList<Integer>> archetypesMap;
     
     //the smallest id yet to be assigned to an Entity
-    int lowestUnasignedID;
+    volatile int lowestUnasignedID;
     
     /**
      * EntityManager Constructor
@@ -104,7 +105,7 @@ public class EntityManager implements Serializable{
      * 
      * @return a new Entity.
      */
-    private Entity createEntity(){
+    private synchronized Entity createEntity(){
         int id = GenerateNewID(); 
         Entity createdEnt = new Entity(id); //assigns a unique id to the created entity
         entities.add(createdEnt); //Adds the created entity to the entities list
@@ -120,7 +121,7 @@ public class EntityManager implements Serializable{
      * @param name the name to be assigned to the entity. 
      * @return  a new Entity.
      */
-    private Entity createEntity(String name){
+    private synchronized Entity createEntity(String name){
         int id = GenerateNewID();
         Entity createdEnt = new Entity(id, name);
         entities.add(createdEnt);
@@ -137,6 +138,8 @@ public class EntityManager implements Serializable{
     public synchronized <T extends Component> Entity createEntityWithComponents(String name, T ...components){
         Entity createdEnt = createEntity(name); //assigns a unique id to the created entity
         
+        //if(name.equals("Player")) System.out.println("Player");
+
         //creates the set of classes with the components of the entities. also known as archetype
         HashSet<Class> thisEntityArchetype = new HashSet<>();
         for(T comp: components){
@@ -161,6 +164,13 @@ public class EntityManager implements Serializable{
             archetypesMap.put(thisEntityArchetype, new ArrayList<>(Arrays.asList(createdEnt.getID())));
         }*/
         
+        /*if(name.equals("grassSide")){
+            System.out.println("grass side{ ");
+            System.out.println("\tID: " + createdEnt.getID());
+            Transform tr = getEntityComponentInstance(createdEnt.getID(), new Transform().getClass());
+            System.out.println("\tParent ID: " + tr.parent);
+            System.out.println("}");
+        }*/
           
         return createdEnt;
     } 
@@ -172,7 +182,7 @@ public class EntityManager implements Serializable{
      * The id 0 is reserved as a NULL id
      * @return 
      */
-    private int GenerateNewID(){
+    private synchronized int GenerateNewID(){
         if(lowestUnasignedID < Integer.MAX_VALUE){
             if(lowestUnasignedID == 0){
                 lowestUnasignedID++;
@@ -189,7 +199,7 @@ public class EntityManager implements Serializable{
      * This can be called from a system
      * @param e 
      */
-    public void removeEntity(int e){
+    public synchronized void removeEntity(int e){
         deletionQueue.add(e);
     }
     
@@ -197,7 +207,7 @@ public class EntityManager implements Serializable{
      * removes all queued entities
      * Executed at the main thread after update(tick) and render
      */
-    public void flushRemoveEntityQueue(){
+    public synchronized  void flushRemoveEntityQueue(){
         
         //for that iterates for each key of the upper HashMap of the components diccionary
         for (Map.Entry pair : componentsDictionary.entrySet()) {
@@ -243,7 +253,7 @@ public class EntityManager implements Serializable{
      * @param component The specific instance of a sub class of Component, to be 
      * attached to the entity
      */
-    public <T extends Component> void addComponetToEntity(Integer entity, T component) {
+    public synchronized <T extends Component> void addComponetToEntity(Integer entity, T component) {
             //gets the inner HashMap contained at the current KEY of the upper HashMap. using the component class as a KEY.
             HashMap<Integer, ? extends Component > store = componentsDictionary.get(component.getClass()); 
             
@@ -271,7 +281,7 @@ public class EntityManager implements Serializable{
      * @param component The specific instance of a sub class of Component, to be 
      * attached to the entity 
      */
-    public <T extends Component> void addComponetToEntity(Entity entity, T component) { 
+    public synchronized <T extends Component> void addComponetToEntity(Entity entity, T component) { 
         addComponetToEntity(entity.getID(), component);
     }
      
@@ -327,7 +337,7 @@ public class EntityManager implements Serializable{
      * @return an <b>ArrayList<Entity></b> with a reference to the entities that
      * have the searched component attached.
      */
-    private  ArrayList<Integer> getAllEntitiesPosessingComponentOfClass(Class component){
+    private synchronized ArrayList<Integer> getAllEntitiesPosessingComponentOfClass(Class component){
         //gets the inner HashMap contained at the current KEY of the upper HashMap. using the component Class as a KEY.
         HashMap<Integer, ? extends Component > componentsMap = componentsDictionary.get(component); 
         
@@ -400,7 +410,7 @@ public class EntityManager implements Serializable{
         */
     }
     
-    public <T> HashMap<Integer, ? extends Component> getComponentMap(Class<T> component){
+    public synchronized <T> HashMap<Integer, ? extends Component> getComponentMap(Class<T> component){
         //gets the inner HashMap contained at the current KEY of the upper HashMap. using the component Class as a KEY.
         HashMap<Integer, ? extends Component> componentMap = componentsDictionary.get((Class)component);
         if(componentMap == null) //trows an exeption if no component is attached.
@@ -418,21 +428,21 @@ public class EntityManager implements Serializable{
      * searched.
      * @return true if the entered Entity has the component attached
      */
-    public <T> boolean hasComponent(Entity entity, Class<T> component){
+    public synchronized <T> boolean hasComponent(Entity entity, Class<T> component){
         if(entity.getID() == 0) return false;
         HashMap<Integer, ? extends Component> store = componentsDictionary.get(component);
         T resultComponet = (T) store.get(entity.id);
         return resultComponet != null;
     }
     
-    public <T> boolean hasComponent(Integer entity, Class<T> component){
+    public synchronized <T> boolean hasComponent(Integer entity, Class<T> component){
         if(entity == 0) return false;
         HashMap<Integer, ? extends Component> store = componentsDictionary.get(component);
         T resultComponet = (T) store.get(entity);
         return resultComponet != null;
     }
     
-    public <T> boolean hasComponents(Integer entity, Class<T> ... components){
+    public synchronized <T> boolean hasComponents(Integer entity, Class<T> ... components){
         for(Class cl: components){
             if(!hasComponent(entity, cl)){
                 return false;
@@ -441,7 +451,7 @@ public class EntityManager implements Serializable{
         return true;
     }
     
-    public <T> void removeComponentFormEntity(Entity entity, Class<T> component){
+    public synchronized <T> void removeComponentFormEntity(Entity entity, Class<T> component){
         //gets the inner HashMap contained at the current KEY of the upper HashMap. using the component Class as a KEY.
         HashMap<Integer, ? extends Component> componentMap = componentsDictionary.get((Class)component);
         try{
@@ -525,7 +535,7 @@ public class EntityManager implements Serializable{
      * @param id the id of the Entity to be searched.
      * @return the Entity of ID id
      */
-    public Entity getEntityByID(int id){
+    public synchronized Entity getEntityByID(int id){
         if(id == 0) return null;
         
         for(Entity e : entities ){
@@ -544,7 +554,7 @@ public class EntityManager implements Serializable{
      * @param ids An Integer List containing the IDs to be used to search
      * @return Returns a list of Entities with the IDs in ids.
      */
-    public ArrayList<Entity> getEntitiesByIDs(ArrayList<Integer> ids){
+    public synchronized ArrayList<Entity> getEntitiesByIDs(ArrayList<Integer> ids){
         ArrayList<Entity> entitiesFound = new  ArrayList<>();
         for(Integer i : ids){ 
             for(Entity e : entities ){

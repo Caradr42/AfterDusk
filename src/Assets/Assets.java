@@ -88,15 +88,18 @@ public class Assets {
 
         animations.put("actives_bar",   new Pair<>(crop(160, 32, 1, "/Resources/Images/actives_bar.png", false)         , 1));
         animations.put("RL_bar",        new Pair<>(crop(48, 32, 1, "/Resources/Images/RL_bar.png", false)               , 1));
-        animations.put("menu_game",     new Pair<>(crop(278, 150, 1, "/Resources/Images/menu_game.png", false)          , 1));
-        animations.put("menu_map",     new Pair<>(crop(278, 150, 1, "/Resources/Images/menu_map.png", false)            , 1));
+        animations.put("menu_game",     new Pair<>(crop(278, 150, 1, "/Resources/Images/menu_game_clear.png", false)          , 1));
+        animations.put("menu_map",     new Pair<>(crop(278, 150, 1, "/Resources/Images/Menu_map_clear.png", false)            , 1));
+        animations.put("menu_options",     new Pair<>(crop(278, 150, 1, "/Resources/Images/menu_clear.png", false)            , 1));
+        animations.put("menu_quests",     new Pair<>(crop(278, 150, 1, "/Resources/Images/menu_quests_clear.png", false)      , 1));
         
         animations.put("selected_transparency",     new Pair<>(crop(16, 16, 1, "/Resources/Images/selected_transparency.png", true), 1));
         //buttons
         animations.put("Button_32",     new Pair<>(crop(32, 10, 1, "/Resources/Images/Button_32.png", false), 1));
         animations.put("Button_48",     new Pair<>(crop(48, 10, 1, "/Resources/Images/Button_48.png", false), 1));
         animations.put("Button_long",     new Pair<>(crop(58, 10, 1, "/Resources/Images/Button_long.png", false), 1));
-        //Button_long
+        animations.put("Tab_light",     new Pair<>(crop(48, 13, 1, "/Resources/Images/Tab_light.png", false), 1));
+        animations.put("Tab_dark",     new Pair<>(crop(48, 13, 1, "/Resources/Images/Tab_dark.png", false), 1));
         
         //SOUND
         
