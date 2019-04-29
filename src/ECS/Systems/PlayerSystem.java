@@ -72,11 +72,11 @@ public class PlayerSystem extends SystemJob{
                         firstTime = false;
             }
             
-            System.out.println("position 1 " + MainThread.c.position1.x + ","+ MainThread.c.position1.y);
+           /* System.out.println("position 1 " + MainThread.c.position1.x + ","+ MainThread.c.position1.y);
             System.out.println("ortogonal  " + MainThread.c.ortogonalPosition.x + ","+ MainThread.c.ortogonalPosition.y);
             System.out.println("position 2 " + MainThread.c.position2.x + ","+ MainThread.c.position2.y);
             System.out.println("transform " + transform.position.x + ","+ transform.position.y);
-            
+            */
             //if the player goes to the right change the position and the animation to the right
             if(scene.display.getKeyManager().right){
                 transform.position.x = transform.position.x + 2;//+ 100 * MainThread.deltaTime);

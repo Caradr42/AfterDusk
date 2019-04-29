@@ -23,19 +23,18 @@ import java.util.Vector;
  */
 public class Tool extends Component{
     
-    public ArrayList<Integer> activos;
-    Entity pasiva;
-    public ArrayList<Integer> activosDesbloqueados ;
+    public ArrayList<Integer> actives;
+    Entity pasives;
+    public ArrayList<Integer> unlockedActives;
 
-    public Tool( Entity pasiva, ArrayList<Integer> activos, ArrayList<Integer> activosDesbloqueados) {
-        this.activos = activos;
-        this.pasiva = pasiva;
-        this.activosDesbloqueados = activosDesbloqueados;
+    public Tool( Entity pasives, ArrayList<Integer> actives, ArrayList<Integer> unlockedActives) {
+        this.actives = actives;
+        this.pasives = pasives;
+        this.unlockedActives = unlockedActives;
     }
-
-
+    
     public Tool() {
-    } 
+    }
 }
 
 

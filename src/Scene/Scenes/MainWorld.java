@@ -167,6 +167,8 @@ public class MainWorld extends Scene{
         
         //TILES 
         
+        //Active fire = 
+        
         //draw grass grid
         for(int x = 0; x < 600; x += 16){
             for(int y = 0; y < 600; y += 16){
