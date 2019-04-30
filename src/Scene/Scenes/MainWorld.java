@@ -44,7 +44,7 @@ public class MainWorld extends Scene {
         //The colliders are for the tools, but we are testing, lets put it in the player
         ArrayList<AttackCollider> playerColliders = new ArrayList<>();
 
-        playerColliders.add(new AttackCollider(new Vector3(32, 32, 1), new Vector3(), 30, 30));
+        playerColliders.add(new AttackCollider(new Vector3(32, 32, 1), new Vector3(), 84, 36));
 
         //mouse pointer
         Entity pointer = entityManager.createEntityWithComponents("pointer",
