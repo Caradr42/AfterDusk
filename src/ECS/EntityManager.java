@@ -2,7 +2,9 @@ package ECS;
 
 import java.lang.System;
 import ECS.*;
+import ECS.Components.Transform;
 import Signals.Signal;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -10,7 +12,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Queue;
+
 
 /**
  * Entity Component System class.
@@ -26,15 +28,15 @@ import java.util.Queue;
  * @date 26/02/2019
  * @version 1.3
  */
-public class EntityManager{ 
+public class EntityManager implements Serializable{ 
     
     // List of all the Entities that this EntityManager manages.
     private ArrayList<Entity> entities;
     //Asociates entities to be deleted to the systems where this entityes recide so we can asincromically delete them
     private LinkedList<Integer> deletionQueue; 
     
-    public Signal<ArrayList<Integer>> removeEntitiesSignal;
-    public Signal<ArrayList<Integer>> addEntitiesSignal;
+    //public Signal<ArrayList<Integer>> removeEntitiesSignal;
+    //public Signal<ArrayList<Integer>> addEntitiesSignal;
     
     /**
      * Structure containing all the Entities by their Component and also their
@@ -62,6 +64,7 @@ public class EntityManager{
      * Map that assigns an archetype for each entity
      */
     public HashMap<Integer, HashSet<Class>> entitiesArchetypeMap;
+    //public HashMap<Integer, ArrayList<HashSet<Class> >> entitiesArchetypeMap;
     
     /**
      * Data structure that holds lists of entities with the components in the 
@@ -75,7 +78,7 @@ public class EntityManager{
     public HashMap<HashSet<Class>, ArrayList<Integer>> archetypesMap;
     
     //the smallest id yet to be assigned to an Entity
-    int lowestUnasignedID;
+    volatile int lowestUnasignedID;
     
     /**
      * EntityManager Constructor
@@ -85,8 +88,8 @@ public class EntityManager{
         entities = new  ArrayList<>();
         componentsDictionary = new HashMap<>();
         lowestUnasignedID = Integer.MIN_VALUE; //We use tha smalles Integer as the first id to be assignedd.
-        removeEntitiesSignal = new Signal<>();
-        addEntitiesSignal = new  Signal<>();
+        //removeEntitiesSignal = new Signal<>();
+        //addEntitiesSignal = new  Signal<>();
         deletionQueue = new LinkedList<>();
         
         archetypesMap = new HashMap<>();
@@ -102,7 +105,7 @@ public class EntityManager{
      * 
      * @return a new Entity.
      */
-    private Entity createEntity(){
+    private synchronized Entity createEntity(){
         int id = GenerateNewID(); 
         Entity createdEnt = new Entity(id); //assigns a unique id to the created entity
         entities.add(createdEnt); //Adds the created entity to the entities list
@@ -118,7 +121,7 @@ public class EntityManager{
      * @param name the name to be assigned to the entity. 
      * @return  a new Entity.
      */
-    private Entity createEntity(String name){
+    private synchronized Entity createEntity(String name){
         int id = GenerateNewID();
         Entity createdEnt = new Entity(id, name);
         entities.add(createdEnt);
@@ -132,19 +135,27 @@ public class EntityManager{
      * @param components the list of components to attach to the entity
      * @return returns the newly created entity
      */
-    public <T extends Component> Entity createEntityWithComponents(String name, T ...components){
+    public synchronized <T extends Component> Entity createEntityWithComponents(String name, T ...components){
         Entity createdEnt = createEntity(name); //assigns a unique id to the created entity
         
-        //creates the set of classes with the components of the entities
+        //if(name.equals("Player")) System.out.println("Player");
+
+        //creates the set of classes with the components of the entities. also known as archetype
         HashSet<Class> thisEntityArchetype = new HashSet<>();
         for(T comp: components){
             thisEntityArchetype.add(comp.getClass());
         }
         
+        //adds the components to the newly created entity
+        for(Component c : components){
+            addComponetToEntity(createdEnt.getID(), c);
+        } 
+        
         //adds the archetype to the entity
         entitiesArchetypeMap.put(createdEnt.getID(), thisEntityArchetype);
         
         //TODO:  after systems initialization, search for alredy existing archetipes (creted by the systems init()) that are sdubsets of the thisEntityArchetype and add the entity to them
+        
         /*
         //if the archetypes map alredy has the given archetype as an entry
         if(archetypesMap.containsKey(thisEntityArchetype)){
@@ -153,10 +164,14 @@ public class EntityManager{
             archetypesMap.put(thisEntityArchetype, new ArrayList<>(Arrays.asList(createdEnt.getID())));
         }*/
         
-        //adds the components to the newly created entity
-        for(Component c : components){
-            addComponetToEntity(createdEnt.getID(), c);
-        }   
+        /*if(name.equals("grassSide")){
+            System.out.println("grass side{ ");
+            System.out.println("\tID: " + createdEnt.getID());
+            Transform tr = getEntityComponentInstance(createdEnt.getID(), new Transform().getClass());
+            System.out.println("\tParent ID: " + tr.parent);
+            System.out.println("}");
+        }*/
+          
         return createdEnt;
     } 
     
@@ -167,7 +182,7 @@ public class EntityManager{
      * The id 0 is reserved as a NULL id
      * @return 
      */
-    private int GenerateNewID(){
+    private synchronized int GenerateNewID(){
         if(lowestUnasignedID < Integer.MAX_VALUE){
             if(lowestUnasignedID == 0){
                 lowestUnasignedID++;
@@ -184,7 +199,7 @@ public class EntityManager{
      * This can be called from a system
      * @param e 
      */
-    public void removeEntity(int e){
+    public synchronized void removeEntity(int e){
         deletionQueue.add(e);
     }
     
@@ -192,20 +207,37 @@ public class EntityManager{
      * removes all queued entities
      * Executed at the main thread after update(tick) and render
      */
-    public void flushRemoveEntityQueue(){
-        //for(int ent  : deletionQueue){
-            //for that iterates for each key of the upper HashMap
-            for (Map.Entry pair : componentsDictionary.entrySet()) {
-                //the inner HashMap contained at the current KEY of the upper HashMap
-                HashMap<Integer, ? extends Component > componentsMap = (HashMap<Integer,  ? extends Component>)pair.getValue(); 
-                for(int ent  : deletionQueue){
-                    componentsMap.remove(ent);
+    public synchronized  void flushRemoveEntityQueue(){
+        
+        //for that iterates for each key of the upper HashMap of the components diccionary
+        for (Map.Entry pair : componentsDictionary.entrySet()) {
+            //the inner HashMap contained at the current KEY of the upper HashMap
+            HashMap<Integer, ? extends Component > componentsMap = (HashMap<Integer,  ? extends Component>)pair.getValue();
+            for(int ent  : deletionQueue){
+                componentsMap.remove(ent);
+            }
+        }
+        entities.removeAll(deletionQueue);
+        
+        
+        //removes each entity from the arquetipe map
+        for (Map.Entry pair : archetypesMap.entrySet()) {
+            HashSet<Class> subset = (HashSet<Class>)pair.getKey();
+            for(Integer ent  : deletionQueue){
+                if(entitiesArchetypeMap.get(ent).containsAll(subset)){
+                    ArrayList<Integer> eList = (ArrayList<Integer>)pair.getValue();
+                    eList.remove(ent);
                 }
             }
-        entities.removeAll(deletionQueue);
-        if(!deletionQueue.isEmpty()){
-            removeEntitiesSignal.dispatch( new ArrayList<Integer>(deletionQueue));
         }
+        
+        for(Integer ent  : deletionQueue){
+            entitiesArchetypeMap.remove(ent);
+        }
+        
+        /*if(!deletionQueue.isEmpty()){
+            removeEntitiesSignal.dispatch( new ArrayList<Integer>(deletionQueue));
+        }*/
         deletionQueue = new LinkedList<>();
     }
         
@@ -221,7 +253,7 @@ public class EntityManager{
      * @param component The specific instance of a sub class of Component, to be 
      * attached to the entity
      */
-    public <T extends Component> void addComponetToEntity(Integer entity, T component) {
+    public synchronized <T extends Component> void addComponetToEntity(Integer entity, T component) {
             //gets the inner HashMap contained at the current KEY of the upper HashMap. using the component class as a KEY.
             HashMap<Integer, ? extends Component > store = componentsDictionary.get(component.getClass()); 
             
@@ -249,7 +281,7 @@ public class EntityManager{
      * @param component The specific instance of a sub class of Component, to be 
      * attached to the entity 
      */
-    public <T extends Component> void addComponetToEntity(Entity entity, T component) { 
+    public synchronized <T extends Component> void addComponetToEntity(Entity entity, T component) { 
         addComponetToEntity(entity.getID(), component);
     }
      
@@ -268,7 +300,7 @@ public class EntityManager{
      * @param component the <b>Class</b> of the component to be retrieved.
      * @return the searched component instance
      */
-    public <T> T getEntityComponentInstance(Integer entity, Class<T> component){
+    public synchronized <T> T getEntityComponentInstance(Integer entity, Class<T> component){
         if(entity == 0) return null;
         
         //gets the inner HashMap contained at the current KEY of the upper HashMap. using the component Class as a KEY.
@@ -291,7 +323,7 @@ public class EntityManager{
      * @param component the <b>Class</b> of the component to be retrieved.
      * @return the searched component instance
      */
-    public <T> T getEntityComponentInstance(Entity entity, Class<T> component){               
+    public synchronized <T> T getEntityComponentInstance(Entity entity, Class<T> component){               
         return getEntityComponentInstance(entity.getID(), component);
     }
     
@@ -305,7 +337,7 @@ public class EntityManager{
      * @return an <b>ArrayList<Entity></b> with a reference to the entities that
      * have the searched component attached.
      */
-    private ArrayList<Integer> getAllEntitiesPosessingComponentOfClass(Class component){
+    private synchronized ArrayList<Integer> getAllEntitiesPosessingComponentOfClass(Class component){
         //gets the inner HashMap contained at the current KEY of the upper HashMap. using the component Class as a KEY.
         HashMap<Integer, ? extends Component > componentsMap = componentsDictionary.get(component); 
         
@@ -327,28 +359,41 @@ public class EntityManager{
     
     /**
      * get entities containing exclusively all the listed components classes in the parameters
+     * @param <T>
      * @param componentsClass
      * @return 
      */
-    public ArrayList<Integer> getEntitiesWithComponents(Class ... componentsClass){ //TODO
+    public synchronized ArrayList<Integer> getEntitiesWithComponents(Class ... componentsClass){ //TODO
         HashSet<Integer> entitiesSet = new HashSet<>(getAllEntitiesPosessingComponentOfClass(componentsClass[0]));
         
         //TODO: anly do this at init() for better performance
+        
         //creates the set of classes with the components of the entities
         HashSet<Class> classesSet = new HashSet<>();
         for(Class comp: componentsClass){
-            classesSet.add(comp.getClass());
+            classesSet.add(comp);
         }
-         
+        
         //if the archetypes map alredy has does not have the given archetype as an entry, the archetipe is added,
         //This is so we can acces it 
+
         if(!archetypesMap.containsKey(classesSet)){
-            archetypesMap.put(classesSet, new ArrayList<>(Arrays.asList()));
+            //System.out.println("does not has key: " + classesSet);
+            archetypesMap.put(classesSet, new ArrayList<>(Arrays.asList()));  
+            //searches the e_a map for entities with the components that the ssystem checks
+            for(Map.Entry entryPair : entitiesArchetypeMap.entrySet()){
+                HashSet<Class> entityArchetype = (HashSet<Class>)entryPair.getValue();
+                if(entityArchetype.containsAll(classesSet)){
+                    archetypesMap.get(classesSet).add((Integer)entryPair.getKey());
+                }
+            }
         }
+        
+        return archetypesMap.get(classesSet);
         
         ///TODO: USE efficient fetch by using the archetypeMap
         //fetch from the componentsDictionary the entities by appling a union of sets
-        for(Class component : componentsClass){
+        /*for(Class component : componentsClass){
             //gets the inner HashMap contained at the current KEY of the upper HashMap. using the component Class as a KEY.
             HashMap<Integer, ? extends Component > componentsMap = componentsDictionary.get(component); 
             
@@ -362,9 +407,10 @@ public class EntityManager{
             }
         }
         return new ArrayList<>(entitiesSet); //Returns a list with the surviving entities of the union of sets
+        */
     }
     
-    public <T> HashMap<Integer, ? extends Component> getComponentMap(Class<T> component){
+    public synchronized <T> HashMap<Integer, ? extends Component> getComponentMap(Class<T> component){
         //gets the inner HashMap contained at the current KEY of the upper HashMap. using the component Class as a KEY.
         HashMap<Integer, ? extends Component> componentMap = componentsDictionary.get((Class)component);
         if(componentMap == null) //trows an exeption if no component is attached.
@@ -382,21 +428,21 @@ public class EntityManager{
      * searched.
      * @return true if the entered Entity has the component attached
      */
-    public <T> boolean hasComponent(Entity entity, Class<T> component){
+    public synchronized <T> boolean hasComponent(Entity entity, Class<T> component){
         if(entity.getID() == 0) return false;
         HashMap<Integer, ? extends Component> store = componentsDictionary.get(component);
         T resultComponet = (T) store.get(entity.id);
         return resultComponet != null;
     }
     
-    public <T> boolean hasComponent(Integer entity, Class<T> component){
+    public synchronized <T> boolean hasComponent(Integer entity, Class<T> component){
         if(entity == 0) return false;
         HashMap<Integer, ? extends Component> store = componentsDictionary.get(component);
         T resultComponet = (T) store.get(entity);
         return resultComponet != null;
     }
     
-    public <T> boolean hasComponents(Integer entity, Class<T> ... components){
+    public synchronized <T> boolean hasComponents(Integer entity, Class<T> ... components){
         for(Class cl: components){
             if(!hasComponent(entity, cl)){
                 return false;
@@ -405,7 +451,7 @@ public class EntityManager{
         return true;
     }
     
-    public <T> void removeComponentFormEntity(Entity entity, Class<T> component){
+    public synchronized <T> void removeComponentFormEntity(Entity entity, Class<T> component){
         //gets the inner HashMap contained at the current KEY of the upper HashMap. using the component Class as a KEY.
         HashMap<Integer, ? extends Component> componentMap = componentsDictionary.get((Class)component);
         try{
@@ -489,7 +535,7 @@ public class EntityManager{
      * @param id the id of the Entity to be searched.
      * @return the Entity of ID id
      */
-    public Entity getEntityByID(int id){
+    public synchronized Entity getEntityByID(int id){
         if(id == 0) return null;
         
         for(Entity e : entities ){
@@ -508,7 +554,7 @@ public class EntityManager{
      * @param ids An Integer List containing the IDs to be used to search
      * @return Returns a list of Entities with the IDs in ids.
      */
-    public ArrayList<Entity> getEntitiesByIDs(ArrayList<Integer> ids){
+    public synchronized ArrayList<Entity> getEntitiesByIDs(ArrayList<Integer> ids){
         ArrayList<Entity> entitiesFound = new  ArrayList<>();
         for(Integer i : ids){ 
             for(Entity e : entities ){

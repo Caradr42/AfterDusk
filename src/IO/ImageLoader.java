@@ -1,4 +1,4 @@
-package videoGame;
+package IO;
 
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
@@ -31,24 +31,32 @@ public class ImageLoader {
      * @return a <b>BufferedImage</b> of the type fetched from the path.
      */
     public static BufferedImage loadImage(String path){
-        
+        return loadImage(path, false);
+    }
+    
+    public static BufferedImage loadImage(String path, Boolean translucent){
         BufferedImage bi = null;
-       
+        
         try{
             bi = ImageIO.read(ImageLoader.class.getResource(path));
         }catch(IOException ioe){ //catch if no image was found at dir path
             System.out.println("Error Loading Image " + path + ioe.toString() );
             System.exit(1);
         }
-        //System.out.println("alpha: " + bi.getAlphaRaster());
+
         BufferedImage biCom;
-        if(bi.getAlphaRaster() == null){
-            biCom = gc.createCompatibleImage(bi.getWidth(), bi.getHeight(), Transparency.OPAQUE);
+        if(translucent){
+            //biCom = gc.createCompatibleImage(bi.getWidth(), bi.getHeight(), Transparency.TRANSLUCENT);
+            //System.out.println("translucent: " + path);
+            return bi;
         }else{
-            biCom = gc.createCompatibleImage(bi.getWidth(), bi.getHeight(), Transparency.BITMASK);
+            if(bi.getAlphaRaster() == null){
+                biCom = gc.createCompatibleImage(bi.getWidth(), bi.getHeight(), Transparency.OPAQUE);
+            }else{
+                biCom = gc.createCompatibleImage(bi.getWidth(), bi.getHeight(), Transparency.BITMASK);
+            }
         }
         biCom.setData(bi.getRaster());
-        
         return biCom;
     }
 }

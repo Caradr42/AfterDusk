@@ -17,8 +17,8 @@ public class ItemSystem extends  SystemJob{
     Transform transform;
     Collidable collidable;
     
-    public ItemSystem(Scene scene) {
-        super(scene);
+    public ItemSystem(Scene scene, boolean active) {
+        super(scene, active);
         this.item = new Item();
         this.sprite = new Sprite();
         this.transform = new Transform();

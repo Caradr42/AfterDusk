@@ -26,8 +26,8 @@ public class SpriteSystem extends SystemJob{
 
     Sprite sprite;
     
-    public SpriteSystem(Scene scene) {
-        super(scene);
+    public SpriteSystem(Scene scene, boolean active) {
+        super(scene, active);
         sprite = new Sprite();
     }
 

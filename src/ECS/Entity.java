@@ -1,5 +1,7 @@
 package ECS;
 
+import java.io.Serializable;
+
 /**
  * Entity Component System class.
  * Entities are objects that only contain an identification key, their id.
@@ -13,7 +15,7 @@ package ECS;
  * @date 09/02/2019
  * @version 1.0
  */
-public class Entity {
+public class Entity implements Serializable{
     protected int id;
     protected String name;
     

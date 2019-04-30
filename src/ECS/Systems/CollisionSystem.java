@@ -29,15 +29,16 @@ public class CollisionSystem extends SystemJob{
     private Item item;
     //A playable must have a collidable assigned by reference
     private Playable playable;
+
     private Tile tile;
     private Tile tileCollidable;
     private ArrayList<Integer> arrPlayables;
-    private ArrayList<Integer> arrItems;
+    private static ArrayList<Integer> arrItems;
     private ArrayList<Integer> arrTiles;
     private ArrayList<Integer> entitiesCollidable;
     private ArrayList<Integer> tilesCollidable;
     private Collidable collision;
-    
+
     //private ArrayList<Integer> arr;
     
     //Mouse Pointer 
@@ -45,8 +46,8 @@ public class CollisionSystem extends SystemJob{
     MousePointer mousePointer;
     //duplication bug prevention
 
-    public CollisionSystem(Scene scene) {
-        super(scene);
+    public CollisionSystem(Scene scene, boolean active) {
+        super(scene, active);
         mousePointer = new MousePointer();
         mousePointers = new ArrayList<>();
     }
@@ -72,7 +73,7 @@ public class CollisionSystem extends SystemJob{
                     //System.out.println(i + ", " + j);
                     //System.out.println("size: " + entities.size());
                     //System.out.println("");
-                    makeCollision(entities.get(i), entities.get(j));
+                    checkCollision(entities.get(i), entities.get(j));
                     
                 }
             }
@@ -110,7 +111,12 @@ public class CollisionSystem extends SystemJob{
      * @param i
      * @param j 
      */
-    public void makeCollision(int i, int j) {
+    public static boolean checkCollision(int i, int j) {
+
+        Boolean bRight = false;
+        Boolean bLeft = false;
+        Boolean bUp = false;
+        Boolean bDown = false;
 
         Transform transformi = new Transform();
         Collidable collidablei = new Collidable();
@@ -167,10 +173,7 @@ public class CollisionSystem extends SystemJob{
         //
         if (firstRect.intersects(secondRect) && collidablei.active && collidablej.active) {
             
-            Boolean bRight = false;
-            Boolean bLeft = false;
-            Boolean bUp = false;
-            Boolean bDown = false;
+
 
             //Point of the upper left corner of the first object
             Point firstPoint1 = new Point(firstCenterX - firstLengthX, firstCenterY - firstLengthY);
@@ -297,6 +300,8 @@ public class CollisionSystem extends SystemJob{
                 }
             }
         }
+        
+        return bRight && bLeft && bUp && bDown;
     }
     
     
@@ -342,7 +347,6 @@ public class CollisionSystem extends SystemJob{
         //floor of player and Tile
         double floorPlayer = (transformi.position.z-32); 
         double floorTile = (transformj.position.z-16);
-        
         
         //Check intersection in x & y & z.
         if(firstRect.intersects(secondRect) && collidablei.active && tileCollidable.isCollidable()&&((transformi.position.z>=floorTile)&&(floorPlayer<=transformj.position.z))){
@@ -394,7 +398,7 @@ public class CollisionSystem extends SystemJob{
      * @param inventoryID
      * @return 
      */
-    private boolean addToInventory(Integer inventoryID, Integer item){
+    private static boolean addToInventory(Integer inventoryID, Integer item){
         int tempID = inventoryID;
         Inventory inventory = scene.entityManager.getEntityComponentInstance(tempID, new Inventory().getClass());
         

@@ -58,8 +58,8 @@ public class SystemJobManager extends SystemJob{
     public  ExecutorService executorService;
     public ExecutorCompletionService completionService;
 
-    public SystemJobManager(Scene scene) {
-        super(scene);
+    public SystemJobManager(Scene scene, boolean active) {
+        super(scene, active);
         executorService = Executors.newFixedThreadPool(4);
         completionService = new ExecutorCompletionService(executorService);
         
@@ -102,8 +102,8 @@ public class SystemJobManager extends SystemJob{
     public void init() {   
         for(SystemJob sj : systemsList){
             sj.init();
-            scene.entityManager.removeEntitiesSignal.add(sj.onRemoveEntitiesListener);
-            scene.entityManager.addEntitiesSignal.add(sj.onAddEntitesListener);
+            //scene.entityManager.removeEntitiesSignal.add(sj.onRemoveEntitiesListener);
+           // scene.entityManager.addEntitiesSignal.add(sj.onAddEntitesListener);
         }
     }
 

@@ -1,15 +1,11 @@
 package ECS.Components;
 
 import ECS.Component;
-import ECS.Entity;
-import Maths.Vector2;
+import ECS.interfaces.UIChild;
 import Scene.Scene;
-import Utility.Pair;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import proyecto_videojuegos.MainThread;
 
 /**
  * Component of the entity to be rendered as a  user interface
@@ -22,56 +18,82 @@ import proyecto_videojuegos.MainThread;
  * @date 12/04/2019
  * @version 1.0
  */
-public class UIEntity extends Component{
-    //Transform Data
-    public Vector2 position; //position on screen (pixels)
+public class UIEntity extends Component implements UIChild{
     
-    //Sprite data
+    public int window = 0;
+    public int expectedParentWindow = 0;
+    public boolean usesParentWindow = false;
+    
+    public Integer parent;
+    public ArrayList<Integer> childs;
+    
     public String name;
-    public boolean visible;
-     
-    public int width;
-    public int height;
+        
+    //UI data
+    public ArrayList<UIChild> UIChildsInterfaces; //polimorfic list of components
+    
+    public boolean mainUI;
     public Rectangle UIcollider;
     
-    public int animationLenght;
-    public double speed;
-    public double frameCounter = 0;
     
-    public ArrayList<String> animationsNames;
+    public Sprite _uiSprite; //the sprite reference is updated in the sistem
+    public Transform _uiTransform; //the transform reference is also updated in the sistem
     
-    public ArrayList<Pair<BufferedImage[], Integer>> animations;
-    public BufferedImage[] animation;
-    public BufferedImage currentFrame;
-    //UI data
-    public ArrayList<Integer> subInterfaces; //the smaller UIEntities or UIInventories inside this UIEntity
-    public ArrayList<UIEntity> subInterfacesComponents; //polimorfic list of components instances
-    public boolean mainUI;
+    /*public BufferedImage _currentSpriteReference;
+    public int _width;
+    public int _height;
+    public Vector3 _currentPositionReference;*/
     
-    public UIEntity(String name, boolean visible,boolean mainUI, int width, int height, int x, int y, double speed, ArrayList<String> animationsNames, ArrayList<Integer> subInterfaces) {
-        this.position = new Vector2(x,y);
+    /**
+     * UI entity constructor with expected parent window.
+     * 
+     * @param name the name used for the UI behabiour
+     * @param mainUI if the UI is a root UI, (no father)
+     * @param expectedParentWindow
+     * @param childs the list of child UI that this father manages
+     */
+    public UIEntity(String name, boolean mainUI, int expectedParentWindow, ArrayList<Integer> childs) {
+        this(name, mainUI, childs);
+        
+        this.expectedParentWindow = expectedParentWindow;
+        this.usesParentWindow = true;
+        //System.out.println("USESPARENTWINDOW: " + name);
+        
+    }
+    
+    /**
+     * UI entity constructor
+     * @param name name
+     * @param mainUI if main UI
+     * @param childs the childs of this UI entity
+     */
+    public UIEntity(String name,boolean mainUI, ArrayList<Integer> childs) {
         this.name = name;
-        this.visible = visible;
         this.mainUI = mainUI;
         
-        this.width = width;
-        this.height = height;
-        this.UIcollider = new Rectangle((int)position.x, (int)position.y, width,height);
-        this.speed = speed / MainThread.fps;
-        
-        this.animationsNames = animationsNames;
-        this.animations = new ArrayList<>();
-        
-        this.subInterfaces = subInterfaces;
-        subInterfacesComponents = new ArrayList<>();
+        if(childs != null){
+            this.childs = childs;
+        }else{
+            this.childs = new ArrayList<>();
+        }
+        UIChildsInterfaces = new ArrayList<>();
+        //System.out.println("NOTUSEWINDOW: " + name);
+        //_visible = false; //this is updated in the system 
     }
+    
 
     public UIEntity() {
     }
     
     //I'm sorry ECS :(
-    public void UIRender(Graphics2D g, Scene s){
-        for(UIEntity sub: subInterfacesComponents){
+    @Override
+    public void UIRender(Graphics2D g, Scene s ){
+        //System.out.println("Rendering UI: " + name + " where: " + _uiSprite + " : " + _uiTransform);
+        if(_uiSprite != null && _uiTransform != null && mainUI){
+            //System.out.println("Rendering UI2w: " + name);
+            g.drawImage(_uiSprite.currentFrame, (int)_uiTransform.position.x, (int)_uiTransform.position.y, _uiSprite.width, _uiSprite.height, null);
+        }
+        for(UIChild sub: UIChildsInterfaces){
             sub.UIRender(g, s);
         }
     }   

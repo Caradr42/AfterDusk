@@ -3,6 +3,7 @@ import Assets.Assets;
 import ECS.SystemJobManager;
 import Scene.Scenes.*;
 import Signals.Listener;
+import Utility.MSG;
 import graphics.Camera;
 import graphics.Display;
 import java.awt.Color;
@@ -35,9 +36,12 @@ public class MainThread implements Runnable{
     private boolean running;    // to set the game running status (controls the in thread execution)
     //Frames per second stuff
     public static double tps; //ticks per second
-    private final boolean showTPS = true; //controls if the tps will be show on the console
     
-    public static int fps = 60;
+    //Debug variables
+    private boolean showTPS = true; //controls if the tps will be show on the console
+    public static boolean showColliders = false;
+    ///
+    public static int fps = 60;   
     
     public static double deltaTime;
     public static double nomalizedDeltaTime;
@@ -46,22 +50,28 @@ public class MainThread implements Runnable{
     
     //ECS stuff
     MainWorld scene;
-    
+    //loading stuff
+    //Boolean initRef;
+    //LoadingThread lt;
+    MSG msg;
     /**
      * to create title, width and height and set the game is still not running.
-     * @param title to set the title of the window
-     * @param width to set the width of the window
-     * @param height to set the height of the window
+     * @param display
+     * @param lt
      */
-    public MainThread(String title, int width, int height){ //Create object in init so it can be created in the tread
-        this.title = title;
-        this.width = width;
-        this.height = height;
+    public MainThread(Display display, MSG msg){ //Create object in init so it can be created in the tread
+        this.title = display.title;
+        this.width = display.width;
+        this.height = display.height;
+        this.display = display;
         running = false;
         tps = 0;
         deltaTime = 1 / fps;
         nomalizedDeltaTime = 1;
         currentFrame = 1;
+        //this.initRef = initRef;
+        //this.lt = lt;
+        this.msg = msg;
     }
     
     /**
@@ -71,7 +81,26 @@ public class MainThread implements Runnable{
      */
     @Override
     public void run() {
+        //wait time for the logo
+        try{
+            Thread.sleep(1200);
+        }catch (InterruptedException ex){
+            
+        }
+        System.err.println("Main Thread: " + Thread.currentThread());
+        //System.out.println("aaa");
         init(); //Initialization of objects in the thread
+        //initRef = true;
+        //lt.stop();
+        
+        
+        msg.setFinished(true);
+        
+        /*try{
+            Thread.sleep(10000);
+        }catch (InterruptedException ex){
+            
+        }*/
         
         long timeTick = 1000000000 / fps; //time for  each tick in nanoseconds, ejm: at 50fps each tick takes 0.01666_ seconds wich is equal to 16666666.6_ nanoseconds
         
@@ -113,12 +142,14 @@ public class MainThread implements Runnable{
         stop();
     }
         
+    
     /**
      * Initializes objects inside the thread, and initializes all objects 
      * related to the game, including assets, scenes, 
      */
     private void init() {   
-        display = new Display(title, width, height);
+        //display = new Display(title, width, height);
+        
         Assets.init(); //initializes the game assets
         c = new Camera(-width / 2, -height / 2, 4, display);
         scene = new MainWorld(display, c);
@@ -187,7 +218,9 @@ public class MainThread implements Runnable{
                         
             display.g.setColor(Color.GRAY);
             display.g.fillRect(0, 0, width, height);
-            display.g.setColor(Color.RED);
+            
+            display.g.setFont(Assets.undefinedMedium);
+            display.g.setColor(Color.WHITE);
             
             /*AffineTransform at = new AffineTransform();
             
@@ -210,6 +243,7 @@ public class MainThread implements Runnable{
                 display.g.setColor(Color.GREEN);
                 display.g.drawString(Integer.toString((int)tpsBuffer), 0, 10);
                 display.g.drawString(Integer.toString((int)currentFrame), 16, 10);
+                
                 //display.g.drawRect(0, 0, 16, 16);
             }            
             

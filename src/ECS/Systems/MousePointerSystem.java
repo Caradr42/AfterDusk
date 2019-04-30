@@ -15,8 +15,8 @@ public class MousePointerSystem extends  SystemJob{
     MousePointer mousePointer;
 
     
-    public MousePointerSystem(Scene scene) {
-        super(scene);
+    public MousePointerSystem(Scene scene, boolean active) {
+        super(scene, active);
         this.mousePointer = new MousePointer();
         
     }

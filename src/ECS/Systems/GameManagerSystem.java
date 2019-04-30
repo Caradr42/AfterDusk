@@ -1,10 +1,14 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package ECS.Systems;
 
+import ECS.Component;
+import ECS.Components.Sprite;
+import ECS.Components.Transform;
+import ECS.Components.UIEntity;
 import ECS.SystemJob;
 import Scene.Scene;
 import java.awt.event.KeyEvent;
@@ -22,18 +26,47 @@ import java.util.HashSet;
  * @version 1.0
  */
 public class GameManagerSystem extends SystemJob{
-
-    public GameManagerSystem(Scene scene) {
-        super(scene);
+    
+    public static volatile boolean gameRunning = false;
+    public static volatile boolean gameStarted = false;
+    
+    public GameManagerSystem(Scene scene, boolean active) {
+        super(scene, active);
     }
 
     @Override
-    public void update() {            
-        /*if(scene.display.keyManager.wasPressed[KeyEvent.VK_F]){
-            System.out.println("typed");
-        }*/
-        if(scene.display.mouseManager.wasLeftReleased()){
-            System.out.println("leftRelease");
+    public void update() {     
+        
+        //executes ony when the  game starts
+        //it activates the Systems necesary for GamePlay
+        if(gameStarted){
+            
+            gameStarted = false;
+            gameRunning = true;
+        }
+        if(gameRunning){
+            
+            if(scene.display.keyManager.wasPressed[KeyEvent.VK_ESCAPE]){
+              for(SystemJob sj: scene.systemJobManager.systemsList){
+                if(sj.getClass() != (RenderSystem.class) 
+                        && sj.getClass() != (GameManagerSystem.class) 
+                        && sj.getClass() != (UIEntitiesSystem.class) 
+                        && sj.getClass() != (UIButtonSystem.class) 
+                        && sj.getClass() != (UITextSystem.class)
+                        && sj.getClass() != (SpriteSystem.class)
+                        && sj.getClass() != (TransformSystem.class)
+                        && sj.getClass() != (MousePointerSystem.class)
+                        //Expand here if any other system is necesary when the game is paused
+                        ){
+
+                    if(sj.active){
+                        sj.active = false;
+                    }else{
+                        sj.active = true;
+                    }
+                }
+              }
+            }
         }
     }
 

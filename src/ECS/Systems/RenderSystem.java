@@ -10,6 +10,7 @@ import ECS.Components.MousePointer;
 import ECS.Components.Sprite;
 import ECS.Components.Transform;
 import ECS.Components.UIEntity;
+import ECS.Components.WorldEntity;
 import ECS.SystemJob;
 import Scene.Scene;
 import java.awt.Graphics2D;
@@ -19,6 +20,9 @@ import Utility.Pair;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import javafx.scene.input.KeyCode;
 import proyecto_videojuegos.MainThread;
 
 /**
@@ -34,20 +38,34 @@ import proyecto_videojuegos.MainThread;
  */
 public class RenderSystem extends SystemJob{
     
-    private ArrayList<Integer> UIentities; //this are entities that can not be errased or 
+    private ArrayList<Integer> UIentities; //this are entities that are UI elements
     private ArrayList<Integer> mousePointers;
-    private UIEntity uiEntity;
+    private MousePointer mousePointer;
     
+    //archetype of the enitites lits
     private Transform transform;
     private Sprite sprite;
-    private MousePointer mousePointer;
-    //Pririty Queue of entities to render
-    private PriorityQueue <Pair<Transform, Sprite> > queue;
+
+    
+    //Priority Queue of entities to render
+    private List <Pair<Transform, Sprite>> array;
+    
+    AffineTransform originalAT;
+
+    private WorldEntity worldEntity;
+    
+    //archetype if the UI Entities list
+    private UIEntity uiEntity;
+    
+    
             
-    public RenderSystem(Scene scene) {
-        super(scene);
+
+    public RenderSystem(Scene scene, boolean active) {
+        super(scene, active);
         transform = new Transform();
         sprite = new Sprite();
+        worldEntity = new WorldEntity();
+        
         uiEntity = new UIEntity();
         mousePointer = new MousePointer();
     }
@@ -58,20 +76,28 @@ public class RenderSystem extends SystemJob{
         for(Integer e: entities){
             transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());
             sprite = scene.entityManager.getEntityComponentInstance(e, sprite.getClass());
-            queue.add(new Pair(transform, sprite));
+           
+            array.add(new Pair(transform, sprite));
+    
         }
+         
     }
 
     @Override
     public void init() {
       //Fetch entities with the Transform and Sprite components
-      entities = scene.entityManager.getEntitiesWithComponents(transform.getClass(), sprite.getClass());
+      entities = scene.entityManager.getEntitiesWithComponents(transform.getClass(), sprite.getClass(), worldEntity.getClass());
       //Fetch User interface entities //This entities cannot be deleted or added after init()
       UIentities = scene.entityManager.getEntitiesWithComponents(uiEntity.getClass());
       //Fetch mouse pointers
       mousePointers = scene.entityManager.getEntitiesWithComponents(mousePointer.getClass());
+
               
-      queue = new PriorityQueue<>(entities.size(), new myComparator());
+      //queue = new ArrayList<>(entities.size(), new myComparator());
+      array = new ArrayList <Pair<Transform, Sprite>>();
+        
+
+   
     }
 
     @Override
@@ -84,14 +110,30 @@ public class RenderSystem extends SystemJob{
     
     @Override
     public void render(Graphics2D g) {
-        
-        //Render all entities with a Transform and Sprite Component
-        for(Pair<Transform, Sprite> t : queue){
-            if(t.second.visible) {
-                g.drawImage(t.second.currentFrame, (int) t.first.position.x,(int) t.first.position.y,t.second.width,t.second.height,null);
+
+        array.sort(new myComparator());
+        /*for(Pair <Transform,Sprite> i : array){
+                System.out.println(i.second.name);
             }
+       */
+        //Render all entities with a Transform and Sprite Component
+        for(Pair<Transform, Sprite> t : array){
+            if(t.second.visible) {
+                g.drawImage(t.second.currentFrame, (int) t.first.position.x,(int) (t.first.position.y - t.first.position.z) ,t.second.width,t.second.height,null);
+            }
+            //System.out.println(t.second.name);
+            /*if("grassSide".equals(t.second.name)){
+                System.out.print("grass pos: ");
+                g.drawRect((int)t.first.position.x,(int) t.first.position.y, 16, 16);
+                System.out.println(t.first.position.x + " " + (int) t.first.position.y);
+                System.out.println("grass sprite: " + t.second.currentFrame);
+            }*/
         }
         
+        
+        
+        //transformthe grphic coordinates to the screen coordinates
+        originalAT = g.getTransform();
         AffineTransform at = new AffineTransform();
         at.setTransform(4, 0, 0, 4, 1, 0);
         g.setTransform(at);  
@@ -100,8 +142,8 @@ public class RenderSystem extends SystemJob{
         for(Integer ui: UIentities){
             uiEntity = scene.entityManager.getEntityComponentInstance(ui, uiEntity.getClass());
             
-            if(uiEntity.visible && uiEntity.mainUI) {
-                g.drawImage(uiEntity.currentFrame, (int) uiEntity.position.x,(int) uiEntity.position.y, uiEntity.width, uiEntity.height, null);
+            if(uiEntity._uiSprite.visible && uiEntity.mainUI ) {
+                //g.drawImage(uiEntity.currentFrame, (int) uiEntity.position.x,(int) uiEntity.position.y, uiEntity.width, uiEntity.height, null);
                 uiEntity.UIRender(g, scene);
             }
         }
@@ -116,29 +158,31 @@ public class RenderSystem extends SystemJob{
                 sprite = scene.entityManager.getEntityComponentInstance(mp, sprite.getClass());
                 g.drawImage(sprite.currentFrame,(int)mousePointer.position.x, (int)mousePointer.position.y, sprite.width, sprite.height, null);
             }
-        }
-        
+        }        
         /*if (scene.display.getKeyManager().keys[KeyEvent.VK_P]) {
             //Display the inventory
             inventory = new UserInterface(1);
             inventory.render(g);
         }*/
         
-        queue.clear();
+        array.clear();
+        
+        g.setTransform(originalAT);
     }
+
     
     private class myComparator implements Comparator <Pair<Transform, Sprite> >{
 
         @Override
         public int compare
         (Pair<Transform, Sprite> p1, Pair<Transform, Sprite > p2) {
-            //System.out.println(p1.second.name + " : " + p1.first.position.z);
-            if(p1.first.position.z > p2.first.position.z){
+            
+            if(p1.first.position.z + p1.first.position.y > p2.first.position.z + p2.first.position.y){
                 return 1;
-            }else if (p1.first.position.z < p2.first.position.z){
+            }else if (p1.first.position.z + p1.first.position.y < p2.first.position.z + p2.first.position.y){
                 return -1;
-            }else return 0;
+            }else return 0; 
         }
+            
     }
-
 }

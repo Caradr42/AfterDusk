@@ -18,17 +18,33 @@ import java.awt.image.BufferedImage;
  */
 public class Tile extends Component{
     
-    String name;
-    boolean tileCollidable;
+    public String name;
+    //Integer sideSpriteID;
     
-    public Tile(String name) {
-        this.name = name;
-        tileCollidable=false;
-    }
+    public Sprite topSprite;
+    public Sprite sideSprite;
+    public boolean tileCollidable;
+    public boolean topVisible;
+    public boolean sideVisible;
     
-    public Tile(String name, boolean tileCollidable) {
+    public Tile(String name, boolean tileCollidable,Sprite topSprite, Sprite sideSprite) {
         this.name = name;
         this.tileCollidable=tileCollidable;
+        this.topSprite = topSprite;
+        this.sideSprite = sideSprite;
+        topVisible = true;
+        sideVisible = true;
+    }
+    
+    public Tile(String name, Sprite topSprite, Sprite sideSprite) {
+        this.name = name;
+        this.topSprite = topSprite;
+        this.sideSprite = sideSprite;
+        
+        //this.sideSpriteID = sideSpriteID;
+        topVisible = true;
+        sideVisible = true;
+
     }
 
 
