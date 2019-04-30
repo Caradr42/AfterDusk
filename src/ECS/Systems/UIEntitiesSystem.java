@@ -98,16 +98,7 @@ public class UIEntitiesSystem extends SystemJob{
             uiEntity = scene.entityManager.getEntityComponentInstance(e, uiEntity.getClass());
             uiSprite = scene.entityManager.getEntityComponentInstance(e, uiSprite.getClass());
             uiTransform = scene.entityManager.getEntityComponentInstance(e, uiTransform.getClass());
-            
-            //System.out.println(uiEntity.parent);
-            /*if(uiEntity.parent != null){
-                parentUIEntity = scene.entityManager.getEntityComponentInstance(uiEntity.parent, parentUIEntity.getClass());
-                if(parentUIEntity.window != uiEntity.expectedParentWindow){
-                    System.out.println(uiEntity.name + " not in window");
-                    uiSprite.visible = false;
-                }
-            }*/
-            
+                        
             //update UI collider Position
             uiEntity.UIcollider.setLocation((int)uiTransform.position.x, (int)uiTransform.position.y);
             
@@ -121,15 +112,9 @@ public class UIEntitiesSystem extends SystemJob{
                 childSprite = scene.entityManager.getEntityComponentInstance(sub, childSprite.getClass());
                 childUIEntity = scene.entityManager.getEntityComponentInstance(sub, childUIEntity.getClass());
                 
-                //System.out.println(childUIEntity.name +" usesParentWindow: " + childUIEntity.usesParentWindow);
                 //if the child uses the parent window variable to deterine its visibility
-                if(childUIEntity.usesParentWindow){
-                    
-                    //System.out.println(uiEntity.name + " : " + childUIEntity.parent);
-                    
+                if(childUIEntity.usesParentWindow){                    
                     if (childUIEntity.parent != null) {
-                        //parentUIEntity = scene.entityManager.getEntityComponentInstance(uiEntity.parent, parentUIEntity.getClass());
-                        //System.out.println(childUIEntity.name + " has parent");
                         if (uiEntity.window != childUIEntity.expectedParentWindow) {
                             //System.out.println(uiEntity.name + " not in window");
                             childSprite.visible = false;
@@ -140,14 +125,10 @@ public class UIEntitiesSystem extends SystemJob{
                 }else{
                     childSprite.visible = uiSprite.visible;
                 }
-                
             }
             
                                                 
-            //input 
-            //System.out.println(uiEntity.name);
-              
-            
+            //input             
             if(uiEntity.name.equals("menu")){ 
                 if(scene.display.keyManager.wasPressed[KeyEvent.VK_ESCAPE]){
                     Assets.menu.play();
@@ -156,18 +137,9 @@ public class UIEntitiesSystem extends SystemJob{
                     }else{
                         uiSprite.visible = true;
                     }
-                }
-                /*for (Integer ch: uiEntity.childs){
-                    childUIEntity = scene.entityManager.getEntityComponentInstance(ch, childUIEntity.getClass());
-                    System.out.print(ch + " = " + childUIEntity.name + " | ");
-                }
-                System.out.println(" ");
-                System.out.println(uiEntity.UIChildsInterfaces.size());*/
-                
-                                
+                }                                          
             }
             if(uiEntity.name.equals("actives_bar") || uiEntity.name.equals("RL_bar")){ 
-
                 if(scene.display.keyManager.wasPressed[KeyEvent.VK_TAB]){
                     Assets.menu.play();
                     if(uiSprite.visible){                            
@@ -179,7 +151,6 @@ public class UIEntitiesSystem extends SystemJob{
             }
             
             if(uiEntity.name.equals("Player_Inventory")){ 
-                
                 //ystem.out.println((int)mousePointer.position.x + " " + (int)mousePointer.position.y);
                 if(scene.display.keyManager.wasPressed[KeyEvent.VK_X] || scene.display.keyManager.wasPressed[KeyEvent.VK_I] || scene.display.keyManager.wasPressed[KeyEvent.VK_Q]){
                     Assets.menu.play();
@@ -204,6 +175,8 @@ public class UIEntitiesSystem extends SystemJob{
                 }*/
             }
             
+            
+            
             uiSprite.animation = uiSprite.animations.get(uiEntity.window).first;
         } 
         
@@ -217,7 +190,10 @@ public class UIEntitiesSystem extends SystemJob{
                 double originalItemZ = itemTransform.position.z;
                 itemTransform.position.set(scene.c.UIToWorldCoodinates(mousePointer.position.add(new Vector2(-8, -8))));
                 itemTransform.position.y += originalItemZ;
-                //System.out.println(itemTransform.position.x + " " + itemTransform.position.y);
+
+                //Play drop sound
+                Assets.pickUp.play();
+
                 item.isInInventory = false;
                 
             }

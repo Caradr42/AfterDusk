@@ -12,6 +12,7 @@ import ECS.Components.UIEntity;
 import ECS.SystemJob;
 import Scene.Scene;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
 import java.util.HashSet;
 
 /**
@@ -37,6 +38,10 @@ public class GameManagerSystem extends SystemJob{
     @Override
     public void update() {     
         
+        /*if(scene.display.keyManager.wasPressed[KeyEvent.VK_F12]){
+            scene.display.jframe.dispatchEvent(new WindowEvent(scene.display.jframe, WindowEvent.WINDOW_CLOSING));
+        }*/
+        
         //executes ony when the  game starts
         //it activates the Systems necesary for GamePlay
         if(gameStarted){
@@ -58,7 +63,7 @@ public class GameManagerSystem extends SystemJob{
                         && sj.getClass() != (MousePointerSystem.class)
                         //Expand here if any other system is necesary when the game is paused
                         ){
-
+                    System.out.println(sj.getClass());
                     if(sj.active){
                         sj.active = false;
                     }else{
