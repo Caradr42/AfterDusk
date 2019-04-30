@@ -46,8 +46,8 @@ public class PlayerSystem extends SystemJob{
      * Constructor
      * @param scene 
      */
-    public PlayerSystem(Scene scene) {
-        super(scene);
+    public PlayerSystem(Scene scene, boolean active) {
+        super(scene, active);
         entities = new ArrayList<>();
         transform = new Transform();
         player = new Player();

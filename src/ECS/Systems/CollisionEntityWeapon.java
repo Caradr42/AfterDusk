@@ -43,8 +43,8 @@ public class CollisionEntityWeapon extends SystemJob{
     
     
 
-    public CollisionEntityWeapon(Scene scene) {
-        super(scene);
+    public CollisionEntityWeapon(Scene scene, boolean active) {
+        super(scene, active);
     }
 
     @Override

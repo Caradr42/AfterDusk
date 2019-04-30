@@ -38,8 +38,8 @@ public class UIInventorySystem extends SystemJob{
     
     MousePointer mousePointer;
     
-    public UIInventorySystem(Scene scene) {
-        super(scene);
+    public UIInventorySystem(Scene scene, boolean active) {
+        super(scene, active);
         
         this.inventorySprite = new Sprite();
         this.inventoryTransform = new Transform();

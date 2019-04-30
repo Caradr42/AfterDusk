@@ -43,8 +43,8 @@ public class CollisionSystem extends SystemJob{
     MousePointer mousePointer;
     //duplication bug prevention
 
-    public CollisionSystem(Scene scene) {
-        super(scene);
+    public CollisionSystem(Scene scene, boolean active) {
+        super(scene, active);
         mousePointer = new MousePointer();
         mousePointers = new ArrayList<>();
     }

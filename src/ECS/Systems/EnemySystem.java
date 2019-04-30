@@ -30,8 +30,8 @@ public class EnemySystem extends SystemJob{
     //If this margin is passed, the enemy will move diagonally
     int marginDistance = 7;
     
-    public EnemySystem(Scene scene) {
-        super(scene);
+    public EnemySystem(Scene scene, boolean active) {
+        super(scene, active);
         arrPlayable = new ArrayList<>();
         player1 = new Player();
         playable = new Playable();

@@ -32,8 +32,8 @@ public class UIButtonSystem extends SystemJob{
     
     //ArrayList<MousePointer> mousePointers;
     
-    public UIButtonSystem(Scene scene) {
-        super(scene);
+    public UIButtonSystem(Scene scene, boolean active) {
+        super(scene, active);
         uiButton = new UIButton();
         mousePointer = new MousePointer();
         buttonSprite = new Sprite();
@@ -51,10 +51,6 @@ public class UIButtonSystem extends SystemJob{
             buttonSprite = scene.entityManager.getEntityComponentInstance(e, buttonSprite.getClass());
             buttonTransform = scene.entityManager.getEntityComponentInstance(e, buttonTransform.getClass());
             
-            //uiButton._buttonSprite = buttonSprite;
-           // uiButton._buttonTransform = buttonTransform;
-            
-            //System.out.println(" --> " + uiEntity.UIcollider + " --> " + mousePointer.position.x + " " + mousePointer.position.y);
             if(uiEntity.UIcollider.contains((int)mousePointer.position.x, (int)mousePointer.position.y) && buttonSprite.visible){
                 uiButton.buttonVisible = true;
                 if(mousePointer.mouseManager.left){
@@ -67,12 +63,13 @@ public class UIButtonSystem extends SystemJob{
             }
             
             if(uiButton.buttonPressed){
-                //System.out.println(uiEntity.parent);
                 parentUIEntity = scene.entityManager.getEntityComponentInstance(uiEntity.parent, parentUIEntity.getClass());
-                //System.out.println(parentUIEntity);
-                parentUIEntity.windowState = uiButton.parentState;
+                parentUIEntity.window = uiButton.parentState;
             }
-            //System.out.println(uiButton.buttonPressed);
+            
+            /*if(uiEntity.name.equals("newGameButton")){
+                //System.out.println(uiButton.buttonVisible);
+            }*/
         }
     }
 

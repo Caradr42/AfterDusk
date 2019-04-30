@@ -21,8 +21,8 @@ public class TileSystem extends SystemJob{
     Tile tile;
     Transform tileTransform;
     
-    public TileSystem(Scene scene) {
-        super(scene);
+    public TileSystem(Scene scene, boolean active) {
+        super(scene, active);
         tile = new Tile();
         tileTransform = new Transform();
     }

@@ -60,8 +60,8 @@ public class RenderSystem extends SystemJob{
     
             
 
-    public RenderSystem(Scene scene) {
-        super(scene);
+    public RenderSystem(Scene scene, boolean active) {
+        super(scene, active);
         transform = new Transform();
         sprite = new Sprite();
         worldEntity = new WorldEntity();
