@@ -17,6 +17,7 @@ import java.awt.Rectangle;
 import static java.lang.Integer.min;
 import static java.lang.Math.abs;
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  *
@@ -33,6 +34,10 @@ public class CollisionSystem extends SystemJob{
     private ArrayList<Integer> arrPlayables;
     private ArrayList<Integer> arrItems;
     private ArrayList<Integer> arrTiles;
+    private ArrayList<Integer> entitiesCollidable;
+    private ArrayList<Integer> tilesCollidable;
+    private Collidable collision;
+    
     //private ArrayList<Integer> arr;
     
     //Mouse Pointer 
@@ -50,7 +55,6 @@ public class CollisionSystem extends SystemJob{
     public void update() {
         //System.out.println("update");
         initializeEntities();
-
         /*for(int i = 0; i < entities.size(); i++) {
             System.out.println(scene.entityManager.getEntityByID(entities.get(i)).getName());
         }*/
@@ -72,12 +76,17 @@ public class CollisionSystem extends SystemJob{
                     
                 }
             }
+        }
+        for(int i=0;i<entitiesCollidable.size();i++){
+            scene.entityManager.getEntityComponentInstance(entitiesCollidable.get(i), collision.getClass()).setCollidable.clear();
             for(int j=0;j<arrTiles.size();j++){
                 collisionTileEntity(entities.get(i), arrTiles.get(j));
             }
+            
         }
-        
     }
+    
+    
 
     @Override
     public void init() { 
@@ -290,6 +299,7 @@ public class CollisionSystem extends SystemJob{
         }
     }
     
+    
     public void collisionTileEntity(int i, int j){
         
         Transform transformi = new Transform();
@@ -297,15 +307,17 @@ public class CollisionSystem extends SystemJob{
         
         Transform transformj = new Transform();
         tileCollidable = new Tile();
+        
+        
         //Getting th collidable and the tranform of the first entity
         Entity e = scene.entityManager.getEntityByID(i);
         collidablei = scene.entityManager.getEntityComponentInstance(i, collidablei.getClass());
         transformi = scene.entityManager.getEntityComponentInstance(i, transformi.getClass());
-        
         //Getting the collidable and the transform of the second entity
         
         transformj = scene.entityManager.getEntityComponentInstance(j, transformj.getClass());
         tileCollidable = scene.entityManager.getEntityComponentInstance(j, tile.getClass());
+        
         //Rectangle of the first entity
         Rectangle firstRect = new Rectangle((int)transformi.position.x, (int)transformi.position.y, (int)collidablei.hitbox.x, (int)collidablei.hitbox.y);
         
@@ -331,12 +343,13 @@ public class CollisionSystem extends SystemJob{
         double floorPlayer = (transformi.position.z-32); 
         double floorTile = (transformj.position.z-16);
         
+        
         //Check intersection in x & y & z.
-        if (firstRect.intersects(secondRect) && collidablei.active && tileCollidable.isCollidable()&&((transformi.position.z>=floorTile)&&(floorPlayer<=transformj.position.z))) {
+        if(firstRect.intersects(secondRect) && collidablei.active && tileCollidable.isCollidable()&&((transformi.position.z>=floorTile)&&(floorPlayer<=transformj.position.z))){
             System.out.println("Collision");
+            collidablei.setCollidable.add(j);
         }
     }
-    
     
     public void initializeEntities() {
         item = new Item();
@@ -346,7 +359,9 @@ public class CollisionSystem extends SystemJob{
         arrPlayables = new ArrayList<>();
         arrTiles = new ArrayList<>();
         entities = new ArrayList<>();
-        
+        entitiesCollidable = new ArrayList<>();
+        tilesCollidable= new ArrayList<>();
+        collision = new Collidable();
         //fetching the entities with the playable component
         arrItems = scene.entityManager.getEntitiesWithComponents(item.getClass());
         
@@ -355,6 +370,8 @@ public class CollisionSystem extends SystemJob{
         
         //Fetching the tiles
         arrTiles = scene.entityManager.getEntitiesWithComponents(tile.getClass());
+        
+        entitiesCollidable = scene.entityManager.getEntitiesWithComponents(collision.getClass());
         
         for(int i = 0; i < arrItems.size(); i++) {
             //System.out.println(arrItems.get(i));
@@ -367,7 +384,6 @@ public class CollisionSystem extends SystemJob{
             //System.out.println(arrPlayables.get(i));
             //System.out.println(scene.entityManager.getEntityByID(arrPlayables.get(i)).getName());
         }
-        
 
         
         //System.out.println("size: " + entities.size());

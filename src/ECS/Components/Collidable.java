@@ -2,6 +2,8 @@ package ECS.Components;
 
 import ECS.Component;
 import Maths.Vector3;
+import java.util.HashSet;
+import java.util.Set;
 import org.omg.PortableInterceptor.ACTIVE;
 
 /**
@@ -23,15 +25,18 @@ public class Collidable extends Component{
      */
     public Vector3 hitbox;
     public boolean active;
+    public HashSet<Integer> setCollidable;
 
     public Collidable() {
         super();
+        setCollidable= new HashSet<>();
     }
 
     public Collidable(Vector3 hitbox) {
         super();
         this.hitbox = hitbox;
         active = true;
+        setCollidable= new HashSet<>();
     }
      
      

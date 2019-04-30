@@ -1,5 +1,6 @@
 package ECS.Systems;
 
+import ECS.Components.Collidable;
 import ECS.Components.Playable;
 import ECS.Components.Player;
 import ECS.Components.Sprite;
@@ -29,7 +30,6 @@ public class PlayerSystem extends SystemJob{
     Transform transform;  
     Playable playable;
     Sprite sprite;
-    
     /**
      * Constructor
      * @param scene 
@@ -47,6 +47,7 @@ public class PlayerSystem extends SystemJob{
      */
     @Override
     public void update() {
+        
         for(Integer e : entities){
             player = scene.entityManager.getEntityComponentInstance(e, player.getClass());
             transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());
@@ -64,6 +65,7 @@ public class PlayerSystem extends SystemJob{
                 transform.position.x = transform.position.x + 2;//+ 100 * MainThread.deltaTime);
                 sprite.animation = sprite.animations.get(3).first;
                 sprite.animationLenght = sprite.animations.get(3).second;
+                
             }
             
             //if the player goes to the left change the position and the animation to the left
