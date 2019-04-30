@@ -31,8 +31,8 @@ public class FireSystem extends SystemJob {
     
     //Get entities 
     
-    public FireSystem(Scene scene) {
-        super(scene);
+    public FireSystem(Scene scene, boolean active) {
+        super(scene, active);
     }
     
 

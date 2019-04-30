@@ -34,8 +34,8 @@ public class Display {
     public int width; 
     public int height; 
     //Window & graphics stuff
-    private JFrame jframe; 
-    private Canvas canvas; //to display images
+    public JFrame jframe; 
+    public Canvas canvas; //to display images
     public BufferStrategy bs;  // to have several buffers when displaying in a canvas
     public Graphics2D g;         // to paint objects in the display canvas
     //InputStuff

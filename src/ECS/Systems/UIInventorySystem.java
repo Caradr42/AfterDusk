@@ -38,8 +38,8 @@ public class UIInventorySystem extends SystemJob{
     
     MousePointer mousePointer;
     
-    public UIInventorySystem(Scene scene) {
-        super(scene);
+    public UIInventorySystem(Scene scene, boolean active) {
+        super(scene, active);
         
         this.inventorySprite = new Sprite();
         this.inventoryTransform = new Transform();
@@ -80,8 +80,10 @@ public class UIInventorySystem extends SystemJob{
                         //if the mouse is inside the UIslot rectangle
                         if(uiInventory.UISlots.get(i).get(j).contains((int)mousePointer.position.x, (int)mousePointer.position.y)){
                             if(mousePointer.mouseManager.wasLeftClicked()){
+
                                 //Play pick up sound
                                 Assets.pickUp.play();
+
                                 int itemBuffer = mousePointer.heldItem;
                                 mousePointer.heldItem = getItemFromInventory(uiInventory.firstInventory, i, j);
                                     setItemFromInventory(uiInventory.firstInventory, i, j, itemBuffer);

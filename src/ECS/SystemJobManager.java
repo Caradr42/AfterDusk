@@ -58,8 +58,8 @@ public class SystemJobManager extends SystemJob{
     public  ExecutorService executorService;
     public ExecutorCompletionService completionService;
 
-    public SystemJobManager(Scene scene) {
-        super(scene);
+    public SystemJobManager(Scene scene, boolean active) {
+        super(scene, active);
         executorService = Executors.newFixedThreadPool(4);
         completionService = new ExecutorCompletionService(executorService);
         

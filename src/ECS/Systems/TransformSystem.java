@@ -13,8 +13,8 @@ public class TransformSystem extends SystemJob{
     Transform transform;
     Transform parentTransform;
     
-    public TransformSystem(Scene scene) {
-        super(scene);
+    public TransformSystem(Scene scene, boolean active) {
+        super(scene, active);
         transform = new Transform();
         parentTransform = new Transform();
     }

@@ -1,17 +1,11 @@
 package ECS.Components;
 
 import ECS.Component;
-import ECS.Entity;
 import ECS.interfaces.UIChild;
-import Maths.Vector2;
-import Maths.Vector3;
 import Scene.Scene;
-import Utility.Pair;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import proyecto_videojuegos.MainThread;
 
 /**
  * Component of the entity to be rendered as a  user interface
@@ -26,41 +20,21 @@ import proyecto_videojuegos.MainThread;
  */
 public class UIEntity extends Component implements UIChild{
     
-    public int windowState = 0;
-    
-    //public Sprite sprite;
+    public int window = 0;
+    public int expectedParentWindow = 0;
+    public boolean usesParentWindow = false;
     
     public Integer parent;
     public ArrayList<Integer> childs;
     
     public String name;
-    
-    //Transform Data
-    //public Vector2 position; //position on screen (pixels)
-    
-    //Sprite data
-    /*public String name;
-    public boolean _visible;
-     
-    public int width;
-    public int height;
-    
-    
-    public int animationLenght;
-    public double speed;
-    public double frameCounter = 0;
-    
-    public ArrayList<String> animationsNames;
-    
-    public ArrayList<Pair<BufferedImage[], Integer>> animations;
-    public BufferedImage[] animation;
-    public BufferedImage currentFrame;*/
-    
+        
     //UI data
     public ArrayList<UIChild> UIChildsInterfaces; //polimorfic list of components
+    
     public boolean mainUI;
     public Rectangle UIcollider;
-    //public boolean _visible;
+    
     
     public Sprite _uiSprite; //the sprite reference is updated in the sistem
     public Transform _uiTransform; //the transform reference is also updated in the sistem
@@ -71,26 +45,42 @@ public class UIEntity extends Component implements UIChild{
     public Vector3 _currentPositionReference;*/
     
     /**
-     * UI entity constructor 
+     * UI entity constructor with expected parent window.
+     * 
      * @param name the name used for the UI behabiour
      * @param mainUI if the UI is a root UI, (no father)
+     * @param expectedParentWindow
      * @param childs the list of child UI that this father manages
+     */
+    public UIEntity(String name, boolean mainUI, int expectedParentWindow, ArrayList<Integer> childs) {
+        this(name, mainUI, childs);
+        
+        this.expectedParentWindow = expectedParentWindow;
+        this.usesParentWindow = true;
+        //System.out.println("USESPARENTWINDOW: " + name);
+        
+    }
+    
+    /**
+     * UI entity constructor
+     * @param name name
+     * @param mainUI if main UI
+     * @param childs the childs of this UI entity
      */
     public UIEntity(String name,boolean mainUI, ArrayList<Integer> childs) {
         this.name = name;
         this.mainUI = mainUI;
-        //sprite = new Sprite();
-        //Move to system
-        //this.UIcollider = new Rectangle((int)position.x, (int)position.y, width,height);
+        
         if(childs != null){
             this.childs = childs;
         }else{
             this.childs = new ArrayList<>();
         }
         UIChildsInterfaces = new ArrayList<>();
-        //_visible = false; //this is updated in the system
-        
+        //System.out.println("NOTUSEWINDOW: " + name);
+        //_visible = false; //this is updated in the system 
     }
+    
 
     public UIEntity() {
     }

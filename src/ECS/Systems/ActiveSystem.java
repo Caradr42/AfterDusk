@@ -21,8 +21,8 @@ public class ActiveSystem extends SystemJob{
     
     ArrayList<Integer> idTools;
     Tool tool; 
-    public ActiveSystem(Scene scene) {
-        super(scene);
+    public ActiveSystem(Scene scene, boolean active) {
+        super(scene, active);
     }
 
     @Override

@@ -70,8 +70,13 @@ public class Assets {
         animations.put("player_right",  new Pair<>(crop(32, 32, 4, "/Resources/Images/player_right.png", false)         , 4));
         animations.put("enemy",         new Pair<>(crop(64, 80, 1, "/Resources/Images/enemy.png", false)                , 1));
         //tiles
+
+        animations.put("grass",         new Pair<>(crop(16, 16, 1, "/Resources/Images/grass.png",false)           , 1));
+        animations.put("log",         new Pair<>(crop(16, 16, 1, "/Resources/Images/log.png",false)           , 1));
+
         animations.put("grass",         new Pair<>(crop(16, 16, 1, "/Resources/Images/grass.png", false)                , 1));
         animations.put("grassSide",     new Pair<>(crop(16, 16, 1, "/Resources/Images/grassSide.png", false)            , 1));
+
 
         //items
         animations.put("weird",         new Pair<>(crop(16, 16, 1, "/Resources/Images/weird.png", false)                , 1));
@@ -85,15 +90,18 @@ public class Assets {
         animations.put("1x9Slots_dark", new Pair<>(crop(154, 18, 1, "/Resources/Images/1x9Slots_dark.png", false)       , 1));
         animations.put("1x2Slots_dark", new Pair<>(crop(35, 18, 1, "/Resources/Images/1x2Slots_dark.png", false)        , 1));
         
-
+        
         animations.put("actives_bar",   new Pair<>(crop(160, 32, 1, "/Resources/Images/actives_bar.png", false)         , 1));
         animations.put("RL_bar",        new Pair<>(crop(48, 32, 1, "/Resources/Images/RL_bar.png", false)               , 1));
+        
         animations.put("menu_game",     new Pair<>(crop(278, 150, 1, "/Resources/Images/menu_game_clear.png", false)          , 1));
         animations.put("menu_map",     new Pair<>(crop(278, 150, 1, "/Resources/Images/Menu_map_clear.png", false)            , 1));
         animations.put("menu_options",     new Pair<>(crop(278, 150, 1, "/Resources/Images/menu_clear.png", false)            , 1));
         animations.put("menu_quests",     new Pair<>(crop(278, 150, 1, "/Resources/Images/menu_quests_clear.png", false)      , 1));
-        
+        //MISC
         animations.put("selected_transparency",     new Pair<>(crop(16, 16, 1, "/Resources/Images/selected_transparency.png", true), 1));
+        animations.put("effect2",     new Pair<>(crop(1, 1, 1, "/Resources/Images/effect2.png", false), 1));
+        animations.put("null",     new Pair<>(crop(1, 1, 1, "/Resources/Images/null.png", false), 1));
         //buttons
         animations.put("Button_32",     new Pair<>(crop(32, 10, 1, "/Resources/Images/Button_32.png", false), 1));
         animations.put("Button_48",     new Pair<>(crop(48, 10, 1, "/Resources/Images/Button_48.png", false), 1));

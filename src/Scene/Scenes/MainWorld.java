@@ -46,12 +46,45 @@ public class MainWorld extends Scene {
 
         playerColliders.add(new AttackCollider(new Vector3(32, 32, 1), new Vector3(), 84, 36));
 
+//GAME START SCREEEN ENTITIES
+    //UI BUTTONS
+        Entity newGameButton = entityManager.createEntityWithComponents("newGameButton", 
+                new Transform(0,0,0),
+                new Sprite("newGameButton", true, 72, 15, 0 , new ArrayList<>(Arrays.asList("Button_48"))),
+                new UIEntity("newGameButton", false, null),
+                new UIButton("newGameButton"," New Game", 1)
+        );
+        
+        Entity exitButton = entityManager.createEntityWithComponents("exitButton", 
+                new Transform(0,17,0),
+                new Sprite("exitButton", true, 72, 15, 0 , new ArrayList<>(Arrays.asList("Button_48"))),
+                new UIEntity("exitButton", false, null),
+                new UIButton("exitButton"," Exit Game", 2)
+        );
+    //UI ENTITIES
+        Entity buttonsWrap = entityManager.createEntityWithComponents("buttonsWrap", 
+                new Transform(display.width / c.scale / 2 - 72/2 , display.height / c.scale / 2 - 15/2 ,0),
+                new Sprite("buttonsWrap", false, 72, 15, 0 , new ArrayList<>(Arrays.asList("null"))),
+                new UIEntity("buttonsWrap", true, new ArrayList<>(Arrays.asList(newGameButton.getID(), exitButton.getID())))
+        );
+        
+///ENTITIES      
+    //MOUSE POINTER
         //mouse pointer
         Entity pointer = entityManager.createEntityWithComponents("pointer",
                 new MousePointer()
         );
 
-        //ITEMS
+
+    //ITEMS
+        /*Entity swordOne = entityManager.createEntityWithComponents("sword1",
+                new Item("sword1", true),
+                new Collidable(new Vector3(16, 16, 1)),
+                new Tool(-1),
+                //the x and y of enemy are 90 and 90
+                new Transform(new Vector3(93, 93, 28)),
+                new AttackComponent(playerColliders)
+        );*/
 
 
         //A weird item in the players inventory
@@ -74,7 +107,7 @@ public class MainWorld extends Scene {
         );
         //==============
 
-        //INVENTORIES
+    //INVENTORIES
         //enemy inventory     
         Entity enemyInv = entityManager.createEntityWithComponents("Enemy_Inventory",
                 new Inventory(0, 5, new ArrayList<>(Arrays.asList(weirdItm.getID())))
@@ -117,13 +150,13 @@ public class MainWorld extends Scene {
         Entity playerActives = entityManager.createEntityWithComponents("Player_Player_Actives_Inventory",
                 new Inventory(0, 9, new ArrayList<>(Arrays.asList()))
         );
-        //UI INVENTORIES
+    //UI INVENTORIES
 
         //player ui inventories
         Entity mainInventory = entityManager.createEntityWithComponents("Player_UIInventory_grid",
                 new Transform(12, 43),
                 new Sprite("grid", true, 103, 18, 0, new ArrayList<>(Arrays.asList("1x6Slots_light"))),
-                new UIEntity("grid", false, null/*childs ID's go here*/),
+                new UIEntity("grid", false, null),
                 new UIInventory("grid", playerInv.getID())
         );
 
@@ -154,7 +187,7 @@ public class MainWorld extends Scene {
                 new UIEntity("actives", false, null),
                 new UIInventory("Actives", playerActives.getID())
         );
-        //UI BUTTONS
+    //UI BUTTONS
 
         Entity mapButton = entityManager.createEntityWithComponents("map_button",
                 new Transform(16, 15),
@@ -183,8 +216,24 @@ public class MainWorld extends Scene {
                 new UIEntity("game_button", false, null),
                 new UIButton("game_button" ,"GAME" ,3)
         );
+        
+    //UI TEXTS
+        
+        Entity text = entityManager.createEntityWithComponents("text",
+                new Transform(16, 48),
+                new Sprite("text", true, 0, 0, 0, new ArrayList<>(Arrays.asList("Tab_light"))),
+                new UIEntity("text", false, 0, null),
+                new UIText("This is just some sample test please ignore me. This is just some sample test please ignore me." , 100, 100)
+        );
+    //CHILD UIENTITIES
+        
+        Entity playerPosition = entityManager.createEntityWithComponents("player_position",
+                new Transform(0,0),
+                new Sprite("player_position", true, 1, 1, 0, new ArrayList<>(Arrays.asList("effect2"))),
+                new UIEntity("player_position", false, 0, null)
+        );
 
-        //USER INTERFACES
+    //USER INTERFACES
         //The players Inventory user interface, has a reference to the player internal inventory
         Entity InventoryUI = entityManager.createEntityWithComponents("Player_Inventory",
                 new Transform(display.width / c.scale / 2 - (195 / 2), display.height / c.scale / 2 - (135 / 2) - 2),
@@ -200,35 +249,37 @@ public class MainWorld extends Scene {
         //the player actives hotbar
         Entity activesUI = entityManager.createEntityWithComponents("Player_actives",
                 new Transform(display.width / c.scale / 2 - (160 / 2) + 3, display.height / c.scale - 28),
-                new Sprite("actives_bar", true, 160, 32, 0, new ArrayList<>(Arrays.asList("actives_bar"))),
+                new Sprite("actives_bar", false, 160, 32, 0, new ArrayList<>(Arrays.asList("actives_bar"))),
                 new UIEntity("actives_bar", true,
                         new ArrayList<>(Arrays.asList(activesInventory.getID())))
         );
 
         Entity LRUI = entityManager.createEntityWithComponents("Player_RL",
                 new Transform(16, display.height / c.scale - 28),
-                new Sprite("RL_bar", true, 48, 32, 0, new ArrayList<>(Arrays.asList("RL_bar"))),
+                new Sprite("RL_bar", false, 48, 32, 0, new ArrayList<>(Arrays.asList("RL_bar"))),
                 new UIEntity("RL_bar", true,
                         new ArrayList<>(Arrays.asList(LRUIInventory.getID())))
         );
         
+
         //the Game menu
         Entity menu = entityManager.createEntityWithComponents("menu",
                 new Transform(display.width / c.scale / 2 - (278/2), display.height / c.scale / 2 - (150/2)),
                 new Sprite("menu", false, 278, 150, 0, new ArrayList<>(Arrays.asList("menu_map","menu_quests", "menu_options" ,"menu_game"))),
-                new UIEntity("menu", true, new ArrayList<>(Arrays.asList(mapButton.getID(), questsButton.getID(), optionsButton.getID(), gameButton.getID())))
+                new UIEntity("menu", true, new ArrayList<>(Arrays.asList(mapButton.getID(), questsButton.getID(), optionsButton.getID(), gameButton.getID(), text.getID())))
         );
         
         //menu_map
 
-        //PLAYABLE ENTITIES
+    //PLAYABLE ENTITIES
         Entity player = entityManager.createEntityWithComponents("Player",
                 new Transform(new Vector3(50, 50, 32)),
                 new Sprite("sprite", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down", "player_up", "player_left", "player_right"))),
                 new WorldEntity(),
                 new Player("player", playerLR.getID(), playerPassives.getID(), playerActives.getID()),
                 new Playable(100, playerInv.getID(), new Vector3()),
-                new Collidable(new Vector3(32, 32, 1))
+                new Collidable(new Vector3(32, 32, 32))
+
         );
 
         //This item goes here because its transform is a child of the player's transform
@@ -248,15 +299,11 @@ public class MainWorld extends Scene {
                 new Collidable(new Vector3(64, 80, 1)),
                 new Playable(300, enemyInv.getID(), new Vector3(1.5, 1.5, 0)));
 
-        //TILES 
 
-        
-        //Active fire = 
-        
-
+    //TILES 
         Sprite grassTopSprite = new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")));
         Sprite grassSideSprite = new Sprite("grassSide", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grassSide")));
-
+        Sprite log = new Sprite("log", true, 16, 16, 10, new ArrayList<>(Arrays.asList("log")));
 
         //draw grass grid
         for (int x = 0; x < 960; x += 16) {
@@ -277,6 +324,21 @@ public class MainWorld extends Scene {
             }
         }
 
+        
+        //Example log
+        entityManager.createEntityWithComponents("wood",
+                        new Tile("log" + Integer.toString(200) + "_" + Integer.toString(200),true,log,log),
+                        new Transform(200,200,64),
+                        log, new WorldEntity()
+                );
+        entityManager.createEntityWithComponents("wood",
+                        new Tile("log" + Integer.toString(200) + "_" + Integer.toString(200),true,log,log),
+                        new Transform(216,216,16),
+                        log, new WorldEntity()
+                );
+        
+
+
         /*Entity side = entityManager.createEntityWithComponents("grassSide",
                 new Transform(new Vector3(-80, -80, 16)),
                 grassSideSprite,
@@ -293,6 +355,7 @@ public class MainWorld extends Scene {
 
         //the sword one will be in the right hand of the player
         entityManager.getEntityComponentInstance(player, (new Player()).getClass()).rightHand = swordOne.getID();
+
     }
 
     /**
@@ -302,22 +365,24 @@ public class MainWorld extends Scene {
     @Override
     protected void addSystems() {
         systemJobManager.addSystems(
-                new RenderSystem(this),
-                new CollisionEntityWeapon(this),
-                new CollisionSystem(this),
-                new EnemySystem(this),
-                new GameManagerSystem(this),
-                new ItemSystem(this),
-                new MousePointerSystem(this),
-                new PlayerSystem(this),
-                new SpriteSystem(this),
-                new TileSystem(this),
-                new TransformSystem(this),
-                new UIButtonSystem(this),
-                new UIEntitiesSystem(this),
-                new UIInventorySystem(this),
-                new WeaponColliderPositionSystem(this)
-                
+      
+                new CollisionEntityWeapon(this, true),
+                new CollisionSystem(this, true),
+                new EnemySystem(this, true),
+                new GameManagerSystem(this, true),
+                new ItemSystem(this, true),
+                new MousePointerSystem(this, true),
+                new PlayerSystem(this, true),
+                new SpriteSystem(this, true),
+                new TileSystem(this, true),
+                new TransformSystem(this, true),
+                new UIButtonSystem(this, true),
+                new UIEntitiesSystem(this, true),
+                new UIInventorySystem(this, true),
+                new UITextSystem(this, true),
+                new WeaponColliderPositionSystem(this, true),
+                new RenderSystem(this, true)
+
         );
     }
 }

@@ -35,8 +35,8 @@ public class WeaponColliderPositionSystem extends SystemJob{
     
     int playerID;
 
-    public WeaponColliderPositionSystem(Scene scene) {
-        super(scene);
+    public WeaponColliderPositionSystem(Scene scene, boolean active) {
+        super(scene, active);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package ECS.Systems;
 
+import ECS.Components.Collidable;
 import ECS.Components.Playable;
 import ECS.Components.Player;
 import ECS.Components.Sprite;
@@ -33,6 +34,7 @@ public class PlayerSystem extends SystemJob{
     Transform transform;  
     Playable playable;
     Sprite sprite;
+
     Tool rightHand;
 
     boolean firstTime;
@@ -42,12 +44,13 @@ public class PlayerSystem extends SystemJob{
     int downBorder;
 
     
+
     /**
      * Constructor
      * @param scene 
      */
-    public PlayerSystem(Scene scene) {
-        super(scene);
+    public PlayerSystem(Scene scene, boolean active) {
+        super(scene, active);
         entities = new ArrayList<>();
         transform = new Transform();
         player = new Player();
@@ -63,6 +66,7 @@ public class PlayerSystem extends SystemJob{
      */
     @Override
     public void update() {
+
         for (Integer e : entities) {
             player = scene.entityManager.getEntityComponentInstance(e, player.getClass());
             transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());
@@ -109,10 +113,12 @@ public class PlayerSystem extends SystemJob{
                 sprite.animationLenght = sprite.animations.get(3).second;
                 
 
+
                 playable.right = true;
                 playable.left = false;
                 playable.down = false;
                 playable.up = false;
+
 
             }
             

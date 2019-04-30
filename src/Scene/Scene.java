@@ -37,7 +37,7 @@ public abstract class Scene {
     
     public Scene(Display display, Camera c) {
         entityManager = new EntityManager();
-        systemJobManager = new SystemJobManager(this);
+        systemJobManager = new SystemJobManager(this, active);
         this.display = display;
         this.c = c;
         active = true;
