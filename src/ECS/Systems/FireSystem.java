@@ -16,7 +16,7 @@ import java.util.ArrayList;
  *Atacas al playable
  * @author tanya
  */
-public class ActivesSystem extends SystemJob {
+public class FireSystem extends SystemJob {
     
     //Playable enemy;
     private int playerID;
@@ -31,7 +31,7 @@ public class ActivesSystem extends SystemJob {
     
     //Get entities 
     
-    public ActivesSystem(Scene scene) {
+    public FireSystem(Scene scene) {
         super(scene);
     }
     
@@ -56,6 +56,8 @@ public class ActivesSystem extends SystemJob {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     arrPlayables = scene.entityManager.getEntitiesWithComponents(playable.getClass());
     arrID = scene.entityManager.getEntitiesWithComponents(fire.getClass());
+    
+    //añadirse a sì mismo al tool
        
     }
 
