@@ -64,7 +64,7 @@ public class MainWorld extends Scene {
     //UI ENTITIES
         Entity buttonsWrap = entityManager.createEntityWithComponents("buttonsWrap", 
                 new Transform(display.width / c.scale / 2 - 72/2 , display.height / c.scale / 2 - 15/2 ,0),
-                new Sprite("buttonsWrap", false, 72, 15, 0 , new ArrayList<>(Arrays.asList("null"))),
+                new Sprite("buttonsWrap", true, 72, 15, 0 , new ArrayList<>(Arrays.asList("null"))),
                 new UIEntity("buttonsWrap", true, new ArrayList<>(Arrays.asList(newGameButton.getID(), exitButton.getID())))
         );
         

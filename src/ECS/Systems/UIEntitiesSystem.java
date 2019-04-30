@@ -174,8 +174,9 @@ public class UIEntitiesSystem extends SystemJob{
                     uiTransform.position = uiTransform.position.add(new Vector3(-2,0,0));
                 }*/
             }
-            
-            
+            //if(uiEntity.mainUI){
+                System.out.println(uiEntity.name + " : " + uiEntity.mainUI);
+            //}
             
             uiSprite.animation = uiSprite.animations.get(uiEntity.window).first;
         } 
