@@ -54,12 +54,20 @@ public class MainWorld extends Scene {
                 new UIEntity("newGameButton", false, null),
                 new UIButton("newGameButton"," New Game", 1)
         );
+        
+        Entity exitButton = entityManager.createEntityWithComponents("exitButton", 
+                new Transform(0,17,0),
+                new Sprite("exitButton", true, 72, 15, 0 , new ArrayList<>(Arrays.asList("Button_48"))),
+                new UIEntity("exitButton", false, null),
+                new UIButton("exitButton"," Exit Game", 2)
+        );
     //UI ENTITIES
         Entity buttonsWrap = entityManager.createEntityWithComponents("buttonsWrap", 
-                new Transform(0,0,0),
-                new Sprite("buttonsWrap", false, 72, 15, 0 , new ArrayList<>(Arrays.asList("null"))),
-                new UIEntity("buttonsWrap", true, new ArrayList<>(Arrays.asList(newGameButton.getID())))
+                new Transform(display.width / c.scale / 2 - 72/2 , display.height / c.scale / 2 - 15/2 ,0),
+                new Sprite("buttonsWrap", true, 72, 15, 0 , new ArrayList<>(Arrays.asList("null"))),
+                new UIEntity("buttonsWrap", true, new ArrayList<>(Arrays.asList(newGameButton.getID(), exitButton.getID())))
         );
+        
 ///ENTITIES      
     //MOUSE POINTER
         //mouse pointer
