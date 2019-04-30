@@ -8,6 +8,7 @@ package ECS.Components;
 
 import ECS.Component;
 import Maths.Vector3;
+import java.util.ArrayList;
 
 /**
  *
@@ -37,6 +38,9 @@ public class AttackCollider extends Component {
         active = true;
     }
     
+    //a list of the IDs of the entitities that are colliding with the instance of AttackCollider
+    public ArrayList<Integer> collidesWith;
+    
     public AttackCollider(Vector3 hitbox, Vector3 relPos) {
         this.hitbox = hitbox;
         relativePosition = relPos;
@@ -44,6 +48,7 @@ public class AttackCollider extends Component {
         this.a = hitbox.x;
         this.b = hitbox.y;
         
+        collidesWith = new ArrayList<>();
     }
     
     public AttackCollider(Vector3 hitbox, Vector3 relPos, double a, double b) {
@@ -52,5 +57,7 @@ public class AttackCollider extends Component {
         active = true;
         this.a = a;
         this.b = b;
+        
+        collidesWith = new ArrayList<>();
     }
 }

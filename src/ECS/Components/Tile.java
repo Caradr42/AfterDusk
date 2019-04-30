@@ -23,10 +23,19 @@ public class Tile extends Component{
     
     public Sprite topSprite;
     public Sprite sideSprite;
-    
+    public boolean tileCollidable;
     public boolean topVisible;
     public boolean sideVisible;
-
+    
+    public Tile(String name, boolean tileCollidable,Sprite topSprite, Sprite sideSprite) {
+        this.name = name;
+        this.tileCollidable=tileCollidable;
+        this.topSprite = topSprite;
+        this.sideSprite = sideSprite;
+        topVisible = true;
+        sideVisible = true;
+    }
+    
     public Tile(String name, Sprite topSprite, Sprite sideSprite) {
         this.name = name;
         this.topSprite = topSprite;
@@ -35,8 +44,20 @@ public class Tile extends Component{
         //this.sideSpriteID = sideSpriteID;
         topVisible = true;
         sideVisible = true;
+
     }
 
+
     public Tile() {
+        tileCollidable=false;
     } 
+    
+    public boolean isCollidable(){
+        return tileCollidable;
+    }
+    
+    public void setCollidable(){
+        tileCollidable=!tileCollidable;
+    }
+    
 }

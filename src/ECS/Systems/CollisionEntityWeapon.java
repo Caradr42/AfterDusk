@@ -26,17 +26,17 @@ import java.util.Objects;
 public class CollisionEntityWeapon extends SystemJob{
     
     private AttackCollider attackCollider;
-    private AttackComponent attackComponent;
-    private Collidable collidable;
-    private Transform transform;
-    private Tool tool;
+    private static AttackComponent attackComponent;
+    private static Collidable collidable;
+    private static Transform transform;
+    private static Tool tool;
     
-    private boolean judge = false;
+    private static  boolean judge = false;
 
    
     private ArrayList<Integer> arrAttack;
     private ArrayList<Integer>arrCollidable;
-    Rectangle rectangle;
+    private static Rectangle  rectangle;
     
     private int playerID;
     private Player player;
@@ -52,9 +52,18 @@ public class CollisionEntityWeapon extends SystemJob{
         
         //For each entity with the AttackComponent
         for (Integer i : arrAttack) {
+            
 
             //if the weapon has not a -1
             if (scene.entityManager.getEntityComponentInstance(i, tool.getClass()).currentActive != - 1) {
+
+                ArrayList<AttackCollider> arrColliders  = scene.entityManager.getEntityComponentInstance(i, attackComponent.getClass()).arrColliders;
+                
+                //clean the lists of the entities that are colliding with each AttackCollider of AttackComponent
+                for (AttackCollider at : arrColliders) {
+                    at.collidesWith.clear();
+                }
+
 
                 //Check if it collides with a collidable entity
                 for (Integer j : arrCollidable) {
@@ -130,7 +139,7 @@ public class CollisionEntityWeapon extends SystemJob{
      * @param j ID of the entity being attacked by i
      * @return 
      */
-    private ArrayList<AttackCollider> checkAttack(int i, int j) {
+    private static ArrayList<AttackCollider> checkAttack(int i, int j) {
         
         Transform wpnTrans = new Transform();
         
@@ -161,6 +170,8 @@ public class CollisionEntityWeapon extends SystemJob{
             
             if (wpnRect.intersects(collRect)) {
                 areColliding.add(arrCollider);
+                arrCollider.collidesWith.add(j);
+                System.out.println("Colliding with " + scene.entityManager.getEntityByID(arrCollider.collidesWith.get(arrCollider.collidesWith.size() - 1)).getName());
             }
         }
 
@@ -189,23 +200,7 @@ public class CollisionEntityWeapon extends SystemJob{
         Playable attackedPlay = new Playable();
         attackedPlay = scene.entityManager.getEntityComponentInstance(entity, attackedPlay.getClass());
 
-        if ("Sword1".equals(weaponName)) {
-            switch(currentActive) {
-                //case 0 is always the basic attack
-                case 0:
-                    attackedPlay.hp -= 10;                    
-                    break;
-                    
-                    
-                case 1:
-                    
-                    break;
-                    
-                case 2:
-                    
-                    break;
-            }
-        }
+        FireSystem.executeActives(weapon, entity);
         
         //The attack has been done
         tool.currentActive = -1;

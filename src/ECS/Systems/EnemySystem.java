@@ -10,6 +10,7 @@ import ECS.Components.Player;
 import ECS.Components.Sprite;
 import ECS.Components.Transform;
 import ECS.SystemJob;
+import Maths.Vector2;
 import Scene.Scene;
 import static java.lang.Math.abs;
 import java.util.ArrayList;
@@ -75,6 +76,9 @@ public class EnemySystem extends SystemJob{
             distanceX = abs(distanceX);
             
             distanceY = abs(distanceY);
+            
+            Vector2 newDist = new Vector2();
+            //ewDist.x = abs();
             
             //If this is true tue enemy moves diagonally
             if(distanceX > marginDistance && distanceY > marginDistance) {

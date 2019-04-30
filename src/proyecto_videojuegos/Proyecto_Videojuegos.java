@@ -18,7 +18,7 @@ public class Proyecto_Videojuegos {
         p.update();
         
     }*/
-        
+        //1366, 768
     public static void main(String[] args) {
        System.setProperty("sun.java2d.opengl", "true");
        Display display = new Display("Game", 1366, 768);

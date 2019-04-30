@@ -191,8 +191,10 @@ public class UIEntitiesSystem extends SystemJob{
                 double originalItemZ = itemTransform.position.z;
                 itemTransform.position.set(scene.c.UIToWorldCoodinates(mousePointer.position.add(new Vector2(-8, -8))));
                 itemTransform.position.y += originalItemZ;
+
                 //Play drop sound
                 Assets.pickUp.play();
+
                 item.isInInventory = false;
                 
             }

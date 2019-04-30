@@ -44,7 +44,7 @@ public class MainWorld extends Scene {
         //The colliders are for the tools, but we are testing, lets put it in the player
         ArrayList<AttackCollider> playerColliders = new ArrayList<>();
 
-        playerColliders.add(new AttackCollider(new Vector3(32, 32, 1), new Vector3(), 30, 30));
+        playerColliders.add(new AttackCollider(new Vector3(32, 32, 1), new Vector3(), 84, 36));
 
 //GAME START SCREEEN ENTITIES
     //UI BUTTONS
@@ -75,15 +75,17 @@ public class MainWorld extends Scene {
                 new MousePointer()
         );
 
+
     //ITEMS
-        Entity swordOne = entityManager.createEntityWithComponents("sword1",
+        /*Entity swordOne = entityManager.createEntityWithComponents("sword1",
                 new Item("sword1", true),
                 new Collidable(new Vector3(16, 16, 1)),
                 new Tool(-1),
                 //the x and y of enemy are 90 and 90
                 new Transform(new Vector3(93, 93, 28)),
                 new AttackComponent(playerColliders)
-        );
+        );*/
+
 
         //A weird item in the players inventory
         Entity weirdItm = entityManager.createEntityWithComponents("weird",
@@ -259,6 +261,7 @@ public class MainWorld extends Scene {
                         new ArrayList<>(Arrays.asList(LRUIInventory.getID())))
         );
         
+
         //the Game menu
         Entity menu = entityManager.createEntityWithComponents("menu",
                 new Transform(display.width / c.scale / 2 - (278/2), display.height / c.scale / 2 - (150/2)),
@@ -275,7 +278,18 @@ public class MainWorld extends Scene {
                 new WorldEntity(),
                 new Player("player", playerLR.getID(), playerPassives.getID(), playerActives.getID()),
                 new Playable(100, playerInv.getID(), new Vector3()),
-                new Collidable(new Vector3(32, 32, 1))
+                new Collidable(new Vector3(32, 32, 32))
+
+        );
+
+        //This item goes here because its transform is a child of the player's transform
+        Entity swordOne = entityManager.createEntityWithComponents("sword1",
+                new Item("sword1", true),
+                new Collidable(new Vector3(16, 16, 1)),
+                new Tool(-1),
+                //the x and y of enemy are 90 and 90
+                new Transform(new Vector3(), player.getID()),
+                new AttackComponent(playerColliders)
         );
 
         entityManager.createEntityWithComponents("Enemy1",
@@ -285,9 +299,11 @@ public class MainWorld extends Scene {
                 new Collidable(new Vector3(64, 80, 1)),
                 new Playable(300, enemyInv.getID(), new Vector3(1.5, 1.5, 0)));
 
+
     //TILES 
         Sprite grassTopSprite = new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")));
         Sprite grassSideSprite = new Sprite("grassSide", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grassSide")));
+        Sprite log = new Sprite("log", true, 16, 16, 10, new ArrayList<>(Arrays.asList("log")));
 
         //draw grass grid
         for (int x = 0; x < 960; x += 16) {
@@ -308,6 +324,21 @@ public class MainWorld extends Scene {
             }
         }
 
+        
+        //Example log
+        entityManager.createEntityWithComponents("wood",
+                        new Tile("log" + Integer.toString(200) + "_" + Integer.toString(200),true,log,log),
+                        new Transform(200,200,64),
+                        log, new WorldEntity()
+                );
+        entityManager.createEntityWithComponents("wood",
+                        new Tile("log" + Integer.toString(200) + "_" + Integer.toString(200),true,log,log),
+                        new Transform(216,216,16),
+                        log, new WorldEntity()
+                );
+        
+
+
         /*Entity side = entityManager.createEntityWithComponents("grassSide",
                 new Transform(new Vector3(-80, -80, 16)),
                 grassSideSprite,
@@ -324,6 +355,7 @@ public class MainWorld extends Scene {
 
         //the sword one will be in the right hand of the player
         entityManager.getEntityComponentInstance(player, (new Player()).getClass()).rightHand = swordOne.getID();
+
     }
 
     /**
@@ -333,7 +365,7 @@ public class MainWorld extends Scene {
     @Override
     protected void addSystems() {
         systemJobManager.addSystems(
-                
+      
                 new CollisionEntityWeapon(this, true),
                 new CollisionSystem(this, true),
                 new EnemySystem(this, true),
@@ -350,6 +382,7 @@ public class MainWorld extends Scene {
                 new UITextSystem(this, true),
                 new WeaponColliderPositionSystem(this, true),
                 new RenderSystem(this, true)
+
         );
     }
 }

@@ -22,23 +22,21 @@ import java.util.Vector;
  * @version 1.0
  */
 public class Tool extends Component{
-    
-    public ArrayList<Integer> activos;
-    Entity pasiva;
-    public ArrayList<Integer> activosDesbloqueados ;
-    
+
+    public ArrayList<Integer> actives;
+    Entity pasive;
+    public ArrayList<Integer> unlockedActives;
     //Current active/attack being used. If nothing is used, it has a -1
     public int currentActive;
 
-    public Tool( Entity pasiva, ArrayList<Integer> activos, ArrayList<Integer> activosDesbloqueados) {
-        this.activos = activos;
-        this.pasiva = pasiva;
-        this.activosDesbloqueados = activosDesbloqueados;
+    public Tool( Entity pasive, ArrayList<Integer> actives, ArrayList<Integer> unlockedActives) {
+        this.actives = actives;
+        this.pasive = pasive;
+        this.unlockedActives = unlockedActives;
         currentActive = -1;
     }
     
     public Tool() {
-        
     }
     
     public Tool(int currentActive) {

@@ -1,5 +1,6 @@
 package ECS.Systems;
 
+import ECS.Components.Collidable;
 import ECS.Components.Playable;
 import ECS.Components.Player;
 import ECS.Components.Sprite;
@@ -33,6 +34,7 @@ public class PlayerSystem extends SystemJob{
     Transform transform;  
     Playable playable;
     Sprite sprite;
+
     Tool rightHand;
 
     boolean firstTime;
@@ -42,6 +44,7 @@ public class PlayerSystem extends SystemJob{
     int downBorder;
 
     
+
     /**
      * Constructor
      * @param scene 
@@ -63,6 +66,7 @@ public class PlayerSystem extends SystemJob{
      */
     @Override
     public void update() {
+
         for (Integer e : entities) {
             player = scene.entityManager.getEntityComponentInstance(e, player.getClass());
             transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());
@@ -82,6 +86,13 @@ public class PlayerSystem extends SystemJob{
                         firstTime = false;
             }
             
+
+           /* System.out.println("position 1 " + MainThread.c.position1.x + ","+ MainThread.c.position1.y);
+            System.out.println("ortogonal  " + MainThread.c.ortogonalPosition.x + ","+ MainThread.c.ortogonalPosition.y);
+            System.out.println("position 2 " + MainThread.c.position2.x + ","+ MainThread.c.position2.y);
+            System.out.println("transform " + transform.position.x + ","+ transform.position.y);
+            */
+
             //if the player goes to the right change the position and the animation to the right
 
             if(scene.display.getKeyManager().right){
@@ -102,10 +113,12 @@ public class PlayerSystem extends SystemJob{
                 sprite.animationLenght = sprite.animations.get(3).second;
                 
 
+
                 playable.right = true;
                 playable.left = false;
                 playable.down = false;
                 playable.up = false;
+
 
             }
             

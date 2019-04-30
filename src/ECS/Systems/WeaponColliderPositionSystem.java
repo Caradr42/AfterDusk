@@ -142,9 +142,9 @@ public class WeaponColliderPositionSystem extends SystemJob{
                 //for each collider of its right hand weapon
                 for (AttackCollider at : rightComponent.arrColliders) {
                     //System.out.println("Up");
-                    at.relativePosition.x = playerWidth;
+                    at.relativePosition.x = -at.b / 2 + playerWidth / 2;
                     
-                    at.relativePosition.y = - playerHeight - at.a + 5;
+                    at.relativePosition.y = - playerHeight - at.a;
                     
                     //the y is the height of the collider
                     at.hitbox.y = at.a;
@@ -159,12 +159,14 @@ public class WeaponColliderPositionSystem extends SystemJob{
                 //for each collider of its left hand weapon
                 for (AttackCollider at : leftComponent.arrColliders) {
 
-                    at.relativePosition.x= -1 * abs((at.b / 2) - (playerWidth / 2));
-
-                    at.relativePosition.y = at.a;
-
+                    at.relativePosition.x = -at.b / 2 + playerWidth / 2;
+                    
+                    at.relativePosition.y = - playerHeight - at.a;
+                    
+                    //the y is the height of the collider
                     at.hitbox.y = at.a;
-
+                    
+                    //the x is the width of the collider
                     at.hitbox.x = at.b;
                 }
             }
@@ -174,7 +176,7 @@ public class WeaponColliderPositionSystem extends SystemJob{
                 //for each collider of its right hand weapon
                 for (AttackCollider at : rightComponent.arrColliders) {
                    // System.out.println("Down");
-                    at.relativePosition.x = playerWidth;
+                    at.relativePosition.x = -at.b / 2 + playerWidth / 2;
                     
                     at.relativePosition.y = 0;
                     
@@ -188,12 +190,12 @@ public class WeaponColliderPositionSystem extends SystemJob{
             if (player.boolLeft) {
                 //for each collider of its left hand weapon
                 for (AttackCollider at : leftComponent.arrColliders) {
-                    at.relativePosition.x = -1 * abs((at.b / 2) - (playerWidth / 2));
-
-                    at.relativePosition.y = playerHeight;
-
+                    at.relativePosition.x = -at.b / 2 + playerWidth / 2;
+                    
+                    at.relativePosition.y = 0;
+                    
                     at.hitbox.y = at.a;
-
+                    
                     at.hitbox.x = at.b;
                 }
             }
@@ -205,9 +207,9 @@ public class WeaponColliderPositionSystem extends SystemJob{
                 //for each collider of its right hand weapon
                 for (AttackCollider at : rightComponent.arrColliders) {
                     //System.out.println("Left");
-                    at.relativePosition.x = 8;
+                    at.relativePosition.x = - at.a;
 
-                    at.relativePosition.y = - playerHeight + 5;
+                    at.relativePosition.y = - at.b / 2 - playerHeight / 2;
 
                     at.hitbox.y = at.b;
 
@@ -219,9 +221,9 @@ public class WeaponColliderPositionSystem extends SystemJob{
             if (player.boolLeft) {
                 //for each collider of its left hand weapon
                 for (AttackCollider at : leftComponent.arrColliders) {
-                    at.relativePosition.x = -1 * at.a;
+                    at.relativePosition.x = - at.a;
 
-                    at.relativePosition.y = -1 * abs((at.b / 2) - (playerHeight / 2));
+                    at.relativePosition.y = - at.b / 2 - playerHeight / 2;
 
                     at.hitbox.y = at.b;
 
@@ -240,9 +242,11 @@ public class WeaponColliderPositionSystem extends SystemJob{
                 for (AttackCollider at : rightComponent.arrColliders) {
                     //System.out.println("Right");
                        
-                    at.relativePosition.x = playerWidth + 25;
+                    at.relativePosition.x = playerWidth;
+                    //at.a
 
-                    at.relativePosition.y = - playerHeight + 5;
+                    at.relativePosition.y = - at.b / 2 - playerHeight / 2;
+                    //- playerHeight
 
                     at.hitbox.y = at.b;
 
