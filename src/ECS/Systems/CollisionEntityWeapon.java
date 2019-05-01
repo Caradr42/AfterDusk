@@ -59,7 +59,7 @@ public class CollisionEntityWeapon extends SystemJob{
 
             //if the weapon has not a -1
             if (scene.entityManager.getEntityComponentInstance(i, tool.getClass()).currentActive != - 1) {
-
+                
                 ArrayList<AttackCollider> arrColliders  = scene.entityManager.getEntityComponentInstance(i, attackComponent.getClass()).arrColliders;
                 
                 //clean the lists of the entities that are colliding with each AttackCollider of AttackComponent
@@ -165,6 +165,7 @@ public class CollisionEntityWeapon extends SystemJob{
         
         Rectangle collRect = new Rectangle((int) collTrans.position.x, (int) collTrans.position.y, (int) collColl.hitbox.x, (int) collColl.hitbox.y);
         
+        
         //for each collider of the weapon
         for (AttackCollider arrCollider : attacks.arrColliders) {
         
@@ -173,6 +174,7 @@ public class CollisionEntityWeapon extends SystemJob{
             rectangle = wpnRect;
             judge = true;
             rects.add(wpnRect);
+            
             
             
             if (wpnRect.intersects(collRect)) {
@@ -221,11 +223,15 @@ public class CollisionEntityWeapon extends SystemJob{
             judge = false;
         }*/
         
+        System.out.println(rects.size());
+        
         for(Rectangle rect  : rects) {
+            System.out.println("aaa");
             g.drawRect(rect.x, rect.y, rect.width, rect.height);
         }
         
         rects = new ArrayList<>();
+ 
     }
     
 }

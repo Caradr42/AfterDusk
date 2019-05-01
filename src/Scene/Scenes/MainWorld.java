@@ -94,7 +94,7 @@ public class MainWorld extends Scene {
                     new Item("sword1", true),
                     new Sprite("E_sword", true, 16, 16, 8, new ArrayList<>(Arrays.asList("E_sword"))),
                     new Collidable(new Vector3(16, 16, 1)),
-                    new Tool(-1),
+                    new Tool(1),
                     //the x and y of enemy are 90 and 90
                     new Transform(new Vector3(0,0,16)),
                     new AttackComponent(playerColliders),
