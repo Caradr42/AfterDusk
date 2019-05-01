@@ -21,8 +21,10 @@ public class ActiveSystem extends SystemJob{
     
     ArrayList<Integer> idTools;
     Tool tool; 
-    public ActiveSystem(Scene scene, boolean active) {
-        super(scene, active);
+    Active active;
+    
+    public ActiveSystem(Scene scene, boolean isActive) {
+        super(scene, isActive);
     }
 
     @Override
@@ -32,13 +34,18 @@ public class ActiveSystem extends SystemJob{
 
     @Override
     public void init() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     tool = new Tool();
-    idTools = scene.entityManager.getEntitiesWithComponents(tool.getClass());
+
+    idTools = scene.entityManager.getEntitiesWithComponents(Tool.class);
     
-    for (int i = 0 ; i < idTools.size(); i++){
-        for (int j = 0 ; j < Active.activesSet.size() ; j++){
-            
+    for (Integer t : idTools){
+        for(Class c : Active.activesSet){
+            tool = scene.entityManager.getEntityComponentInstance(t, Tool.class);
+            if(scene.entityManager.hasComponent(t, c)){
+                active = (Active)scene.entityManager.getEntityComponentInstance(t, c);
+                
+                tool.arrActives.add(active);
+            }
         }
     }
         

@@ -289,7 +289,8 @@ public class MainWorld extends Scene {
                 new Tool(-1),
                 //the x and y of enemy are 90 and 90
                 new Transform(new Vector3(), player.getID()),
-                new AttackComponent(playerColliders)
+                new AttackComponent(playerColliders),
+                new Electricity()
         );
 
         entityManager.createEntityWithComponents("Enemy1",
@@ -381,8 +382,10 @@ public class MainWorld extends Scene {
                 new UIInventorySystem(this, true),
                 new UITextSystem(this, true),
                 new WeaponColliderPositionSystem(this, true),
-                new RenderSystem(this, true)
-
+                new RenderSystem(this, true),
+                new ActiveSystem(this, true),
+                new ElectricSystem(this, true)
+                
         );
     }
 }

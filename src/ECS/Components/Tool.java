@@ -23,23 +23,34 @@ import java.util.Vector;
  */
 public class Tool extends Component{
 
-    public ArrayList<Integer> actives;
+    //public ArrayList<Integer> actives;
     Entity pasive;
     public ArrayList<Integer> unlockedActives;
     //Current active/attack being used. If nothing is used, it has a -1
     public int currentActive;
+    public ArrayList <Class> arrClasses; 
+    public ArrayList <Active> arrActives; 
 
     public Tool( Entity pasive, ArrayList<Integer> actives, ArrayList<Integer> unlockedActives) {
-        this.actives = actives;
+        //this.actives = actives;
         this.pasive = pasive;
         this.unlockedActives = unlockedActives;
+        this.arrActives = new ArrayList<Active>();
+        this.arrClasses = new ArrayList<Class>();
+        
         currentActive = -1;
     }
     
     public Tool() {
+        this.unlockedActives = unlockedActives;
+        this.arrActives = new ArrayList<Active>();
+        this.arrClasses = new ArrayList<Class>();
     }
     
     public Tool(int currentActive) {
+        this.unlockedActives = unlockedActives;
+        this.arrActives = new ArrayList<Active>();
+        this.arrClasses = new ArrayList<Class>();
         this.currentActive = currentActive;
     }
 

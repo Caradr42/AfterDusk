@@ -171,7 +171,7 @@ public class CollisionEntityWeapon extends SystemJob{
             if (wpnRect.intersects(collRect)) {
                 areColliding.add(arrCollider);
                 arrCollider.collidesWith.add(j);
-                System.out.println("Colliding with " + scene.entityManager.getEntityByID(arrCollider.collidesWith.get(arrCollider.collidesWith.size() - 1)).getName());
+                //System.out.println("Colliding with " + scene.entityManager.getEntityByID(arrCollider.collidesWith.get(arrCollider.collidesWith.size() - 1)).getName());
             }
         }
 
@@ -200,11 +200,11 @@ public class CollisionEntityWeapon extends SystemJob{
         Playable attackedPlay = new Playable();
         attackedPlay = scene.entityManager.getEntityComponentInstance(entity, attackedPlay.getClass());
 
-        FireSystem.executeActives(weapon, entity);
+       // ElectricSystem.executeActives(weapon, entity);
         
         //The attack has been done
         tool.currentActive = -1;
-        System.out.println("Attack done");
+        //System.out.println("Attack done");
     }
     
     @Override

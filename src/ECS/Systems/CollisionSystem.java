@@ -350,7 +350,7 @@ public class CollisionSystem extends SystemJob{
         
         //Check intersection in x & y & z.
         if(firstRect.intersects(secondRect) && collidablei.active && tileCollidable.isCollidable()&&((transformi.position.z>=floorTile)&&(floorPlayer<=transformj.position.z))){
-            System.out.println("Collision");
+           // System.out.println("Collision");
             collidablei.setCollidable.add(j);
         }
     }
