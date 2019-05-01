@@ -2,6 +2,7 @@ package ECS.Systems;
 
 import ECS.Components.Transform;
 import ECS.SystemJob;
+import Maths.Vector3;
 import Scene.Scene;
 
 /**
@@ -21,7 +22,7 @@ public class TransformSystem extends SystemJob{
 
     @Override
     public void update() {
-    
+        
         updatePositionIfChild();
     }
 
@@ -40,15 +41,20 @@ public class TransformSystem extends SystemJob{
         for(Integer e: entities){
             transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());
             
+            
             if(transform.parent != 0){
-                if(transform.position != transform.previousPosition){
-                    transform.relativePosition = transform.relativePosition.add(transform.position.sub(transform.previousPosition));
+                if(transform.position != transform._previousPosition){
+                    transform.relativePosition = transform.relativePosition.add(transform.position.sub(transform._previousPosition));
                 }
                 
                 parentTransform = scene.entityManager.getEntityComponentInstance(transform.parent, parentTransform.getClass());
                 transform.position = parentTransform.position.add(transform.relativePosition);
+                
             }
-            transform.previousPosition = transform.position;
+            transform.renderedY = (int)(transform.position.y - transform.position.z);
+            transform._previousPosition = transform.position;
+            //transform._renderedPosition = transform.position;
+            //transform._renderedPosition.y = transform.position.y - transform.position.z ;
         }
     }
 

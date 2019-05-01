@@ -35,11 +35,14 @@ public class CollisionEntityWeapon extends SystemJob{
 
    
     private ArrayList<Integer> arrAttack;
-    private ArrayList<Integer>arrCollidable;
+    private ArrayList<Integer> arrCollidable;
     private static Rectangle  rectangle;
     
     private int playerID;
     private Player player;
+    
+    //List to store the rectangles of the colliders
+    private static ArrayList<Rectangle> rects;
     
     
 
@@ -56,13 +59,13 @@ public class CollisionEntityWeapon extends SystemJob{
 
             //if the weapon has not a -1
             if (scene.entityManager.getEntityComponentInstance(i, tool.getClass()).currentActive != - 1) {
-
+                
                 ArrayList<AttackCollider> arrColliders  = scene.entityManager.getEntityComponentInstance(i, attackComponent.getClass()).arrColliders;
                 
                 //clean the lists of the entities that are colliding with each AttackCollider of AttackComponent
-                for (AttackCollider at : arrColliders) {
+               /* for (AttackCollider at : arrColliders) {
                     at.collidesWith.clear();
-                }
+                }*/
 
 
                 //Check if it collides with a collidable entity
@@ -92,6 +95,8 @@ public class CollisionEntityWeapon extends SystemJob{
         rectangle = new Rectangle();
         player = new Player();
         initializeEntities();
+        
+        rects = new ArrayList<>();
     }
 
     @Override
@@ -108,10 +113,11 @@ public class CollisionEntityWeapon extends SystemJob{
         arrAttack = new ArrayList<>();
         arrCollidable = new ArrayList<>();
         entities = new ArrayList<>();
+        
 
         arrAttack = scene.entityManager.getEntitiesWithComponents(attackComponent.getClass(), tool.getClass());
 
-        arrCollidable = scene.entityManager.getEntitiesWithComponents(collidable.getClass());
+        arrCollidable = scene.entityManager.getEntitiesWithComponents(collidable.getClass(), Playable.class);
         
 
         for(int i = 0; i < arrAttack.size(); i++) {
@@ -159,6 +165,7 @@ public class CollisionEntityWeapon extends SystemJob{
         
         Rectangle collRect = new Rectangle((int) collTrans.position.x, (int) collTrans.position.y, (int) collColl.hitbox.x, (int) collColl.hitbox.y);
         
+        
         //for each collider of the weapon
         for (AttackCollider arrCollider : attacks.arrColliders) {
         
@@ -167,14 +174,24 @@ public class CollisionEntityWeapon extends SystemJob{
             rectangle = wpnRect;
             judge = true;
             
+            rects.add(wpnRect);
+            
+            
             
             if (wpnRect.intersects(collRect)) {
                 areColliding.add(arrCollider);
                 arrCollider.collidesWith.add(j);
+                
+                //System.out.println("collidess" + arrCollider.collidesWith.size());
+                
                 //System.out.println("Colliding with " + scene.entityManager.getEntityByID(arrCollider.collidesWith.get(arrCollider.collidesWith.size() - 1)).getName());
             }
         }
+        /*for (AttackCollider a : attacks.arrColliders){
+            System.out.println("collidess" + attacks.arrColliders.size());
+        }*/
 
+        
         return areColliding;
     }
     
@@ -200,19 +217,29 @@ public class CollisionEntityWeapon extends SystemJob{
         Playable attackedPlay = new Playable();
         attackedPlay = scene.entityManager.getEntityComponentInstance(entity, attackedPlay.getClass());
 
-       // ElectricSystem.executeActives(weapon, entity);
+        //FireSystem.executeActives(weapon, entity);
         
         //The attack has been done
-        tool.currentActive = -1;
+        //tool.currentActive = -1;
         //System.out.println("Attack done");
     }
     
     @Override
     public void render(Graphics2D g) {
-        if(judge) {
+        /*if(judge) {
             g.drawRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
             judge = false;
+        }*/
+        
+       // System.out.println(rects.size());
+        
+        /*for(Rectangle rect  : rects) {
+            System.out.println("aaa");
+            g.drawRect(rect.x, rect.y, rect.width, rect.height);
         }
+        
+        rects = new ArrayList<>();*/
+ 
     }
     
 }

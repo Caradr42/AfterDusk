@@ -5,15 +5,13 @@
  */
 package ECS.Systems;
 
-import ECS.Component;
-import ECS.Components.Sprite;
+import ECS.Components.Player;
 import ECS.Components.Transform;
-import ECS.Components.UIEntity;
 import ECS.SystemJob;
+import Maths.Vector2;
 import Scene.Scene;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowEvent;
-import java.util.HashSet;
+import Assets.Assets;
 
 /**
  * System that executes behabiour not associated with any entity
@@ -30,6 +28,9 @@ public class GameManagerSystem extends SystemJob{
     
     public static volatile boolean gameRunning = false;
     public static volatile boolean gameStarted = false;
+    int width;
+    int height;
+    int state;
     
     public GameManagerSystem(Scene scene, boolean active) {
         super(scene, active);
@@ -45,9 +46,16 @@ public class GameManagerSystem extends SystemJob{
         //executes ony when the  game starts
         //it activates the Systems necesary for GamePlay
         if(gameStarted){
-            
+            scene.c.ortogonalPosition.set(scene.entityManager.getEntityComponentInstance(scene.entityManager.getEntitiesWithComponents(Player.class).get(0), Transform.class).position.toVector2().scalar(scene.c.scale).sub(new Vector2(scene.display.width/2 - 16,scene.display.height/2 + 32)));
+
+            for(SystemJob sj: scene.systemJobManager.systemsList){
+                sj.active = true;
+            }
+            Assets.houseTheme.stop();
+            Assets.fatherTheme.play();
             gameStarted = false;
             gameRunning = true;
+            
         }
         if(gameRunning){
             
@@ -63,7 +71,7 @@ public class GameManagerSystem extends SystemJob{
                         && sj.getClass() != (MousePointerSystem.class)
                         //Expand here if any other system is necesary when the game is paused
                         ){
-                    System.out.println(sj.getClass());
+                    //System.out.println(sj.getClass());
                     if(sj.active){
                         sj.active = false;
                     }else{
@@ -72,12 +80,15 @@ public class GameManagerSystem extends SystemJob{
                 }
               }
             }
+        }else{
+            scene.c.ortogonalPosition.x ++;
         }
+        
     }
 
     @Override
     public void init() {
-        
+        Assets.houseTheme.play();
     }
 
     @Override

@@ -24,7 +24,7 @@ public class UIEntity extends Component implements UIChild{
     public int expectedParentWindow = 0;
     public boolean usesParentWindow = false;
     
-    public Integer parent;
+    public Integer parent = 0;
     public ArrayList<Integer> childs;
     
     public String name;
@@ -35,7 +35,7 @@ public class UIEntity extends Component implements UIChild{
     public boolean mainUI;
     public Rectangle UIcollider;
     
-    
+    public UIEntity _parentUI;
     public Sprite _uiSprite; //the sprite reference is updated in the sistem
     public Transform _uiTransform; //the transform reference is also updated in the sistem
     
@@ -81,6 +81,8 @@ public class UIEntity extends Component implements UIChild{
         //_visible = false; //this is updated in the system 
     }
     
+    
+    
 
     public UIEntity() {
     }
@@ -89,9 +91,24 @@ public class UIEntity extends Component implements UIChild{
     @Override
     public void UIRender(Graphics2D g, Scene s ){
         //System.out.println("Rendering UI: " + name + " where: " + _uiSprite + " : " + _uiTransform);
-        if(_uiSprite != null && _uiTransform != null && mainUI){
+        //if(mainUI) _uiSprite.visible = true;
+        
+        if(_uiSprite != null && _uiTransform != null && mainUI && _uiSprite.visible){
             //System.out.println("Rendering UI2w: " + name);
-            g.drawImage(_uiSprite.currentFrame, (int)_uiTransform.position.x, (int)_uiTransform.position.y, _uiSprite.width, _uiSprite.height, null);
+            if(parent != 0  ){
+                 if(_parentUI != null && _parentUI._uiSprite.visible){
+                   //System.out.println("not null");
+                    g.drawImage(_uiSprite.currentFrame, (int)_uiTransform.position.x, (int)_uiTransform.position.y, _uiSprite.width, _uiSprite.height, null);
+                }
+            }else{
+                g.drawImage(_uiSprite.currentFrame, (int)_uiTransform.position.x, (int)_uiTransform.position.y, _uiSprite.width, _uiSprite.height, null);
+            }
+            
+            /*if(_uiSprite.name.equals("item_selector")){
+                    System.out.println("Sprite: " + _uiSprite.visible);
+            }
+            g.drawImage(_uiSprite.currentFrame, (int)_uiTransform.position.x, (int)_uiTransform.position.y, _uiSprite.width, _uiSprite.height, null);*/
+
         }
         for(UIChild sub: UIChildsInterfaces){
             sub.UIRender(g, s);

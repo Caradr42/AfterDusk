@@ -45,27 +45,38 @@ public class MainWorld extends Scene {
         ArrayList<AttackCollider> playerColliders = new ArrayList<>();
 
         playerColliders.add(new AttackCollider(new Vector3(32, 32, 1), new Vector3(), 84, 36));
+        
+        ArrayList<AttackCollider> enemyColliders = new ArrayList<>();
+        
+        enemyColliders.add(new AttackCollider(new Vector3(64, 80, 1), new Vector3(), 0,0));
 
 //GAME START SCREEEN ENTITIES
     //UI BUTTONS
-        Entity newGameButton = entityManager.createEntityWithComponents("newGameButton", 
+        Entity continueButton = entityManager.createEntityWithComponents("continueButton", 
                 new Transform(0,0,0),
+                new Sprite("continueButton", true, 72, 15, 0 , new ArrayList<>(Arrays.asList("Button_48"))),
+                new UIEntity("continueButton", false, null),
+                new UIButton("continueButton"," CONTINUE", 1)
+        );
+        
+        Entity newGameButton = entityManager.createEntityWithComponents("newGameButton", 
+                new Transform(0,17,0),
                 new Sprite("newGameButton", true, 72, 15, 0 , new ArrayList<>(Arrays.asList("Button_48"))),
                 new UIEntity("newGameButton", false, null),
-                new UIButton("newGameButton"," New Game", 1)
+                new UIButton("newGameButton"," NEW GAME", 2)
         );
         
         Entity exitButton = entityManager.createEntityWithComponents("exitButton", 
-                new Transform(0,17,0),
+                new Transform(0,34,0),
                 new Sprite("exitButton", true, 72, 15, 0 , new ArrayList<>(Arrays.asList("Button_48"))),
                 new UIEntity("exitButton", false, null),
-                new UIButton("exitButton"," Exit Game", 2)
+                new UIButton("exitButton"," EXIT GAME", 3)
         );
     //UI ENTITIES
         Entity buttonsWrap = entityManager.createEntityWithComponents("buttonsWrap", 
                 new Transform(display.width / c.scale / 2 - 72/2 , display.height / c.scale / 2 - 15/2 ,0),
-                new Sprite("buttonsWrap", false, 72, 15, 0 , new ArrayList<>(Arrays.asList("null"))),
-                new UIEntity("buttonsWrap", true, new ArrayList<>(Arrays.asList(newGameButton.getID(), exitButton.getID())))
+                new Sprite("buttonsWrap", true, 72, 15, 0 , new ArrayList<>(Arrays.asList("null"))),
+                new UIEntity("buttonsWrap", true, new ArrayList<>(Arrays.asList(continueButton.getID(), newGameButton.getID(), exitButton.getID())))
         );
         
 ///ENTITIES      
@@ -76,17 +87,35 @@ public class MainWorld extends Scene {
         );
 
 
-    //ITEMS
-        /*Entity swordOne = entityManager.createEntityWithComponents("sword1",
-                new Item("sword1", true),
+    //ITEMS        
+        //TOOLS
+            //The sword Tool
+            Entity swordOne = entityManager.createEntityWithComponents("sword1",
+                    new Item("sword1", true),
+                    new Sprite("E_sword", true, 16, 16, 8, new ArrayList<>(Arrays.asList("E_sword"))),
+                    new Collidable(new Vector3(16, 16, 1)),
+                    new Tool(1),
+                    //the x and y of enemy are 90 and 90
+                    new Transform(new Vector3(0,0,16)),
+                    new AttackComponent(playerColliders),
+                    new WorldEntity(),
+                    new Electricity()
+        );
+
+        Entity swordTwo = entityManager.createEntityWithComponents("sword2",
+                new Item("sword2", true),
+                new Sprite("E_sword", false, 16, 16, 8, new ArrayList<>(Arrays.asList("E_sword"))),
                 new Collidable(new Vector3(16, 16, 1)),
-                new Tool(-1),
+                new Tool(1),
                 //the x and y of enemy are 90 and 90
-                new Transform(new Vector3(93, 93, 28)),
-                new AttackComponent(playerColliders)
-        );*/
+                new Transform(new Vector3(0, 0, 0)),
+                new AttackComponent(enemyColliders)
+        );
 
-
+        //------------
+        
+        //Regular Items
+            
         //A weird item in the players inventory
         Entity weirdItm = entityManager.createEntityWithComponents("weird",
                 new Item("weird", true),
@@ -110,7 +139,7 @@ public class MainWorld extends Scene {
     //INVENTORIES
         //enemy inventory     
         Entity enemyInv = entityManager.createEntityWithComponents("Enemy_Inventory",
-                new Inventory(0, 5, new ArrayList<>(Arrays.asList(weirdItm.getID())))
+                new Inventory(0, 5, new ArrayList<>(Arrays.asList(swordTwo.getID())))
         );
 
         //The player's internal inventories
@@ -119,11 +148,11 @@ public class MainWorld extends Scene {
         );
 
         Entity playerInv3 = entityManager.createEntityWithComponents("Player_Inventory3",
-                new Inventory(playerInv4.getID(), 6, new ArrayList<>(Arrays.asList(weirdItm.getID())))
+                new Inventory(playerInv4.getID(), 6, new ArrayList<>(Arrays.asList()))
         );
 
         Entity playerInv2 = entityManager.createEntityWithComponents("Player_Inventory2",
-                new Inventory(playerInv3.getID(), 6, new ArrayList<>(Arrays.asList(weirdItm.getID())))
+                new Inventory(playerInv3.getID(), 6, new ArrayList<>(Arrays.asList()))
         );
 
         Entity playerInv = entityManager.createEntityWithComponents("Player_Inventory",
@@ -131,7 +160,7 @@ public class MainWorld extends Scene {
         );
         //------
         Entity playerLR = entityManager.createEntityWithComponents("Player_LR_Inventory",
-                new Inventory(0, 2, new ArrayList<>(Arrays.asList(shieldItm.getID())))
+                new Inventory(0, 2, new ArrayList<>(Arrays.asList( swordOne.getID())))
         );
         //----
         Entity playerPassives3 = entityManager.createEntityWithComponents("Player_Passives_Inventory3",
@@ -232,6 +261,12 @@ public class MainWorld extends Scene {
                 new Sprite("player_position", true, 1, 1, 0, new ArrayList<>(Arrays.asList("effect2"))),
                 new UIEntity("player_position", false, 0, null)
         );
+        
+        Entity itemSelector = entityManager.createEntityWithComponents("item_selector",
+                new Transform(0,10),
+                new Sprite("item_selector", true, 18, 18, 10, new ArrayList<>(Arrays.asList("item_selector"))),
+                new UIEntity("item_selector", true, 0, null)
+        );
 
     //USER INTERFACES
         //The players Inventory user interface, has a reference to the player internal inventory
@@ -258,7 +293,7 @@ public class MainWorld extends Scene {
                 new Transform(16, display.height / c.scale - 28),
                 new Sprite("RL_bar", false, 48, 32, 0, new ArrayList<>(Arrays.asList("RL_bar"))),
                 new UIEntity("RL_bar", true,
-                        new ArrayList<>(Arrays.asList(LRUIInventory.getID())))
+                        new ArrayList<>(Arrays.asList(LRUIInventory.getID(), itemSelector.getID())))
         );
         
 
@@ -273,7 +308,7 @@ public class MainWorld extends Scene {
 
     //PLAYABLE ENTITIES
         Entity player = entityManager.createEntityWithComponents("Player",
-                new Transform(new Vector3(50, 50, 32)),
+                new Transform(new Vector3(100, 100, 32)),
                 new Sprite("sprite", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down", "player_up", "player_left", "player_right"))),
                 new WorldEntity(),
                 new Player("player", playerLR.getID(), playerPassives.getID(), playerActives.getID()),
@@ -282,8 +317,9 @@ public class MainWorld extends Scene {
 
         );
 
+
         //This item goes here because its transform is a child of the player's transform
-        Entity swordOne = entityManager.createEntityWithComponents("sword1",
+      /*  Entity swordOne = entityManager.createEntityWithComponents("sword1",
                 new Item("sword1", true),
                 new Collidable(new Vector3(16, 16, 1)),
                 new Tool(-1),
@@ -291,14 +327,18 @@ public class MainWorld extends Scene {
                 new Transform(new Vector3(), player.getID()),
                 new AttackComponent(playerColliders),
                 new Electricity()
-        );
+        );*/
 
-        entityManager.createEntityWithComponents("Enemy1",
-                new Transform(new Vector3(90, 90, 48)),
+
+
+        Entity enemy = entityManager.createEntityWithComponents("Enemy1",
+                new Transform(new Vector3(200, 90, 48)),
+                new Enemy(),
                 new Sprite("enemy", true, 64, 80, 10, new ArrayList<>(Arrays.asList("enemy"))),
                 new WorldEntity(),
                 new Collidable(new Vector3(64, 80, 1)),
                 new Playable(300, enemyInv.getID(), new Vector3(1.5, 1.5, 0)));
+
 
 
     //TILES 
@@ -329,7 +369,7 @@ public class MainWorld extends Scene {
         //Example log
         entityManager.createEntityWithComponents("wood",
                         new Tile("log" + Integer.toString(200) + "_" + Integer.toString(200),true,log,log),
-                        new Transform(200,200,64),
+                        new Transform(200,200,32),
                         log, new WorldEntity()
                 );
         entityManager.createEntityWithComponents("wood",
@@ -348,14 +388,14 @@ public class MainWorld extends Scene {
         //System.err.println("MainWorld Tread: " + Thread.currentThread());
         entityManager.createEntityWithComponents("grass",
                 new Tile("grass2", grassTopSprite, grassSideSprite),
-                new Transform(new Vector3(-80, -80, 32)),
+                new Transform(new Vector3(-80, -80, 48)),
                 grassTopSprite,
                 new WorldEntity()
         //new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
         );
 
         //the sword one will be in the right hand of the player
-        entityManager.getEntityComponentInstance(player, (new Player()).getClass()).rightHand = swordOne.getID();
+        //entityManager.getEntityComponentInstance(player, (new Player()).getClass()).rightHand = swordOne.getID();
 
     }
 
@@ -369,11 +409,11 @@ public class MainWorld extends Scene {
       
                 new CollisionEntityWeapon(this, true),
                 new CollisionSystem(this, true),
-                new EnemySystem(this, true),
+                new EnemySystem(this, false),
                 new GameManagerSystem(this, true),
                 new ItemSystem(this, true),
                 new MousePointerSystem(this, true),
-                new PlayerSystem(this, true),
+                new PlayerSystem(this, false),
                 new SpriteSystem(this, true),
                 new TileSystem(this, true),
                 new TransformSystem(this, true),
@@ -382,10 +422,13 @@ public class MainWorld extends Scene {
                 new UIInventorySystem(this, true),
                 new UITextSystem(this, true),
                 new WeaponColliderPositionSystem(this, true),
+
                 new RenderSystem(this, true),
                 new ActiveSystem(this, true),
-                new ElectricSystem(this, true)
-                
+                new ElectricSystem(this, true),
+                new InventorySystem(this, true)
+
+
         );
     }
 }

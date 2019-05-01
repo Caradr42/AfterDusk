@@ -1,11 +1,13 @@
 /*
  * System to update the positions of the weapon colliders relative to the
- * player or playable that helds the weapons(relative to the upper left corner)
+ * player or enemies that helds the weapons(relative to the upper left corner)
  */
 package ECS.Systems;
 
 import ECS.Components.AttackCollider;
 import ECS.Components.AttackComponent;
+import ECS.Components.Enemy;
+import ECS.Components.Inventory;
 import ECS.Components.Playable;
 import ECS.Components.Player;
 import ECS.Components.Sprite;
@@ -16,6 +18,7 @@ import Maths.Vector3;
 import Scene.Scene;
 import java.awt.Rectangle;
 import static java.lang.Math.abs;
+import java.util.ArrayList;
 
 /**
  *
@@ -25,6 +28,8 @@ public class WeaponColliderPositionSystem extends SystemJob{
     
     Player player;
     Playable playerPlayable;
+    Playable playable;
+    Inventory playerLRInventory;
     
     AttackCollider attackCollider;
     AttackComponent attackComponent;
@@ -42,46 +47,121 @@ public class WeaponColliderPositionSystem extends SystemJob{
     @Override
     public void update() {
        updatePlayerColliders(); 
-       
-       
+       updateEnemyColliders();
     }
 
     @Override
     public void init() {
         
         player = new Player();
-        
         playerPlayable = new Playable();
-        
         attackCollider = new AttackCollider();
-        
         attackComponent = new AttackComponent();
-        
         transform = new Transform();
-        
         sprite = new Sprite();
+        playerLRInventory = new Inventory();
+        entities = new ArrayList<>();
         
         //we only have one player
         playerID = scene.entityManager.getEntitiesWithComponents(player.getClass()).get(0);
-        
         player = scene.entityManager.getEntityComponentInstance(playerID, player.getClass());
-        
         playerPlayable = scene.entityManager.getEntityComponentInstance(playerID, playerPlayable.getClass());
+        playerLRInventory = scene.entityManager.getEntityComponentInstance(player.LRInventory, Inventory.class);
+    
+        entities = scene.entityManager.getEntitiesWithComponents(Playable.class);
     }
 
     @Override
     public void onCreate() {
-        
     }
 
     @Override
     public void onDestroy() {
-
     }
     
-    public void updatePlayerColliders() {
+    public void updatePlayerColliders() {   
+        
+        /*
+        //for each entity
+        for(Integer e : entities) {
+            playable = scene.entityManager.getEntityComponentInstance(e, Playable.class);
+            sprite = scene.entityManager.getEntityComponentInstance(e, Sprite.class);
+            transform = scene.entityManager.getEntityComponentInstance(e, Transform.class);
+            
+            //width of the entity
+            int entityWidth = sprite.width;
+            
+            //height of the entity
+            int entityHeight = sprite.height;
+            
+            //if the entity is using a weapon
+            if(playable.hasWeapon) {
+                
+                if()
+                //get the colliders of the weapon
+                attackComponent = scene.entityManager.getEntityComponentInstance(e, AttackComponent.class);
+            
+                //for each collider of the weapon
+                for(AttackCollider at : attackComponent.arrColliders) {
+                    //if it is not an area attack
+                    if (!at.areaAttack) {
+                        if (playable.up) {
+                            at.relativePosition.x = -at.b / 2 + entityWidth / 2;
+
+                            at.relativePosition.y = - entityHeight - at.a + transform.position.z;
+
+                            //the y is the height of the collider
+                            at.hitbox.y = at.a;
+
+                            //the x is the width of the collider
+                            at.hitbox.x = at.b;
+                        } else if (playable.down) {
+                            // System.out.println("Down");
+                            at.relativePosition.x = -at.b / 2 + entityWidth / 2;
+
+                            at.relativePosition.y = transform.position.z;
+
+                            at.hitbox.y = at.a;
+
+                            at.hitbox.x = at.b;
+                        }
+                        else if (playable.right) {
+                            //System.out.println("Right");
+
+                            at.relativePosition.x = entityWidth;
+                            //at.a
+
+                            at.relativePosition.y = -at.b / 2 - entityHeight / 2 + transform.position.z;
+                            //- playerHeight
+
+                            at.hitbox.y = at.b;
+
+                            at.hitbox.x = at.a;
+                        }
+                        
+                        else if (playable.left) {
+                            //System.out.println("Left");
+                            at.relativePosition.x = -at.a;
+
+                            at.relativePosition.y = -at.b / 2 - entityHeight / 2 + transform.position.z;
+
+                            at.hitbox.y = at.b;
+
+                            at.hitbox.x = at.a;
+                        }
+                    }
+                    
+                    //else, if it is an area attack
+                    else {
+                        
+                    }
+                }
+            
+            }
+        }*/
         
         
+   
         
         Integer rightTool;
         Integer leftTool;
@@ -91,19 +171,11 @@ public class WeaponColliderPositionSystem extends SystemJob{
         rightComponent = new AttackComponent();
         
         leftComponent = new AttackComponent();
-        
-        //relative position X and Y of the collider to the player
-        double relPosX;
-        double relPosY;
-        
-        double height;
-        double width;
-        
-        //vector of the position of the player
-        Vector3 posPlayer = scene.entityManager.getEntityComponentInstance(playerID, transform.getClass()).position;
-        
+                       
         //sprite of the player
         sprite = scene.entityManager.getEntityComponentInstance(playerID, sprite.getClass());
+        
+        transform = scene.entityManager.getEntityComponentInstance(playerID, Transform.class);
         
         //width of the player
         int playerWidth = sprite.width;
@@ -111,23 +183,20 @@ public class WeaponColliderPositionSystem extends SystemJob{
         //height of the player
         int playerHeight = sprite.height;
         
-        //System.out.println("playerCols");
-        
-        
         //if the player has a right hand weapon
         if(player.boolRight) {
             //obtain its ID
-            rightTool = scene.entityManager.getEntityByID(player.rightHand).getID();
+            rightTool = playerLRInventory.slots.get(1);
             
             //colliders of the right weapon
-            rightComponent= scene.entityManager.getEntityComponentInstance(rightTool, attackComponent.getClass());    
+            rightComponent = scene.entityManager.getEntityComponentInstance(rightTool, attackComponent.getClass());    
         
             //System.out.println(scene.entityManager.getEntityByID(rightTool).getName());
         }
         
         //if the player has a left hand weapon
         if(player.boolLeft) {
-            leftTool = scene.entityManager.getEntityByID(player.leftHand).getID();
+            leftTool =  playerLRInventory.slots.get(0);
             
             //colliders of the left weapon
             leftComponent= scene.entityManager.getEntityComponentInstance(leftTool, attackComponent.getClass());
@@ -144,7 +213,7 @@ public class WeaponColliderPositionSystem extends SystemJob{
                     //System.out.println("Up");
                     at.relativePosition.x = -at.b / 2 + playerWidth / 2;
                     
-                    at.relativePosition.y = - playerHeight - at.a;
+                    at.relativePosition.y = - playerHeight - at.a + transform.position.z;
                     
                     //the y is the height of the collider
                     at.hitbox.y = at.a;
@@ -161,7 +230,7 @@ public class WeaponColliderPositionSystem extends SystemJob{
 
                     at.relativePosition.x = -at.b / 2 + playerWidth / 2;
                     
-                    at.relativePosition.y = - playerHeight - at.a;
+                    at.relativePosition.y = - playerHeight - at.a + transform.position.z;
                     
                     //the y is the height of the collider
                     at.hitbox.y = at.a;
@@ -178,7 +247,7 @@ public class WeaponColliderPositionSystem extends SystemJob{
                    // System.out.println("Down");
                     at.relativePosition.x = -at.b / 2 + playerWidth / 2;
                     
-                    at.relativePosition.y = 0;
+                    at.relativePosition.y = transform.position.z;
                     
                     at.hitbox.y = at.a;
                     
@@ -192,7 +261,7 @@ public class WeaponColliderPositionSystem extends SystemJob{
                 for (AttackCollider at : leftComponent.arrColliders) {
                     at.relativePosition.x = -at.b / 2 + playerWidth / 2;
                     
-                    at.relativePosition.y = 0;
+                    at.relativePosition.y = transform.position.z;
                     
                     at.hitbox.y = at.a;
                     
@@ -209,7 +278,7 @@ public class WeaponColliderPositionSystem extends SystemJob{
                     //System.out.println("Left");
                     at.relativePosition.x = - at.a;
 
-                    at.relativePosition.y = - at.b / 2 - playerHeight / 2;
+                    at.relativePosition.y = - at.b / 2 - playerHeight / 2 + transform.position.z;
 
                     at.hitbox.y = at.b;
 
@@ -223,7 +292,7 @@ public class WeaponColliderPositionSystem extends SystemJob{
                 for (AttackCollider at : leftComponent.arrColliders) {
                     at.relativePosition.x = - at.a;
 
-                    at.relativePosition.y = - at.b / 2 - playerHeight / 2;
+                    at.relativePosition.y = - at.b / 2 - playerHeight / 2 + transform.position.z;
 
                     at.hitbox.y = at.b;
 
@@ -245,7 +314,7 @@ public class WeaponColliderPositionSystem extends SystemJob{
                     at.relativePosition.x = playerWidth;
                     //at.a
 
-                    at.relativePosition.y = - at.b / 2 - playerHeight / 2;
+                    at.relativePosition.y = - at.b / 2 - playerHeight / 2 + transform.position.z;
                     //- playerHeight
 
                     at.hitbox.y = at.b;
@@ -269,6 +338,21 @@ public class WeaponColliderPositionSystem extends SystemJob{
             }
             
         }
+    }
+    
+    public void updateEnemyColliders() {
+        /*
+        //ID of the weapon of the enemy. It is always in the first position of its inventory
+        Integer weapon;
+        
+        Enemy enemy = new Enemy();
+        
+        ArrayList<Integer> enemies = scene.entityManager.getEntitiesWithComponents(Enemy.class);
+        
+        //For each enemy
+        for(Integer idEnemy : enemies) {
+            enemy = scene.entityManager.getEntityByID(idEnemy);
+        }*/
     }
 
 }

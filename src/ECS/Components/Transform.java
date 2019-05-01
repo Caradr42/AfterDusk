@@ -21,9 +21,10 @@ public class Transform extends Component{
     public Integer parent;
     public ArrayList<Integer> childs;
     
-    public Vector3 previousPosition;
+    public Vector3 _previousPosition;
     public Vector3 position;
     public Vector3 relativePosition;
+    public int renderedY;
 
     public Transform() {
     }
@@ -34,23 +35,19 @@ public class Transform extends Component{
      */
     public Transform(Vector3 position) {
         this.position = position;
-        this.previousPosition = position;
+        this._previousPosition = position;
+        renderedY = (int)(position.y - position.z);
+        
         parent = 0;
         childs = new ArrayList<>();
     }
     
     public Transform(double x, double y, double z) {
-        this.position = new Vector3(x, y, z);
-        this.previousPosition = position;
-        parent = 0;
-        childs = new ArrayList<>();
+        this(new Vector3(x, y, z));        
     }
     
     public Transform(double x, double y) {
-        this.position = new Vector3(x, y, 0);
-        this.previousPosition = position;
-        parent = 0;
-        childs = new ArrayList<>();
+        this(new Vector3(x, y, 0));        
     }
     
     /**
@@ -59,14 +56,12 @@ public class Transform extends Component{
      * @param childs 
      */
     public Transform(Vector3 position, ArrayList<Integer> childs) {
+        this(position);        
         if(childs != null){
             this.childs = childs;
         }else{
             this.childs = new ArrayList<>();
-        }
-        this.position = position;
-        this.previousPosition = position;
-        parent = 0;
+        } 
     }
     
     /**
@@ -82,18 +77,14 @@ public class Transform extends Component{
             this.childs = new ArrayList<>();
         }
         this.relativePosition = relativePosition;
-        this.previousPosition = relativePosition;
+        this._previousPosition = relativePosition;
+        renderedY = (int)(position.y - position.z);
+        
         this.position = relativePosition;
         this.parent = parent;
     }
     
     public Transform(Vector3 relativePosition, Integer parent) {
-        
-        this.childs = new ArrayList<>();
-        
-        this.relativePosition = relativePosition;
-        this.previousPosition = relativePosition;
-        this.position = relativePosition;
-        this.parent = parent;
+        this(relativePosition, parent, null);
     }
 }

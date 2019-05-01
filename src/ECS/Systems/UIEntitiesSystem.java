@@ -4,6 +4,7 @@ import Assets.Assets;
 import ECS.Component;
 import ECS.Components.Item;
 import ECS.Components.MousePointer;
+import ECS.Components.Player;
 import ECS.Components.Sprite;
 import ECS.Components.Transform;
 import ECS.Components.UIButton;
@@ -44,15 +45,13 @@ public class UIEntitiesSystem extends SystemJob{
     UIEntity parentUIEntity;
     
     //player with an inventory to show
-    ArrayList<Integer> player;
+    Player player;
     
     //UIEntity subclasses //add as needed
     UIInventory uiInventory;
     UIButton uiButton;
     UIText uIText;
     //**//
-    
-    boolean PlayerInventoryBuffer;
     
     //Pointer info
     ArrayList<Integer> mousePointers;
@@ -64,9 +63,12 @@ public class UIEntitiesSystem extends SystemJob{
     Item item; //for the is in inventory boolean
     //the _visible boolean in sprite is automatically updated 
     
+    //CONSTS
+    final Vector3 leftLR = new Vector3(0,10,0);
+    final Vector3 rightLR = new Vector3(17,10,0);
+    
     public UIEntitiesSystem(Scene scene, boolean active) {
         super(scene, active);
-        PlayerInventoryBuffer = false;
         
         uiEntity = new UIEntity();
         uiSprite = new Sprite();
@@ -85,6 +87,8 @@ public class UIEntitiesSystem extends SystemJob{
         mousePointers = new ArrayList<>();
         mousePointer = new MousePointer();
         
+        player = new Player();
+        
         itemTransform = new Transform();
         item = new Item();
     }
@@ -93,12 +97,17 @@ public class UIEntitiesSystem extends SystemJob{
     public void update() {
         pointerOutsideUI = true;
         
+        
         for(Integer e: entities){
             
             uiEntity = scene.entityManager.getEntityComponentInstance(e, uiEntity.getClass());
             uiSprite = scene.entityManager.getEntityComponentInstance(e, uiSprite.getClass());
             uiTransform = scene.entityManager.getEntityComponentInstance(e, uiTransform.getClass());
-                        
+            
+            /*if(uiEntity.name.equals("item_selector")){
+                System.out.println("Sprite: " + uiSprite.visible);
+            }*/
+            
             //update UI collider Position
             uiEntity.UIcollider.setLocation((int)uiTransform.position.x, (int)uiTransform.position.y);
             
@@ -125,57 +134,72 @@ public class UIEntitiesSystem extends SystemJob{
                 }else{
                     childSprite.visible = uiSprite.visible;
                 }
-            }
-            
-                                                
-            //input             
-            if(uiEntity.name.equals("menu")){ 
-                if(scene.display.keyManager.wasPressed[KeyEvent.VK_ESCAPE]){
-                    Assets.menu.play();
-                    if(uiSprite.visible){                            
-                            uiSprite.visible = false;
-                    }else{
-                        uiSprite.visible = true;
-                    }
-                }                                          
-            }
-            if(uiEntity.name.equals("actives_bar") || uiEntity.name.equals("RL_bar")){ 
-                if(scene.display.keyManager.wasPressed[KeyEvent.VK_TAB]){
-                    Assets.menu.play();
-                    if(uiSprite.visible){                            
-                            uiSprite.visible = false;
-                    }else{
-                        uiSprite.visible = true;
-                    }
-                }
-            }
-            
-            if(uiEntity.name.equals("Player_Inventory")){ 
-                //ystem.out.println((int)mousePointer.position.x + " " + (int)mousePointer.position.y);
-                if(scene.display.keyManager.wasPressed[KeyEvent.VK_X] || scene.display.keyManager.wasPressed[KeyEvent.VK_I] || scene.display.keyManager.wasPressed[KeyEvent.VK_Q]){
-                    Assets.menu.play();
-                    if(uiSprite.visible){                            
-                            uiSprite.visible = false;
-                    }else{
-                        uiSprite.visible = true;
-                    }
-                }
                 
-                /*if(scene.display.keyManager.up){
-                    uiTransform.position = uiTransform.position.add(new Vector3(0,-2,0));
-                }
-                if(scene.display.keyManager.down){
-                    uiTransform.position = uiTransform.position.add(new Vector3(0,2,0));
-                }
-                if(scene.display.keyManager.right){
-                    uiTransform.position = uiTransform.position.add(new Vector3(2,0,0));
-                }
-                if(scene.display.keyManager.left){
-                    uiTransform.position = uiTransform.position.add(new Vector3(-2,0,0));
+                /*if(childUIEntity.name.equals("item_selector")){
+                    System.out.println("Sprite: " + uiSprite.visible);
                 }*/
             }
             
             
+            //INPUT 
+            //Cannot open other UI while in init game screen
+            if(GameManagerSystem.gameRunning){          
+                //INPUT             
+                if(uiEntity.name.equals("menu")){ 
+                    if(scene.display.keyManager.wasPressed[KeyEvent.VK_ESCAPE]){
+                        Assets.menu.play();
+                        if(uiSprite.visible){                            
+                                uiSprite.visible = false;
+                        }else{
+                            uiSprite.visible = true;
+                        }
+                    }                                          
+                }
+                if(uiEntity.name.equals("actives_bar") || uiEntity.name.equals("RL_bar")){ 
+                    if(scene.display.keyManager.wasPressed[KeyEvent.VK_TAB]){
+                        Assets.menu.play();
+                        if(uiSprite.visible){                            
+                                uiSprite.visible = false;
+                        }else{
+                            uiSprite.visible = true;
+                        }
+                    }
+                }
+
+                if(uiEntity.name.equals("Player_Inventory")){ 
+                    //ystem.out.println((int)mousePointer.position.x + " " + (int)mousePointer.position.y);
+                    if(scene.display.keyManager.wasPressed[KeyEvent.VK_X] || scene.display.keyManager.wasPressed[KeyEvent.VK_I] || scene.display.keyManager.wasPressed[KeyEvent.VK_Q]){
+                        Assets.menu.play();
+                        if(uiSprite.visible){                            
+                                uiSprite.visible = false;
+                        }else{
+                            uiSprite.visible = true;
+                        }
+                    }
+
+                    /*if(scene.display.keyManager.up){
+                        uiTransform.position = uiTransform.position.add(new Vector3(0,-2,0));
+                    }
+                    if(scene.display.keyManager.down){
+                        uiTransform.position = uiTransform.position.add(new Vector3(0,2,0));
+                    }
+                    if(scene.display.keyManager.right){
+                        uiTransform.position = uiTransform.position.add(new Vector3(2,0,0));
+                    }
+                    if(scene.display.keyManager.left){
+                        uiTransform.position = uiTransform.position.add(new Vector3(-2,0,0));
+                    }*/
+                }
+                
+                if(uiEntity.name.equals("item_selector")){
+                    if(player.rightOrLeft){
+                        uiTransform.relativePosition = rightLR;
+                    }else{
+                        uiTransform.relativePosition = leftLR;
+                    }
+                }
+            }
+           
             
             uiSprite.animation = uiSprite.animations.get(uiEntity.window).first;
         } 
@@ -207,6 +231,7 @@ public class UIEntitiesSystem extends SystemJob{
         mousePointers = scene.entityManager.getEntitiesWithComponents(mousePointer.getClass());
         mousePointer = scene.entityManager.getEntityComponentInstance(mousePointers.get(0), mousePointer.getClass());
         
+        player = scene.entityManager.getEntityComponentInstance(scene.entityManager.getEntitiesWithComponents(Player.class).get(0), Player.class);
         //for each UIentity, it initializes it
         for(Integer e: entities){
             uiEntity = scene.entityManager.getEntityComponentInstance(e, uiEntity.getClass());
@@ -214,9 +239,12 @@ public class UIEntitiesSystem extends SystemJob{
             uiTransform = scene.entityManager.getEntityComponentInstance(e, uiTransform.getClass());
             
             
+            
             //update the sprite and transform references in the inventoryUI
             uiEntity._uiSprite = uiSprite;
             uiEntity._uiTransform = uiTransform;
+            
+            
             
             //Adds the UI entities childs as childs of the Transform
             uiTransform.childs.addAll(uiEntity.childs);
@@ -244,13 +272,23 @@ public class UIEntitiesSystem extends SystemJob{
             //System.out.println(instances);
             uiEntity.UIChildsInterfaces.addAll(instances);
             instances.clear();
-            //System.out.println("--------------");
             
-            ///sprite stuff
             
-            //uiEntity._visible = uiSprite.visible;
             
             uiEntity.UIcollider = new Rectangle((int)uiTransform.position.x, (int)uiTransform.position.y, uiSprite.width, uiSprite.height);
+        }
+        
+        for(Integer e: entities){
+            uiEntity = scene.entityManager.getEntityComponentInstance(e, uiEntity.getClass());
+            uiSprite = scene.entityManager.getEntityComponentInstance(e, uiSprite.getClass());
+            uiTransform = scene.entityManager.getEntityComponentInstance(e, uiTransform.getClass());
+            
+            if(uiEntity.parent != 0){
+                parentUIEntity = scene.entityManager.getEntityComponentInstance(uiEntity.parent, UIEntity.class);
+                uiEntity._parentUI = parentUIEntity;
+            }else{
+                uiEntity._parentUI = null;
+            }
         }
         
         

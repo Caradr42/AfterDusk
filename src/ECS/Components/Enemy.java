@@ -5,10 +5,12 @@
  */
 package ECS.Components;
 
+import ECS.Component;
+
 /**
  *
- * @author pablo
+ * @author MARTHA
  */
-class vector3 {
+public class Enemy extends Component{
     
 }
