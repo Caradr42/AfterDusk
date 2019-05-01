@@ -35,7 +35,7 @@ public class CollisionEntityWeapon extends SystemJob{
 
    
     private ArrayList<Integer> arrAttack;
-    private ArrayList<Integer>arrCollidable;
+    private ArrayList<Integer> arrCollidable;
     private static Rectangle  rectangle;
     
     private int playerID;
@@ -225,12 +225,12 @@ public class CollisionEntityWeapon extends SystemJob{
         
         System.out.println(rects.size());
         
-        for(Rectangle rect  : rects) {
+        /*for(Rectangle rect  : rects) {
             System.out.println("aaa");
             g.drawRect(rect.x, rect.y, rect.width, rect.height);
         }
         
-        rects = new ArrayList<>();
+        rects = new ArrayList<>();*/
  
     }
     

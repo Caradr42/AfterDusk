@@ -47,7 +47,7 @@ public class RenderSystem extends SystemJob{
     private ArrayList<Integer> UIentities; //this are entities that are UI elements
     private ArrayList<Integer> mousePointers;
 
-    private ArrayList<Integer> colliders; // colliders of weapons
+    private ArrayList<Integer> attackComponents; // attackComponents of weapons
 
     private ArrayList<Integer> collidables;
     
@@ -86,9 +86,7 @@ public class RenderSystem extends SystemJob{
         uiEntity = new UIEntity();
         mousePointer = new MousePointer();
 
-        
         attackComponent = new AttackComponent();
-
         collidable = new Collidable();
 
     }
@@ -113,8 +111,8 @@ public class RenderSystem extends SystemJob{
       //Fetch mouse pointers
       mousePointers = scene.entityManager.getEntitiesWithComponents(mousePointer.getClass());
 
-
-      colliders = scene.entityManager.getEntitiesWithComponents(attackComponent.getClass());
+      //fetch weapon attack components
+      attackComponents = scene.entityManager.getEntitiesWithComponents(attackComponent.getClass());
 
       //Fetch collidables
       collidables = scene.entityManager.getEntitiesWithComponents(Collidable.class);
@@ -146,7 +144,17 @@ public class RenderSystem extends SystemJob{
             for(Integer col: collidables){
                 collidable = scene.entityManager.getEntityComponentInstance(col, Collidable.class);
                 transform = scene.entityManager.getEntityComponentInstance(col, Transform.class);
-                if(collidable.active) g.drawRect((int)transform.position.x, (int)transform.renderedY, (int)collidable.hitbox.x, (int)collidable.hitbox.y);
+                if(collidable.active)   g.drawRect((int)transform.position.x, (int)transform.renderedY, (int)collidable.hitbox.x, (int)collidable.hitbox.y);
+            }
+            
+            for(Integer attk : attackComponents){
+                attackComponent = scene.entityManager.getEntityComponentInstance(attk, AttackComponent.class);
+                transform = scene.entityManager.getEntityComponentInstance(attk, Transform.class);
+                
+                for(AttackCollider attkCol : attackComponent.arrColliders){
+                    //transform.position.add(attkCol.relativePosition)
+                    if(attkCol.active)  g.drawRect((int)transform.position.add(attkCol.relativePosition).x, (int)(transform.position.add(attkCol.relativePosition).y - transform.position.z), (int)attkCol.hitbox.x, (int)attkCol.hitbox.y);                
+                }
             }
         }
         
@@ -183,8 +191,8 @@ public class RenderSystem extends SystemJob{
             inventory.render(g);
         }*/
         
-        //render the colliders
-       /* for(Integer p : colliders) {
+        //render the attackComponents
+       /* for(Integer p : attackComponents) {
             attackComponent = scene.entityManager.getEntityComponentInstance(p, attackComponent.getClass());
         
             for(AttackCollider ate : attackComponent.arrColliders) {
