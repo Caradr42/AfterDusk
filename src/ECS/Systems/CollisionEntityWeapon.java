@@ -117,7 +117,7 @@ public class CollisionEntityWeapon extends SystemJob{
 
         arrAttack = scene.entityManager.getEntitiesWithComponents(attackComponent.getClass(), tool.getClass());
 
-        arrCollidable = scene.entityManager.getEntitiesWithComponents(collidable.getClass());
+        arrCollidable = scene.entityManager.getEntitiesWithComponents(collidable.getClass(), Playable.class);
         
 
         for(int i = 0; i < arrAttack.size(); i++) {
@@ -181,7 +181,7 @@ public class CollisionEntityWeapon extends SystemJob{
             if (wpnRect.intersects(collRect)) {
                 areColliding.add(arrCollider);
                 arrCollider.collidesWith.add(j);
-                //System.out.println("Colliding with " + scene.entityManager.getEntityByID(arrCollider.collidesWith.get(arrCollider.collidesWith.size() - 1)).getName());
+                System.out.println("Colliding with " + scene.entityManager.getEntityByID(arrCollider.collidesWith.get(arrCollider.collidesWith.size() - 1)).getName());
             }
         }
 

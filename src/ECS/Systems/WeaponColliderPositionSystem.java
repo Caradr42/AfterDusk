@@ -81,7 +81,7 @@ public class WeaponColliderPositionSystem extends SystemJob{
     
     public void updatePlayerColliders() {   
         
-        
+        /*
         //for each entity
         for(Integer e : entities) {
             playable = scene.entityManager.getEntityComponentInstance(e, Playable.class);
@@ -96,6 +96,8 @@ public class WeaponColliderPositionSystem extends SystemJob{
             
             //if the entity is using a weapon
             if(playable.hasWeapon) {
+                
+                if()
                 //get the colliders of the weapon
                 attackComponent = scene.entityManager.getEntityComponentInstance(e, AttackComponent.class);
             
@@ -156,11 +158,11 @@ public class WeaponColliderPositionSystem extends SystemJob{
                 }
             
             }
-        }
+        }*/
         
         
    
-        /*
+        
         Integer rightTool;
         Integer leftTool;
         
@@ -335,7 +337,7 @@ public class WeaponColliderPositionSystem extends SystemJob{
                 }
             }
             
-        }*/
+        }
     }
     
     public void updateEnemyColliders() {

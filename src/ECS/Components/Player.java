@@ -32,7 +32,8 @@ public class Player extends Component{
     public boolean boolRight;
     public boolean boolLeft;
     
-    public boolean rightOrLeft = false;
+    //true if right
+    public boolean rightOrLeft = true;
 
     public Integer LRInventory;
     
