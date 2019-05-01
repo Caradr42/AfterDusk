@@ -6,6 +6,7 @@ package ECS.Systems;
 
 import ECS.Components.AttackCollider;
 import ECS.Components.AttackComponent;
+import ECS.Components.Inventory;
 import ECS.Components.Playable;
 import ECS.Components.Player;
 import ECS.Components.Sprite;
@@ -25,6 +26,7 @@ public class WeaponColliderPositionSystem extends SystemJob{
     
     Player player;
     Playable playerPlayable;
+    Inventory playerLRInventory;
     
     AttackCollider attackCollider;
     AttackComponent attackComponent;
@@ -42,47 +44,35 @@ public class WeaponColliderPositionSystem extends SystemJob{
     @Override
     public void update() {
        updatePlayerColliders(); 
-       
-       
     }
 
     @Override
     public void init() {
         
         player = new Player();
-        
         playerPlayable = new Playable();
-        
         attackCollider = new AttackCollider();
-        
         attackComponent = new AttackComponent();
-        
         transform = new Transform();
-        
         sprite = new Sprite();
+        playerLRInventory = new Inventory();
         
         //we only have one player
         playerID = scene.entityManager.getEntitiesWithComponents(player.getClass()).get(0);
-        
         player = scene.entityManager.getEntityComponentInstance(playerID, player.getClass());
-        
         playerPlayable = scene.entityManager.getEntityComponentInstance(playerID, playerPlayable.getClass());
+        playerLRInventory = scene.entityManager.getEntityComponentInstance(player.LRInventory, Inventory.class);
     }
 
     @Override
     public void onCreate() {
-        
     }
 
     @Override
     public void onDestroy() {
-
     }
     
-    public void updatePlayerColliders() {
-        
-        
-        
+    public void updatePlayerColliders() {   
         Integer rightTool;
         Integer leftTool;
         
@@ -91,17 +81,7 @@ public class WeaponColliderPositionSystem extends SystemJob{
         rightComponent = new AttackComponent();
         
         leftComponent = new AttackComponent();
-        
-        //relative position X and Y of the collider to the player
-        double relPosX;
-        double relPosY;
-        
-        double height;
-        double width;
-        
-        //vector of the position of the player
-        Vector3 posPlayer = scene.entityManager.getEntityComponentInstance(playerID, transform.getClass()).position;
-        
+                       
         //sprite of the player
         sprite = scene.entityManager.getEntityComponentInstance(playerID, sprite.getClass());
         
@@ -111,23 +91,20 @@ public class WeaponColliderPositionSystem extends SystemJob{
         //height of the player
         int playerHeight = sprite.height;
         
-        //System.out.println("playerCols");
-        
-        
         //if the player has a right hand weapon
         if(player.boolRight) {
             //obtain its ID
-            rightTool = scene.entityManager.getEntityByID(player.rightHand).getID();
+            rightTool = playerLRInventory.slots.get(1);
             
             //colliders of the right weapon
-            rightComponent= scene.entityManager.getEntityComponentInstance(rightTool, attackComponent.getClass());    
+            rightComponent = scene.entityManager.getEntityComponentInstance(rightTool, attackComponent.getClass());    
         
-            //System.out.println(scene.entityManager.getEntityByID(rightTool).getName());
+            System.out.println(scene.entityManager.getEntityByID(rightTool).getName());
         }
         
         //if the player has a left hand weapon
         if(player.boolLeft) {
-            leftTool = scene.entityManager.getEntityByID(player.leftHand).getID();
+            leftTool =  playerLRInventory.slots.get(0);
             
             //colliders of the left weapon
             leftComponent= scene.entityManager.getEntityComponentInstance(leftTool, attackComponent.getClass());

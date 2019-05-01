@@ -23,8 +23,8 @@ public class Camera {
 
     public Vector2 worldPosition;
 
-    public Vector2 position1;
-    public Vector2 position2;
+    //public Vector2 position1;
+    //public Vector2 position2;
     Player player;
     Transform transform;
 
@@ -60,8 +60,8 @@ public class Camera {
   //      transform.getClass();
   
         //System.out.println("position" + transform.position.);
-        position1 = new Vector2();
-        position2 = new Vector2();
+        //position1 = new Vector2();
+        //position2 = new Vector2();
     }
     /*private void init(){
         at = new AffineTransform();
@@ -89,7 +89,6 @@ public class Camera {
         if(display.getKeyManager().keys[KeyEvent.VK_L]) {
             ortogonalPosition.set(ortogonalPosition.x + 6,ortogonalPosition.y);
         }
-<<<<<<< HEAD
         worldPosition.set(ortogonalPosition.div(scale));
         
         */
@@ -109,7 +108,8 @@ public class Camera {
      * @param g 
      */
     public void tickUI(Graphics2D g){
-        g.setTransform(UItransform);  
+        g.setTransform(UItransform);
+        worldPosition.set(ortogonalPosition.div(scale));
     }
     
     public void setPosition(Vector2 position){
@@ -131,6 +131,7 @@ public class Camera {
     }
     
     public Vector2 WorldToUICoodinates(Vector2 WorldCoordinates){
-        return worldPosition.sub(WorldCoordinates);
+        //return worldPosition.sub(WorldCoordinates);
+        return WorldCoordinates.sub(worldPosition);
     }
 }

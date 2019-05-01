@@ -6,6 +6,7 @@
  */
 package ECS.Systems;
 
+import ECS.Components.Collidable;
 import ECS.Components.MousePointer;
 import ECS.Components.Sprite;
 import ECS.Components.Transform;
@@ -15,15 +16,11 @@ import ECS.SystemJob;
 import Scene.Scene;
 import java.awt.Graphics2D;
 import java.util.Comparator;
-import java.util.PriorityQueue;
 import Utility.Pair;
-import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import javafx.scene.input.KeyCode;
-import proyecto_videojuegos.MainThread;
+
 
 /**
  * System that renders all entities with Sprite and Transform Components
@@ -40,12 +37,18 @@ public class RenderSystem extends SystemJob{
     
     private ArrayList<Integer> UIentities; //this are entities that are UI elements
     private ArrayList<Integer> mousePointers;
+    private ArrayList<Integer> collidables;
+    
     private MousePointer mousePointer;
+    
+    public static boolean debugRender = true;
     
     //archetype of the enitites lits
     private Transform transform;
     private Sprite sprite;
-
+    
+    //Debug Componetns
+    Collidable collidable;
     
     //Priority Queue of entities to render
     private List <Pair<Transform, Sprite>> array;
@@ -57,9 +60,6 @@ public class RenderSystem extends SystemJob{
     //archetype if the UI Entities list
     private UIEntity uiEntity;
     
-    
-            
-
     public RenderSystem(Scene scene, boolean active) {
         super(scene, active);
         transform = new Transform();
@@ -68,6 +68,7 @@ public class RenderSystem extends SystemJob{
         
         uiEntity = new UIEntity();
         mousePointer = new MousePointer();
+        collidable = new Collidable();
     }
 
     @Override
@@ -78,9 +79,7 @@ public class RenderSystem extends SystemJob{
             sprite = scene.entityManager.getEntityComponentInstance(e, sprite.getClass());
            
             array.add(new Pair(transform, sprite));
-    
-        }
-         
+        } 
     }
 
     @Override
@@ -91,13 +90,11 @@ public class RenderSystem extends SystemJob{
       UIentities = scene.entityManager.getEntitiesWithComponents(uiEntity.getClass());
       //Fetch mouse pointers
       mousePointers = scene.entityManager.getEntitiesWithComponents(mousePointer.getClass());
-
+      //Fetch collidables
+      collidables = scene.entityManager.getEntitiesWithComponents(Collidable.class);
               
       //queue = new ArrayList<>(entities.size(), new myComparator());
-      array = new ArrayList <Pair<Transform, Sprite>>();
-        
-
-   
+      array = new ArrayList <Pair<Transform, Sprite>>(); 
     }
 
     @Override
@@ -112,25 +109,20 @@ public class RenderSystem extends SystemJob{
     public void render(Graphics2D g) {
 
         array.sort(new myComparator());
-        /*for(Pair <Transform,Sprite> i : array){
-                System.out.println(i.second.name);
-            }
-       */
         //Render all entities with a Transform and Sprite Component
         for(Pair<Transform, Sprite> t : array){
             if(t.second.visible) {
-                g.drawImage(t.second.currentFrame, (int) t.first.position.x,(int) (t.first.position.y - t.first.position.z) ,t.second.width,t.second.height,null);
+                g.drawImage(t.second.currentFrame, (int) t.first.position.x,t.first.renderedY ,t.second.width,t.second.height,null);
             }
-            //System.out.println(t.second.name);
-            /*if("grassSide".equals(t.second.name)){
-                System.out.print("grass pos: ");
-                g.drawRect((int)t.first.position.x,(int) t.first.position.y, 16, 16);
-                System.out.println(t.first.position.x + " " + (int) t.first.position.y);
-                System.out.println("grass sprite: " + t.second.currentFrame);
-            }*/
         }
         
-        
+        if(debugRender){
+            for(Integer col: collidables){
+                collidable = scene.entityManager.getEntityComponentInstance(col, Collidable.class);
+                transform = scene.entityManager.getEntityComponentInstance(col, Transform.class);
+                if(collidable.active) g.drawRect((int)transform.position.x, (int)transform.renderedY, (int)collidable.hitbox.x, (int)collidable.hitbox.y);
+            }
+        }
         
         //transformthe grphic coordinates to the screen coordinates
         originalAT = g.getTransform();

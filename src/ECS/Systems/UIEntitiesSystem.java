@@ -93,6 +93,7 @@ public class UIEntitiesSystem extends SystemJob{
     public void update() {
         pointerOutsideUI = true;
         
+        
         for(Integer e: entities){
             
             uiEntity = scene.entityManager.getEntityComponentInstance(e, uiEntity.getClass());
@@ -127,55 +128,58 @@ public class UIEntitiesSystem extends SystemJob{
                 }
             }
             
-                                                
-            //input             
-            if(uiEntity.name.equals("menu")){ 
-                if(scene.display.keyManager.wasPressed[KeyEvent.VK_ESCAPE]){
-                    Assets.menu.play();
-                    if(uiSprite.visible){                            
-                            uiSprite.visible = false;
-                    }else{
-                        uiSprite.visible = true;
-                    }
-                }                                          
-            }
-            if(uiEntity.name.equals("actives_bar") || uiEntity.name.equals("RL_bar")){ 
-                if(scene.display.keyManager.wasPressed[KeyEvent.VK_TAB]){
-                    Assets.menu.play();
-                    if(uiSprite.visible){                            
-                            uiSprite.visible = false;
-                    }else{
-                        uiSprite.visible = true;
-                    }
-                }
-            }
             
-            if(uiEntity.name.equals("Player_Inventory")){ 
-                //ystem.out.println((int)mousePointer.position.x + " " + (int)mousePointer.position.y);
-                if(scene.display.keyManager.wasPressed[KeyEvent.VK_X] || scene.display.keyManager.wasPressed[KeyEvent.VK_I] || scene.display.keyManager.wasPressed[KeyEvent.VK_Q]){
-                    Assets.menu.play();
-                    if(uiSprite.visible){                            
-                            uiSprite.visible = false;
-                    }else{
-                        uiSprite.visible = true;
+            //INPUT 
+            //Cannot open other UI while in init game screen
+            if(GameManagerSystem.gameRunning){          
+                //INPUT             
+                if(uiEntity.name.equals("menu")){ 
+                    if(scene.display.keyManager.wasPressed[KeyEvent.VK_ESCAPE]){
+                        Assets.menu.play();
+                        if(uiSprite.visible){                            
+                                uiSprite.visible = false;
+                        }else{
+                            uiSprite.visible = true;
+                        }
+                    }                                          
+                }
+                if(uiEntity.name.equals("actives_bar") || uiEntity.name.equals("RL_bar")){ 
+                    if(scene.display.keyManager.wasPressed[KeyEvent.VK_TAB]){
+                        Assets.menu.play();
+                        if(uiSprite.visible){                            
+                                uiSprite.visible = false;
+                        }else{
+                            uiSprite.visible = true;
+                        }
                     }
                 }
-                
-                /*if(scene.display.keyManager.up){
-                    uiTransform.position = uiTransform.position.add(new Vector3(0,-2,0));
+
+                if(uiEntity.name.equals("Player_Inventory")){ 
+                    //ystem.out.println((int)mousePointer.position.x + " " + (int)mousePointer.position.y);
+                    if(scene.display.keyManager.wasPressed[KeyEvent.VK_X] || scene.display.keyManager.wasPressed[KeyEvent.VK_I] || scene.display.keyManager.wasPressed[KeyEvent.VK_Q]){
+                        Assets.menu.play();
+                        if(uiSprite.visible){                            
+                                uiSprite.visible = false;
+                        }else{
+                            uiSprite.visible = true;
+                        }
+                    }
+
+                    /*if(scene.display.keyManager.up){
+                        uiTransform.position = uiTransform.position.add(new Vector3(0,-2,0));
+                    }
+                    if(scene.display.keyManager.down){
+                        uiTransform.position = uiTransform.position.add(new Vector3(0,2,0));
+                    }
+                    if(scene.display.keyManager.right){
+                        uiTransform.position = uiTransform.position.add(new Vector3(2,0,0));
+                    }
+                    if(scene.display.keyManager.left){
+                        uiTransform.position = uiTransform.position.add(new Vector3(-2,0,0));
+                    }*/
                 }
-                if(scene.display.keyManager.down){
-                    uiTransform.position = uiTransform.position.add(new Vector3(0,2,0));
-                }
-                if(scene.display.keyManager.right){
-                    uiTransform.position = uiTransform.position.add(new Vector3(2,0,0));
-                }
-                if(scene.display.keyManager.left){
-                    uiTransform.position = uiTransform.position.add(new Vector3(-2,0,0));
-                }*/
             }
-            
-            
+           
             
             uiSprite.animation = uiSprite.animations.get(uiEntity.window).first;
         } 
