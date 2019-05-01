@@ -197,6 +197,11 @@ public class PlayerSystem extends SystemJob{
                 System.out.println("Space pressed");
             }
             
+            if(scene.display.keyManager.wasPressed[KeyEvent.VK_SHIFT]){
+                Assets.Assets.menu.play();
+                if(player.rightOrLeft) player.rightOrLeft = false;
+                else player.rightOrLeft = true;
+            }
 
             //if its not moving, stop sound
             if(!(scene.display.getKeyManager().down||scene.display.getKeyManager().up||scene.display.getKeyManager().left||scene.display.getKeyManager().right)){
@@ -208,6 +213,8 @@ public class PlayerSystem extends SystemJob{
             if(!(scene.display.getKeyManager().right || scene.display.getKeyManager().left || scene.display.getKeyManager().up || scene.display.getKeyManager().down)){
                 sprite.frameCounter = 0;
             }
+            
+            
             
             //if colides with the left border, move the camera to the left
             if(scene.c.WorldToUICoodinates(transform.position.toVector2()).x < leftBorder){

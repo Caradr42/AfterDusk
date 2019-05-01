@@ -260,6 +260,12 @@ public class MainWorld extends Scene {
                 new Sprite("player_position", true, 1, 1, 0, new ArrayList<>(Arrays.asList("effect2"))),
                 new UIEntity("player_position", false, 0, null)
         );
+        
+        Entity itemSelector = entityManager.createEntityWithComponents("item_selector",
+                new Transform(0,10),
+                new Sprite("item_selector", true, 18, 18, 10, new ArrayList<>(Arrays.asList("item_selector"))),
+                new UIEntity("item_selector", true, 0, null)
+        );
 
     //USER INTERFACES
         //The players Inventory user interface, has a reference to the player internal inventory
@@ -286,7 +292,7 @@ public class MainWorld extends Scene {
                 new Transform(16, display.height / c.scale - 28),
                 new Sprite("RL_bar", false, 48, 32, 0, new ArrayList<>(Arrays.asList("RL_bar"))),
                 new UIEntity("RL_bar", true,
-                        new ArrayList<>(Arrays.asList(LRUIInventory.getID())))
+                        new ArrayList<>(Arrays.asList(LRUIInventory.getID(), itemSelector.getID())))
         );
         
 
@@ -309,10 +315,6 @@ public class MainWorld extends Scene {
                 new Collidable(new Vector3(32, 32, 32))
 
         );
-
-
-
-
 
         Entity enemy = entityManager.createEntityWithComponents("Enemy1",
                 new Transform(new Vector3(200, 90, 48)),

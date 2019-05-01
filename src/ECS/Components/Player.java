@@ -31,6 +31,8 @@ public class Player extends Component{
     //These are to know if the player has a tool equiped in any hand
     public boolean boolRight;
     public boolean boolLeft;
+    
+    public boolean rightOrLeft = false;
 
     public Integer LRInventory;
     
