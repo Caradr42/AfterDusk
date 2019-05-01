@@ -48,6 +48,7 @@ public class InventorySystem extends SystemJob{
         for(Integer e : entities) {
             if(e != playerID) {
                 Playable playable = scene.entityManager.getEntityComponentInstance(e, Playable.class);
+                System.out.println(scene.entityManager.getEntityByID(e).getName());
                 setItemsTransformAsChildOfEntity(playable.inventory, e);
             }
         }
@@ -75,6 +76,8 @@ public class InventorySystem extends SystemJob{
                     if(itemTransform != null){
                         itemTransform.parent = parentID;
                     }
+                    
+                    System.out.println(scene.entityManager.getEntityByID(inventory.slots.get(j)).getName());
                 }
             }
             
