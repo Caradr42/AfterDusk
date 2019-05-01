@@ -180,7 +180,7 @@ public class CollisionEntityWeapon extends SystemJob{
             if (wpnRect.intersects(collRect)) {
                 areColliding.add(arrCollider);
                 arrCollider.collidesWith.add(j);
-                System.out.println("Colliding with " + scene.entityManager.getEntityByID(arrCollider.collidesWith.get(arrCollider.collidesWith.size() - 1)).getName());
+                //System.out.println("Colliding with " + scene.entityManager.getEntityByID(arrCollider.collidesWith.get(arrCollider.collidesWith.size() - 1)).getName());
             }
         }
 
@@ -213,7 +213,7 @@ public class CollisionEntityWeapon extends SystemJob{
         
         //The attack has been done
         //tool.currentActive = -1;
-        System.out.println("Attack done");
+        //System.out.println("Attack done");
     }
     
     @Override
@@ -223,7 +223,7 @@ public class CollisionEntityWeapon extends SystemJob{
             judge = false;
         }*/
         
-        System.out.println(rects.size());
+       // System.out.println(rects.size());
         
         /*for(Rectangle rect  : rects) {
             System.out.println("aaa");
