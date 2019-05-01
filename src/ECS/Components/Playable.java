@@ -71,6 +71,22 @@ public class Playable extends Component {
         energy = maxEnergy;
     }
     
+        public Playable(int hp, Integer inventory, Vector3 velocity, boolean hasWeapon, int weapon) {
+        this.hp = hp;
+        this.inventory = inventory;
+        this.velocity = velocity;
+        this.hasWeapon = hasWeapon;
+        
+        maxEnergy = 100;
+        energy = maxEnergy;
+        
+        
+        
+        currentWeapon = weapon;
+    }
+    
+    
+    
         public Playable(int hp, Integer inventory, Vector3 velocity, int maxEnergy) {
         this(hp, inventory, velocity);
         

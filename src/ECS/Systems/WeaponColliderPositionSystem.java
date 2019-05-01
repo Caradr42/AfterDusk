@@ -86,6 +86,7 @@ public class WeaponColliderPositionSystem extends SystemJob{
         for(Integer e : entities) {
             playable = scene.entityManager.getEntityComponentInstance(e, Playable.class);
             sprite = scene.entityManager.getEntityComponentInstance(e, Sprite.class);
+            transform = scene.entityManager.getEntityComponentInstance(e, Transform.class);
             
             //width of the entity
             int entityWidth = sprite.width;
@@ -96,15 +97,70 @@ public class WeaponColliderPositionSystem extends SystemJob{
             //if the entity is using a weapon
             if(playable.hasWeapon) {
                 //get the colliders of the weapon
-                AttackComponent attackComponent = scene.entityManager.getEntityComponentInstance(e, AttackComponent.class);
+                attackComponent = scene.entityManager.getEntityComponentInstance(e, AttackComponent.class);
+            
+                //for each collider of the weapon
+                for(AttackCollider at : attackComponent.arrColliders) {
+                    //if it is not an area attack
+                    if (!at.areaAttack) {
+                        if (playable.up) {
+                            at.relativePosition.x = -at.b / 2 + entityWidth / 2;
+
+                            at.relativePosition.y = - entityHeight - at.a + transform.position.z;
+
+                            //the y is the height of the collider
+                            at.hitbox.y = at.a;
+
+                            //the x is the width of the collider
+                            at.hitbox.x = at.b;
+                        } else if (playable.down) {
+                            // System.out.println("Down");
+                            at.relativePosition.x = -at.b / 2 + entityWidth / 2;
+
+                            at.relativePosition.y = transform.position.z;
+
+                            at.hitbox.y = at.a;
+
+                            at.hitbox.x = at.b;
+                        }
+                        else if (playable.right) {
+                            //System.out.println("Right");
+
+                            at.relativePosition.x = entityWidth;
+                            //at.a
+
+                            at.relativePosition.y = -at.b / 2 - entityHeight / 2 + transform.position.z;
+                            //- playerHeight
+
+                            at.hitbox.y = at.b;
+
+                            at.hitbox.x = at.a;
+                        }
+                        
+                        else if (playable.left) {
+                            //System.out.println("Left");
+                            at.relativePosition.x = -at.a;
+
+                            at.relativePosition.y = -at.b / 2 - entityHeight / 2 + transform.position.z;
+
+                            at.hitbox.y = at.b;
+
+                            at.hitbox.x = at.a;
+                        }
+                    }
+                    
+                    //else, if it is an area attack
+                    else {
+                        
+                    }
+                }
+            
             }
         }
         
         
-        
-        
-        
-        
+   
+        /*
         Integer rightTool;
         Integer leftTool;
         
@@ -279,7 +335,7 @@ public class WeaponColliderPositionSystem extends SystemJob{
                 }
             }
             
-        }
+        }*/
     }
     
     public void updateEnemyColliders() {
