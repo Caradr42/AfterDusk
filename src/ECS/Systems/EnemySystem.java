@@ -11,6 +11,7 @@ import ECS.Components.Sprite;
 import ECS.Components.Transform;
 import ECS.SystemJob;
 import Maths.Vector2;
+import Maths.Vector3;
 import Scene.Scene;
 import static java.lang.Math.abs;
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class EnemySystem extends SystemJob{
     Sprite sprite;
     
     //If this margin is passed, the enemy will move diagonally
-    int marginDistance = 7;
+    int marginDistance = 56;
     
     public EnemySystem(Scene scene, boolean active) {
         super(scene, active);
@@ -42,8 +43,41 @@ public class EnemySystem extends SystemJob{
 
     @Override
     public void update() {
-        //Each entity should follow the player 
+        
         for(Integer entity : entities) {
+            //Each entity should follow the player 
+            updateEntityPosition(entity);
+            
+            
+        }
+       
+    }
+
+    @Override
+    public void init() {
+ 
+        player = scene.entityManager.getEntitiesWithComponents(player1.getClass()).get(0);
+        
+        entities = new ArrayList<>();
+        
+        entities = scene.entityManager.getEntitiesWithComponents(playable.getClass());
+        
+        //Getting the transform of the player
+        playerPos = scene.entityManager.getEntityComponentInstance(player, playerPos.getClass());
+    }
+
+    @Override
+    public void onCreate() {
+       
+    }
+
+    @Override
+    public void onDestroy() {
+        
+    }
+    
+    private void updateEntityPosition(Integer entity) {
+                    
             //true if the enemy is to the right of the player
             boolean right;
             
@@ -77,79 +111,52 @@ public class EnemySystem extends SystemJob{
             
             distanceY = abs(distanceY);
             
-            Vector2 newDist = new Vector2();
-            //ewDist.x = abs();
+            //Vector3 newDist = enemyPos.position.sub(playerPos.position).norm().scalar(enemyPlay.velocity.x);
+            Vector3 newDist = playerPos.position.sub(enemyPos.position).norm().scalar(enemyPlay.velocity.x);
+         
             
-            //If this is true tue enemy moves diagonally
-            if(distanceX > marginDistance && distanceY > marginDistance) {
-                
-                if(right) {
-                    //since java works a lot by reference, this will modify directly the transform of the enemy
-                    enemyPos.position.x -= enemyPlay.velocity.x;
-                }
-                
-                else {
-                    enemyPos.position.x += enemyPlay.velocity.x;
-                }
-                
-                if(up) {
-                    enemyPos.position.y += enemyPlay.velocity.y;
-                }
-                
-                else {
-                    enemyPos.position.y -= enemyPlay.velocity.y;
-                }
+            
+            if(abs(playerPos.position.x - enemyPos.position.x) > marginDistance && abs(playerPos.position.y - enemyPos.position.y) > marginDistance) {
+                enemyPos.position = enemyPos.position.add(newDist);
             }
             
-            //Else if the enemy is further apart in the x axis than in the y axis, move in X
-            else if(distanceX > distanceY && distanceX > enemySprite.width - 10) {
-                if(right) {
-                    enemyPos.position.x -= enemyPlay.velocity.x;
+            else if (abs(playerPos.position.x - enemyPos.position.x) > marginDistance && abs(playerPos.position.y - enemyPos.position.y) < marginDistance) {
+                
+                if(playerPos.position.x > enemyPos.position.x) {
+                    
+                    if(playerPos.position.x - enemyPos.position.x > enemySprite.width + 20) {
+                        enemyPos.position.x += abs(enemyPlay.velocity.x);
+                    }
                 }
                 
                 else {
-                    enemyPos.position.x += enemyPlay.velocity.x;
-                }
-            }
-            
-            //else move in y
-            else if(distanceY > distanceX && distanceY > enemySprite.height - 10) {
-                if(up) {
-                    enemyPos.position.y += enemyPlay.velocity.y;
+                    enemyPos.position.x -= abs(enemyPlay.velocity.x);
                 }
                 
+            }
+
+            else if (abs(playerPos.position.y - enemyPos.position.y) > marginDistance && abs(playerPos.position.x - enemyPos.position.x) < marginDistance) {
+             
+                if (playerPos.position.y > enemyPos.position.y) {
+                    
+                    if(playerPos.position.y - enemyPos.position.y > enemySprite.height) {
+                        enemyPos.position.y += abs(enemyPlay.velocity.y);
+                    }
+                } 
+                
                 else {
-                    enemyPos.position.y -= enemyPlay.velocity.y;
+                    enemyPos.position.y -= abs(enemyPlay.velocity.y);
                 }
+
+  
             }
             
-        }
-       
+            //else we will make an attack if possible
+            else {
+                
+            }
+            
+            System.out.println(enemyPos.position.x);
     }
-
-    @Override
-    public void init() {
- 
-        player = scene.entityManager.getEntitiesWithComponents(player1.getClass()).get(0);
-        
-        entities = new ArrayList<>();
-        
-        entities = scene.entityManager.getEntitiesWithComponents(playable.getClass());
-        
-        //Getting the transform of the player
-        playerPos = scene.entityManager.getEntityComponentInstance(player, playerPos.getClass());
-    }
-
-    @Override
-    public void onCreate() {
-       
-    }
-
-    @Override
-    public void onDestroy() {
-        
-    }
-    
-    
     
 }

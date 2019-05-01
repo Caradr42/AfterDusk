@@ -25,11 +25,7 @@ import java.util.ArrayList;
  
 public class Player extends Component{
     
-    //current energy of the player
-    public int energy;
-    
-    //max energy that the player can have
-    public int maxEnergy;
+
     
     //It is better to have booleans too to avoid a possible error in the random assignation of IDs
     //These are to know if the player has a tool equiped in any hand
@@ -66,7 +62,7 @@ public class Player extends Component{
         
         passivesSize = 2;
         
-        maxEnergy = 100;
+        //maxEnergy = 100;
         
         //actives = new Pair<>(new Pair<>(leftHand, new ArrayList<Integer>(activesSize)), new Pair<>(rightHand, new ArrayList<Integer>(activesSize))); 
         
@@ -77,8 +73,8 @@ public class Player extends Component{
 
     public Player(String name, Integer LRInventory, Integer pasivesInventory, Integer activesInventory) {
         //Initializing the values for a new player        
-        maxEnergy = 100;
-        energy = maxEnergy;
+        //maxEnergy = 100;
+        //energy = maxEnergy;
                
         this.LRInventory = LRInventory;
         this.pasivesInventory = pasivesInventory;

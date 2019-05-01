@@ -21,7 +21,7 @@ public class Proyecto_Videojuegos {
         //1366, 768
     public static void main(String[] args) {
        System.setProperty("sun.java2d.opengl", "true");
-       Display display = new Display("Game", 1366, 768);
+       Display display = new Display("Game", 1066, 568);
        Boolean initRef = false;
        MSG msg = new MSG();
        
