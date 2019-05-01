@@ -156,7 +156,7 @@ public class EnemySystem extends SystemJob{
                 
             }
             
-            System.out.println(enemyPos.position.x);
+            //System.out.println(enemyPos.position.x);
     }
     
 }
