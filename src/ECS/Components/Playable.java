@@ -40,8 +40,17 @@ public class Playable extends Component {
      */
     public boolean hasWeapon;
     
+    //This should only be used is hasWeapon is true
+    public int currentWeapon;
+    
     //to indicate the direction of the playable
     public boolean right, left, up, down;
+
+    //current energy of the player
+    public int energy;
+
+    //max energy that the player can have
+    public int maxEnergy;
 
 
 
@@ -50,6 +59,10 @@ public class Playable extends Component {
         this.inventory = inventory;
         this.velocity = velocity;
         hasWeapon = false;
+        
+        maxEnergy = 100;
+        
+        energy = maxEnergy;
     }
 
     public Playable(int hp, Integer inventory, Vector3 velocity, boolean hasWeapon) {
@@ -57,6 +70,17 @@ public class Playable extends Component {
         this.inventory = inventory;
         this.velocity = velocity;
         this.hasWeapon = hasWeapon;
+        
+        maxEnergy = 100;
+        energy = maxEnergy;
+    }
+    
+        public Playable(int hp, Integer inventory, Vector3 velocity, int maxEnergy) {
+        this(hp, inventory, velocity);
+        
+        this.maxEnergy = energy;
+        
+        energy = maxEnergy;
     }
 
     

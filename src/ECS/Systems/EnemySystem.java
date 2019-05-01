@@ -43,9 +43,11 @@ public class EnemySystem extends SystemJob{
 
     @Override
     public void update() {
-        //Each entity should follow the player 
+        
         for(Integer entity : entities) {
+            //Each entity should follow the player 
             updateEntityPosition(entity);
+            
             
         }
        

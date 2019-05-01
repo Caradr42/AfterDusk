@@ -1,11 +1,12 @@
 /*
  * System to update the positions of the weapon colliders relative to the
- * player or playable that helds the weapons(relative to the upper left corner)
+ * player or enemies that helds the weapons(relative to the upper left corner)
  */
 package ECS.Systems;
 
 import ECS.Components.AttackCollider;
 import ECS.Components.AttackComponent;
+import ECS.Components.Enemy;
 import ECS.Components.Inventory;
 import ECS.Components.Playable;
 import ECS.Components.Player;
@@ -17,6 +18,7 @@ import Maths.Vector3;
 import Scene.Scene;
 import java.awt.Rectangle;
 import static java.lang.Math.abs;
+import java.util.ArrayList;
 
 /**
  *
@@ -26,6 +28,7 @@ public class WeaponColliderPositionSystem extends SystemJob{
     
     Player player;
     Playable playerPlayable;
+    Playable playable;
     Inventory playerLRInventory;
     
     AttackCollider attackCollider;
@@ -57,12 +60,15 @@ public class WeaponColliderPositionSystem extends SystemJob{
         transform = new Transform();
         sprite = new Sprite();
         playerLRInventory = new Inventory();
+        entities = new ArrayList<>();
         
         //we only have one player
         playerID = scene.entityManager.getEntitiesWithComponents(player.getClass()).get(0);
         player = scene.entityManager.getEntityComponentInstance(playerID, player.getClass());
         playerPlayable = scene.entityManager.getEntityComponentInstance(playerID, playerPlayable.getClass());
         playerLRInventory = scene.entityManager.getEntityComponentInstance(player.LRInventory, Inventory.class);
+    
+        entities = scene.entityManager.getEntitiesWithComponents(Playable.class);
     }
 
     @Override
@@ -74,6 +80,18 @@ public class WeaponColliderPositionSystem extends SystemJob{
     }
     
     public void updatePlayerColliders() {   
+        
+        
+        //for each entity
+        for(Integer e : entities) {
+            
+        }
+        
+        
+        
+        
+        
+        
         Integer rightTool;
         Integer leftTool;
         
@@ -249,6 +267,19 @@ public class WeaponColliderPositionSystem extends SystemJob{
         }
     }
     
-    public void updateEnemyColliders() {}
+    public void updateEnemyColliders() {
+        /*
+        //ID of the weapon of the enemy. It is always in the first position of its inventory
+        Integer weapon;
+        
+        Enemy enemy = new Enemy();
+        
+        ArrayList<Integer> enemies = scene.entityManager.getEntitiesWithComponents(Enemy.class);
+        
+        //For each enemy
+        for(Integer idEnemy : enemies) {
+            enemy = scene.entityManager.getEntityByID(idEnemy);
+        }*/
+    }
 
 }
