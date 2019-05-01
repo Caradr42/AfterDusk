@@ -336,7 +336,11 @@ public class MainWorld extends Scene {
                         new Transform(216,216,16),
                         log, new WorldEntity()
                 );
-        
+        entityManager.createEntityWithComponents("wood",
+                        new Tile("log" + Integer.toString(200) + "_" + Integer.toString(200),true,log,log),
+                        new Transform(264,264,16),
+                        log, new WorldEntity()
+                );
 
 
         /*Entity side = entityManager.createEntityWithComponents("grassSide",
@@ -368,7 +372,7 @@ public class MainWorld extends Scene {
       
                 new CollisionEntityWeapon(this, true),
                 new CollisionSystem(this, true),
-                new EnemySystem(this, true),
+                new EnemySystem(this, false),
                 new GameManagerSystem(this, true),
                 new ItemSystem(this, true),
                 new MousePointerSystem(this, true),

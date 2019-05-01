@@ -82,8 +82,8 @@ public class CollisionSystem extends SystemJob{
             scene.entityManager.getEntityComponentInstance(entitiesCollidable.get(i), collision.getClass()).setCollidable.clear();
             for(int j=0;j<arrTiles.size();j++){
                 collisionTileEntity(entities.get(i), arrTiles.get(j));
+                //System.out.println(scene.entityManager.getEntityComponentInstance(entitiesCollidable.get(i), collision.getClass()).setCollidable);
             }
-            
         }
     }
     
@@ -350,7 +350,8 @@ public class CollisionSystem extends SystemJob{
         
         //Check intersection in x & y & z.
         if(firstRect.intersects(secondRect) && collidablei.active && tileCollidable.isCollidable()&&((transformi.position.z>=floorTile)&&(floorPlayer<=transformj.position.z))){
-            System.out.println("Collision");
+            //System.out.println("Collision");
+            //System.out.println(j);
             collidablei.setCollidable.add(j);
         }
     }

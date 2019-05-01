@@ -10,10 +10,12 @@ import ECS.SystemJob;
 import Maths.Vector2;
 import Scene.Scene;
 import com.sun.org.apache.xalan.internal.xsltc.runtime.BasisLibrary;
+import com.sun.xml.internal.bind.v2.util.CollisionCheckStack;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 import proyecto_videojuegos.MainThread;
 
 
@@ -66,14 +68,22 @@ public class PlayerSystem extends SystemJob{
      */
     @Override
     public void update() {
-
+        Collidable collision = new Collidable();
         for (Integer e : entities) {
             player = scene.entityManager.getEntityComponentInstance(e, player.getClass());
             transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());
             sprite = scene.entityManager.getEntityComponentInstance(e, sprite.getClass());
-
+            
             playable = scene.entityManager.getEntityComponentInstance(e, playable.getClass());
-
+            
+            collision= scene.entityManager.getEntityComponentInstance(e, collision.getClass());
+            boolean CollisionCheck=false;
+            //Check if is empty the HashSet with the ids of collision bw entity-tiles
+            
+            if(!collision.setCollidable.isEmpty()){
+                System.out.println("Collision");
+            }
+            
             leftBorder = 50;
             rightBorder = 80;
             upperBorder =  50;
@@ -86,7 +96,7 @@ public class PlayerSystem extends SystemJob{
                         firstTime = false;
             }
             
-
+            
            /* System.out.println("position 1 " + MainThread.c.position1.x + ","+ MainThread.c.position1.y);
             System.out.println("ortogonal  " + MainThread.c.ortogonalPosition.x + ","+ MainThread.c.ortogonalPosition.y);
             System.out.println("position 2 " + MainThread.c.position2.x + ","+ MainThread.c.position2.y);
@@ -105,6 +115,8 @@ public class PlayerSystem extends SystemJob{
 
                 transform.position.x = transform.position.x + 2;//+ 100 * MainThread.deltaTime);
                 
+               
+                
                 if(scene.display.keyManager.wasPressed[KeyEvent.VK_D] || scene.display.keyManager.wasPressed[KeyEvent.VK_RIGHT]){
                     sprite.frameCounter = 1;
                 }
@@ -118,7 +130,7 @@ public class PlayerSystem extends SystemJob{
                 playable.left = false;
                 playable.down = false;
                 playable.up = false;
-
+                
 
             }
             
@@ -133,6 +145,7 @@ public class PlayerSystem extends SystemJob{
                 }
                 transform.position.x = transform.position.x -2;//- 100 * MainThread.deltaTime);
                 
+               
                 if(scene.display.keyManager.wasPressed[KeyEvent.VK_A] || scene.display.keyManager.wasPressed[KeyEvent.VK_LEFT]){
                     sprite.frameCounter = 1;
                 }
@@ -144,6 +157,7 @@ public class PlayerSystem extends SystemJob{
                 playable.left = true;
                 playable.down = false;
                 playable.up = false;
+                
             }
 
            
@@ -157,6 +171,8 @@ public class PlayerSystem extends SystemJob{
                 }
                 transform.position.y = transform.position.y -2;//- 100 * MainThread.deltaTime);
                 
+               
+                
                 if(scene.display.keyManager.wasPressed[KeyEvent.VK_W] || scene.display.keyManager.wasPressed[KeyEvent.VK_UP]){
                     sprite.frameCounter = 1;
                 }
@@ -168,6 +184,7 @@ public class PlayerSystem extends SystemJob{
                 playable.left = false;
                 playable.down = false;
                 playable.up = true;
+                
             }
 
  
@@ -181,6 +198,8 @@ public class PlayerSystem extends SystemJob{
                 }
                 transform.position.y = transform.position.y +2;//+ 100 * MainThread.deltaTime);
                 
+               
+                
                 if(scene.display.keyManager.wasPressed[KeyEvent.VK_S] || scene.display.keyManager.wasPressed[KeyEvent.VK_DOWN]){
                     sprite.frameCounter = 1;
                 }
@@ -192,6 +211,7 @@ public class PlayerSystem extends SystemJob{
                 playable.left = false;
                 playable.down = true;
                 playable.up = false;
+                
             }
             
 
@@ -260,6 +280,7 @@ public class PlayerSystem extends SystemJob{
                  
                  MainThread.c.worldPosition.set(MainThread.c.worldPosition.x, MainThread.c.worldPosition.y + 2);
             }  
+            
         }
     }
 
