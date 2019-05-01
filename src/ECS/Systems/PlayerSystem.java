@@ -1,6 +1,8 @@
 package ECS.Systems;
 
 import ECS.Components.Collidable;
+import ECS.Components.Inventory;
+import ECS.Components.Item;
 import ECS.Components.Playable;
 import ECS.Components.Player;
 import ECS.Components.Sprite;
@@ -38,12 +40,12 @@ public class PlayerSystem extends SystemJob{
     Tool rightHand;
 
     boolean firstTime;
-    int leftBorder;
-    int rightBorder;
-    int upperBorder;
-    int downBorder;
-
     
+    int leftBorder = 80 - 32;
+    int rightBorder = 80;
+    int upperBorder = 50;
+    int downBorder = 50 - 32;
+        
 
     /**
      * Constructor
@@ -56,7 +58,7 @@ public class PlayerSystem extends SystemJob{
         player = new Player();
         sprite = new Sprite();
 
-        rightHand = new Tool();
+        //rightHand = new Tool();
         playable = new Playable();
 
     }
@@ -74,27 +76,16 @@ public class PlayerSystem extends SystemJob{
 
             playable = scene.entityManager.getEntityComponentInstance(e, playable.getClass());
 
-            leftBorder = 50;
-            rightBorder = 80;
-            upperBorder =  50;
-            downBorder =  30;
             
-            //Save the position of the initial position of the player
+            
+            /*//Save the position of the initial position of the player
             if(firstTime){
                 MainThread.c.position1.set(-scene.display.width / (2 * MainThread.c.scale) + leftBorder, -scene.display.height / (2 * MainThread.c.scale) +  upperBorder);
                 MainThread.c.position2.set(scene.display.width / (2 * MainThread.c.scale) - rightBorder, scene.display.height / (2 * MainThread.c.scale) - downBorder);
                         firstTime = false;
-            }
+            }*/
             
-
-           /* System.out.println("position 1 " + MainThread.c.position1.x + ","+ MainThread.c.position1.y);
-            System.out.println("ortogonal  " + MainThread.c.ortogonalPosition.x + ","+ MainThread.c.ortogonalPosition.y);
-            System.out.println("position 2 " + MainThread.c.position2.x + ","+ MainThread.c.position2.y);
-            System.out.println("transform " + transform.position.x + ","+ transform.position.y);
-            */
-
             //if the player goes to the right change the position and the animation to the right
-
             if(scene.display.getKeyManager().right){
                 //check loop and play the grass walking sound.
                 if(!Assets.Assets.grassWalk.getLooping())
@@ -112,8 +103,6 @@ public class PlayerSystem extends SystemJob{
                 sprite.animation = sprite.animations.get(3).first;
                 sprite.animationLenght = sprite.animations.get(3).second;
                 
-
-
                 playable.right = true;
                 playable.left = false;
                 playable.down = false;
@@ -197,10 +186,13 @@ public class PlayerSystem extends SystemJob{
 
             //if the player presses the space key, an attack is done with the right hand
             if(scene.display.getKeyManager().space) {
-                rightHand = scene.entityManager.getEntityComponentInstance(player.rightHand, rightHand.getClass());
+                Inventory LRinv = scene.entityManager.getEntityComponentInstance(player.LRInventory, Inventory.class);
                 
+                Item RItem = scene.entityManager.getEntityComponentInstance(LRinv.slots.get(1), Item.class);
+                //rightHand = scene.entityManager.getEntityComponentInstance(LRinv.slots.get(1), rightHand.getClass());
+                System.out.println(RItem.name);
                 //0 for the base attack
-                rightHand.currentActive = 0;
+                //rightHand.currentActive = 0;
                 
                 System.out.println("Enter pressed");
             }
@@ -218,48 +210,21 @@ public class PlayerSystem extends SystemJob{
             }
             
             //if colides with the left border, move the camera to the left
-            if (transform.position.x == MainThread.c.position1.x){
-                MainThread.c.ortogonalPosition.set(
-                        transform.position.x * MainThread.c.scale - leftBorder * MainThread.c.scale - 1,
-                        MainThread.c.ortogonalPosition.y);
-                 MainThread.c.position1.x = MainThread.c.position1.x - 2;
-                 MainThread.c.position2.x = MainThread.c.position2.x - 2;
-                 
-                 MainThread.c.worldPosition.set(MainThread.c.worldPosition.x - 2, MainThread.c.worldPosition.y);
+            if(scene.c.WorldToUICoodinates(transform.position.toVector2()).x < leftBorder){
+               scene.c.ortogonalPosition.x = (transform.position.x - leftBorder) * scene.c.scale;
             }
-            
             //if collides with the rigth border, move the camera to the right
-            if (transform.position.x == MainThread.c.position2.x){
-                MainThread.c.ortogonalPosition.set(
-                       transform.position.x * MainThread.c.scale - scene.display.width + rightBorder * MainThread.c.scale + 1,
-                        MainThread.c.ortogonalPosition.y);
-                MainThread.c.position2.x = MainThread.c.position2.x + 2;
-                MainThread.c.position1.x = MainThread.c.position1.x + 2;
-                
-                MainThread.c.worldPosition.set(MainThread.c.worldPosition.x + 2, MainThread.c.worldPosition.y);
+            if(scene.c.WorldToUICoodinates(transform.position.toVector2()).x > + scene.display.width / scene.c.scale - rightBorder){
+               scene.c.ortogonalPosition.x = (transform.position.x - (scene.display.width / scene.c.scale - rightBorder)) * scene.c.scale;
             }
-            
             //if colides with the upper border lift camera
-            if (transform.position.y == MainThread.c.position1.y){
-                MainThread.c.ortogonalPosition.set(
-                         MainThread.c.ortogonalPosition.x,
-                        transform.position.y * MainThread.c.scale - upperBorder * MainThread.c.scale - 1);
-                MainThread.c.position1.y = MainThread.c.position1.y - 2;
-                 MainThread.c.position2.y = MainThread.c.position2.y - 2;
-                 
-                 MainThread.c.worldPosition.set(MainThread.c.worldPosition.x, MainThread.c.worldPosition.y - 2);
+            if(scene.c.WorldToUICoodinates(transform.position.toVector2()).y < upperBorder){
+               scene.c.ortogonalPosition.y = (transform.position.y - upperBorder) * scene.c.scale;
             }
-            
             //if colides with the down border move camera down
-            if (transform.position.y == MainThread.c.position2.y){
-                MainThread.c.ortogonalPosition.set(
-                         MainThread.c.ortogonalPosition.x,
-                        transform.position.y * MainThread.c.scale - scene.display.height + downBorder * MainThread.c.scale + 1);
-                 MainThread.c.position1.y = MainThread.c.position1.y + 2;
-                 MainThread.c.position2.y = MainThread.c.position2.y + 2;
-                 
-                 MainThread.c.worldPosition.set(MainThread.c.worldPosition.x, MainThread.c.worldPosition.y + 2);
-            }  
+            if(scene.c.WorldToUICoodinates(transform.position.toVector2()).y > + scene.display.height / scene.c.scale - downBorder){
+               scene.c.ortogonalPosition.y = (transform.position.y - (scene.display.height / scene.c.scale - downBorder)) * scene.c.scale;
+            }
         }
     }
 

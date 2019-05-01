@@ -79,8 +79,12 @@ public class Assets {
 
 
         //items
-        animations.put("weird",         new Pair<>(crop(16, 16, 1, "/Resources/Images/weird.png", false)                , 1));
+        animations.put("weird",         new Pair<>(crop(16, 16, 1, "/Resources/Images/card.png", false)                , 1));
         animations.put("shield",        new Pair<>(crop(16, 16, 1, "/Resources/Images/shield.png", false)               , 1));
+        animations.put("E_sword",       new Pair<>(crop(16, 16, 1, "/Resources/Images/E_sword.png", false)              , 1));
+        animations.put("crossBow",       new Pair<>(crop(16, 16, 1, "/Resources/Images/crossBow.png", false)              , 1));
+        
+        
         //GUI
         animations.put("inventory",     new Pair<>(crop(195, 135, 1, "/Resources/Images/Inventory.png", false)          , 1));
         animations.put("3x3Slots_dark", new Pair<>(crop(52, 52, 1, "/Resources/Images/3x3Slots_dark.png", false)        , 1));
