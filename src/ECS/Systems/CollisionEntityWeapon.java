@@ -41,6 +41,9 @@ public class CollisionEntityWeapon extends SystemJob{
     private int playerID;
     private Player player;
     
+    //List to store the rectangles of the colliders
+    private static ArrayList<Rectangle> rects;
+    
     
 
     public CollisionEntityWeapon(Scene scene, boolean active) {
@@ -92,6 +95,8 @@ public class CollisionEntityWeapon extends SystemJob{
         rectangle = new Rectangle();
         player = new Player();
         initializeEntities();
+        
+        rects = new ArrayList<>();
     }
 
     @Override
@@ -108,6 +113,7 @@ public class CollisionEntityWeapon extends SystemJob{
         arrAttack = new ArrayList<>();
         arrCollidable = new ArrayList<>();
         entities = new ArrayList<>();
+        
 
         arrAttack = scene.entityManager.getEntitiesWithComponents(attackComponent.getClass(), tool.getClass());
 
@@ -166,6 +172,7 @@ public class CollisionEntityWeapon extends SystemJob{
             Rectangle wpnRect = new Rectangle((int) (wpnTrans.position.x + arrCollider.relativePosition.x), (int) (wpnTrans.position.y + arrCollider.relativePosition.y), (int) arrCollider.hitbox.x, (int) arrCollider.hitbox.y);
             rectangle = wpnRect;
             judge = true;
+            rects.add(wpnRect);
             
             
             if (wpnRect.intersects(collRect)) {
@@ -203,16 +210,22 @@ public class CollisionEntityWeapon extends SystemJob{
         FireSystem.executeActives(weapon, entity);
         
         //The attack has been done
-        tool.currentActive = -1;
+        //tool.currentActive = -1;
         System.out.println("Attack done");
     }
     
     @Override
     public void render(Graphics2D g) {
-        if(judge) {
+        /*if(judge) {
             g.drawRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
             judge = false;
+        }*/
+        
+        for(Rectangle rect  : rects) {
+            g.drawRect(rect.x, rect.y, rect.width, rect.height);
         }
+        
+        rects = new ArrayList<>();
     }
     
 }

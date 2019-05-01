@@ -45,6 +45,37 @@ public class EnemySystem extends SystemJob{
     public void update() {
         //Each entity should follow the player 
         for(Integer entity : entities) {
+            updateEntityPosition(entity);
+            
+        }
+       
+    }
+
+    @Override
+    public void init() {
+ 
+        player = scene.entityManager.getEntitiesWithComponents(player1.getClass()).get(0);
+        
+        entities = new ArrayList<>();
+        
+        entities = scene.entityManager.getEntitiesWithComponents(playable.getClass());
+        
+        //Getting the transform of the player
+        playerPos = scene.entityManager.getEntityComponentInstance(player, playerPos.getClass());
+    }
+
+    @Override
+    public void onCreate() {
+       
+    }
+
+    @Override
+    public void onDestroy() {
+        
+    }
+    
+    private void updateEntityPosition(Integer entity) {
+                    
             //true if the enemy is to the right of the player
             boolean right;
             
@@ -118,39 +149,12 @@ public class EnemySystem extends SystemJob{
   
             }
             
+            //else we will make an attack if possible
             else {
-                //enemyPos.position = enemyPos.position.add(newDist);
+                
             }
             
             System.out.println(enemyPos.position.x);
-            
-        }
-       
     }
-
-    @Override
-    public void init() {
- 
-        player = scene.entityManager.getEntitiesWithComponents(player1.getClass()).get(0);
-        
-        entities = new ArrayList<>();
-        
-        entities = scene.entityManager.getEntitiesWithComponents(playable.getClass());
-        
-        //Getting the transform of the player
-        playerPos = scene.entityManager.getEntityComponentInstance(player, playerPos.getClass());
-    }
-
-    @Override
-    public void onCreate() {
-       
-    }
-
-    @Override
-    public void onDestroy() {
-        
-    }
-    
-    
     
 }

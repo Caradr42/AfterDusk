@@ -45,6 +45,10 @@ public class MainWorld extends Scene {
         ArrayList<AttackCollider> playerColliders = new ArrayList<>();
 
         playerColliders.add(new AttackCollider(new Vector3(32, 32, 1), new Vector3(), 84, 36));
+        
+        ArrayList<AttackCollider> enemyColliders = new ArrayList<>();
+        
+        enemyColliders.add(new AttackCollider(new Vector3(64, 80, 1), new Vector3(), 0,0));
 
 //GAME START SCREEEN ENTITIES
     //UI BUTTONS
@@ -292,12 +296,21 @@ public class MainWorld extends Scene {
                 new AttackComponent(playerColliders)
         );
 
-        entityManager.createEntityWithComponents("Enemy1",
+        Entity enemy = entityManager.createEntityWithComponents("Enemy1",
                 new Transform(new Vector3(90, 90, 48)),
                 new Sprite("enemy", true, 64, 80, 10, new ArrayList<>(Arrays.asList("enemy"))),
                 new WorldEntity(),
                 new Collidable(new Vector3(64, 80, 1)),
                 new Playable(300, enemyInv.getID(), new Vector3(1.5, 1.5, 0)));
+
+        Entity swordTwo = entityManager.createEntityWithComponents("sword2",
+                new Item("sword2", true),
+                new Collidable(new Vector3(16, 16, 1)),
+                new Tool(1),
+                //the x and y of enemy are 90 and 90
+                new Transform(new Vector3(0, 0, 0), enemy.getID()),
+                new AttackComponent(enemyColliders)
+        );
 
 
     //TILES 

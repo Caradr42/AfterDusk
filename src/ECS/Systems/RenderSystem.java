@@ -6,6 +6,8 @@
  */
 package ECS.Systems;
 
+import ECS.Components.AttackCollider;
+import ECS.Components.AttackComponent;
 import ECS.Components.MousePointer;
 import ECS.Components.Sprite;
 import ECS.Components.Transform;
@@ -17,6 +19,7 @@ import java.awt.Graphics2D;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import Utility.Pair;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
@@ -40,11 +43,13 @@ public class RenderSystem extends SystemJob{
     
     private ArrayList<Integer> UIentities; //this are entities that are UI elements
     private ArrayList<Integer> mousePointers;
+    private ArrayList<Integer> colliders; // colliders of weapons
     private MousePointer mousePointer;
     
     //archetype of the enitites lits
     private Transform transform;
     private Sprite sprite;
+    private AttackComponent attackComponent;
 
     
     //Priority Queue of entities to render
@@ -68,6 +73,8 @@ public class RenderSystem extends SystemJob{
         
         uiEntity = new UIEntity();
         mousePointer = new MousePointer();
+        
+        attackComponent = new AttackComponent();
     }
 
     @Override
@@ -92,7 +99,7 @@ public class RenderSystem extends SystemJob{
       //Fetch mouse pointers
       mousePointers = scene.entityManager.getEntitiesWithComponents(mousePointer.getClass());
 
-              
+      colliders = scene.entityManager.getEntitiesWithComponents(attackComponent.getClass());
       //queue = new ArrayList<>(entities.size(), new myComparator());
       array = new ArrayList <Pair<Transform, Sprite>>();
         
@@ -163,6 +170,18 @@ public class RenderSystem extends SystemJob{
             //Display the inventory
             inventory = new UserInterface(1);
             inventory.render(g);
+        }*/
+        
+        //render the colliders
+       /* for(Integer p : colliders) {
+            attackComponent = scene.entityManager.getEntityComponentInstance(p, attackComponent.getClass());
+        
+            for(AttackCollider ate : attackComponent.arrColliders) {
+                //Get the transform of each tool/weapon
+                Transform wpnTrans = scene.entityManager.getEntityComponentInstance(p, transform.getClass());
+                Rectangle rectangle = new Rectangle((int) (wpnTrans.position.x + ate.relativePosition.x), (int) (wpnTrans.position.y + ate.relativePosition.y), (int) ate.hitbox.x, (int) ate.hitbox.y);
+                g.drawRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+            }
         }*/
         
         array.clear();
