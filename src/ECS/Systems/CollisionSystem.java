@@ -236,10 +236,11 @@ public class CollisionSystem extends SystemJob{
                 //And the first an item
                 if(arrItems.contains(e.getID())) {
                     //If the user press the E in the collision
+                    
                     if(scene.display.getKeyManager().isE) {                      
                         //Play pick up sound
                         Assets.Assets.pickUp.play();
-                        System.out.println("added: " + e.getName());
+
                         //fetch the player's inventory ID and instance
                         Integer inventoryID = scene.entityManager.getEntityComponentInstance(j, (new Playable()).getClass()).inventory;
                         Integer handsInventoryID = scene.entityManager.getEntityComponentInstance(j, (new Player()).getClass()).LRInventory;
@@ -247,7 +248,14 @@ public class CollisionSystem extends SystemJob{
                         //if space available in the players inventory it will add the item to it
                         boolean added = addToInventory(handsInventoryID, i) || addToInventory(inventoryID, i);
                         
+                        
                         if(added){
+                            //adds the player as parent of the item when it is collected
+                                if(i != 0){
+                                    Transform itemTransform = scene.entityManager.getEntityComponentInstance(i, Transform.class);
+                                    if(itemTransform != null) itemTransform.parent = j;
+                                }
+                            
                             scene.entityManager.getEntityComponentInstance(i, (new Item()).getClass()).isInInventory = true; 
                             collidablei.active = false;
                         }
@@ -322,19 +330,12 @@ public class CollisionSystem extends SystemJob{
         entitiesCollidable = scene.entityManager.getEntitiesWithComponents(collision.getClass());
         
         for(int i = 0; i < arrItems.size(); i++) {
-            //System.out.println(arrItems.get(i));
             entities.add(arrItems.get(i));
-            //System.out.println(scene.entityManager.getEntityByID(arrItems.get(i)).getName());
         }
         
         for(int i = 0; i < arrPlayables.size(); i++) {
             entities.add(arrPlayables.get(i));
-            //System.out.println(arrPlayables.get(i));
-            //System.out.println(scene.entityManager.getEntityByID(arrPlayables.get(i)).getName());
         }
-
-        
-        //System.out.println("size: " + entities.size());
     }
     
     /**

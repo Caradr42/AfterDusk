@@ -42,9 +42,9 @@ public class ItemSystem extends  SystemJob{
                 collidable.active = true;
             }
             
-            if(item.name.equals("sword1")){
-                //System.out.println(transform.position.x + " " + transform.position.y + " ::: " + sprite.visible + " | " + collidable.active);
-            }
+            /*if(item.name.equals("sword1")){
+                System.out.println(transform.position.x + " " + transform.position.y + " ::: " + sprite.visible + " | " + collidable.active);
+            }*/
         }
     }
 

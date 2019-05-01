@@ -190,11 +190,11 @@ public class PlayerSystem extends SystemJob{
                 
                 Item RItem = scene.entityManager.getEntityComponentInstance(LRinv.slots.get(1), Item.class);
                 //rightHand = scene.entityManager.getEntityComponentInstance(LRinv.slots.get(1), rightHand.getClass());
-                System.out.println(RItem.name);
+                //System.out.println(RItem.name);
                 //0 for the base attack
                 //rightHand.currentActive = 0;
                 
-                System.out.println("Enter pressed");
+                System.out.println("Space pressed");
             }
             
 

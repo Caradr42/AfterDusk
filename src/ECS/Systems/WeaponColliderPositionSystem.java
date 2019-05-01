@@ -99,7 +99,7 @@ public class WeaponColliderPositionSystem extends SystemJob{
             //colliders of the right weapon
             rightComponent = scene.entityManager.getEntityComponentInstance(rightTool, attackComponent.getClass());    
         
-            System.out.println(scene.entityManager.getEntityByID(rightTool).getName());
+            //System.out.println(scene.entityManager.getEntityByID(rightTool).getName());
         }
         
         //if the player has a left hand weapon

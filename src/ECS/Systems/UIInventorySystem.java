@@ -92,11 +92,25 @@ public class UIInventorySystem extends SystemJob{
                                 //if you are placing an item
                                 if(itemBuffer != 0){
                                     Transform itemTransform = scene.entityManager.getEntityComponentInstance(itemBuffer, Transform.class);
+                                    //System.out.println("in: " +  itemTransform);
                                     //Transform plaTransform = scene.entityManager.getEntityComponentInstance(playerID, Transform.class);
                                     if(itemTransform != null) itemTransform.parent = playerID;
+                                    //System.out.println("added item to inv");
                                 }
                                 
                                 mousePointer.heldItem = getItemFromInventory(uiInventory.firstInventory, i, j);
+                                
+                                if(mousePointer.heldItem != 0){
+                                    Transform itemTransform = scene.entityManager.getEntityComponentInstance(mousePointer.heldItem, Transform.class);
+                                    //System.out.println("out: " +  itemTransform);
+                                    //Transform plaTransform = scene.entityManager.getEntityComponentInstance(playerID, Transform.class);
+                                    //System.out.println(scene.entityManager.getEntityByID(itemBuffer).getName());
+                                    if(itemTransform != null){
+                                        itemTransform.parent = 0;
+                                        
+                                        //System.out.println("removed item from inv" + itemTransform.parent);
+                                    }
+                                }
                                 setItemFromInventory(uiInventory.firstInventory, i, j, itemBuffer);
                             }
                         }
