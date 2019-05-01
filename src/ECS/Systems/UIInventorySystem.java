@@ -9,6 +9,7 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import Assets.Assets;
 import ECS.Components.MousePointer;
+import ECS.Components.Player;
 import ECS.Components.Transform;
 import Maths.Vector3;
 
@@ -28,6 +29,7 @@ public class UIInventorySystem extends SystemJob{
     
     Sprite inventorySprite;
     Transform inventoryTransform;
+    Integer playerID;
     
     Transform parentTransform;
     
@@ -61,6 +63,7 @@ public class UIInventorySystem extends SystemJob{
             parentTransform = scene.entityManager.getEntityComponentInstance(inventoryTransform.parent, parentTransform.getClass());
             
             int temp = uiInventory.firstInventory;
+            
             inventory = scene.entityManager.getEntityComponentInstance(temp, inventory.getClass());
             for(int i = 0; temp != 0; ++i){ 
                 
@@ -73,7 +76,7 @@ public class UIInventorySystem extends SystemJob{
                     inventory = scene.entityManager.getEntityComponentInstance(temp, inventory.getClass());
             }            
             
-            //System.out.println(uiInventory._visible);
+            //to place or remove items from the inventory
             if(inventorySprite.visible){
                 for(int i = 0; i < uiInventory.UISlots.size(); ++i){
                     for(int j = 0; j < uiInventory.UISlots.get(i).size(); ++j){
@@ -85,8 +88,16 @@ public class UIInventorySystem extends SystemJob{
                                 Assets.pickUp.play();
 
                                 int itemBuffer = mousePointer.heldItem;
+                                
+                                //if you are placing an item
+                                if(itemBuffer != 0){
+                                    Transform itemTransform = scene.entityManager.getEntityComponentInstance(itemBuffer, Transform.class);
+                                    //Transform plaTransform = scene.entityManager.getEntityComponentInstance(playerID, Transform.class);
+                                    if(itemTransform != null) itemTransform.parent = playerID;
+                                }
+                                
                                 mousePointer.heldItem = getItemFromInventory(uiInventory.firstInventory, i, j);
-                                    setItemFromInventory(uiInventory.firstInventory, i, j, itemBuffer);
+                                setItemFromInventory(uiInventory.firstInventory, i, j, itemBuffer);
                             }
                         }
                     }
@@ -104,6 +115,8 @@ public class UIInventorySystem extends SystemJob{
         mousePointers = scene.entityManager.getEntitiesWithComponents(mousePointer.getClass());
         mousePointer = scene.entityManager.getEntityComponentInstance(mousePointers.get(0), mousePointer.getClass());
         
+        playerID = scene.entityManager.getEntitiesWithComponents(Player.class).get(0);
+        
         //sets the slots  acording to the inventory
         for(Integer e: entities){//iterate on all UIInventories
             uiInventory = scene.entityManager.getEntityComponentInstance(e, uiInventory.getClass());
@@ -117,8 +130,8 @@ public class UIInventorySystem extends SystemJob{
             
             int temp = uiInventory.firstInventory;
             inventory = scene.entityManager.getEntityComponentInstance(temp, inventory.getClass());
+            
             for(int i = 0; temp != 0; ++i){ 
-                
                 uiInventory.UISlots.add(new ArrayList<>());
                 for(int j = 0; j < inventory.size; ++j){
                     uiInventory.UISlots.get(i).add(new Rectangle((int)(parentTransform.position.x + inventoryTransform.position.x + (j * 17) + 1 ), (int)(parentTransform.position.y + inventoryTransform.position.y + (i * 17) + 1), 16, 16));

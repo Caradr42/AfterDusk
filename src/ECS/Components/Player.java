@@ -30,12 +30,6 @@ public class Player extends Component{
     
     //max energy that the player can have
     public int maxEnergy;
-
-    //references the weapon that the player has equiped in the left hand, if any
-    public Integer leftHand;
-    
-    //references the weapon that the player has equiped in the right hand, if any
-    public Integer rightHand;
     
     //It is better to have booleans too to avoid a possible error in the random assignation of IDs
     //These are to know if the player has a tool equiped in any hand
@@ -49,31 +43,17 @@ public class Player extends Component{
     
     public Integer activesInventory;
     
-    
     //current size of the actives (the maximum is 9)
     public int activesSize;
     
     //current size of the passives (the maxium is 9)
     public int passivesSize;
-    
-    /**
-     * The first element of the pair is for the left hand, the second for the right hand.
-     * It is an integer referencing the weapon ID, and the actives selected from the weapon
-     */
-    //public Pair<Pair<Integer,ArrayList<Integer>>, Pair<Integer,ArrayList<Integer>>> actives;
         
     //The name of the player
     public String name = "INeedAName";
-    
-    
-        /**
-     * The first element of the pair is for the left hand, the second for the right hand.
-     * It is an integer referencing the weapon ID, and the actives selected from the weapon
-     */
-    public Pair<Pair<Integer,ArrayList<Integer>>, Pair<Integer,ArrayList<Integer>>> actives;
-    
+        
     //passives that are currently active
-    public ArrayList<Integer> pasives;
+    //public ArrayList<Integer> pasives;
 
 
     public Player(String name) {
@@ -88,9 +68,9 @@ public class Player extends Component{
         
         maxEnergy = 100;
         
-        actives = new Pair<>(new Pair<>(leftHand, new ArrayList<Integer>(activesSize)), new Pair<>(rightHand, new ArrayList<Integer>(activesSize))); 
+        //actives = new Pair<>(new Pair<>(leftHand, new ArrayList<Integer>(activesSize)), new Pair<>(rightHand, new ArrayList<Integer>(activesSize))); 
         
-        pasives = new ArrayList<>(passivesSize);
+        //pasives = new ArrayList<>(passivesSize);
         
         boolRight = true;
     }

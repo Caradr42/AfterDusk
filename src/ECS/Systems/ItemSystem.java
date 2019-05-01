@@ -31,6 +31,7 @@ public class ItemSystem extends  SystemJob{
             item = scene.entityManager.getEntityComponentInstance(e, item.getClass());
             sprite = scene.entityManager.getEntityComponentInstance(e, sprite.getClass());
             collidable = scene.entityManager.getEntityComponentInstance(e, collidable.getClass());
+            transform = scene.entityManager.getEntityComponentInstance(e, Transform.class);
             
             //System.out.println(item.isInInventory);
             if(item.isInInventory){
@@ -39,6 +40,10 @@ public class ItemSystem extends  SystemJob{
             }else{
                 sprite.visible = true;
                 collidable.active = true;
+            }
+            
+            if(item.name.equals("sword1")){
+                //System.out.println(transform.position.x + " " + transform.position.y + " ::: " + sprite.visible + " | " + collidable.active);
             }
         }
     }
