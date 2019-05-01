@@ -33,7 +33,7 @@ public class Player extends Component{
     public boolean boolLeft;
     
     //true if right
-    public boolean rightOrLeft = true;
+    public boolean rightOrLeft = false;
 
     public Integer LRInventory;
     
@@ -83,11 +83,11 @@ public class Player extends Component{
         this.pasivesInventory = pasivesInventory;
         this.activesInventory = activesInventory;
         
-        boolRight = true;
+        boolRight = false;
 
     }
 
     public Player() {
-        boolRight = true;
+        boolRight = false;
     }    
 }

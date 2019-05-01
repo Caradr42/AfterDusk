@@ -202,10 +202,31 @@ public class PlayerSystem extends SystemJob{
                 if(player.rightOrLeft) {
                     player.rightOrLeft = false;
                     
+                    //If there is no weapon in the left part
+                    if(scene.entityManager.getEntityComponentInstance(player.LRInventory, Inventory.class).slots.get(0) == 0) {
+                        playable.hasWeapon = false;
+                        System.out.println("has no weapon");
+                    }
+                    
+                    else {
+                        playable.hasWeapon = true;
+                        System.out.println("has weapon");
+                    }
                     
                 } 
                 else {
                     player.rightOrLeft = true;
+
+                    //If there is no weapon in the left part
+                    if (scene.entityManager.getEntityComponentInstance(player.LRInventory, Inventory.class).slots.get(1) == 0) {
+                        playable.hasWeapon = false;
+                        System.out.println("has no weapon");
+                    } 
+                    
+                    else {
+                        playable.hasWeapon = true;
+                        System.out.println("has weapon");
+                    }
                 }
             }
 

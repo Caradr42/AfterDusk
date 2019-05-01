@@ -85,6 +85,8 @@ public class WeaponColliderPositionSystem extends SystemJob{
         
         //for each entity
         for(Integer e : entities) {
+            
+            //System.out.println(entities.size());
             playable = scene.entityManager.getEntityComponentInstance(e, Playable.class);
             sprite = scene.entityManager.getEntityComponentInstance(e, Sprite.class);
             transform = scene.entityManager.getEntityComponentInstance(e, Transform.class);
@@ -183,6 +185,8 @@ public class WeaponColliderPositionSystem extends SystemJob{
                 }
             
             }
+            
+            //System.out.println(scene.entityManager.getEntityByID(e).getName());
         }
         
         
