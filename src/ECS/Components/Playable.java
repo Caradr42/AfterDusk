@@ -31,17 +31,36 @@ public class Playable extends Component {
 
     public Vector3 velocity;
     
+    /**
+     * To indicate if the playable has a weapon.
+     * This boolean does not work in the player. She has its own different 
+     * booleans.
+     * Other playables just have 1 weapon that is in the first position of the
+     * inventory.
+     */
+    public boolean hasWeapon;
+    
     //to indicate the direction of the playable
     public boolean right, left, up, down;
+
 
 
     public Playable(int hp, Integer inventory, Vector3 velocity) {
         this.hp = hp;
         this.inventory = inventory;
         this.velocity = velocity;
+        hasWeapon = false;
+    }
+
+    public Playable(int hp, Integer inventory, Vector3 velocity, boolean hasWeapon) {
+        this.hp = hp;
+        this.inventory = inventory;
+        this.velocity = velocity;
+        this.hasWeapon = hasWeapon;
     }
 
     
     public Playable() {
+        hasWeapon = false;
     }
 }

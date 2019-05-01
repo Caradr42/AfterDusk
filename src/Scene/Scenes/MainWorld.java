@@ -99,8 +99,18 @@ public class MainWorld extends Scene {
                     new Transform(new Vector3(0,0,16)),
                     new AttackComponent(playerColliders),
                     new WorldEntity()
-            );
-        
+        );
+
+        Entity swordTwo = entityManager.createEntityWithComponents("sword2",
+                new Item("sword2", true),
+                new Sprite("E_sword", false, 16, 16, 8, new ArrayList<>(Arrays.asList("E_sword"))),
+                new Collidable(new Vector3(16, 16, 1)),
+                new Tool(1),
+                //the x and y of enemy are 90 and 90
+                new Transform(new Vector3(0, 0, 0)),
+                new AttackComponent(enemyColliders)
+        );
+
         //------------
         
         //Regular Items
@@ -128,7 +138,7 @@ public class MainWorld extends Scene {
     //INVENTORIES
         //enemy inventory     
         Entity enemyInv = entityManager.createEntityWithComponents("Enemy_Inventory",
-                new Inventory(0, 5, new ArrayList<>(Arrays.asList(weirdItm.getID())))
+                new Inventory(0, 5, new ArrayList<>(Arrays.asList(swordTwo.getID())))
         );
 
         //The player's internal inventories
@@ -312,14 +322,7 @@ public class MainWorld extends Scene {
                 new Collidable(new Vector3(64, 80, 1)),
                 new Playable(300, enemyInv.getID(), new Vector3(1.5, 1.5, 0)));
 
-        /*Entity swordTwo = entityManager.createEntityWithComponents("sword2",
-                new Item("sword2", true),
-                new Collidable(new Vector3(16, 16, 1)),
-                new Tool(1),
-                //the x and y of enemy are 90 and 90
-                new Transform(new Vector3(0, 0, 0), enemy.getID()),
-                new AttackComponent(enemyColliders)
-        );*/
+
 
 
     //TILES 

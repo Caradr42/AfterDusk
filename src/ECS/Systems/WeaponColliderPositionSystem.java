@@ -44,6 +44,7 @@ public class WeaponColliderPositionSystem extends SystemJob{
     @Override
     public void update() {
        updatePlayerColliders(); 
+       updateEnemyColliders();
     }
 
     @Override
@@ -247,5 +248,7 @@ public class WeaponColliderPositionSystem extends SystemJob{
             
         }
     }
+    
+    public void updateEnemyColliders() {}
 
 }
