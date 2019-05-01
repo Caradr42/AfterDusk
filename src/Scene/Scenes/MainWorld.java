@@ -316,6 +316,8 @@ public class MainWorld extends Scene {
 
         );
 
+
+
         Entity enemy = entityManager.createEntityWithComponents("Enemy1",
                 new Transform(new Vector3(200, 90, 48)),
                 new Enemy(),
@@ -323,7 +325,6 @@ public class MainWorld extends Scene {
                 new WorldEntity(),
                 new Collidable(new Vector3(64, 80, 1)),
                 new Playable(300, enemyInv.getID(), new Vector3(1.5, 1.5, 0)));
-
 
 
 

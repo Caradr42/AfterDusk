@@ -106,7 +106,7 @@ public class Assets {
         animations.put("selected_transparency",     new Pair<>(crop(16, 16, 1, "/Resources/Images/selected_transparency.png", true), 1));
         animations.put("effect2",       new Pair<>(crop(1, 1, 1, "/Resources/Images/effect2.png", false), 1));
         animations.put("null",          new Pair<>(crop(1, 1, 1, "/Resources/Images/null.png", false), 1));
-        animations.put("item_selector",     new Pair<>(crop(18, 18, 27, "/Resources/Images/ItemSelector.png", false), 1));
+        animations.put("item_selector",     new Pair<>(crop(18, 18, 27, "/Resources/Images/ItemSelector.png", false), 27));
         
         //buttons
         animations.put("Button_32",     new Pair<>(crop(32, 10, 1, "/Resources/Images/Button_32.png", false), 1));
