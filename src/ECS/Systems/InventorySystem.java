@@ -37,9 +37,20 @@ public class InventorySystem extends SystemJob{
         player = scene.entityManager.getEntityComponentInstance(playerID, Player.class);
         playerPlayable = scene.entityManager.getEntityComponentInstance(playerID, Playable.class);
        
-        setItemsTransformAsChildOfPlayer(player.LRInventory);
-        setItemsTransformAsChildOfPlayer(player.pasivesInventory);
-        setItemsTransformAsChildOfPlayer(playerPlayable.inventory);
+        //for the player
+        setItemsTransformAsChildOfEntity(player.LRInventory, playerID);
+        setItemsTransformAsChildOfEntity(player.pasivesInventory, playerID);
+        setItemsTransformAsChildOfEntity(playerPlayable.inventory, playerID);
+        
+        //for the playables
+        entities = scene.entityManager.getEntitiesWithComponents(Playable.class);
+        
+        for(Integer e : entities) {
+            if(e != playerID) {
+                Playable playable = scene.entityManager.getEntityComponentInstance(e, Playable.class);
+                setItemsTransformAsChildOfEntity(playable.inventory, e);
+            }
+        }
         
     }
 
@@ -51,7 +62,7 @@ public class InventorySystem extends SystemJob{
     public void onDestroy() {
     }
     
-    private void setItemsTransformAsChildOfPlayer(Integer inventoryID){
+    private void setItemsTransformAsChildOfEntity(Integer inventoryID, Integer parentID){
         int tempID = inventoryID;
         Inventory inventory = scene.entityManager.getEntityComponentInstance(tempID, Inventory.class);
         
@@ -62,7 +73,7 @@ public class InventorySystem extends SystemJob{
                     itemTransform = scene.entityManager.getEntityComponentInstance(inventory.slots.get(j), Transform.class);
                     itemTransform.relativePosition = new Vector3();
                     if(itemTransform != null){
-                        itemTransform.parent = playerID;
+                        itemTransform.parent = parentID;
                     }
                 }
             }

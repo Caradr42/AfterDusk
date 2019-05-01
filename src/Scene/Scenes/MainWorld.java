@@ -311,7 +311,7 @@ public class MainWorld extends Scene {
                 new Sprite("sprite", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down", "player_up", "player_left", "player_right"))),
                 new WorldEntity(),
                 new Player("player", playerLR.getID(), playerPassives.getID(), playerActives.getID()),
-                new Playable(100, playerInv.getID(), new Vector3()),
+                new Playable(100, playerInv.getID(), new Vector3(), true),
                 new Collidable(new Vector3(32, 32, 32))
 
         );
@@ -324,7 +324,7 @@ public class MainWorld extends Scene {
                 new Sprite("enemy", true, 64, 80, 10, new ArrayList<>(Arrays.asList("enemy"))),
                 new WorldEntity(),
                 new Collidable(new Vector3(64, 80, 1)),
-                new Playable(300, enemyInv.getID(), new Vector3(1.5, 1.5, 0)));
+                new Playable(300, enemyInv.getID(), new Vector3(1.5, 1.5, 0), true));
 
 
 

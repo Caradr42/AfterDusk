@@ -13,6 +13,7 @@ import ECS.Components.Player;
 import ECS.Components.Sprite;
 import ECS.Components.Tool;
 import ECS.Components.Transform;
+import ECS.Entity;
 import ECS.SystemJob;
 import Maths.Vector3;
 import Scene.Scene;
@@ -81,7 +82,7 @@ public class WeaponColliderPositionSystem extends SystemJob{
     
     public void updatePlayerColliders() {   
         
-        /*
+        
         //for each entity
         for(Integer e : entities) {
             playable = scene.entityManager.getEntityComponentInstance(e, Playable.class);
@@ -96,10 +97,34 @@ public class WeaponColliderPositionSystem extends SystemJob{
             
             //if the entity is using a weapon
             if(playable.hasWeapon) {
+                //System.out.println("aaaa");
+                //if it is the player
+                if (scene.entityManager.hasComponent(e, Player.class)) {
+                    
+                    
+                    //if it is using a weapon with its right hand
+                    if(player.rightOrLeft) {
+                        //get the colliders of the weapon
+                        attackComponent = scene.entityManager.getEntityComponentInstance(playerLRInventory.slots.get(1), AttackComponent.class);   
+                    }
+                    
+                    else {
+                         attackComponent = scene.entityManager.getEntityComponentInstance(playerLRInventory.slots.get(0), AttackComponent.class);   
+                    }
+                }
                 
-                if()
-                //get the colliders of the weapon
-                attackComponent = scene.entityManager.getEntityComponentInstance(e, AttackComponent.class);
+                //if it is not a player
+                else {
+                    //Entity with the component of inventory
+                    Entity inventoryID = scene.entityManager.getEntityByID(playable.inventory);
+                    
+                    //getting the inventory component
+                    Inventory inventory = scene.entityManager.getEntityComponentInstance(inventoryID, Inventory.class);
+                    
+                     attackComponent = scene.entityManager.getEntityComponentInstance(inventory.slots.get(0), AttackComponent.class);   
+                }
+
+
             
                 //for each collider of the weapon
                 for(AttackCollider at : attackComponent.arrColliders) {
@@ -158,11 +183,11 @@ public class WeaponColliderPositionSystem extends SystemJob{
                 }
             
             }
-        }*/
+        }
         
         
    
-        
+       /* 
         Integer rightTool;
         Integer leftTool;
         
@@ -337,7 +362,7 @@ public class WeaponColliderPositionSystem extends SystemJob{
                 }
             }
             
-        }
+        }*/
     }
     
     public void updateEnemyColliders() {
