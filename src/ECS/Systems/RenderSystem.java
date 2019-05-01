@@ -136,7 +136,7 @@ public class RenderSystem extends SystemJob{
         //Render all entities with a Transform and Sprite Component
         for(Pair<Transform, Sprite> t : array){
             if(t.second.visible) {
-                g.drawImage(t.second.currentFrame, (int) t.first.position.x,t.first.renderedY ,t.second.width,t.second.height,null);
+                g.drawImage(t.second.currentFrame, (int) t.first.position.x,t.first._renderedY ,t.second.width,t.second.height,null);
             }
         }
         
@@ -144,7 +144,7 @@ public class RenderSystem extends SystemJob{
             for(Integer col: collidables){
                 collidable = scene.entityManager.getEntityComponentInstance(col, Collidable.class);
                 transform = scene.entityManager.getEntityComponentInstance(col, Transform.class);
-                if(collidable.active)   g.drawRect((int)transform.position.x, (int)transform.renderedY, (int)collidable.hitbox.x, (int)collidable.hitbox.y);
+                if(collidable.active)   g.drawRect((int)transform.position.x, (int)transform._renderedY, (int)collidable.hitbox.x, (int)collidable.hitbox.y);
             }
             
             for(Integer attk : attackComponents){
@@ -215,9 +215,9 @@ public class RenderSystem extends SystemJob{
         public int compare
         (Pair<Transform, Sprite> p1, Pair<Transform, Sprite > p2) {
             
-            if(p1.first.position.z + p1.first.position.y > p2.first.position.z + p2.first.position.y){
+            if(p1.first.position.z + p1.first._renderedY > p2.first.position.z + p2.first._renderedY){
                 return 1;
-            }else if (p1.first.position.z + p1.first.position.y < p2.first.position.z + p2.first.position.y){
+            }else if (p1.first.position.z + p1.first._renderedY < p2.first.position.z + p2.first._renderedY){
                 return -1;
             }else return 0; 
         }

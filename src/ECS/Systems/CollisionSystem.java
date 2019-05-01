@@ -120,15 +120,15 @@ public class CollisionSystem extends SystemJob{
         transformj = scene.entityManager.getEntityComponentInstance(j, transformj.getClass());
 
         //Rectangle of the first entity
-        Rectangle firstRect = new Rectangle((int)transformi.position.x, (int)transformi.renderedY, (int)collidablei.hitbox.x, (int)collidablei.hitbox.y);
+        Rectangle firstRect = new Rectangle((int)transformi.position.x, (int)transformi._renderedY, (int)collidablei.hitbox.x, (int)collidablei.hitbox.y);
         
         //Rectangle of the second entity
-        Rectangle secondRect = new Rectangle((int)transformj.position.x, (int)transformj.renderedY, (int)collidablej.hitbox.x, (int)collidablej.hitbox.y);
+        Rectangle secondRect = new Rectangle((int)transformj.position.x, (int)transformj._renderedY, (int)collidablej.hitbox.x, (int)collidablej.hitbox.y);
 
         //The center of the first object(x, y, z)
         double firstCenterX = transformi.position.x + collidablei.hitbox.x / 2;
 ;
-        double firstCenterY = transformi.renderedY + collidablei.hitbox.y / 2;
+        double firstCenterY = transformi._renderedY + collidablei.hitbox.y / 2;
         double firstCenterZ;
         
         
@@ -143,7 +143,7 @@ public class CollisionSystem extends SystemJob{
 
         //The center of the second object(x, y, z)
         double secondCenterX = transformj.position.x + collidablej.hitbox.x / 2;
-        double secondCenterY = transformj.renderedY + collidablej.hitbox.y / 2;
+        double secondCenterY = transformj._renderedY + collidablej.hitbox.y / 2;
         double secondCenterZ;
 
         //The length of the second object in the x axis from the center to the border
@@ -290,10 +290,10 @@ public class CollisionSystem extends SystemJob{
         tileCollidable = scene.entityManager.getEntityComponentInstance(j, tile.getClass());
         
         //Rectangle of the first entity
-        Rectangle firstRect = new Rectangle((int)transformi.position.x, (int)transformi.renderedY, (int)collidablei.hitbox.x, (int)collidablei.hitbox.y);
+        Rectangle firstRect = new Rectangle((int)transformi.position.x, (int)transformi._renderedY, (int)collidablei.hitbox.x, (int)collidablei.hitbox.y);
         
         //Rectangle of the second entity
-        Rectangle secondRect = new Rectangle((int)transformj.position.x, (int)transformj.renderedY, (int)16,(int)16);
+        Rectangle secondRect = new Rectangle((int)transformj.position.x, (int)transformj._renderedY, (int)16,(int)16);
                 
         //floor of player and Tile
         double floorPlayer = (transformi.position.z-32); 

@@ -33,6 +33,7 @@ public class UIEntity extends Component implements UIChild{
     public ArrayList<UIChild> UIChildsInterfaces; //polimorfic list of components
     
     public boolean mainUI;
+    public boolean standAlone = false;
     public Rectangle UIcollider;
     
     public UIEntity _parentUI;
@@ -81,6 +82,15 @@ public class UIEntity extends Component implements UIChild{
         //_visible = false; //this is updated in the system 
     }
     
+    public UIEntity(String name,boolean mainUI, ArrayList<Integer> childs, boolean standAlone){
+        this(name, mainUI, childs);
+        this.standAlone = standAlone;
+    }
+    
+     public UIEntity(String name, boolean mainUI, int expectedParentWindow, ArrayList<Integer> childs, boolean standAlone){
+        this(name, mainUI,expectedParentWindow,childs);
+        this.standAlone = standAlone;
+    }
     
     
 
@@ -95,12 +105,12 @@ public class UIEntity extends Component implements UIChild{
         
         if(_uiSprite != null && _uiTransform != null && mainUI && _uiSprite.visible){
             //System.out.println("Rendering UI2w: " + name);
-            if(parent != 0  ){
+            if(parent != 0 && standAlone){
                  if(_parentUI != null && _parentUI._uiSprite.visible){
                    //System.out.println("not null");
                     g.drawImage(_uiSprite.currentFrame, (int)_uiTransform.position.x, (int)_uiTransform.position.y, _uiSprite.width, _uiSprite.height, null);
                 }
-            }else{
+            }else {
                 g.drawImage(_uiSprite.currentFrame, (int)_uiTransform.position.x, (int)_uiTransform.position.y, _uiSprite.width, _uiSprite.height, null);
             }
             
@@ -108,8 +118,8 @@ public class UIEntity extends Component implements UIChild{
                     System.out.println("Sprite: " + _uiSprite.visible);
             }
             g.drawImage(_uiSprite.currentFrame, (int)_uiTransform.position.x, (int)_uiTransform.position.y, _uiSprite.width, _uiSprite.height, null);*/
-
         }
+        
         for(UIChild sub: UIChildsInterfaces){
             sub.UIRender(g, s);
         }

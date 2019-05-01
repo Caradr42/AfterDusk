@@ -24,13 +24,19 @@ public class EnemySystem extends SystemJob{
 
     ArrayList<Integer> arrPlayable;
     Integer player;
+    
     Player player1;
     Playable playable;
     Transform playerPos;
+    Sprite playerSprite;
+    
     Sprite sprite;
+    Transform transform;
     
     //If this margin is passed, the enemy will move diagonally
-    int marginDistance = 56;
+    //int marginDistance = 56;
+    int minDistance = 60;
+    int maxDistance = 200;
     
     public EnemySystem(Scene scene, boolean active) {
         super(scene, active);
@@ -39,6 +45,8 @@ public class EnemySystem extends SystemJob{
         playable = new Playable();
         playerPos = new Transform();
         sprite = new Sprite();
+        transform = new Transform();
+        playerSprite  =new Sprite();
     }
 
     @Override
@@ -47,7 +55,13 @@ public class EnemySystem extends SystemJob{
         for(Integer entity : entities) {
             //Each entity should follow the player 
             updateEntityPosition(entity);
-            
+            /*
+            playable = scene.entityManager.getEntityComponentInstance(entity, Playable.class);
+            sprite = scene.entityManager.getEntityComponentInstance(entity, Sprite.class);
+            transform = scene.entityManager.getEntityComponentInstance(entity, Transform.class);
+            if(sprite.name.equals("enemy")){
+                System.out.println(sprite.name +  " Z: " + transform.position.z + "\t renderedY: " + transform._renderedY);
+            }*/
             
         }
        
@@ -63,7 +77,8 @@ public class EnemySystem extends SystemJob{
         entities = scene.entityManager.getEntitiesWithComponents(playable.getClass());
         
         //Getting the transform of the player
-        playerPos = scene.entityManager.getEntityComponentInstance(player, playerPos.getClass());
+        playerPos = scene.entityManager.getEntityComponentInstance(player, Transform.class);
+        playerSprite = scene.entityManager.getEntityComponentInstance(player, Sprite.class);
     }
 
     @Override
@@ -77,8 +92,19 @@ public class EnemySystem extends SystemJob{
     }
     
     private void updateEntityPosition(Integer entity) {
-                    
-            //true if the enemy is to the right of the player
+        transform = scene.entityManager.getEntityComponentInstance(entity, Transform.class);
+        sprite = scene.entityManager.getEntityComponentInstance(entity, Sprite.class);
+        playable = scene.entityManager.getEntityComponentInstance(entity, Playable.class);
+        
+        double distance = abs(playerPos._renderedPosition.toVector2().add(playerSprite.dimensions.div(2)).dist(transform._renderedPosition.toVector2().add(sprite.dimensions.div(2))));
+        if(distance < maxDistance && distance > minDistance ){
+            System.out.println(distance);
+            Vector2 direction = playerPos._renderedPosition.toVector2().add(playerSprite.dimensions.div(2)).sub(transform._renderedPosition.toVector2().add(sprite.dimensions.div(2))).norm().scalar(playable.speedScalar);
+            //System.out.println(direction.x + " : " + direction.y);
+            transform.position.set(transform.position.add(direction));
+        }
+        
+            /*//true if the enemy is to the right of the player
             boolean right;
             
             //true if the enemy is above the player
@@ -120,6 +146,8 @@ public class EnemySystem extends SystemJob{
                 enemyPos.position = enemyPos.position.add(newDist);
             }
             
+            
+            
             else if (abs(playerPos.position.x - enemyPos.position.x) > marginDistance && abs(playerPos.position.y - enemyPos.position.y) < marginDistance) {
                 
                 if(playerPos.position.x > enemyPos.position.x) {
@@ -156,7 +184,7 @@ public class EnemySystem extends SystemJob{
                 
             }
             
-            //System.out.println(enemyPos.position.x);
+            //System.out.println(enemyPos.position.x);*/
     }
     
 }

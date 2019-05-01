@@ -263,8 +263,8 @@ public class MainWorld extends Scene {
         
         Entity itemSelector = entityManager.createEntityWithComponents("item_selector",
                 new Transform(0,10),
-                new Sprite("item_selector", true, 18, 18, 10, new ArrayList<>(Arrays.asList("item_selector"))),
-                new UIEntity("item_selector", true, 0, null)
+                new Sprite("item_selector", true, 18, 18, 17, new ArrayList<>(Arrays.asList("item_selector"))),
+                new UIEntity("item_selector", true, null, true)
         );
 
     //USER INTERFACES
@@ -308,10 +308,10 @@ public class MainWorld extends Scene {
     //PLAYABLE ENTITIES
         Entity player = entityManager.createEntityWithComponents("Player",
                 new Transform(new Vector3(100, 100, 32)),
-                new Sprite("sprite", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down", "player_up", "player_left", "player_right"))),
+                new Sprite("player", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down", "player_up", "player_left", "player_right"))),
                 new WorldEntity(),
                 new Player("player", playerLR.getID(), playerPassives.getID(), playerActives.getID()),
-                new Playable(100, playerInv.getID(), new Vector3()),
+                new Playable(100, playerInv.getID(), 2),
                 new Collidable(new Vector3(32, 32, 32))
 
         );
@@ -319,12 +319,12 @@ public class MainWorld extends Scene {
 
 
         Entity enemy = entityManager.createEntityWithComponents("Enemy1",
-                new Transform(new Vector3(200, 90, 48)),
+                new Transform(new Vector3(200, 90, 80)),
                 new Enemy(),
                 new Sprite("enemy", true, 64, 80, 10, new ArrayList<>(Arrays.asList("enemy"))),
                 new WorldEntity(),
-                new Collidable(new Vector3(64, 80, 1)),
-                new Playable(300, enemyInv.getID(), new Vector3(1.5, 1.5, 0)));
+                new Collidable(new Vector3(64, 80, 80)),
+                new Playable(300, enemyInv.getID(), 1));
 
 
 
@@ -404,12 +404,12 @@ public class MainWorld extends Scene {
                 new SpriteSystem(this, true),
                 new TileSystem(this, true),
                 new TransformSystem(this, true),
+                new InventorySystem(this, true),
                 new UIButtonSystem(this, true),
                 new UIEntitiesSystem(this, true),
                 new UIInventorySystem(this, true),
                 new UITextSystem(this, true),
                 new WeaponColliderPositionSystem(this, true),
-                new InventorySystem(this, true),
                 new RenderSystem(this, true)
 
         );

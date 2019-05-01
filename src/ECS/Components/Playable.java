@@ -25,7 +25,8 @@ import Maths.Vector3;
 public class Playable extends Component {
     
     public int hp; 
-
+    
+    public double speedScalar;
 
     public Integer inventory;
 
@@ -50,45 +51,44 @@ public class Playable extends Component {
 
 
 
-    public Playable(int hp, Integer inventory, Vector3 velocity) {
+    public Playable(int hp, Integer inventory, double speedScalar) {
         this.hp = hp;
         this.inventory = inventory;
-        this.velocity = velocity;
+        this.velocity = new Vector3();
         hasWeapon = false;
         
         maxEnergy = 100;
-        
         energy = maxEnergy;
+        this.speedScalar = speedScalar;
     }
 
-    public Playable(int hp, Integer inventory, Vector3 velocity, boolean hasWeapon) {
+    public Playable(int hp, Integer inventory, double speedScalar, boolean hasWeapon) {
         this.hp = hp;
         this.inventory = inventory;
-        this.velocity = velocity;
+        this.velocity = new Vector3();
         this.hasWeapon = hasWeapon;
         
         maxEnergy = 100;
         energy = maxEnergy;
+        this.speedScalar = speedScalar;
     }
     
-        public Playable(int hp, Integer inventory, Vector3 velocity, boolean hasWeapon, int weapon) {
+        public Playable(int hp, Integer inventory, double speedScalar, boolean hasWeapon, int weapon) {
         this.hp = hp;
         this.inventory = inventory;
-        this.velocity = velocity;
+        this.velocity = new Vector3();
         this.hasWeapon = hasWeapon;
         
         maxEnergy = 100;
         energy = maxEnergy;
-        
-        
-        
         currentWeapon = weapon;
+        this.speedScalar = speedScalar;
     }
     
     
     
-        public Playable(int hp, Integer inventory, Vector3 velocity, int maxEnergy) {
-        this(hp, inventory, velocity);
+        public Playable(int hp, Integer inventory, double speedScalar, int maxEnergy) {
+        this(hp, inventory, speedScalar);
         
         this.maxEnergy = energy;
         
