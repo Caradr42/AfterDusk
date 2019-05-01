@@ -34,6 +34,9 @@ public class AttackCollider extends Component {
     
     public boolean active;
     
+    //true if the collider is an area collider
+    public boolean areaAttack;
+    
     public AttackCollider() {
         active = true;
     }
@@ -47,7 +50,7 @@ public class AttackCollider extends Component {
         active = true;
         this.a = hitbox.x;
         this.b = hitbox.y;
-        
+        areaAttack = false;
         collidesWith = new ArrayList<>();
     }
     
@@ -57,7 +60,7 @@ public class AttackCollider extends Component {
         active = true;
         this.a = a;
         this.b = b;
-        
+        areaAttack = false;
         collidesWith = new ArrayList<>();
     }
 }

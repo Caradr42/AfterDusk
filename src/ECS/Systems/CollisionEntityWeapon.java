@@ -173,6 +173,7 @@ public class CollisionEntityWeapon extends SystemJob{
             Rectangle wpnRect = new Rectangle((int) (wpnTrans.position.x + arrCollider.relativePosition.x), (int) (wpnTrans.position.y + arrCollider.relativePosition.y), (int) arrCollider.hitbox.x, (int) arrCollider.hitbox.y);
             rectangle = wpnRect;
             judge = true;
+            
             rects.add(wpnRect);
             
             

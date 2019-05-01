@@ -84,7 +84,20 @@ public class WeaponColliderPositionSystem extends SystemJob{
         
         //for each entity
         for(Integer e : entities) {
+            playable = scene.entityManager.getEntityComponentInstance(e, Playable.class);
+            sprite = scene.entityManager.getEntityComponentInstance(e, Sprite.class);
             
+            //width of the entity
+            int entityWidth = sprite.width;
+            
+            //height of the entity
+            int entityHeight = sprite.height;
+            
+            //if the entity is using a weapon
+            if(playable.hasWeapon) {
+                //get the colliders of the weapon
+                AttackComponent attackComponent = scene.entityManager.getEntityComponentInstance(e, AttackComponent.class);
+            }
         }
         
         

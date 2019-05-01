@@ -32,11 +32,7 @@ public class Playable extends Component {
     public Vector3 velocity;
     
     /**
-     * To indicate if the playable has a weapon.
-     * This boolean does not work in the player. She has its own different 
-     * booleans.
-     * Other playables just have 1 weapon that is in the first position of the
-     * inventory.
+     * To indicate if the playable has a weapon IN USE.
      */
     public boolean hasWeapon;
     
