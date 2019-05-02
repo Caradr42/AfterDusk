@@ -49,7 +49,8 @@ public class PlayerSystem extends SystemJob{
     int rightBorder = 80;
     int upperBorder = 50;
     int downBorder = 50 - 32;
-        
+    Vector3 v3V;
+    Vector3 v3R;
 
     /**
      * Constructor
@@ -86,7 +87,7 @@ public class PlayerSystem extends SystemJob{
             //Check if is empty the HashSet with the ids of collision bw entity-tiles
             
             if(!collision.setCollidable.isEmpty()){
-                //System.out.println(collision.setCollidable);
+                System.out.println(collision.setCollidable);
                 CollisionCheck=true;
             }
             
@@ -112,8 +113,9 @@ public class PlayerSystem extends SystemJob{
                 
                 
                 //Movement with ressistance
-                Vector3 v3V=new Vector3(0.2, 0, 0);
-                Vector3 v3R=new Vector3(-0.1,0,0);
+                
+                v3V=new Vector3(0.2, 0, 0);
+                v3R=new Vector3(-0.1,0,0);
                 if(Math.abs(movement.velocity.x)<=2){
                     movement.velocity.set(movement.velocity.add(v3V));
                     movement.velocity.set(movement.velocity.add(v3R));
@@ -146,8 +148,8 @@ public class PlayerSystem extends SystemJob{
                 }
                 
                 //Movement with ressistance
-                Vector3 v3V=new Vector3(-0.2, 0, 0);
-                Vector3 v3R=new Vector3(0.1,0,0);
+                v3V=new Vector3(-0.2, 0, 0);
+                v3R=new Vector3(0.1,0,0);
                 if(Math.abs(movement.velocity.x)<=2){
                     movement.velocity.set(movement.velocity.add(v3V));
                     movement.velocity.set(movement.velocity.add(v3R));
@@ -179,8 +181,8 @@ public class PlayerSystem extends SystemJob{
                 }
                 
                 //Movement with ressistance
-                Vector3 v3V=new Vector3(0, -0.2, 0);
-                Vector3 v3R=new Vector3(0,+0.1,0);
+                v3V=new Vector3(0, -0.2, 0);
+                v3R=new Vector3(0,+0.1,0);
                 if(Math.abs(movement.velocity.y)<=2){
                     movement.velocity.set(movement.velocity.add(v3V));
                     movement.velocity.set(movement.velocity.add(v3R));
@@ -211,9 +213,15 @@ public class PlayerSystem extends SystemJob{
                 }
                 
                 //Movement with ressistance
+                /*if(CollisionCheck){
+                    v3V=new Vector3(0, -0.2, 0);
+                }else{
+                    
+                    
+                }*/
+                v3V=new Vector3(0, 0.2, 0);
+                v3R=new Vector3(0,-0.1,0);
                 
-                Vector3 v3V=new Vector3(0, 0.2, 0);
-                Vector3 v3R=new Vector3(0,-0.1,0);
                 if(Math.abs(movement.velocity.y)<=2){
                     movement.velocity.set(movement.velocity.add(v3V));
                     movement.velocity.set(movement.velocity.add(v3R));
@@ -285,6 +293,12 @@ public class PlayerSystem extends SystemJob{
             }
             if(!(scene.display.getKeyManager().left||scene.display.getKeyManager().right)){
                 movement.velocity.set(new Vector3(0,movement.velocity.y,0));
+            }
+            if(scene.display.getKeyManager().left&&scene.display.getKeyManager().right){
+                movement.velocity.set(new Vector3(0,movement.velocity.y,0));
+            }
+            if(scene.display.getKeyManager().up&&scene.display.getKeyManager().down){
+                movement.velocity.set(new Vector3(movement.velocity.x,0,0));
             }
         }
     }

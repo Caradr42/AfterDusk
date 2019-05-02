@@ -308,19 +308,19 @@ public class CollisionSystem extends SystemJob{
             double d2RD=(secondRect.x+secondRect.width)-secondRect.height;
             
             if(((firstRect.x+firstRect.width)<=secondRect.y&&(firstRect.x+firstRect.width)>=secondRect.y-secondRect.height)||(((firstRect.x+firstRect.width)-firstRect.height>=secondRect.y-secondRect.height))&&(firstRect.x+firstRect.width)-firstRect.height<=secondRect.y){
-                System.out.println("Left collision");
+                //System.out.println("Left collision");
                 collidablei.collisionSite=4;
             }
             if(((firstRect.x)<=secondRect.x+secondRect.width&&(firstRect.x)>=(secondRect.x+secondRect.width)-secondRect.height)||(((firstRect.y-firstRect.height)>=(secondRect.x+secondRect.width)-secondRect.height))&&(firstRect.y-firstRect.height)<=secondRect.x+secondRect.width){
-                System.out.println("Right collision");
+                //System.out.println("Right collision");
                 collidablei.collisionSite=2;
             }
             if(((firstRect.y)<=(secondRect.x+secondRect.width)-secondRect.height&&(firstRect.y)>=(secondRect.y-secondRect.height))||(((firstRect.x+firstRect.width)>=(secondRect.y-secondRect.height))&&(firstRect.x+firstRect.width)<=(secondRect.x+secondRect.width)-secondRect.height)){
-                System.out.println("Down collision");
+                //System.out.println("Down collision");
                 collidablei.collisionSite=3;
             }
             if(firstRect.intersectsLine(d2LD,d2LD,d2RD,d1RD)){
-                System.out.println("Up collision");
+                //System.out.println("Up collision");
                 collidablei.collisionSite=1;
             }
             collidablei.setCollidable.add(j);
