@@ -7,6 +7,8 @@ package ECS.Systems;
 import ECS.Components.AttackCollider;
 import ECS.Components.AttackComponent;
 import ECS.Components.Collidable;
+import ECS.Components.Enemy;
+import ECS.Components.Inventory;
 import ECS.Components.Playable;
 import ECS.Components.Player;
 import ECS.Components.Tool;
@@ -70,8 +72,8 @@ public class CollisionEntityWeapon extends SystemJob{
 
                 //Check if it collides with a collidable entity
                 for (Integer j : arrCollidable) {
-                    //if they are not the same
-                    if (!Objects.equals(i, j)) {
+                    //if they are not the same and i is not a weapon of j
+                    if (!Objects.equals(i, j) && ! isWeaponOf(i, j)) {
 
                         //for each collider  that collides with the entity
                         for (AttackCollider k : checkAttack(i, j)) {
@@ -216,6 +218,38 @@ public class CollisionEntityWeapon extends SystemJob{
         //The attack has been done
         //tool.currentActive = -1;
         //System.out.println("Attack done");
+    }
+    
+    //true if i is a weapon from the collidable j
+    public boolean isWeaponOf(int i, int j) {
+       boolean bJudge;
+       
+       bJudge = false;
+        
+        //if j is a player
+        if(scene.entityManager.hasComponent(j, Player.class)) {
+            player = scene.entityManager.getEntityComponentInstance(j, Player.class);
+            
+            //inventory of the two weapons in selection of the playe
+            
+            Inventory inventory = scene.entityManager.getEntityComponentInstance(player.LRInventory, Inventory.class);
+            if(inventory.slots.get(0) == i || inventory.slots.get(1) == i) {
+                bJudge = true;
+            }
+        }
+        
+        //if j is an enemy
+        else if(scene.entityManager.hasComponent(j, Enemy.class)) {
+            Playable playable = scene.entityManager.getEntityComponentInstance(j, Playable.class);
+            
+            Inventory inventory = scene.entityManager.getEntityComponentInstance(playable.inventory, Inventory.class);
+            
+            if(inventory.slots.get(0) == i) {
+                bJudge = true;
+            }
+        }
+        
+         return bJudge;
     }
     
     @Override
