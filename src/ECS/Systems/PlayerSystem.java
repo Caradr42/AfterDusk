@@ -287,12 +287,10 @@ public class PlayerSystem extends SystemJob{
                         playable.hasWeapon = false;
                         System.out.println("has no weapon");
                     }
-                    
                     else {
                         playable.hasWeapon = true;
                         System.out.println("has weapon");
-                    }
-                    
+                    }   
                 } 
                 else {
                     player.rightOrLeft = true;
