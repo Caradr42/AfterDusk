@@ -13,6 +13,7 @@ import ECS.Components.Player;
 import ECS.Components.Sprite;
 import ECS.Components.Tool;
 import ECS.Components.Transform;
+import ECS.Entity;
 import ECS.SystemJob;
 import Maths.Vector3;
 import Scene.Scene;
@@ -84,6 +85,8 @@ public class WeaponColliderPositionSystem extends SystemJob{
         
         //for each entity
         for(Integer e : entities) {
+            
+            //System.out.println(entities.size());
             playable = scene.entityManager.getEntityComponentInstance(e, Playable.class);
             sprite = scene.entityManager.getEntityComponentInstance(e, Sprite.class);
             transform = scene.entityManager.getEntityComponentInstance(e, Transform.class);
@@ -96,18 +99,50 @@ public class WeaponColliderPositionSystem extends SystemJob{
             
             //if the entity is using a weapon
             if(playable.hasWeapon) {
-                //get the colliders of the weapon
-                attackComponent = scene.entityManager.getEntityComponentInstance(e, AttackComponent.class);
+                //System.out.println("aaaa");
+                //if it is the player
+                if (scene.entityManager.hasComponent(e, Player.class)) {
+                    
+                    
+                    //if it is using a weapon with its right hand
+                    if(player.rightOrLeft) {
+                        //get the colliders of the weapon
+                        attackComponent = scene.entityManager.getEntityComponentInstance(playerLRInventory.slots.get(1), AttackComponent.class);   
+                    }
+                    
+                    else {
+                         attackComponent = scene.entityManager.getEntityComponentInstance(playerLRInventory.slots.get(0), AttackComponent.class);   
+                    }
+                }
+                
+                //if it is not a player
+                else {
+                    //Entity with the component of inventory
+                    //Entity inventoryID = scene.entityManager.getEntityByID(playable.inventory);
+                    
+                    //getting the inventory component
+                    Inventory inventory = scene.entityManager.getEntityComponentInstance(playable.inventory, Inventory.class);
+                    
+                     attackComponent = scene.entityManager.getEntityComponentInstance(inventory.slots.get(0), AttackComponent.class);   
+                }
+
+
             
                 //for each collider of the weapon
                 for(AttackCollider at : attackComponent.arrColliders) {
                     //if it is not an area attack
                     if (!at.areaAttack) {
+                        //System.out.println(scene.entityManager.getEntityByID(e).getName());
                         if (playable.up) {
                             at.relativePosition.x = -at.b / 2 + entityWidth / 2;
 
-                            at.relativePosition.y = - entityHeight - at.a + transform.position.z;
-
+                            at.relativePosition.y = - entityHeight - at.a +  transform.position.z;
+                            //- entityHeight - at.a + 
+                             System.out.println(scene.entityManager.getEntityByID(e).getName() +transform.position.x + ", " + transform.position.y);
+                            System.out.println("collider = " + at.relativePosition.x + ", " + at.relativePosition.y);
+                           
+                            
+                            //- entityHeight - at.a + transform.position.z
                             //the y is the height of the collider
                             at.hitbox.y = at.a;
 
@@ -156,11 +191,13 @@ public class WeaponColliderPositionSystem extends SystemJob{
                 }
             
             }
+            
+            
         }
         
         
    
-        /*
+       /* 
         Integer rightTool;
         Integer leftTool;
         

@@ -117,7 +117,7 @@ public class CollisionEntityWeapon extends SystemJob{
 
         arrAttack = scene.entityManager.getEntitiesWithComponents(attackComponent.getClass(), tool.getClass());
 
-        arrCollidable = scene.entityManager.getEntitiesWithComponents(collidable.getClass());
+        arrCollidable = scene.entityManager.getEntitiesWithComponents(collidable.getClass(), Playable.class);
         
 
         for(int i = 0; i < arrAttack.size(); i++) {
