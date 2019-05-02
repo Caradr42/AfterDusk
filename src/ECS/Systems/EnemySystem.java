@@ -104,7 +104,9 @@ public class EnemySystem extends SystemJob{
 
         if(playable.isAlive) {
             double distance = abs(playerPos._renderedPosition.toVector2().add(playerSprite.dimensions.div(2)).dist(transform._renderedPosition.toVector2().add(sprite.dimensions.div(2))));
+            
             if (distance < maxDistance && distance > minDistance) {
+                
                 //System.out.println(distance);
                 Vector2 direction = playerPos._renderedPosition.toVector2().add(playerSprite.dimensions.div(2)).sub(transform._renderedPosition.toVector2().add(sprite.dimensions.div(2))).norm().scalar(playable.speedScalar);
                 //System.out.println(direction.x + " : " + direction.y);

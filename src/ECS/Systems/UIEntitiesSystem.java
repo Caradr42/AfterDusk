@@ -167,15 +167,13 @@ public class UIEntitiesSystem extends SystemJob{
                     }
                 }
                 
-                /*if(uiEntity._parentUI != null && uiEntity._parentUI.name.equals("RL_bar")){
-                    //System.out.println("chld: " + uiEntity.name);
-                }*/
-                /*if(uiEntity.name.equals("RL_bar")){
-                    for(Integer i : uiEntity.childs){
-                        System.out.print(i + " : ");
+                if(uiEntity.name.equals("map_button") || uiEntity.name.equals("quests_button") || uiEntity.name.equals("options_button") || uiEntity.name.equals("game_button")){
+                    if(uiEntity._parentUI.window == uiEntity.expectedParentWindow){
+                       // uiEntity._uiSprite.animation = uiEntity._uiSprite.animations.get(1).first;
+                    }else{
+                        //uiEntity._uiSprite.animation = uiEntity._uiSprite.animations.get(2).first;
                     }
-
-                }*/
+                }
                 
                 //update the player hp bar according to the  players hp
                 if(uiEntity.name.equals("hp")){

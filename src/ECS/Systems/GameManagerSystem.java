@@ -12,6 +12,7 @@ import Maths.Vector2;
 import Scene.Scene;
 import java.awt.event.KeyEvent;
 import Assets.Assets;
+import ECS.Components.Sprite;
 import javax.swing.JFrame;
 
 /**
@@ -29,11 +30,14 @@ public class GameManagerSystem extends SystemJob{
     
     public static volatile boolean gameRunning = false;
     public static volatile boolean gameStarted = false;
-    int width;
-    int height;
-    int state;
+    
+    int width = 400;
+    int height = 400;
+    
+    int state = 1;
     boolean fullScreen = false;
     boolean visibleDialogBlock = false;
+    boolean showFade = false;
     
     public GameManagerSystem(Scene scene, boolean active) {
         super(scene, active);
@@ -55,7 +59,7 @@ public class GameManagerSystem extends SystemJob{
             }
         }
         
-        //executes ony when the  game starts
+        //executes only once, when the  game starts
         //it activates the Systems necesary for GamePlay
         if(gameStarted){
             scene.c.ortogonalPosition.set(scene.entityManager.getEntityComponentInstance(scene.entityManager.getEntitiesWithComponents(Player.class).get(0), Transform.class).position.toVector2().scalar(scene.c.scale).sub(new Vector2(scene.display.width/2 - 16,scene.display.height/2 + 32)));
@@ -65,11 +69,39 @@ public class GameManagerSystem extends SystemJob{
             }
             Assets.houseTheme.stop();
             Assets.fatherTheme.play();
+            
+            Sprite fade = new Sprite();
+            for(Integer e: scene.entityManager.getEntitiesWithComponents(Sprite.class)){
+                fade = scene.entityManager.getEntityComponentInstance(e, Sprite.class);
+                if(fade.name.equals("deathScreen")){
+                    break;
+                }
+            }
+            //fade.animation = fade.animations.get(1).first;
+            showFade = true;
+            fade.frameCounter = 0;
+            fade.speed = 0.3;
             gameStarted = false;
             gameRunning = true;
             
         }
         if(gameRunning){
+            
+            if(showFade){
+                Sprite fade = new Sprite();
+                for(Integer e: scene.entityManager.getEntitiesWithComponents(Sprite.class)){
+                    fade = scene.entityManager.getEntityComponentInstance(e, Sprite.class);
+                    if(fade.name.equals("deathScreen")){
+                        break;
+                    }
+                }
+                //System.out.println(fade.frameCounter);
+                if(fade.frameCounter >= 31){
+                    fade.speed = 0;
+                    showFade = false;
+                }
+            }
+            
             //System.out.println(ConversationSystem.visibleDialogBox);
             //game pause if in game menu
             if(scene.display.keyManager.wasPressed[KeyEvent.VK_ESCAPE]){
@@ -138,14 +170,36 @@ public class GameManagerSystem extends SystemJob{
                 }
             }
         }else{
-            scene.c.ortogonalPosition.x ++;
-        }
-        
-        
+            if(state == 1){
+                scene.c.ortogonalPosition.x ++;
+                if(scene.c.ortogonalPosition.x >= width) state = 2;
+            }else if(state == 2){
+                scene.c.ortogonalPosition.y ++;
+                if(scene.c.ortogonalPosition.y >= height) state = 3;
+            }else if(state == 3){
+                scene.c.ortogonalPosition.x--;
+                if(scene.c.ortogonalPosition.x <= 0) state = 4;
+            }else{scene.c.ortogonalPosition.y--;
+                if(scene.c.ortogonalPosition.y <= 0) state = 1;
+            }
+            
+            Sprite fade = new Sprite();
+            for(Integer e: scene.entityManager.getEntitiesWithComponents(Sprite.class)){
+                fade = scene.entityManager.getEntityComponentInstance(e, Sprite.class);
+                if(fade.name.equals("deathScreen")){
+                    break;
+                }
+            }
+            
+            if(fade.frameCounter >= 31){
+                fade.speed = 0;
+            }
+        }        
     }
 
     @Override
     public void init() {
+        
         Assets.houseTheme.play();
     }
 
