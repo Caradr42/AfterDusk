@@ -33,6 +33,7 @@ public class UIEntity extends Component implements UIChild{
     public ArrayList<UIChild> UIChildsInterfaces; //polimorfic list of components
     
     public boolean mainUI;
+    public boolean worldUI = false;
     public boolean standAlone = false;
     public Rectangle UIcollider;
     
@@ -80,6 +81,11 @@ public class UIEntity extends Component implements UIChild{
         UIChildsInterfaces = new ArrayList<>();
         //System.out.println("NOTUSEWINDOW: " + name);
         //_visible = false; //this is updated in the system 
+    }
+    
+    public UIEntity(String name,boolean mainUI, boolean worldUI, ArrayList<Integer> childs){
+        this(name,mainUI,childs);
+        this.worldUI = worldUI;
     }
     
     public UIEntity(String name,boolean mainUI, ArrayList<Integer> childs, boolean standAlone){

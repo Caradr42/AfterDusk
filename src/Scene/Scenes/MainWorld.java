@@ -426,6 +426,12 @@ public class MainWorld extends Scene {
                 new Sprite("deathScreen", true, display.width / c.scale, display.height / c.scale, 8, new ArrayList<>(Arrays.asList("gradient","inverse_gradients"))),
                 new UIEntity("deathScreen", true, new ArrayList<>(Arrays.asList()))
         );
+    //Regular Entities
+        /*Entity pressEfather = entityManager.createEntityWithComponents("pressEfather",
+                new Transform(50,50),
+                new Sprite("pressEfather", true, display.width / c.scale, display.height / c.scale, 8, new ArrayList<>(Arrays.asList("press_E"))),
+                new UIEntity("pressEfather", true, new ArrayList<>(Arrays.asList()))
+        );*/
         
     //PLAYABLE ENTITIES
 

@@ -168,7 +168,7 @@ public class RenderSystem extends SystemJob{
         for(Integer ui: UIentities){
             uiEntity = scene.entityManager.getEntityComponentInstance(ui, uiEntity.getClass());
             
-            if(uiEntity._uiSprite.visible && uiEntity.mainUI ) {
+            if(uiEntity._uiSprite.visible && uiEntity.mainUI && !uiEntity.worldUI) {
                 //g.drawImage(uiEntity.currentFrame, (int) uiEntity.position.x,(int) uiEntity.position.y, uiEntity.width, uiEntity.height, null);
                 uiEntity.UIRender(g, scene);
             }
