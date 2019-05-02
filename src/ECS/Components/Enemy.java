@@ -6,6 +6,7 @@
 package ECS.Components;
 
 import ECS.Component;
+import Maths.Vector2;
 import Maths.Vector3;
 
 
@@ -13,5 +14,5 @@ import Maths.Vector3;
 public class Enemy extends Component{
     
     //vector to store the last distance vector that moved the enemy
-    public Vector3 prev = new Vector3();
+    public Vector2 prev = new Vector2();
 }

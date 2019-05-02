@@ -344,7 +344,7 @@ public class MainWorld extends Scene {
                 new Transform(new Vector3(200, 100, 36)),
                 new Sprite("father", true, 36, 36, 8, new ArrayList<>(Arrays.asList("father_down", "father_up", "father_left", "father_right"))),
                 new WorldEntity(),
-                new Enemy(),
+                //new Enemy(),
                 new Talkative(new ArrayList<>(Arrays.asList(
                     new ArrayList<>(Arrays.asList(
                             "HI this is the firt Parragraph; first Line", 

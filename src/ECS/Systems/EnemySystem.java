@@ -30,6 +30,7 @@ public class EnemySystem extends SystemJob{
     Playable playable;
     Transform playerPos;
     Sprite playerSprite;
+    Enemy enemy;
     
     Sprite sprite;
     Transform transform;
@@ -84,26 +85,58 @@ public class EnemySystem extends SystemJob{
 
     @Override
     public void onCreate() {
-       
+
     }
 
     @Override
     public void onDestroy() {
-        
+
     }
-    
+
     private void updateEntityPosition(Integer entity) {
         transform = scene.entityManager.getEntityComponentInstance(entity, Transform.class);
         sprite = scene.entityManager.getEntityComponentInstance(entity, Sprite.class);
         playable = scene.entityManager.getEntityComponentInstance(entity, Playable.class);
-        
+        enemy = scene.entityManager.getEntityComponentInstance(entity, Enemy.class);
+
         double distance = abs(playerPos._renderedPosition.toVector2().add(playerSprite.dimensions.div(2)).dist(transform._renderedPosition.toVector2().add(sprite.dimensions.div(2))));
-        if(distance < maxDistance && distance > minDistance ){
+        if (distance < maxDistance && distance > minDistance) {
             //System.out.println(distance);
             Vector2 direction = playerPos._renderedPosition.toVector2().add(playerSprite.dimensions.div(2)).sub(transform._renderedPosition.toVector2().add(sprite.dimensions.div(2))).norm().scalar(playable.speedScalar);
             //System.out.println(direction.x + " : " + direction.y);
+
+            enemy.prev = direction;
+
             transform.position.set(transform.position.add(direction));
+
+            if (abs(direction.x) > abs(direction.y)) {
+                if (direction.x < 0) {
+                    playable.left = true;
+                    playable.up = false;
+                    playable.right = false;
+                    playable.down = false;
+                } else {
+                    playable.left = false;
+                    playable.up = false;
+                    playable.right = true;
+                    playable.down = false;
+                }
+            } else {
+                if (direction.y < 0) {
+                    playable.left = false;
+                    playable.up = true;
+                    playable.right = false;
+                    playable.down = false;
+                } else {
+                    playable.left = false;
+                    playable.up = false;
+                    playable.right = false;
+                    playable.down = true;
+                }
+            }
         }
+
+       
 
     }
     
