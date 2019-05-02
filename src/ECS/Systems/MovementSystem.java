@@ -76,7 +76,8 @@ public class MovementSystem extends SystemJob{
             
             if(CollisionCheck){
                 v3.x=(v3.x*-.5);
-                v3.y=(v3.y*-.5);
+                v3.y=(v3.y*.5);
+                
             }
             
             transform.position.set(transform.position.add(v3));

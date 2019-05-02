@@ -14,6 +14,7 @@ import ECS.SystemJob;
 import Scene.Scene;
 import Utility.Point;
 import java.awt.Rectangle;
+import java.awt.geom.Line2D;
 import static java.lang.Integer.min;
 import static java.lang.Math.abs;
 import java.util.ArrayList;
@@ -296,33 +297,46 @@ public class CollisionSystem extends SystemJob{
 
         if(firstRect.intersects(secondRect) && collidablei.active && tileCollidable.isCollidable()&&((transformi.position.z >= floorTile)&&(floorPlayer<=transformj.position.z))){
             //System.out.println("Collision");
+
             
-            double d1LU=firstRect.x;
-            double d1LD=firstRect.y-firstRect.height;
-            double d1RU=firstRect.x+firstRect.width;
-            double d1RD=(firstRect.x+firstRect.width)-firstRect.height;
+            Point d1LU =new Point(firstRect.x,firstRect.y);
+            Point d1RU = new Point(firstRect.x+firstRect.width, firstRect.y);
+            Point d1LD = new Point(firstRect.x, firstRect.y-firstRect.height);
+            Point d1RD = new Point(firstRect.x+firstRect.width,firstRect.y-firstRect.height);
             
-            double d2LU=secondRect.x;
-            double d2LD=secondRect.y-secondRect.height;
-            double d2RU=secondRect.x+secondRect.width;
-            double d2RD=(secondRect.x+secondRect.width)-secondRect.height;
+            Point d2LU =new Point(secondRect.x,secondRect.y);
+            Point d2RU = new Point(secondRect.x+secondRect.width, secondRect.y);
+            Point d2LD = new Point(secondRect.x, secondRect.y-secondRect.height);
+            Point d2RD = new Point(secondRect.x+secondRect.width,secondRect.y-secondRect.height);
             
-            if(((firstRect.x+firstRect.width)<=secondRect.y&&(firstRect.x+firstRect.width)>=secondRect.y-secondRect.height)||(((firstRect.x+firstRect.width)-firstRect.height>=secondRect.y-secondRect.height))&&(firstRect.x+firstRect.width)-firstRect.height<=secondRect.y){
-                //System.out.println("Left collision");
-                collidablei.collisionSite=4;
+            Rectangle playerTop = new Rectangle(firstRect.x, firstRect.y, firstRect.width, 1);
+            Rectangle playerButtom = new Rectangle(firstRect.x, firstRect.y-firstRect.height, firstRect.width, 1);
+            Rectangle playerLeft = new Rectangle(firstRect.x, firstRect.y, 1, firstRect.height);
+            Rectangle playerRight = new Rectangle(firstRect.x+firstRect.width, firstRect.y, 1, firstRect.height);
+            
+            Rectangle tileTop = new Rectangle(secondRect.x, secondRect.y, secondRect.width, 1);
+            Rectangle tileDown = new Rectangle(secondRect.x, secondRect.y+secondRect.height, secondRect.width, 1);
+            Rectangle tileLeft = new Rectangle(secondRect.x, secondRect.y, 1, secondRect.height);
+            Rectangle tileRight = new Rectangle(secondRect.x+secondRect.width, secondRect.y, 1, secondRect.height);
+            
+            
+            if(firstRect.intersects(tileLeft)){
+                System.out.println("Left collision");
+                //collidablei.collisionSite=4;
             }
-            if(((firstRect.x)<=secondRect.x+secondRect.width&&(firstRect.x)>=(secondRect.x+secondRect.width)-secondRect.height)||(((firstRect.y-firstRect.height)>=(secondRect.x+secondRect.width)-secondRect.height))&&(firstRect.y-firstRect.height)<=secondRect.x+secondRect.width){
-                //System.out.println("Right collision");
-                collidablei.collisionSite=2;
+            if(firstRect.intersects(tileRight)){
+                System.out.println("Right collision");
+                //collidablei.collisionSite=2;
             }
-            if(((firstRect.y)<=(secondRect.x+secondRect.width)-secondRect.height&&(firstRect.y)>=(secondRect.y-secondRect.height))||(((firstRect.x+firstRect.width)>=(secondRect.y-secondRect.height))&&(firstRect.x+firstRect.width)<=(secondRect.x+secondRect.width)-secondRect.height)){
-                //System.out.println("Down collision");
-                collidablei.collisionSite=3;
+            if(firstRect.intersects(tileDown)){
+                System.out.println("Down collision");
+                //collidablei.collisionSite=3;
             }
-            if(firstRect.intersectsLine(d2LD,d2LD,d2RD,d1RD)){
-                //System.out.println("Up collision");
-                collidablei.collisionSite=1;
+            if(firstRect.intersects(tileTop)){
+                System.out.println("Up collision");
+                //collidablei.collisionSite=1;
             }
+            
             collidablei.setCollidable.add(j);
         }
         
