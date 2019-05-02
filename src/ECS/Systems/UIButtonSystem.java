@@ -67,17 +67,20 @@ public class UIButtonSystem extends SystemJob{
             
             
             if(uiButton.name.equals("exitButton") && uiButton.buttonPressed){
+                Assets.Assets.selection.play();
                 scene.display.jframe.dispatchEvent(new WindowEvent(scene.display.jframe, WindowEvent.WINDOW_CLOSING));
             }
             
             if(uiButton.name.equals("continueButton") && uiButton.buttonPressed){
                 uiButton.buttonPressed =false;
+                Assets.Assets.selection.play();
                 UIEntity parentUIEntity = scene.entityManager.getEntityComponentInstance(uiEntity.parent, UIEntity.class);
                 parentUIEntity._uiSprite.visible = false;
                 GameManagerSystem.gameStarted = true;
             }
             
             if(uiButton.buttonPressed){
+                Assets.Assets.selection.play();
                 parentUIEntity = scene.entityManager.getEntityComponentInstance(uiEntity.parent, parentUIEntity.getClass());
                 parentUIEntity.window = uiButton.parentState;
             }

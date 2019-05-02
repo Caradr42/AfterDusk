@@ -40,9 +40,13 @@ public class Assets {
     public static SoundClip fatherTheme;
     public static SoundClip grassWalk;
     public static SoundClip pickUp;
+    public static SoundClip collisionWood;
     public static SoundClip menu;
+
     public static SoundClip swordClip;
-    
+ 
+    public static SoundClip selection;
+
             
     public static void init(){
         //load Fonts
@@ -189,7 +193,11 @@ public class Assets {
         grassWalk = new SoundClip("/Resources/Sounds/grassWalk.wav");
         pickUp = new SoundClip("/Resources/Sounds/pickUpWoods.wav");
         menu = new SoundClip("/Resources/Sounds/Menu.wav");
+
         swordClip = new SoundClip("/Resources/Sounds/sword_clang.wav");
+
+        collisionWood = new SoundClip("/Resources/Sounds/smashWood.wav");
+        selection = new SoundClip("/Resources/Sounds/selection.wav");
 
         //System.out.println("found: " + animations.get("actives_bar").first);
     }

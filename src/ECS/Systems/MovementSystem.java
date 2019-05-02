@@ -89,6 +89,7 @@ public class MovementSystem extends SystemJob{
                 if(collision.collisionDown){
                     transform.position.y=transform.position.y+1;
                 }
+                Assets.Assets.collisionWood.play();
             }
             
             transform.position.set(transform.position.add(v3));

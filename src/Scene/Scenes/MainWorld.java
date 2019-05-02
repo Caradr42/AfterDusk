@@ -448,8 +448,8 @@ public class MainWorld extends Scene {
         Sprite log = new Sprite("log", true, 16, 16, 10, new ArrayList<>(Arrays.asList("log")));
 
         //draw grass grid
-        for (int x = -240; x < 720; x += 16) {
-            for (int y = -480; y < 480; y += 16) {
+        for (int x = -240; x < 560; x += 16) {
+            for (int y = -480; y < 240; y += 16) {
                 /*Entity side = entityManager.createEntityWithComponents("grassSide",
                         new Transform(new Vector3(x, y, -16)),
                         grassSideSprite,
@@ -472,10 +472,10 @@ public class MainWorld extends Scene {
                         log, new WorldEntity()
                     );
                 }
-                if(x==704){
+                if(x==544){
                     entityManager.createEntityWithComponents("wood",
                         new Tile("log" + Integer.toString(x/16) + "_" + Integer.toString(y/16),true,log,log),
-                        new Transform(x,y-48,32),
+                        new Transform(x,y+48,32),
                         log, new WorldEntity()
                     );
                 }
@@ -486,10 +486,10 @@ public class MainWorld extends Scene {
                         log, new WorldEntity()
                     );
                 }
-                if(y==464){
+                if(y==224){
                     entityManager.createEntityWithComponents("wood",
                         new Tile("log" + Integer.toString(x/16) + "_" + Integer.toString(y/16),true,log,log),
-                        new Transform(x,y-32,32),
+                        new Transform(x,y+48,32),
                         log, new WorldEntity()
                     );
                 }
@@ -498,24 +498,24 @@ public class MainWorld extends Scene {
             }
         }
 
-        
+        /*
         //Example log
         entityManager.createEntityWithComponents("wood",
                         new Tile("log" + Integer.toString(200) + "_" + Integer.toString(200),true,log,log),
-                        new Transform(200,200,32),
+                        new Transform(0,0,64),
                         log, new WorldEntity()
                 );
         entityManager.createEntityWithComponents("wood",
                         new Tile("log" + Integer.toString(200) + "_" + Integer.toString(200),true,log,log),
-                        new Transform(216,216,16),
+                        new Transform(32,32,16),
                         log, new WorldEntity()
                 );
         entityManager.createEntityWithComponents("wood",
                         new Tile("log" + Integer.toString(200) + "_" + Integer.toString(200),true,log,log),
-                        new Transform(264,264,16),
+                        new Transform(64,64,16),
                         log, new WorldEntity()
                 );
-
+        */
 
         /*Entity side = entityManager.createEntityWithComponents("grassSide",
                 new Transform(new Vector3(-80, -80, 16)),
@@ -547,7 +547,7 @@ public class MainWorld extends Scene {
                 new PlayerSystem(this, false),
                 new CollisionEntityWeapon(this, true),
                 new CollisionSystem(this, true),
-                new EnemySystem(this, false),
+                //new EnemySystem(this, false),
                 new GameManagerSystem(this, true),
                 new ItemSystem(this, true),
                 new MousePointerSystem(this, true),
