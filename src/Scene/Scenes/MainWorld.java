@@ -307,7 +307,11 @@ public class MainWorld extends Scene {
                 new UIEntity("energy", true, null, true)
         );
         
-        
+        Entity controls = entityManager.createEntityWithComponents("controls",
+                new Transform(155,40),
+                new Sprite("controls", true, 108, 96 , 0, new ArrayList<>(Arrays.asList("controls"))),
+                new UIEntity("controls", true, 3 ,null, true)
+        );
 
     //USER INTERFACES
         Entity HPbar = entityManager.createEntityWithComponents("HP_bar",
@@ -360,7 +364,7 @@ public class MainWorld extends Scene {
         Entity menu = entityManager.createEntityWithComponents("menu",
                 new Transform(display.width / c.scale / 2 - (278/2), display.height / c.scale / 2 - (150/2)),
                 new Sprite("menu", false, 278, 150, 0, new ArrayList<>(Arrays.asList("menu_map","menu_quests", "menu_options" ,"menu_game"))),
-                new UIEntity("menu", true, new ArrayList<>(Arrays.asList(mapButton.getID(), questsButton.getID(), optionsButton.getID(), gameButton.getID(), text.getID(), playerPosition.getID())))
+                new UIEntity("menu", true, new ArrayList<>(Arrays.asList(mapButton.getID(), questsButton.getID(), optionsButton.getID(), gameButton.getID(), text.getID(), playerPosition.getID(), controls.getID())))
         );
         
          

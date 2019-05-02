@@ -204,6 +204,7 @@ public class UIInventorySystem extends SystemJob{
             
             if(inv == i){
                 invComp.slots.set(j, item); //returns the Item id at position j
+                return;
             }  
             temp = invComp.nextInventory;
             if(temp != 0){
