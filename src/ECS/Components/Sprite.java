@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import proyecto_videojuegos.MainThread;
 import IO.ImageLoader;
+import Maths.Vector2;
 
 /**
  * Component containing the sprite data necessary for the rendering of an entity
@@ -28,6 +29,7 @@ public class Sprite extends Component{
      
     public int width;
     public int height;
+    public Vector2 dimensions;
     
     
     public double speed;
@@ -63,6 +65,7 @@ public class Sprite extends Component{
         this.speed = speed / MainThread.fps;
         this.animationsNames = animationsNames;
         this.animations = new ArrayList<>();
+        dimensions = new Vector2(width, height);
     }
 
     public Sprite() {

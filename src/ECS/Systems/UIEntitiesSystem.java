@@ -4,6 +4,7 @@ import Assets.Assets;
 import ECS.Component;
 import ECS.Components.Item;
 import ECS.Components.MousePointer;
+import ECS.Components.Playable;
 import ECS.Components.Player;
 import ECS.Components.Sprite;
 import ECS.Components.Transform;
@@ -155,7 +156,7 @@ public class UIEntitiesSystem extends SystemJob{
                         }
                     }                                          
                 }
-                if(uiEntity.name.equals("actives_bar") || uiEntity.name.equals("RL_bar")){ 
+                if(uiEntity.name.equals("actives_bar") || uiEntity.name.equals("RL_bar") ||  uiEntity.name.equals("HP_bar") || uiEntity.name.equals("energy_bar")){ 
                     if(scene.display.keyManager.wasPressed[KeyEvent.VK_TAB]){
                         Assets.menu.play();
                         if(uiSprite.visible){                            
@@ -164,6 +165,33 @@ public class UIEntitiesSystem extends SystemJob{
                             uiSprite.visible = true;
                         }
                     }
+                }
+                
+                /*if(uiEntity._parentUI != null && uiEntity._parentUI.name.equals("RL_bar")){
+                    //System.out.println("chld: " + uiEntity.name);
+                }*/
+                /*if(uiEntity.name.equals("RL_bar")){
+                    for(Integer i : uiEntity.childs){
+                        System.out.print(i + " : ");
+                    }
+
+                }*/
+                
+                //update the player hp bar according to the  players hp
+                if(uiEntity.name.equals("hp")){
+                    Playable playerPlayable = scene.entityManager.getEntityComponentInstance(scene.entityManager.getEntitiesWithComponents(Player.class).get(0), Playable.class);
+                    uiSprite.width =(int)( playerPlayable.hp * (60.0 /playerPlayable.maxHp));
+                    //System.out.println( (60.0 /playerPlayable.maxHp));
+                }
+                
+                if(uiEntity.name.equals("energy")){
+                    Playable playerPlayable = scene.entityManager.getEntityComponentInstance(scene.entityManager.getEntitiesWithComponents(Player.class).get(0), Playable.class);
+                    uiSprite.width =(int)( playerPlayable.energy * (60.0 /playerPlayable.maxEnergy));
+                    //System.out.println( (60.0 /playerPlayable.maxHp));
+                }
+                
+                if(uiEntity.name.equals("player_position")){
+                    //uiTransform.position.set(new Vector2(182,85));
                 }
 
                 if(uiEntity.name.equals("Player_Inventory")){ 
@@ -250,23 +278,30 @@ public class UIEntitiesSystem extends SystemJob{
             uiTransform.childs.addAll(uiEntity.childs);
             
             //adds all components instances for all types of uiEntities to the childs list
-            HashSet<UIChild> instances = new HashSet<>(); //temp set
+            ArrayList<UIChild> instances = new ArrayList<>(); //temp set
             
             for(Integer sub: uiEntity.childs){
                 //Adds this entity as the parent for each of its childs (both in the transform component and the UIEntity component)
-                childTransform = scene.entityManager.getEntityComponentInstance(sub, childTransform.getClass());
+                childTransform = scene.entityManager.getEntityComponentInstance(sub, Transform.class);
                 childTransform.parent = e;
-                childUIEntity = scene.entityManager.getEntityComponentInstance(sub, childUIEntity.getClass());
-                //System.out.println(childUIEntity.parent);
+                childUIEntity = scene.entityManager.getEntityComponentInstance(sub, UIEntity.class);
                 childUIEntity.parent = e;
-                //System.out.println(childUIEntity.name + " :: " + childUIEntity.parent);
-                //
-                //System.out.println(childUIEntity.name + " " + sub);
-                instances.add(scene.entityManager.getEntityComponentInstance(sub, uiEntity.getClass()));
-                instances.add(scene.entityManager.getEntityComponentInstance(sub, uiInventory.getClass()));
-                instances.add(scene.entityManager.getEntityComponentInstance(sub, uiButton.getClass()));
-                instances.add(scene.entityManager.getEntityComponentInstance(sub, uIText.getClass()));
-                //expand here for all UIEntity subclass...
+                
+                ////////expand here for all UIEntity subclass... -->
+                UIChild tempUIChild;
+                
+                UIInventory tempInv = scene.entityManager.getEntityComponentInstance(sub, UIInventory.class);
+                UIButton tempButton = scene.entityManager.getEntityComponentInstance(sub, UIButton.class);
+                UIText tempText = scene.entityManager.getEntityComponentInstance(sub, UIText.class);
+                UIEntity tempUI = scene.entityManager.getEntityComponentInstance(sub, UIEntity.class);
+                
+                tempUIChild = (tempInv != null ? tempInv :(
+                    tempButton != null ? tempButton :(
+                        tempText != null ? tempText :( 
+                        tempUI))));
+                
+                instances.add(tempUIChild);
+                ///////expand here for all UIEntity subclass... <--
             }
             instances.remove(null);
             //System.out.println(instances);
