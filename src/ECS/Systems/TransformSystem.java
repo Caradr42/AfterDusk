@@ -51,8 +51,10 @@ public class TransformSystem extends SystemJob{
                 transform.position = parentTransform.position.add(transform.relativePosition);
                 
             }
-            transform.renderedY = (int)(transform.position.y - transform.position.z);
+            transform._renderedY = (int)(transform.position.y - transform.position.z);
             transform._previousPosition = transform.position;
+            
+            transform._renderedPosition = new Vector3(transform.position.x, transform._renderedY, transform.position.z);
             //transform._renderedPosition = transform.position;
             //transform._renderedPosition.y = transform.position.y - transform.position.z ;
         }

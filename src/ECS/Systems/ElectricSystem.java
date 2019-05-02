@@ -46,25 +46,20 @@ AttackCollider collider;
             //System.out.println(scene.entityManager.getEntityByID(e).getName());
            // System.out.println("currentActv electricsus");
             
-            tool = scene.entityManager.getEntityComponentInstance(e, Tool.class);
+            
              //System.out.println("currentActv electricsus" + tool.currentActive);
             if(tool.currentActive != -1){
                 
-              
-
-            //System.out.println("currentactv antes" + tool.currentActive);
-            
-            //System.out.println("currentactv desp" + tool.currentActive);
-            
+            tool = scene.entityManager.getEntityComponentInstance(e, Tool.class);
             System.out.println("alo");
+            
             attack = scene.entityManager.getEntityComponentInstance(e, AttackComponent.class);
+             System.out.println("arrColilders " + attack.arrColliders.size());
             for (AttackCollider a : attack.arrColliders){
                 System.out.println("alo2");
-                //System.out.println("attackarrColiders" + attack.arrColliders.size());
-                //collider = scene.entityManager.getEntityComponentInstance(a., AttackCollider.class);
-                //
                 
-                //System.out.println("collideswith " + a.collidesWith.size());
+                
+                System.out.println("collideswith " + a.collidesWith.size());
                 for (Integer b : a.collidesWith){
                     System.out.println("alo3");
                    // a = scene.entityManager.getEntityComponentInstance(b, AttackCollider.class);
@@ -78,7 +73,7 @@ AttackCollider collider;
                     
                 }
             
-                    //a.collidesWith.clear();
+                    a.collidesWith.clear();
                 
                 
             }
@@ -108,8 +103,6 @@ AttackCollider collider;
           tool.currentActive = -1;
             }
         }
-
-
 
     }
 

@@ -185,7 +185,8 @@ public class PlayerSystem extends SystemJob{
             
 
             //if the player presses the space key, an attack is done with the right hand
-            if(scene.display.getKeyManager().space) {
+            if(scene.display.getKeyManager().wasPressed[KeyEvent.VK_SPACE]) {
+         
                 Inventory LRinv = scene.entityManager.getEntityComponentInstance(player.LRInventory, Inventory.class);
                 
                 Item RItem = scene.entityManager.getEntityComponentInstance(LRinv.slots.get(1), Item.class);
@@ -205,7 +206,7 @@ public class PlayerSystem extends SystemJob{
                    //System.out.println("currentactv antes" + tool.currentActive);
                    tool.currentActive = 0;
                    //System.out.println("currentactv platersis" + tool.currentActive);
-                   //System.out.println("Space: " + scene.entityManager.getEntityByID(idTool).getName() + " " + tool.currentActive);
+                   System.out.println("Space: " + scene.entityManager.getEntityByID(idTool).getName() + " " + tool.currentActive);
                }
                 
                 //System.out.println("Space pressed");

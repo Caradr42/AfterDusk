@@ -55,17 +55,17 @@ public class CollisionEntityWeapon extends SystemJob{
         
         //For each entity with the AttackComponent
         for (Integer i : arrAttack) {
-            
+            //System.out.println(scene.entityManager.getEntityByID(i).getName());
 
             //if the weapon has not a -1
-            if (scene.entityManager.getEntityComponentInstance(i, tool.getClass()).currentActive != - 1) {
-                
+            if (scene.entityManager.getEntityComponentInstance(i, Tool.class).currentActive != - 1) {
+                System.out.println(scene.entityManager.getEntityByID(i).getName());
                 ArrayList<AttackCollider> arrColliders  = scene.entityManager.getEntityComponentInstance(i, attackComponent.getClass()).arrColliders;
                 
                 //clean the lists of the entities that are colliding with each AttackCollider of AttackComponent
-                for (AttackCollider at : arrColliders) {
+                /*for (AttackCollider at : arrColliders) {
                     at.collidesWith.clear();
-                }
+                }*/
 
 
                 //Check if it collides with a collidable entity
@@ -177,9 +177,10 @@ public class CollisionEntityWeapon extends SystemJob{
             rects.add(wpnRect);
             
             
-            
+            //System.out.println(scene.entityManager.getEntityByID(i).getName());
             if (wpnRect.intersects(collRect)) {
                 areColliding.add(arrCollider);
+                System.out.println(scene.entityManager.getEntityByID(i).getName());
                 arrCollider.collidesWith.add(j);
                 System.out.println("Colliding with " + scene.entityManager.getEntityByID(arrCollider.collidesWith.get(arrCollider.collidesWith.size() - 1)).getName());
             }
