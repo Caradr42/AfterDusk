@@ -8,6 +8,7 @@ import ECS.Components.Player;
 import ECS.Components.Sprite;
 import ECS.Components.Tool;
 import ECS.Components.Transform;
+import ECS.Components.UIText;
 import ECS.SystemJob;
 import Maths.Vector2;
 import Scene.Scene;
@@ -269,6 +270,12 @@ public class PlayerSystem extends SystemJob{
     public void init() {
         entities = scene.entityManager.getEntitiesWithComponents(transform.getClass(), player.getClass(), sprite.getClass());
         firstTime = true;
+        
+        for(Integer e : entities){
+            player = scene.entityManager.getEntityComponentInstance(e, player.getClass());
+            player._UIText = scene.entityManager.getEntityComponentInstance(player.uiText, UIText.class);
+        }
+
     }
 
     @Override

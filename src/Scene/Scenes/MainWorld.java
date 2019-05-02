@@ -79,6 +79,13 @@ public class MainWorld extends Scene {
                 new UIEntity("buttonsWrap", true, new ArrayList<>(Arrays.asList(continueButton.getID(), newGameButton.getID(), exitButton.getID())))
         );
         
+        Entity afterDusk = entityManager.createEntityWithComponents("AfterDusk", 
+                new Transform(display.width / c.scale / 2 - 352/2 , 20 ,0),
+                new Sprite("AfterDusk", true, 352, 72, 0 , new ArrayList<>(Arrays.asList("AfterDusk"))),
+                new UIEntity("AfterDusk", true, new ArrayList<>(Arrays.asList()))
+        );
+        //AfterDusk
+        
 ///ENTITIES      
     //MOUSE POINTER
         //mouse pointer
@@ -250,9 +257,16 @@ public class MainWorld extends Scene {
         
         Entity text = entityManager.createEntityWithComponents("text",
                 new Transform(16, 48),
-                new Sprite("text", true, 0, 0, 0, new ArrayList<>(Arrays.asList("Tab_light"))),
+                new Sprite("text", true, 0, 0, 0, new ArrayList<>(Arrays.asList("null"))),
                 new UIEntity("text", false, 0, null),
                 new UIText("This is just some sample test please ignore me. This is just some sample test please ignore me." , 100, 100)
+        );
+        
+        Entity dialogText = entityManager.createEntityWithComponents("dialog_text",
+                new Transform(10, 14),
+                new Sprite("dialog_text", true, 0, 0, 0, new ArrayList<>(Arrays.asList("null"))),
+                new UIEntity("dialog_text", false, 0, null),
+                new UIText(" You cheated not only the game, but yourself. You didn't grow. You didn't improve. You took a shortcut and gained nothing. You experienced a hollow victory. Nothing was risked and nothing was gained. It's sad that you don't know the difference." , 250, 62)
         );
     //CHILD UIENTITIES
         
@@ -319,7 +333,14 @@ public class MainWorld extends Scene {
                 new Sprite("RL_bar", false, 48, 32, 0, new ArrayList<>(Arrays.asList("RL_bar"))),
                 new UIEntity("RL_bar", true,
                         new ArrayList<>(Arrays.asList( LRUIInventory.getID(),  itemSelector.getID())))
-        );    
+        );   
+        
+        //dialog box
+        Entity dialogBox = entityManager.createEntityWithComponents("dialogBox",
+                new Transform(display.width / c.scale / 2 - (256/2), display.height / c.scale - 82),
+                new Sprite("dialogBox", false, 256, 72, 0, new ArrayList<>(Arrays.asList("dialog_box"))),
+                new UIEntity("dialogBox", true, new ArrayList<>(Arrays.asList(dialogText.getID() )))
+        );
         
         //the Game menu
         Entity menu = entityManager.createEntityWithComponents("menu",
@@ -328,12 +349,7 @@ public class MainWorld extends Scene {
                 new UIEntity("menu", true, new ArrayList<>(Arrays.asList(mapButton.getID(), questsButton.getID(), optionsButton.getID(), gameButton.getID(), text.getID(), playerPosition.getID())))
         );
         
-        //dialog box
-        /*Entity dialogBox = entityManager.createEntityWithComponents("dialogBox",
-                new Transform(display.width / c.scale / 2 - (256/2), display.height / c.scale - 82),
-                new Sprite("dialogBox", true, 256, 72, 0, new ArrayList<>(Arrays.asList("dialog_box"))),
-                new UIEntity("dialogBox", true, new ArrayList<>(Arrays.asList( )))
-        ); */
+         
         
     //PLAYABLE ENTITIES
         
@@ -369,7 +385,7 @@ public class MainWorld extends Scene {
                 new Transform(new Vector3(100, 100, 32)),
                 new Sprite("player", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down", "player_up", "player_left", "player_right"))),
                 new WorldEntity(),
-                new Player("player", playerLR.getID(), playerPassives.getID(), playerActives.getID()),
+                new Player("player", playerLR.getID(), playerPassives.getID(), playerActives.getID(), dialogText.getID()),
 
                 new Playable(100, playerInv.getID(), 2, true),
                 new Collidable(new Vector3(32, 32, 32))

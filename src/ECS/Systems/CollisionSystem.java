@@ -236,8 +236,15 @@ public class CollisionSystem extends SystemJob{
             //Or the second entity is the player
      else */if("Player".equals(e2.getName())) {
                 //if the player presses E on a Talkative 
-                if(scene.entityManager.hasComponent(e.getID(), Talkative.class) && scene.display.keyManager.wasPressed[KeyEvent.VK_E]){
-                    System.out.println("Lets Talk!");
+                if(scene.entityManager.hasComponent(e.getID(), Talkative.class) ){
+                    //Player player = scene.entityManager.getEntityComponentInstance(e2.getID(), Player.class);
+                    Talkative other = scene.entityManager.getEntityComponentInstance(e.getID(), Talkative.class);
+                    if(!other.inConversation && scene.display.keyManager.wasPressed[KeyEvent.VK_E]){
+                        //System.out.println("Lets Talk!");
+                        other.inConversation = true;
+                    }
+                    
+                    //player._UIText.replaceDialog(other.conversations.get(other.currentConversation).get(other.currentLine));
                 }
 
                 //And the first an item

@@ -109,6 +109,11 @@ public class Display {
        //jframe.addMouseMotionListener(mouseManager);
     }
     
+    public void tick(){
+        width = jframe.getWidth();
+        height = jframe.getHeight();
+    }
+    
     /**
      *to get the jFrame of the game
      * @return jFrame

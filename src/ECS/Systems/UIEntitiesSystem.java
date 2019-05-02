@@ -226,6 +226,19 @@ public class UIEntitiesSystem extends SystemJob{
                         uiTransform.relativePosition = leftLR;
                     }
                 }
+                
+                if(uiEntity.name.equals("dialogBox")){
+                    if(ConversationSystem.visibleDialogBox){
+                        uiEntity._uiSprite.visible = true;
+                    }else{
+                        uiEntity._uiSprite.visible = false;
+                    }
+                }
+                
+                if(uiEntity.name.equals("AfterDusk") && GameManagerSystem.gameRunning){
+                    uiEntity._uiSprite.visible = false;
+                }
+                
             }
            
             
