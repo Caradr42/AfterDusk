@@ -262,10 +262,10 @@ public class MainWorld extends Scene {
     //UI TEXTS
         
         Entity text = entityManager.createEntityWithComponents("text",
-                new Transform(16, 48),
+                new Transform(20, 60),
                 new Sprite("text", true, 0, 0, 0, new ArrayList<>(Arrays.asList("null"))),
-                new UIEntity("text", false, 0, null),
-                new UIText("This is just some sample test please ignore me. This is just some sample test please ignore me." , 100, 100)
+                new UIEntity("text", false, 1, null),
+                new UIText("* Learn The Basics" , 150, 100)
         );
         
         Entity dialogText = entityManager.createEntityWithComponents("dialog_text",
