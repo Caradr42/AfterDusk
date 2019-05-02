@@ -12,6 +12,9 @@ import Maths.Vector2;
 import Scene.Scene;
 import java.awt.event.KeyEvent;
 import Assets.Assets;
+import ECS.Components.Playable;
+import ECS.Components.Sprite;
+import Maths.Vector3;
 import javax.swing.JFrame;
 
 /**
@@ -141,12 +144,28 @@ public class GameManagerSystem extends SystemJob{
             scene.c.ortogonalPosition.x ++;
         }
         
+        //if the player has no life
+        Integer player = scene.entityManager.getEntitiesWithComponents(Player.class).get(0);
         
+        Playable playable = scene.entityManager.getEntityComponentInstance(player, Playable.class);
+        
+        Sprite sprite = scene.entityManager.getEntityComponentInstance(player, Sprite.class);
+        
+        Transform transform = scene.entityManager.getEntityComponentInstance(player, Transform.class);
+        
+        if(playable.hp <= 0 ) {
+            playable.isAlive = true;
+            playable.hp = playable.maxHp;
+            playable.energy = playable.maxEnergy;
+            sprite.visible = true;
+            transform.position = new Vector3(100, 100, 32);
+        }
     }
 
     @Override
     public void init() {
         Assets.houseTheme.play();
+
     }
 
     @Override

@@ -543,7 +543,7 @@ public class MainWorld extends Scene {
                 new PlayerSystem(this, false),
                 new CollisionEntityWeapon(this, true),
                 new CollisionSystem(this, true),
-                //new EnemySystem(this, false),
+                new EnemySystem(this, false),
                 new GameManagerSystem(this, true),
                 new ItemSystem(this, true),
                 new MousePointerSystem(this, true),
