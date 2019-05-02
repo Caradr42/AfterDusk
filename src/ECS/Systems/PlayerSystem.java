@@ -11,6 +11,7 @@ import ECS.Components.Tool;
 import ECS.Components.Transform;
 import ECS.SystemJob;
 import Maths.Vector2;
+import Maths.Vector3;
 import Scene.Scene;
 import com.sun.org.apache.xalan.internal.xsltc.runtime.BasisLibrary;
 import com.sun.xml.internal.bind.v2.util.CollisionCheckStack;
@@ -41,7 +42,7 @@ public class PlayerSystem extends SystemJob{
     Sprite sprite;
     Movement movement;
     Tool rightHand;
-
+    
     boolean firstTime;
     
     int leftBorder = 80 - 32;
@@ -77,7 +78,8 @@ public class PlayerSystem extends SystemJob{
             transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());
             sprite = scene.entityManager.getEntityComponentInstance(e, sprite.getClass());
             playable = scene.entityManager.getEntityComponentInstance(e, playable.getClass());
-            movement = scene.entityManager.getEntityComponentInstance(e, movement.getClass());
+            movement = scene.entityManager.getEntityComponentInstance(e, Movement.class);
+            
             
             collision= scene.entityManager.getEntityComponentInstance(e, collision.getClass());
             boolean CollisionCheck=false;
@@ -88,7 +90,7 @@ public class PlayerSystem extends SystemJob{
                 CollisionCheck=true;
             }
             
-            
+            //
             
             /*//Save the position of the initial position of the player
             if(firstTime){
@@ -109,13 +111,13 @@ public class PlayerSystem extends SystemJob{
                 }
                 
                 
-                if(CollisionCheck){
-                    transform.position.x = transform.position.x - 2;
+                //Movement with ressistance
+                Vector3 v3V=new Vector3(0.2, 0, 0);
+                Vector3 v3R=new Vector3(-0.1,0,0);
+                if(Math.abs(movement.velocity.x)<=2){
+                    movement.velocity.set(movement.velocity.add(v3V));
+                    movement.velocity.set(movement.velocity.add(v3R));
                 }
-                else{
-                    transform.position.x = transform.position.x + 2;
-                }
-                
                
                 
                 if(scene.display.keyManager.wasPressed[KeyEvent.VK_D] || scene.display.keyManager.wasPressed[KeyEvent.VK_RIGHT]){
@@ -143,12 +145,12 @@ public class PlayerSystem extends SystemJob{
                     Assets.Assets.grassWalk.play();
                 }
                 
-                
-                if(CollisionCheck&&collision.collisionSite!=2){
-                    transform.position.x = transform.position.x + 2;
-                }
-                else{
-                    transform.position.x = transform.position.x -2;//- 100 * MainThread.deltaTime);
+                //Movement with ressistance
+                Vector3 v3V=new Vector3(-0.2, 0, 0);
+                Vector3 v3R=new Vector3(0.1,0,0);
+                if(Math.abs(movement.velocity.x)<=2){
+                    movement.velocity.set(movement.velocity.add(v3V));
+                    movement.velocity.set(movement.velocity.add(v3R));
                 }
                 
                
@@ -176,14 +178,13 @@ public class PlayerSystem extends SystemJob{
                     Assets.Assets.grassWalk.play();
                 }
                 
-                
-                if(CollisionCheck&&collision.collisionSite!=3){
-                    transform.position.y = transform.position.y +2;
+                //Movement with ressistance
+                Vector3 v3V=new Vector3(0, -0.2, 0);
+                Vector3 v3R=new Vector3(0,+0.1,0);
+                if(Math.abs(movement.velocity.y)<=2){
+                    movement.velocity.set(movement.velocity.add(v3V));
+                    movement.velocity.set(movement.velocity.add(v3R));
                 }
-                else{
-                    transform.position.y = transform.position.y -2;//- 100 * MainThread.deltaTime);
-                }
-               
                 
                 if(scene.display.keyManager.wasPressed[KeyEvent.VK_W] || scene.display.keyManager.wasPressed[KeyEvent.VK_UP]){
                     sprite.frameCounter = 1;
@@ -209,12 +210,13 @@ public class PlayerSystem extends SystemJob{
                     Assets.Assets.grassWalk.play();
                 }
                 
+                //Movement with ressistance
                 
-                if(CollisionCheck&&collision.collisionSite!=1){
-                    transform.position.y = transform.position.y -2;
-                }
-                else{
-                    transform.position.y = transform.position.y +2;
+                Vector3 v3V=new Vector3(0, 0.2, 0);
+                Vector3 v3R=new Vector3(0,-0.1,0);
+                if(Math.abs(movement.velocity.y)<=2){
+                    movement.velocity.set(movement.velocity.add(v3V));
+                    movement.velocity.set(movement.velocity.add(v3R));
                 }
                 
                
@@ -276,7 +278,14 @@ public class PlayerSystem extends SystemJob{
             if(scene.c.WorldToUICoodinates(transform.position.toVector2()).y > + scene.display.height / scene.c.scale - downBorder){
                scene.c.ortogonalPosition.y = (transform.position.y - (scene.display.height / scene.c.scale - downBorder)) * scene.c.scale;
             }
-
+            
+            //No key activity, no movement.
+            if(!(scene.display.getKeyManager().up||scene.display.getKeyManager().down)){
+                movement.velocity.set(new Vector3(movement.velocity.x,0,0));
+            }
+            if(!(scene.display.getKeyManager().left||scene.display.getKeyManager().right)){
+                movement.velocity.set(new Vector3(0,movement.velocity.y,0));
+            }
         }
     }
 
@@ -285,7 +294,7 @@ public class PlayerSystem extends SystemJob{
      */
     @Override
     public void init() {
-        entities = scene.entityManager.getEntitiesWithComponents(transform.getClass(), player.getClass(), sprite.getClass());
+        entities = scene.entityManager.getEntitiesWithComponents(transform.getClass(), player.getClass(), sprite.getClass(), Movement.class);
         firstTime = true;
     }
 

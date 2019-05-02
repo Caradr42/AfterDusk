@@ -16,13 +16,19 @@ import Maths.Vector3;
 public class Movement extends Component {
     
     public Vector3 velocity;
-
+    public Vector3 resistance;
+    
     public Movement(Vector3 velocity) {
         this.velocity = velocity;
+        resistance= new Vector3(velocity.x*0.8,velocity.y*0.8,0);
     }
 
     
     public Movement() {
         velocity=new Vector3(2, 2, 0);
+        resistance= new Vector3(1.6,1.6,0);
     }
+    
+    
+    
 }

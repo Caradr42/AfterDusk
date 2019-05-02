@@ -293,7 +293,7 @@ public class MainWorld extends Scene {
                 new Player("player", playerLR.getID(), playerPassives.getID(), playerActives.getID()),
                 new Playable(100, playerInv.getID(), new Vector3()),
                 new Collidable(new Vector3(32, 32, 32)),
-                new Movement(new Vector3(2, 2, 0))
+                new Movement(new Vector3(0, 0, 0))
         );
 
         entityManager.createEntityWithComponents("Enemy1",
@@ -390,7 +390,8 @@ public class MainWorld extends Scene {
                 new UITextSystem(this, true),
                 new WeaponColliderPositionSystem(this, true),
                 new InventorySystem(this, true),
-                new RenderSystem(this, true)
+                new RenderSystem(this, true),
+                new MovementSystem(this, true)
         );
     }
 }
