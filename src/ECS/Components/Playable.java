@@ -33,6 +33,8 @@ public class Playable extends Component {
 
     public Vector3 velocity;
     
+    public boolean isAlive;
+    
     /**
      * To indicate if the playable has a weapon IN USE.
      */
@@ -58,7 +60,7 @@ public class Playable extends Component {
         this.inventory = inventory;
         this.velocity = new Vector3();
         hasWeapon = false;
-        
+        isAlive = true;
         maxEnergy = 100;
         energy = maxEnergy;
         this.speedScalar = speedScalar;
@@ -70,7 +72,7 @@ public class Playable extends Component {
         this.inventory = inventory;
         this.velocity = new Vector3();
         this.hasWeapon = hasWeapon;
-        
+        isAlive = true;
         maxEnergy = 100;
         energy = maxEnergy;
         this.speedScalar = speedScalar;
@@ -82,7 +84,7 @@ public class Playable extends Component {
         this.inventory = inventory;
         this.velocity = new Vector3();
         this.hasWeapon = hasWeapon;
-        
+        isAlive = true;
         maxEnergy = 100;
         energy = maxEnergy;
         currentWeapon = weapon;
@@ -95,7 +97,7 @@ public class Playable extends Component {
         this(hp, inventory, speedScalar);
         
         this.maxEnergy = energy;
-        
+        isAlive = true;
         energy = maxEnergy;
     }
 
