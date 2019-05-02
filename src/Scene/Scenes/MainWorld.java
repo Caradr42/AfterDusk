@@ -446,8 +446,24 @@ public class MainWorld extends Scene {
     //TILES 
         Sprite grassTopSprite = new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")));
         Sprite grassSideSprite = new Sprite("grassSide", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grassSide")));
+        Sprite blockSprite = new Sprite("block", true, 16, 16, 10, new ArrayList<>(Arrays.asList("ledColumn")));
         Sprite log = new Sprite("log", true, 16, 16, 10, new ArrayList<>(Arrays.asList("log")));
 
+        
+        //drawing columns
+        for (int x = -200; x < 442; x += 16) {
+            for (int p = 0; p < 5; p++) {
+                entityManager.createEntityWithComponents("block",
+                        new Tile("block" + Integer.toString(x / 16) + "_" + Integer.toString(-400 + 32* p / 16), blockSprite, blockSprite),
+                        new Transform(new Vector3(x, 200 - 16 * p, p * 16)),
+                        blockSprite,
+                        new WorldEntity()
+                //new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
+                );
+            }
+        }
+        
+        
         //draw grass grid
         for (int x = -240; x < 560; x += 16) {
             for (int y = -480; y < 240; y += 16) {
