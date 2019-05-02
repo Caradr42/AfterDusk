@@ -115,11 +115,16 @@ public class EnemySystem extends SystemJob{
                     playable.up = false;
                     playable.right = false;
                     playable.down = false;
+
+                    sprite.animation = sprite.animations.get(3).first;
+                    sprite.animationLenght = sprite.animations.get(3).second;
                 } else {
                     playable.left = false;
                     playable.up = false;
                     playable.right = true;
                     playable.down = false;
+                    sprite.animation = sprite.animations.get(4).first;
+                    sprite.animationLenght = sprite.animations.get(4).second;
                 }
             } else {
                 if (direction.y < 0) {
@@ -127,13 +132,23 @@ public class EnemySystem extends SystemJob{
                     playable.up = true;
                     playable.right = false;
                     playable.down = false;
+                    sprite.animation = sprite.animations.get(2).first;
+                    sprite.animationLenght = sprite.animations.get(2).second;
                 } else {
                     playable.left = false;
                     playable.up = false;
                     playable.right = false;
                     playable.down = true;
+                    sprite.animation = sprite.animations.get(1).first;
+                    sprite.animationLenght = sprite.animations.get(1).second;
                 }
             }
+        }
+        
+        //else if the enemy does not move
+        else {
+            sprite.animation = sprite.animations.get(0).first;
+            sprite.animationLenght = sprite.animations.get(0).second;
         }
 
        
