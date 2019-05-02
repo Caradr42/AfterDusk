@@ -26,10 +26,12 @@ public class Collidable extends Component{
     public Vector3 hitbox;
     public boolean active;
     public HashSet<Integer> setCollidable;
+    public int collisionSite; //0-no collision, 1-Up, 2-right, 3-down, 4-left 
 
     public Collidable() {
         super();
         setCollidable= new HashSet<>();
+        collisionSite=0;
     }
 
     public Collidable(Vector3 hitbox) {
@@ -37,6 +39,7 @@ public class Collidable extends Component{
         this.hitbox = hitbox;
         active = true;
         setCollidable= new HashSet<>();
+        collisionSite=0;
     }
      
      

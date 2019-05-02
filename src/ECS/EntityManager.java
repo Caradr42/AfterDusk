@@ -2,6 +2,7 @@ package ECS;
 
 import java.lang.System;
 import ECS.*;
+import ECS.Components.Tool;
 import ECS.Components.Transform;
 import Signals.Signal;
 import java.io.Serializable;
@@ -305,6 +306,9 @@ public class EntityManager implements Serializable{
         
         //gets the inner HashMap contained at the current KEY of the upper HashMap. using the component Class as a KEY.
         HashMap<Integer, ? extends Component> store = componentsDictionary.get(component);
+        //if(component.equals(Tool.class)){
+           // System.err.println("Ent: " + entity + " : " + component);
+        //}
         T resultComponet = (T) store.get(entity); //uses the Entity's ID as KEY to get the component instance.
 
         if(resultComponet == null) //trows an exeption if no component is attached.

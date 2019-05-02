@@ -5,6 +5,7 @@
  */
 package ECS.Systems;
 
+import ECS.Components.Enemy;
 import ECS.Components.Playable;
 import ECS.Components.Player;
 import ECS.Components.Sprite;
@@ -29,6 +30,7 @@ public class EnemySystem extends SystemJob{
     Playable playable;
     Transform playerPos;
     Sprite playerSprite;
+    Enemy enemy;
     
     Sprite sprite;
     Transform transform;
@@ -74,7 +76,7 @@ public class EnemySystem extends SystemJob{
         
         entities = new ArrayList<>();
         
-        entities = scene.entityManager.getEntitiesWithComponents(playable.getClass());
+        entities = scene.entityManager.getEntitiesWithComponents(playable.getClass(), Enemy.class);
         
         //Getting the transform of the player
         playerPos = scene.entityManager.getEntityComponentInstance(player, Transform.class);
@@ -83,108 +85,76 @@ public class EnemySystem extends SystemJob{
 
     @Override
     public void onCreate() {
-       
+
     }
 
     @Override
     public void onDestroy() {
-        
+
     }
-    
+
     private void updateEntityPosition(Integer entity) {
         transform = scene.entityManager.getEntityComponentInstance(entity, Transform.class);
         sprite = scene.entityManager.getEntityComponentInstance(entity, Sprite.class);
         playable = scene.entityManager.getEntityComponentInstance(entity, Playable.class);
-        
-        double distance = abs(playerPos._renderedPosition.toVector2().add(playerSprite.dimensions.div(2)).dist(transform._renderedPosition.toVector2().add(sprite.dimensions.div(2))));
-        if(distance < maxDistance && distance > minDistance ){
-            //System.out.println(distance);
-            Vector2 direction = playerPos._renderedPosition.toVector2().add(playerSprite.dimensions.div(2)).sub(transform._renderedPosition.toVector2().add(sprite.dimensions.div(2))).norm().scalar(playable.speedScalar);
-            //System.out.println(direction.x + " : " + direction.y);
-            transform.position.set(transform.position.add(direction));
-        }
-        
-            /*//true if the enemy is to the right of the player
-            boolean right;
-            
-            //true if the enemy is above the player
-            boolean up;
-            
-            //distance in the x axis
-            double distanceX;
-            
-            //distance in the y axis
-            double distanceY;
-            
-            //transform of the enemy
-            Transform enemyPos = scene.entityManager.getEntityComponentInstance(entity, playerPos.getClass());
-            
-            //Playable of the enemy
-            Playable enemyPlay = scene.entityManager.getEntityComponentInstance(entity, playable.getClass());
-            
-            //Sprite of the enemy
-            Sprite enemySprite = scene.entityManager.getEntityComponentInstance(entity, sprite.getClass());
-            
-            distanceX = enemyPos.position.x - playerPos.position.x;
-            
-            distanceY = enemyPos.position.y - playerPos.position.y;
+        enemy = scene.entityManager.getEntityComponentInstance(entity, Enemy.class);
 
-            right = distanceX > 0;
-            
-            up = 0 > distanceY;
-            
-            distanceX = abs(distanceX);
-            
-            distanceY = abs(distanceY);
-            
-            //Vector3 newDist = enemyPos.position.sub(playerPos.position).norm().scalar(enemyPlay.velocity.x);
-            Vector3 newDist = playerPos.position.sub(enemyPos.position).norm().scalar(enemyPlay.velocity.x);
-         
-            
-            
-            if(abs(playerPos.position.x - enemyPos.position.x) > marginDistance && abs(playerPos.position.y - enemyPos.position.y) > marginDistance) {
-                enemyPos.position = enemyPos.position.add(newDist);
-            }
-            
-            
-            
-            else if (abs(playerPos.position.x - enemyPos.position.x) > marginDistance && abs(playerPos.position.y - enemyPos.position.y) < marginDistance) {
-                
-                if(playerPos.position.x > enemyPos.position.x) {
-                    
-                    if(playerPos.position.x - enemyPos.position.x > enemySprite.width + 20) {
-                        enemyPos.position.x += abs(enemyPlay.velocity.x);
+        if(playable.isAlive) {
+            double distance = abs(playerPos._renderedPosition.toVector2().add(playerSprite.dimensions.div(2)).dist(transform._renderedPosition.toVector2().add(sprite.dimensions.div(2))));
+            if (distance < maxDistance && distance > minDistance) {
+                //System.out.println(distance);
+                Vector2 direction = playerPos._renderedPosition.toVector2().add(playerSprite.dimensions.div(2)).sub(transform._renderedPosition.toVector2().add(sprite.dimensions.div(2))).norm().scalar(playable.speedScalar);
+                //System.out.println(direction.x + " : " + direction.y);
+
+                enemy.prev = direction;
+
+                transform.position.set(transform.position.add(direction));
+
+                if (abs(direction.x) > abs(direction.y)) {
+                    if (direction.x < 0) {
+                        playable.left = true;
+                        playable.up = false;
+                        playable.right = false;
+                        playable.down = false;
+
+                        sprite.animation = sprite.animations.get(3).first;
+                        sprite.animationLenght = sprite.animations.get(3).second;
+                    } else {
+                        playable.left = false;
+                        playable.up = false;
+                        playable.right = true;
+                        playable.down = false;
+                        sprite.animation = sprite.animations.get(4).first;
+                        sprite.animationLenght = sprite.animations.get(4).second;
+                    }
+                } else {
+                    if (direction.y < 0) {
+                        playable.left = false;
+                        playable.up = true;
+                        playable.right = false;
+                        playable.down = false;
+                        sprite.animation = sprite.animations.get(2).first;
+                        sprite.animationLenght = sprite.animations.get(2).second;
+                    } else {
+                        playable.left = false;
+                        playable.up = false;
+                        playable.right = false;
+                        playable.down = true;
+                        sprite.animation = sprite.animations.get(1).first;
+                        sprite.animationLenght = sprite.animations.get(1).second;
                     }
                 }
-                
-                else {
-                    enemyPos.position.x -= abs(enemyPlay.velocity.x);
-                }
-                
             }
 
-            else if (abs(playerPos.position.y - enemyPos.position.y) > marginDistance && abs(playerPos.position.x - enemyPos.position.x) < marginDistance) {
-             
-                if (playerPos.position.y > enemyPos.position.y) {
-                    
-                    if(playerPos.position.y - enemyPos.position.y > enemySprite.height) {
-                        enemyPos.position.y += abs(enemyPlay.velocity.y);
-                    }
-                } 
-                
-                else {
-                    enemyPos.position.y -= abs(enemyPlay.velocity.y);
-                }
-
-  
-            }
-            
-            //else we will make an attack if possible
+            //else if the enemy does not move
             else {
-                
+                sprite.animation = sprite.animations.get(0).first;
+                sprite.animationLenght = sprite.animations.get(0).second;
             }
-            
-            //System.out.println(enemyPos.position.x);*/
+
+
+
+        }
     }
     
 }

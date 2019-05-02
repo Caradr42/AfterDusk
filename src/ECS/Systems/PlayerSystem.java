@@ -3,6 +3,7 @@ package ECS.Systems;
 import ECS.Components.Collidable;
 import ECS.Components.Inventory;
 import ECS.Components.Item;
+import ECS.Components.Movement;
 import ECS.Components.Playable;
 import ECS.Components.Player;
 import ECS.Components.Sprite;
@@ -11,12 +12,15 @@ import ECS.Components.Transform;
 import ECS.Components.UIText;
 import ECS.SystemJob;
 import Maths.Vector2;
+import Maths.Vector3;
 import Scene.Scene;
 import com.sun.org.apache.xalan.internal.xsltc.runtime.BasisLibrary;
+import com.sun.xml.internal.bind.v2.util.CollisionCheckStack;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 import proyecto_videojuegos.MainThread;
 
 
@@ -38,7 +42,12 @@ public class PlayerSystem extends SystemJob{
     Playable playable;
     Sprite sprite;
 
-    Tool rightHand;
+
+    Tool tool;
+
+
+    Movement movement;
+
 
     boolean firstTime;
     
@@ -46,7 +55,8 @@ public class PlayerSystem extends SystemJob{
     int rightBorder = 80;
     int upperBorder = 50;
     int downBorder = 50 - 32;
-        
+    Vector3 v3V;
+    Vector3 v3R;
 
     /**
      * Constructor
@@ -58,7 +68,7 @@ public class PlayerSystem extends SystemJob{
         transform = new Transform();
         player = new Player();
         sprite = new Sprite();
-
+        movement = new Movement();
         //rightHand = new Tool();
         playable = new Playable();
 
@@ -69,15 +79,25 @@ public class PlayerSystem extends SystemJob{
      */
     @Override
     public void update() {
-
+        Collidable collision = new Collidable();
         for (Integer e : entities) {
             player = scene.entityManager.getEntityComponentInstance(e, player.getClass());
             transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());
             sprite = scene.entityManager.getEntityComponentInstance(e, sprite.getClass());
-
             playable = scene.entityManager.getEntityComponentInstance(e, playable.getClass());
-
+            movement = scene.entityManager.getEntityComponentInstance(e, Movement.class);
             
+            
+            collision= scene.entityManager.getEntityComponentInstance(e, collision.getClass());
+            boolean CollisionCheck=false;
+            //Check if is empty the HashSet with the ids of collision bw entity-tiles
+            
+            if(!collision.setCollidable.isEmpty()){
+                System.out.println(collision.setCollidable);
+                CollisionCheck=true;
+            }
+            
+            //
             
             /*//Save the position of the initial position of the player
             if(firstTime){
@@ -86,6 +106,8 @@ public class PlayerSystem extends SystemJob{
                         firstTime = false;
             }*/
             
+            //
+
             //if the player goes to the right change the position and the animation to the right
             if(scene.display.getKeyManager().right){
                 //check loop and play the grass walking sound.
@@ -94,8 +116,17 @@ public class PlayerSystem extends SystemJob{
                     Assets.Assets.grassWalk.setLooping(active);
                     Assets.Assets.grassWalk.play();
                 }
-
-                transform.position.x = transform.position.x + 2;//+ 100 * MainThread.deltaTime);
+                
+                
+                //Movement with ressistance
+                
+                v3V=new Vector3(0.2, 0, 0);
+                v3R=new Vector3(-0.1,0,0);
+                if(Math.abs(movement.velocity.x)<=2){
+                    movement.velocity.set(movement.velocity.add(v3V));
+                    movement.velocity.set(movement.velocity.add(v3R));
+                }
+               
                 
                 if(scene.display.keyManager.wasPressed[KeyEvent.VK_D] || scene.display.keyManager.wasPressed[KeyEvent.VK_RIGHT]){
                     sprite.frameCounter = 1;
@@ -108,7 +139,7 @@ public class PlayerSystem extends SystemJob{
                 playable.left = false;
                 playable.down = false;
                 playable.up = false;
-
+                
 
             }
             
@@ -121,8 +152,16 @@ public class PlayerSystem extends SystemJob{
                     Assets.Assets.grassWalk.setLooping(active);
                     Assets.Assets.grassWalk.play();
                 }
-                transform.position.x = transform.position.x -2;//- 100 * MainThread.deltaTime);
                 
+                //Movement with ressistance
+                v3V=new Vector3(-0.2, 0, 0);
+                v3R=new Vector3(0.1,0,0);
+                if(Math.abs(movement.velocity.x)<=2){
+                    movement.velocity.set(movement.velocity.add(v3V));
+                    movement.velocity.set(movement.velocity.add(v3R));
+                }
+                
+               
                 if(scene.display.keyManager.wasPressed[KeyEvent.VK_A] || scene.display.keyManager.wasPressed[KeyEvent.VK_LEFT]){
                     sprite.frameCounter = 1;
                 }
@@ -134,6 +173,7 @@ public class PlayerSystem extends SystemJob{
                 playable.left = true;
                 playable.down = false;
                 playable.up = false;
+                
             }
 
            
@@ -145,7 +185,14 @@ public class PlayerSystem extends SystemJob{
                     Assets.Assets.grassWalk.setLooping(active);
                     Assets.Assets.grassWalk.play();
                 }
-                transform.position.y = transform.position.y -2;//- 100 * MainThread.deltaTime);
+                
+                //Movement with ressistance
+                v3V=new Vector3(0, -0.2, 0);
+                v3R=new Vector3(0,+0.1,0);
+                if(Math.abs(movement.velocity.y)<=2){
+                    movement.velocity.set(movement.velocity.add(v3V));
+                    movement.velocity.set(movement.velocity.add(v3R));
+                }
                 
                 if(scene.display.keyManager.wasPressed[KeyEvent.VK_W] || scene.display.keyManager.wasPressed[KeyEvent.VK_UP]){
                     sprite.frameCounter = 1;
@@ -158,6 +205,7 @@ public class PlayerSystem extends SystemJob{
                 playable.left = false;
                 playable.down = false;
                 playable.up = true;
+                
             }
 
  
@@ -169,7 +217,23 @@ public class PlayerSystem extends SystemJob{
                     Assets.Assets.grassWalk.setLooping(active);
                     Assets.Assets.grassWalk.play();
                 }
-                transform.position.y = transform.position.y +2;//+ 100 * MainThread.deltaTime);
+                
+                //Movement with ressistance
+                /*if(CollisionCheck){
+                    v3V=new Vector3(0, -0.2, 0);
+                }else{
+                    
+                    
+                }*/
+                v3V=new Vector3(0, 0.2, 0);
+                v3R=new Vector3(0,-0.1,0);
+                
+                if(Math.abs(movement.velocity.y)<=2){
+                    movement.velocity.set(movement.velocity.add(v3V));
+                    movement.velocity.set(movement.velocity.add(v3R));
+                }
+                
+               
                 
                 if(scene.display.keyManager.wasPressed[KeyEvent.VK_S] || scene.display.keyManager.wasPressed[KeyEvent.VK_DOWN]){
                     sprite.frameCounter = 1;
@@ -182,11 +246,13 @@ public class PlayerSystem extends SystemJob{
                 playable.left = false;
                 playable.down = true;
                 playable.up = false;
+                
             }
             
 
             //if the player presses the space key, an attack is done with the right hand
-            if(scene.display.getKeyManager().space) {
+            if(scene.display.getKeyManager().wasPressed[KeyEvent.VK_SPACE]) {
+         
                 Inventory LRinv = scene.entityManager.getEntityComponentInstance(player.LRInventory, Inventory.class);
                 
                 Item RItem = scene.entityManager.getEntityComponentInstance(LRinv.slots.get(1), Item.class);
@@ -194,8 +260,22 @@ public class PlayerSystem extends SystemJob{
                 //System.out.println(RItem.name);
                 //0 for the base attack
                 //rightHand.currentActive = 0;
+               if(playable.hasWeapon){
+                   int idTool;
+                   if(player.rightOrLeft){ //si es verdadero es que tiene arma en la derecha
+                       idTool = scene.entityManager.getEntityComponentInstance(player.LRInventory, Inventory.class).slots.get(1);
+                       
+                   }else {
+                       idTool = scene.entityManager.getEntityComponentInstance(player.LRInventory, Inventory.class).slots.get(0);   
+                   }
+                   tool = scene.entityManager.getEntityComponentInstance(idTool, Tool.class);
+                   //System.out.println("currentactv antes" + tool.currentActive);
+                   tool.currentActive = 0;
+                   //System.out.println("currentactv platersis" + tool.currentActive);
+                   System.out.println("Space: " + scene.entityManager.getEntityByID(idTool).getName() + " " + tool.currentActive);
+               }
                 
-                System.out.println("Space pressed");
+                //System.out.println("Space pressed");
             }
             
             if(scene.display.keyManager.wasPressed[KeyEvent.VK_SHIFT]){
@@ -208,12 +288,10 @@ public class PlayerSystem extends SystemJob{
                         playable.hasWeapon = false;
                         System.out.println("has no weapon");
                     }
-                    
                     else {
                         playable.hasWeapon = true;
                         System.out.println("has weapon");
-                    }
-                    
+                    }   
                 } 
                 else {
                     player.rightOrLeft = true;
@@ -257,8 +335,23 @@ public class PlayerSystem extends SystemJob{
                scene.c.ortogonalPosition.y = (transform.position.y - upperBorder) * scene.c.scale;
             }
             //if colides with the down border move camera down
+
             if(scene.c.WorldToUICoodinates(transform.position.toVector2()).y > + scene.display.height / scene.c.scale - downBorder){
                scene.c.ortogonalPosition.y = (transform.position.y - (scene.display.height / scene.c.scale - downBorder)) * scene.c.scale;
+            }
+            
+            //No key activity, no movement.
+            if(!(scene.display.getKeyManager().up||scene.display.getKeyManager().down)){
+                movement.velocity.set(new Vector3(movement.velocity.x,0,0));
+            }
+            if(!(scene.display.getKeyManager().left||scene.display.getKeyManager().right)){
+                movement.velocity.set(new Vector3(0,movement.velocity.y,0));
+            }
+            if(scene.display.getKeyManager().left&&scene.display.getKeyManager().right){
+                movement.velocity.set(new Vector3(0,movement.velocity.y,0));
+            }
+            if(scene.display.getKeyManager().up&&scene.display.getKeyManager().down){
+                movement.velocity.set(new Vector3(movement.velocity.x,0,0));
             }
         }
     }
@@ -268,7 +361,7 @@ public class PlayerSystem extends SystemJob{
      */
     @Override
     public void init() {
-        entities = scene.entityManager.getEntitiesWithComponents(transform.getClass(), player.getClass(), sprite.getClass());
+        entities = scene.entityManager.getEntitiesWithComponents(transform.getClass(), player.getClass(), sprite.getClass(), Movement.class);
         firstTime = true;
         
         for(Integer e : entities){

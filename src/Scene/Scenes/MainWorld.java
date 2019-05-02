@@ -101,18 +101,19 @@ public class MainWorld extends Scene {
                     new Item("sword1", true),
                     new Sprite("E_sword", true, 16, 16, 8, new ArrayList<>(Arrays.asList("E_sword"))),
                     new Collidable(new Vector3(16, 16, 1)),
-                    new Tool(1),
+                    new Tool(-1),
                     //the x and y of enemy are 90 and 90
                     new Transform(new Vector3(0,0,16)),
                     new AttackComponent(playerColliders),
-                    new WorldEntity()
+                    new WorldEntity(),
+                    new Electricity()
         );
 
         Entity swordTwo = entityManager.createEntityWithComponents("sword2",
                 new Item("sword2", true),
                 new Sprite("E_sword", true, 16, 16, 8, new ArrayList<>(Arrays.asList("E_sword"))),
                 new Collidable(new Vector3(16, 16, 1)),
-                new Tool(1),
+                new Tool(-1),
                 //the x and y of enemy are 90 and 90
                 new Transform(new Vector3(0, 0, 16)),
                 new AttackComponent(enemyColliders),
@@ -148,6 +149,10 @@ public class MainWorld extends Scene {
         Entity enemyInv = entityManager.createEntityWithComponents("Enemy_Inventory",
                 new Inventory(0, 5, new ArrayList<>(Arrays.asList(swordTwo.getID())))
         );
+        
+        //father inventory
+        Entity fatherInv = entityManager.createEntityWithComponents("Father_Inv", 
+                new Inventory(0, 5, new ArrayList<>(Arrays.asList())));
 
         //The player's internal inventories
         Entity playerInv4 = entityManager.createEntityWithComponents("Player_Inventory4",
@@ -361,12 +366,14 @@ public class MainWorld extends Scene {
          
         
     //PLAYABLE ENTITIES
-        
+
+
 
         Entity father = entityManager.createEntityWithComponents("father",
                 new Transform(new Vector3(200, 100, 36)),
                 new Sprite("father", true, 36, 36, 8, new ArrayList<>(Arrays.asList("father_down", "father_up", "father_left", "father_right"))),
                 new WorldEntity(),
+                //new Enemy(),
                 new Talkative(new ArrayList<>(Arrays.asList(
                     new ArrayList<>(Arrays.asList(
                             "HI this is the firt Parragraph; first Line", 
@@ -377,12 +384,29 @@ public class MainWorld extends Scene {
                             "HI this is the second Parragraph; second Line"
                     ))
                 ))),
-                new Playable(100, null, 1.5),
+                new Playable(100, fatherInv.getID(), 1.5),
                 new Collidable(new Vector3(32, 32, 36))
 
+
+        //This item goes here because its transform is a child of the player's transform
+      /*  Entity swordOne = entityManager.createEntityWithComponents("sword1",
+                new Item("sword1", true),
+                new Collidable(new Vector3(16, 16, 1)),
+                new Tool(-1),
+                //the x and y of enemy are 90 and 90
+                new Transform(new Vector3(), player.getID()),
+                new AttackComponent(playerColliders),
+                new Electricity()
+        );*/
+
+
+
         );
-        
+
+
+
          Entity enemy = entityManager.createEntityWithComponents("Enemy1",
+
                 new Transform(new Vector3(200, 90, 80)),
                 new Enemy(),
                 new Sprite("enemy", true, 64, 64, 5, new ArrayList<>(Arrays.asList("ball", "ball_down", "ball_up", "ball_left", "ball_right"))),
@@ -390,16 +414,18 @@ public class MainWorld extends Scene {
                 new Collidable(new Vector3(64, 80, 80)),
                 new Playable(300, enemyInv.getID(), 1, true));
         
+
         Entity player = entityManager.createEntityWithComponents("Player",
                 new Transform(new Vector3(100, 100, 32)),
                 new Sprite("player", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down", "player_up", "player_left", "player_right"))),
                 new WorldEntity(),
                 new Player("player", playerLR.getID(), playerPassives.getID(), playerActives.getID(), dialogText.getID()),
-
+                new Movement(new Vector3(0,0,0)),
                 new Playable(100, playerInv.getID(), 2, true),
                 new Collidable(new Vector3(32, 32, 32))
 
         );
+
 
        
 
@@ -442,7 +468,11 @@ public class MainWorld extends Scene {
                         new Transform(216,216,16),
                         log, new WorldEntity()
                 );
-        
+        entityManager.createEntityWithComponents("wood",
+                        new Tile("log" + Integer.toString(200) + "_" + Integer.toString(200),true,log,log),
+                        new Transform(264,264,16),
+                        log, new WorldEntity()
+                );
 
 
         /*Entity side = entityManager.createEntityWithComponents("grassSide",
@@ -472,13 +502,14 @@ public class MainWorld extends Scene {
     protected void addSystems() {
         systemJobManager.addSystems(
       
+                new PlayerSystem(this, false),
                 new CollisionEntityWeapon(this, true),
                 new CollisionSystem(this, true),
                 new EnemySystem(this, false),
                 new GameManagerSystem(this, true),
                 new ItemSystem(this, true),
                 new MousePointerSystem(this, true),
-                new PlayerSystem(this, false),
+                
                 new SpriteSystem(this, true),
                 new TileSystem(this, true),
                 new TransformSystem(this, true),
@@ -488,8 +519,12 @@ public class MainWorld extends Scene {
                 new UIInventorySystem(this, true),
                 new UITextSystem(this, true),
                 new WeaponColliderPositionSystem(this, true),
-                new ConversationSystem(this, true),
-                new RenderSystem(this, true)
+                new RenderSystem(this, true),
+                new ActiveSystem(this, true),
+                new ElectricSystem(this, true),
+                new InventorySystem(this, true),
+                new MovementSystem(this, true),
+                new ConversationSystem(this, true)
 
         );
     }

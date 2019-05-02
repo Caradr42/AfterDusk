@@ -78,7 +78,7 @@ public class Assets {
         animations.put("villian_down",  new Pair<>(crop(36, 36, 4, "/Resources/Images/VILLIANFRONT.png", false)         , 4));
         animations.put("villian_up",    new Pair<>(crop(36, 36, 4, "/Resources/Images/VILLIANBACK.png", false)          , 4));
         animations.put("villian_left",  new Pair<>(crop(36, 36, 4, "/Resources/Images/VILLIANLEFT.png", false)          , 4));
-        animations.put("villian_right", new Pair<>(crop(36, 36, 4, "/Resources/Images/VILLIANRIGHT.png", false)         , 4));
+        //animations.put("villian_right", new Pair<>(crop(36, 36, 4, "/Resources/Images/VILLIANRIGHT.png", false)         , 4));
         
             //enemy
         animations.put("ball",          new Pair<>(crop(64, 64, 4, "/Resources/Images/BALL_STATIC.png", false)          , 4));
