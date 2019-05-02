@@ -117,7 +117,8 @@ public class MainWorld extends Scene {
                 //the x and y of enemy are 90 and 90
                 new Transform(new Vector3(0, 0, 16)),
                 new AttackComponent(enemyColliders),
-                new WorldEntity()
+                new WorldEntity(),
+                new Electricity()
         );
 
         //------------

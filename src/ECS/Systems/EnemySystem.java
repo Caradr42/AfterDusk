@@ -6,9 +6,11 @@
 package ECS.Systems;
 
 import ECS.Components.Enemy;
+import ECS.Components.Inventory;
 import ECS.Components.Playable;
 import ECS.Components.Player;
 import ECS.Components.Sprite;
+import ECS.Components.Tool;
 import ECS.Components.Transform;
 import ECS.SystemJob;
 import Maths.Vector2;
@@ -64,6 +66,7 @@ public class EnemySystem extends SystemJob{
             if(sprite.name.equals("enemy")){
                 System.out.println(sprite.name +  " Z: " + transform.position.z + "\t renderedY: " + transform._renderedY);
             }*/
+            
             
         }
        
@@ -150,6 +153,19 @@ public class EnemySystem extends SystemJob{
             else {
                 sprite.animation = sprite.animations.get(0).first;
                 sprite.animationLenght = sprite.animations.get(0).second;
+                
+                if(distance < maxDistance) {
+                    //System.out.println("ATTACK OF THE ENEMY " + distance);
+                    
+                    //weapon of the enemy
+                    Integer weapon = scene.entityManager.getEntityComponentInstance(playable.inventory, Inventory.class).slots.get(0);
+                
+                    //attack
+                    Tool tool = scene.entityManager.getEntityComponentInstance(weapon, Tool.class);
+                    
+                    //with a basic attack
+                    tool.currentActive = 0;
+                }
             }
 
 
