@@ -518,8 +518,8 @@ public class MainWorld extends Scene {
         
         
         //draw grass grid
-        for (int x = -256; x < 640; x += 16) {
-            for (int y = -384; y < 320; y += 16) {
+        for (int x = -256; x <= 640; x += 16) {
+            for (int y = -384; y <= 320; y += 16) {
                 /*Entity side = entityManager.createEntityWithComponents("grassSide",
                         new Transform(new Vector3(x, y, -16)),
                         grassSideSprite,
