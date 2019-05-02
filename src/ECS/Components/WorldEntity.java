@@ -21,9 +21,10 @@ import Maths.Vector3;
  */
 public class WorldEntity extends Component{
      public boolean active;
-
+     
     public WorldEntity() {
         active = true;
+        
     }
     
     public WorldEntity(boolean active) {

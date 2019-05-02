@@ -335,10 +335,9 @@ public class MainWorld extends Scene {
                 new Sprite("player", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down", "player_up", "player_left", "player_right"))),
                 new WorldEntity(),
                 new Player("player", playerLR.getID(), playerPassives.getID(), playerActives.getID()),
-
                 new Playable(100, playerInv.getID(), 2, true),
-                new Collidable(new Vector3(32, 32, 32))
-
+                new Collidable(new Vector3(32, 32, 32)),
+                new Movement(new Vector3(0,0,0))
         );
 
 
@@ -402,7 +401,11 @@ public class MainWorld extends Scene {
                         new Transform(216,216,16),
                         log, new WorldEntity()
                 );
-        
+        entityManager.createEntityWithComponents("wood",
+                        new Tile("log" + Integer.toString(200) + "_" + Integer.toString(200),true,log,log),
+                        new Transform(264,264,16),
+                        log, new WorldEntity()
+                );
 
 
         /*Entity side = entityManager.createEntityWithComponents("grassSide",
@@ -449,15 +452,11 @@ public class MainWorld extends Scene {
                 new UIInventorySystem(this, true),
                 new UITextSystem(this, true),
                 new WeaponColliderPositionSystem(this, true),
-
-
                 new RenderSystem(this, true),
                 new ActiveSystem(this, true),
                 new ElectricSystem(this, true),
-                new InventorySystem(this, true)
-
-
-
+                new InventorySystem(this, true),
+                new MovementSystem(this, true)
         );
     }
 }

@@ -72,6 +72,7 @@ public class CollisionSystem extends SystemJob{
             scene.entityManager.getEntityComponentInstance(entitiesCollidable.get(i), collision.getClass()).setCollidable.clear();
             for(int j=0;j<arrTiles.size();j++){
                 collisionTileEntity(entities.get(i), arrTiles.get(j));
+
             } 
         }
     }
@@ -303,10 +304,40 @@ public class CollisionSystem extends SystemJob{
 
         if(firstRect.intersects(secondRect) && collidablei.active && tileCollidable.isCollidable()&&((transformi.position.z >= floorTile)&&(floorPlayer<=transformj.position.z))){
             //System.out.println("Collision");
+ 
+            double d1LU=firstRect.x;
+            double d1LD=firstRect.y-firstRect.height;
+            double d1RU=firstRect.x+firstRect.width;
+            double d1RD=(firstRect.x+firstRect.width)-firstRect.height;
+            
+            double d2LU=secondRect.x;
+            double d2LD=secondRect.y-secondRect.height;
+            double d2RU=secondRect.x+secondRect.width;
+            double d2RD=(secondRect.x+secondRect.width)-secondRect.height;
+            
+            if(((firstRect.x+firstRect.width)<=secondRect.y&&(firstRect.x+firstRect.width)>=secondRect.y-secondRect.height)||(((firstRect.x+firstRect.width)-firstRect.height>=secondRect.y-secondRect.height))&&(firstRect.x+firstRect.width)-firstRect.height<=secondRect.y){
+                //System.out.println("Left collision");
+                collidablei.collisionSite=4;
+            }
+            if(((firstRect.x)<=secondRect.x+secondRect.width&&(firstRect.x)>=(secondRect.x+secondRect.width)-secondRect.height)||(((firstRect.y-firstRect.height)>=(secondRect.x+secondRect.width)-secondRect.height))&&(firstRect.y-firstRect.height)<=secondRect.x+secondRect.width){
+                //System.out.println("Right collision");
+                collidablei.collisionSite=2;
+            }
+            if(((firstRect.y)<=(secondRect.x+secondRect.width)-secondRect.height&&(firstRect.y)>=(secondRect.y-secondRect.height))||(((firstRect.x+firstRect.width)>=(secondRect.y-secondRect.height))&&(firstRect.x+firstRect.width)<=(secondRect.x+secondRect.width)-secondRect.height)){
+                //System.out.println("Down collision");
+                collidablei.collisionSite=3;
+            }
+            if(firstRect.intersectsLine(d2LD,d2LD,d2RD,d1RD)){
+                //System.out.println("Up collision");
+                collidablei.collisionSite=1;
+            }
 
             collidablei.setCollidable.add(j);
         }
+        
     }
+    
+    
     
     public void initializeEntities() {
         item = new Item();
