@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class UIInventory extends Component implements UIChild{
     
-    String name;
+    public String name;
     
     public Sprite _uiSprite; //the sprite reference is updated in the sistem
     public Transform _uiTransform; //the transform reference is also updated in the sistem

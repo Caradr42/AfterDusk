@@ -12,7 +12,13 @@ import Maths.Vector2;
 import Scene.Scene;
 import java.awt.event.KeyEvent;
 import Assets.Assets;
+
+import ECS.Components.Collidable;
+import ECS.Components.Playable;
 import ECS.Components.Sprite;
+import Maths.Vector3;
+
+
 import javax.swing.JFrame;
 
 /**
@@ -174,6 +180,31 @@ public class GameManagerSystem extends SystemJob{
                 }
             }
         }else{
+
+        }
+        
+        //if the player has no life
+        Integer player = scene.entityManager.getEntitiesWithComponents(Player.class).get(0);
+        
+        Playable playable = scene.entityManager.getEntityComponentInstance(player, Playable.class);
+        
+        Sprite sprite = scene.entityManager.getEntityComponentInstance(player, Sprite.class);
+        
+        Transform transform = scene.entityManager.getEntityComponentInstance(player, Transform.class);
+        
+        Collidable col= scene.entityManager.getEntityComponentInstance(player, Collidable.class);
+        
+        if(playable.hp <= 0 ) {
+            playable.isAlive = true;
+            playable.hp = playable.maxHp;
+            playable.energy = playable.maxEnergy;
+            sprite.visible = true;
+            transform.position.x = 100;
+            transform.position.y = 100;
+            transform.position.z = 32;
+            col.active = true;
+        }
+
             if(state == 1){
                 scene.c.ortogonalPosition.x ++;
                 if(scene.c.ortogonalPosition.x >= width) state = 2;
@@ -199,12 +230,14 @@ public class GameManagerSystem extends SystemJob{
                 fade.speed = 0;
             }
         }        
-    }
+
+    
 
     @Override
     public void init() {
         
         Assets.houseTheme.play();
+
     }
 
     @Override

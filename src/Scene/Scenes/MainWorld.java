@@ -141,7 +141,8 @@ public class MainWorld extends Scene {
                 new Collidable(new Vector3(16, 16, 1)),
                 new Transform(new Vector3(70, 70, 16)),
                 new Sprite("shield", true, 16, 16, 10, new ArrayList<>(Arrays.asList("shield"))),
-                new WorldEntity()
+                new WorldEntity(),
+                new ExtraHealth()
         );
         //==============
 
@@ -220,7 +221,7 @@ public class MainWorld extends Scene {
                 new Transform(127, 23),
                 new Sprite("passives", true, 52, 18, 0, new ArrayList<>(Arrays.asList("1x3Slots_dark"))),
                 new UIEntity("passives", false, null),
-                new UIInventory("Passives", playerPassives.getID())
+                new UIInventory("passives", playerPassives.getID())
         );
 
         Entity activesInventory = entityManager.createEntityWithComponents("Player_UI_Actives_Inventory",
@@ -491,11 +492,27 @@ public class MainWorld extends Scene {
     //TILES 
         Sprite grassTopSprite = new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")));
         Sprite grassSideSprite = new Sprite("grassSide", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grassSide")));
+        Sprite blockSprite = new Sprite("block", true, 16, 16, 10, new ArrayList<>(Arrays.asList("ledColumn")));
         Sprite log = new Sprite("log", true, 16, 16, 10, new ArrayList<>(Arrays.asList("log")));
 
+        
+        //drawing columns
+        for (int x = -200; x < 442; x += 16) {
+            for (int p = 0; p < 5; p++) {
+                entityManager.createEntityWithComponents("block",
+                        new Tile("block" + Integer.toString(x / 16) + "_" + Integer.toString(-400 + 32* p / 16), blockSprite, blockSprite),
+                        new Transform(new Vector3(x, 200 - 16 * p, p * 16)),
+                        blockSprite,
+                        new WorldEntity()
+                //new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
+                );
+            }
+        }
+        
+        
         //draw grass grid
-        for (int x = 0; x < 960; x += 16) {
-            for (int y = 0; y < 960; y += 16) {
+        for (int x = -240; x < 560; x += 16) {
+            for (int y = -480; y < 240; y += 16) {
                 /*Entity side = entityManager.createEntityWithComponents("grassSide",
                         new Transform(new Vector3(x, y, -16)),
                         grassSideSprite,
@@ -509,27 +526,59 @@ public class MainWorld extends Scene {
                         new WorldEntity()
                 //new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
                 );
+                
+                //Create board of the map.
+                if(x==-240){
+                    entityManager.createEntityWithComponents("wood",
+                        new Tile("log" + Integer.toString(x/16) + "_" + Integer.toString(y/16),true,log,log),
+                        new Transform(x,y+32,32),
+                        log, new WorldEntity()
+                    );
+                }
+                if(x==544){
+                    entityManager.createEntityWithComponents("wood",
+                        new Tile("log" + Integer.toString(x/16) + "_" + Integer.toString(y/16),true,log,log),
+                        new Transform(x,y+48,32),
+                        log, new WorldEntity()
+                    );
+                }
+                if(y==-480){
+                    entityManager.createEntityWithComponents("wood",
+                        new Tile("log" + Integer.toString(x/16) + "_" + Integer.toString(y/16),true,log,log),
+                        new Transform(x,y+32,32),
+                        log, new WorldEntity()
+                    );
+                }
+                if(y==224){
+                    entityManager.createEntityWithComponents("wood",
+                        new Tile("log" + Integer.toString(x/16) + "_" + Integer.toString(y/16),true,log,log),
+                        new Transform(x,y+48,32),
+                        log, new WorldEntity()
+                    );
+                }
+                
+                
             }
         }
 
-        
+        /*
         //Example log
         entityManager.createEntityWithComponents("wood",
                         new Tile("log" + Integer.toString(200) + "_" + Integer.toString(200),true,log,log),
-                        new Transform(200,200,32),
+                        new Transform(0,0,64),
                         log, new WorldEntity()
                 );
         entityManager.createEntityWithComponents("wood",
                         new Tile("log" + Integer.toString(200) + "_" + Integer.toString(200),true,log,log),
-                        new Transform(216,216,16),
+                        new Transform(32,32,16),
                         log, new WorldEntity()
                 );
         entityManager.createEntityWithComponents("wood",
                         new Tile("log" + Integer.toString(200) + "_" + Integer.toString(200),true,log,log),
-                        new Transform(264,264,16),
+                        new Transform(64,64,16),
                         log, new WorldEntity()
                 );
-
+        */
 
         /*Entity side = entityManager.createEntityWithComponents("grassSide",
                 new Transform(new Vector3(-80, -80, 16)),
@@ -576,12 +625,13 @@ public class MainWorld extends Scene {
                 new UITextSystem(this, true),
                 new WeaponColliderPositionSystem(this, true),
                 new RenderSystem(this, true),
+                new PassiveSystem(this, true),
                 new ActiveSystem(this, true),
                 new ElectricSystem(this, true),
-                new InventorySystem(this, true),
                 new MovementSystem(this, true),
-                new ConversationSystem(this, true)
-
+                new ConversationSystem(this, true),
+                new ExtraHealthSystem(this, true),
+                new InventorySystem(this, true)
         );
     }
 }
