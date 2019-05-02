@@ -456,6 +456,7 @@ public class MainWorld extends Scene {
                 new PassiveSystem(this, true),
                 new ActiveSystem(this, true),
                 new ElectricSystem(this, true),
+                new ExtraHealthSystem(this, true),
                 new InventorySystem(this, true)
 
 

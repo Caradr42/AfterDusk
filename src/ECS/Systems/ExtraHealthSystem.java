@@ -38,8 +38,17 @@ public class ExtraHealthSystem extends SystemJob {
 
     @Override
     public void update() {
-       /* entities = scene.entityManager.getEntitiesWithComponents(AttackComponent.class, ExtraHealth.class);
-        for (Integer e : entities) {
+        
+        entities = scene.entityManager.getEntitiesWithComponents(ExtraHealth.class);
+        for(Integer e : entities){
+            
+            playable = scene.entityManager.getEntityComponentInstance(e, Playable.class);
+           playable.hp = playable.hp + extraHealth.cost;
+            System.out.println("player hp " + playable.hp);
+        }
+        
+        
+       /* for (Integer e : entities) {
 
             //System.out.println(scene.entityManager.getEntityByID(e).getName());
             // System.out.println("currentActv electricsus");
@@ -90,9 +99,8 @@ public class ExtraHealthSystem extends SystemJob {
 
     @Override
     public void init() {
-        entities = scene.entityManager.getEntitiesWithComponents(AttackComponent.class, ExtraHealth.class);
+        entities = scene.entityManager.getEntitiesWithComponents(ExtraHealth.class);
         extraHealth = new ExtraHealth();
-        tool = new Tool();
     }
 
     @Override

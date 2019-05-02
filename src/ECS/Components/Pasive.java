@@ -16,10 +16,10 @@ import java.util.HashSet;
  */
 public abstract class Pasive extends Component{
         
-    boolean isActive = false;
-    int idSprite;
+    public boolean isActive = false;
+    public int idSprite;
 
-    ArrayList <Pair<String, Integer>> costs;
+    public ArrayList <Pair<String, Integer>> costs;
     
     public static HashSet <Class> pasivesSet = new HashSet<Class>();
 

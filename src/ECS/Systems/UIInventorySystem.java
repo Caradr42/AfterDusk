@@ -91,6 +91,19 @@ public class UIInventorySystem extends SystemJob{
                                 int mouseItemBuffer = mousePointer.heldItem;
                                 //System.err.println("mouseItemBuffer " + mouseItemBuffer);
                                 int inventoryItemBuffer = getItemFromInventory(uiInventory.firstInventory, i, j);
+                                if (inventoryItemBuffer != 0) {
+                                    if (uiInventory.name.equals("passives")) {
+                                        for (Class p : Pasive.pasivesSet) {
+
+                                            if (scene.entityManager.hasComponent(inventoryItemBuffer, p)) {
+                                                Pasive pasive = (Pasive)scene.entityManager.getEntityComponentInstance(inventoryItemBuffer,p);
+                                           
+                                                pasive.isActive = false;
+                                            }
+                                        }
+                                    }
+                                }
+                                
                                 //System.out.println("inventoryItemBuffer " + inventoryItemBuffer);
                                 //mousePointer.heldItem = inventoryItemBuffer;
                                 
@@ -219,9 +232,12 @@ public class UIInventorySystem extends SystemJob{
                      if(scene.entityManager.hasComponent(item, p)){
 
                          isPassive = true;
+                          Pasive pasive = (Pasive)scene.entityManager.getEntityComponentInstance(item, p);
+                         pasive.isActive = true;
                      }
                  }
                 // System.out.println("passive added");
+                
                 if(!isPassive) return  false;  
                 //System.out.println("pasiva added2");
 
