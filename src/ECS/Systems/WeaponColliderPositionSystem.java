@@ -138,8 +138,8 @@ public class WeaponColliderPositionSystem extends SystemJob{
 
                             at.relativePosition.y = - entityHeight - at.a +  transform.position.z;
                             //- entityHeight - at.a + 
-                             System.out.println(scene.entityManager.getEntityByID(e).getName() +transform.position.x + ", " + transform.position.y);
-                            System.out.println("collider = " + at.relativePosition.x + ", " + at.relativePosition.y);
+                             //System.out.println(scene.entityManager.getEntityByID(e).getName() +transform.position.x + ", " + transform.position.y);
+                            //System.out.println("collider = " + at.relativePosition.x + ", " + at.relativePosition.y);
                            
                             
                             //- entityHeight - at.a + transform.position.z
