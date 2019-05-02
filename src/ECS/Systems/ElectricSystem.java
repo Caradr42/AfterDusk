@@ -42,14 +42,31 @@ AttackCollider collider;
     public void update() {
         entities = scene.entityManager.getEntitiesWithComponents(AttackComponent.class,Electricity.class);
         for(Integer e : entities){
-            //System.out.println("alo");
+            
+            //System.out.println(scene.entityManager.getEntityByID(e).getName());
+           // System.out.println("currentActv electricsus");
+            
+            tool = scene.entityManager.getEntityComponentInstance(e, Tool.class);
+             //System.out.println("currentActv electricsus" + tool.currentActive);
+            if(tool.currentActive != -1){
+                
+              
+
+            //System.out.println("currentactv antes" + tool.currentActive);
+            
+            //System.out.println("currentactv desp" + tool.currentActive);
+            
+            System.out.println("alo");
             attack = scene.entityManager.getEntityComponentInstance(e, AttackComponent.class);
             for (AttackCollider a : attack.arrColliders){
-                //System.out.println("alo2");
+                System.out.println("alo2");
                 //System.out.println("attackarrColiders" + attack.arrColliders.size());
                 //collider = scene.entityManager.getEntityComponentInstance(a., AttackCollider.class);
+                //
+                
+                //System.out.println("collideswith " + a.collidesWith.size());
                 for (Integer b : a.collidesWith){
-                   // System.out.println("alo3");
+                    System.out.println("alo3");
                    // a = scene.entityManager.getEntityComponentInstance(b, AttackCollider.class);
                     entity = scene.entityManager.getEntityByID(b);
                     
@@ -61,7 +78,7 @@ AttackCollider collider;
                     
                 }
             
-                    a.collidesWith.clear();
+                    //a.collidesWith.clear();
                 
                 
             }
@@ -86,11 +103,10 @@ AttackCollider collider;
                     System.out.println("hp enemy" + playable.hp);
                 }      
                 }*/
-         //}
+            //}
             //collidesWithOther = scene.entityManager.getEntityComponentInstance(e, collidesWithOther)
-            
-        tool = scene.entityManager.getEntityComponentInstance(e, Tool.class);
-        tool.currentActive = -1;
+          tool.currentActive = -1;
+            }
         }
 
 
@@ -102,6 +118,7 @@ AttackCollider collider;
        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     entities = scene.entityManager.getEntitiesWithComponents(AttackComponent.class,Electricity.class);
     electricity = new Electricity();
+    tool = new Tool();
         //ArrayList<Integer> idCollidables;
         //System.out.println("init");
         

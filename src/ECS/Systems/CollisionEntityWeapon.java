@@ -63,9 +63,9 @@ public class CollisionEntityWeapon extends SystemJob{
                 ArrayList<AttackCollider> arrColliders  = scene.entityManager.getEntityComponentInstance(i, attackComponent.getClass()).arrColliders;
                 
                 //clean the lists of the entities that are colliding with each AttackCollider of AttackComponent
-               /* for (AttackCollider at : arrColliders) {
+                for (AttackCollider at : arrColliders) {
                     at.collidesWith.clear();
-                }*/
+                }
 
 
                 //Check if it collides with a collidable entity
@@ -181,17 +181,10 @@ public class CollisionEntityWeapon extends SystemJob{
             if (wpnRect.intersects(collRect)) {
                 areColliding.add(arrCollider);
                 arrCollider.collidesWith.add(j);
-                
-                //System.out.println("collidess" + arrCollider.collidesWith.size());
-                
-                //System.out.println("Colliding with " + scene.entityManager.getEntityByID(arrCollider.collidesWith.get(arrCollider.collidesWith.size() - 1)).getName());
+                System.out.println("Colliding with " + scene.entityManager.getEntityByID(arrCollider.collidesWith.get(arrCollider.collidesWith.size() - 1)).getName());
             }
         }
-        /*for (AttackCollider a : attacks.arrColliders){
-            System.out.println("collidess" + attacks.arrColliders.size());
-        }*/
 
-        
         return areColliding;
     }
     
@@ -217,7 +210,7 @@ public class CollisionEntityWeapon extends SystemJob{
         Playable attackedPlay = new Playable();
         attackedPlay = scene.entityManager.getEntityComponentInstance(entity, attackedPlay.getClass());
 
-        //FireSystem.executeActives(weapon, entity);
+        FireSystem.executeActives(weapon, entity);
         
         //The attack has been done
         //tool.currentActive = -1;

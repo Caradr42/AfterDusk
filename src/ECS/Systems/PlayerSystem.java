@@ -193,9 +193,22 @@ public class PlayerSystem extends SystemJob{
                 //System.out.println(RItem.name);
                 //0 for the base attack
                 //rightHand.currentActive = 0;
-               
+               if(playable.hasWeapon){
+                   int idTool;
+                   if(player.rightOrLeft){ //si es verdadero es que tiene arma en la derecha
+                       idTool = scene.entityManager.getEntityComponentInstance(player.LRInventory, Inventory.class).slots.get(1);
+                       
+                   }else {
+                       idTool = scene.entityManager.getEntityComponentInstance(player.LRInventory, Inventory.class).slots.get(0);   
+                   }
+                   tool = scene.entityManager.getEntityComponentInstance(idTool, Tool.class);
+                   //System.out.println("currentactv antes" + tool.currentActive);
+                   tool.currentActive = 0;
+                   //System.out.println("currentactv platersis" + tool.currentActive);
+                   //System.out.println("Space: " + scene.entityManager.getEntityByID(idTool).getName() + " " + tool.currentActive);
+               }
                 
-                System.out.println("Space pressed");
+                //System.out.println("Space pressed");
             }
             
             if(scene.display.keyManager.wasPressed[KeyEvent.VK_SHIFT]){
@@ -203,10 +216,31 @@ public class PlayerSystem extends SystemJob{
                 if(player.rightOrLeft) {
                     player.rightOrLeft = false;
                     
+                    //If there is no weapon in the left part
+                    if(scene.entityManager.getEntityComponentInstance(player.LRInventory, Inventory.class).slots.get(0) == 0) {
+                        playable.hasWeapon = false;
+                        System.out.println("has no weapon");
+                    }
+                    
+                    else {
+                        playable.hasWeapon = true;
+                        System.out.println("has weapon");
+                    }
                     
                 } 
                 else {
                     player.rightOrLeft = true;
+
+                    //If there is no weapon in the left part
+                    if (scene.entityManager.getEntityComponentInstance(player.LRInventory, Inventory.class).slots.get(1) == 0) {
+                        playable.hasWeapon = false;
+                        System.out.println("has no weapon");
+                    } 
+                    
+                    else {
+                        playable.hasWeapon = true;
+                        System.out.println("has weapon");
+                    }
                 }
             }
 
