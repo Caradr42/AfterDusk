@@ -270,6 +270,8 @@ public class PlayerSystem extends SystemJob{
                    tool = scene.entityManager.getEntityComponentInstance(idTool, Tool.class);
                    //System.out.println("currentactv antes" + tool.currentActive);
                    tool.currentActive = 0;
+                   
+                   Assets.Assets.swordClip.play();
                    //System.out.println("currentactv platersis" + tool.currentActive);
                    System.out.println("Space: " + scene.entityManager.getEntityByID(idTool).getName() + " " + tool.currentActive);
                }

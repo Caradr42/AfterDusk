@@ -12,6 +12,7 @@ import Maths.Vector2;
 import Scene.Scene;
 import java.awt.event.KeyEvent;
 import Assets.Assets;
+import ECS.Components.Collidable;
 import ECS.Components.Playable;
 import ECS.Components.Sprite;
 import Maths.Vector3;
@@ -153,12 +154,17 @@ public class GameManagerSystem extends SystemJob{
         
         Transform transform = scene.entityManager.getEntityComponentInstance(player, Transform.class);
         
+        Collidable col= scene.entityManager.getEntityComponentInstance(player, Collidable.class);
+        
         if(playable.hp <= 0 ) {
             playable.isAlive = true;
             playable.hp = playable.maxHp;
             playable.energy = playable.maxEnergy;
             sprite.visible = true;
-            transform.position = new Vector3(100, 100, 32);
+            transform.position.x = 100;
+            transform.position.y = 100;
+            transform.position.z = 32;
+            col.active = true;
         }
     }
 
