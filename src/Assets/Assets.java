@@ -138,11 +138,13 @@ public class Assets {
         animations.put("actives_bar",   new Pair<>(crop(160, 32, 1, "/Resources/Images/actives_bar.png", false)         , 1));
         animations.put("RL_bar",        new Pair<>(crop(48, 32, 1, "/Resources/Images/RL_bar.png", false)               , 1));
         
-        animations.put("HP_bar",        new Pair<>(crop(64, 16, 1, "/Resources/Images/HP_bar.png", false)                , 1));
-        animations.put("HP",            new Pair<>(crop(1, 1, 1, "/Resources/Images/HP.png", false)                , 1));
-        animations.put("energy_bar",    new Pair<>(crop(64, 16, 1, "/Resources/Images/Energy_bar.png", false)            , 1));
-        animations.put("energy",            new Pair<>(crop(1, 1, 1, "/Resources/Images/energy.png", false)                , 1));
+        animations.put("HP_bar",        new Pair<>(crop(64, 16, 1, "/Resources/Images/HP_bar.png", false)               , 1));
+        animations.put("HP",            new Pair<>(crop(1, 1, 1, "/Resources/Images/HP.png", false)                     , 1));
+        animations.put("energy_bar",    new Pair<>(crop(64, 16, 1, "/Resources/Images/Energy_bar.png", false)           , 1));
+        animations.put("energy",        new Pair<>(crop(1, 1, 1, "/Resources/Images/energy.png", false)                 , 1));
         
+        animations.put("dialog_box",    new Pair<>(crop(256, 72, 1, "/Resources/Images/dialog_dark.png", false)         , 1));
+        //dialog_dark
         
         animations.put("menu_game",     new Pair<>(crop(278, 150, 1, "/Resources/Images/menu_game_clear.png", false)          , 1));
         animations.put("menu_map",     new Pair<>(crop(278, 150, 1, "/Resources/Images/Menu_map_clear.png", false)            , 1));
@@ -160,6 +162,7 @@ public class Assets {
         animations.put("Button_long",     new Pair<>(crop(58, 10, 1, "/Resources/Images/Button_long.png", false), 1));
         animations.put("Tab_light",     new Pair<>(crop(48, 13, 1, "/Resources/Images/Tab_light.png", false), 1));
         animations.put("Tab_dark",     new Pair<>(crop(48, 13, 1, "/Resources/Images/Tab_dark.png", false), 1));
+        
         
         //SOUND
         

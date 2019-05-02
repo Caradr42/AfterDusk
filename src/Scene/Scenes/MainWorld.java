@@ -328,17 +328,15 @@ public class MainWorld extends Scene {
                 new UIEntity("menu", true, new ArrayList<>(Arrays.asList(mapButton.getID(), questsButton.getID(), optionsButton.getID(), gameButton.getID(), text.getID(), playerPosition.getID())))
         );
         
+        //dialog box
+        /*Entity dialogBox = entityManager.createEntityWithComponents("dialogBox",
+                new Transform(display.width / c.scale / 2 - (256/2), display.height / c.scale - 82),
+                new Sprite("dialogBox", true, 256, 72, 0, new ArrayList<>(Arrays.asList("dialog_box"))),
+                new UIEntity("dialogBox", true, new ArrayList<>(Arrays.asList( )))
+        ); */
+        
     //PLAYABLE ENTITIES
-        Entity player = entityManager.createEntityWithComponents("Player",
-                new Transform(new Vector3(100, 100, 32)),
-                new Sprite("player", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down", "player_up", "player_left", "player_right"))),
-                new WorldEntity(),
-                new Player("player", playerLR.getID(), playerPassives.getID(), playerActives.getID()),
-
-                new Playable(100, playerInv.getID(), 2, true),
-                new Collidable(new Vector3(32, 32, 32))
-
-        );
+        
 
         Entity father = entityManager.createEntityWithComponents("father",
                 new Transform(new Vector3(200, 100, 36)),
@@ -358,14 +356,27 @@ public class MainWorld extends Scene {
                 new Collidable(new Vector3(32, 32, 36))
 
         );
-
-        Entity enemy = entityManager.createEntityWithComponents("Enemy1",
+        
+         Entity enemy = entityManager.createEntityWithComponents("Enemy1",
                 new Transform(new Vector3(200, 90, 80)),
                 new Enemy(),
                 new Sprite("enemy", true, 64, 64, 5, new ArrayList<>(Arrays.asList("ball", "ball_down", "ball_up", "ball_left", "ball_right"))),
                 new WorldEntity(),
                 new Collidable(new Vector3(64, 80, 80)),
                 new Playable(300, enemyInv.getID(), 1, true));
+        
+        Entity player = entityManager.createEntityWithComponents("Player",
+                new Transform(new Vector3(100, 100, 32)),
+                new Sprite("player", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down", "player_up", "player_left", "player_right"))),
+                new WorldEntity(),
+                new Player("player", playerLR.getID(), playerPassives.getID(), playerActives.getID()),
+
+                new Playable(100, playerInv.getID(), 2, true),
+                new Collidable(new Vector3(32, 32, 32))
+
+        );
+
+       
 
 
 
