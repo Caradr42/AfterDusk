@@ -104,5 +104,6 @@ public class Playable extends Component {
     
     public Playable() {
         hasWeapon = false;
+        inventory = 0;
     }
 }

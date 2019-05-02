@@ -142,6 +142,10 @@ public class MainWorld extends Scene {
         Entity enemyInv = entityManager.createEntityWithComponents("Enemy_Inventory",
                 new Inventory(0, 5, new ArrayList<>(Arrays.asList(swordTwo.getID())))
         );
+        
+        //father inventory
+        Entity fatherInv = entityManager.createEntityWithComponents("Father_Inv", 
+                new Inventory(0, 5, new ArrayList<>(Arrays.asList())));
 
         //The player's internal inventories
         Entity playerInv4 = entityManager.createEntityWithComponents("Player_Inventory4",
@@ -364,7 +368,7 @@ public class MainWorld extends Scene {
                             "HI this is the second Parragraph; second Line"
                     ))
                 ))),
-                new Playable(100, null, 1.5),
+                new Playable(100, fatherInv.getID(), 1.5),
                 new Collidable(new Vector3(32, 32, 36))
 
 

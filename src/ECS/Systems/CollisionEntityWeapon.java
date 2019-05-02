@@ -9,6 +9,7 @@ import ECS.Components.AttackComponent;
 import ECS.Components.Collidable;
 import ECS.Components.Enemy;
 import ECS.Components.Inventory;
+import ECS.Components.Item;
 import ECS.Components.Playable;
 import ECS.Components.Player;
 import ECS.Components.Tool;
@@ -72,8 +73,8 @@ public class CollisionEntityWeapon extends SystemJob{
 
                 //Check if it collides with a collidable entity
                 for (Integer j : arrCollidable) {
-                    //if they are not the same and i is not a weapon of j
-                    if (!Objects.equals(i, j) && ! isWeaponOf(i, j)) {
+                    //if they are not the same and i is not a weapon of j, and if j is alive
+                    if (!Objects.equals(i, j) && ! isWeaponOf(i, j) && scene.entityManager.getEntityComponentInstance(j, Playable.class).isAlive) {
 
                         //for each collider  that collides with the entity
                         for (AttackCollider k : checkAttack(i, j)) {
@@ -165,14 +166,14 @@ public class CollisionEntityWeapon extends SystemJob{
         Transform collTrans = scene.entityManager.getEntityComponentInstance(j, transform.getClass());
         Collidable collColl = scene.entityManager.getEntityComponentInstance(j, collidable.getClass());
         
-        Rectangle collRect = new Rectangle((int) collTrans.position.x, (int) collTrans.position.y, (int) collColl.hitbox.x, (int) collColl.hitbox.y);
+        Rectangle collRect = new Rectangle((int) collTrans.position.x, (int) collTrans._renderedY, (int) collColl.hitbox.x, (int) collColl.hitbox.y);
         
         
         //for each collider of the weapon
         for (AttackCollider arrCollider : attacks.arrColliders) {
         
             //Get the rectangle of the weapon/attack in that collider
-            Rectangle wpnRect = new Rectangle((int) (wpnTrans.position.x + arrCollider.relativePosition.x), (int) (wpnTrans.position.y + arrCollider.relativePosition.y), (int) arrCollider.hitbox.x, (int) arrCollider.hitbox.y);
+            Rectangle wpnRect = new Rectangle((int) (wpnTrans.position.x + arrCollider.relativePosition.x), (int) (wpnTrans._renderedY + arrCollider.relativePosition.y), (int) arrCollider.hitbox.x, (int) arrCollider.hitbox.y);
             rectangle = wpnRect;
             judge = true;
             
@@ -182,8 +183,11 @@ public class CollisionEntityWeapon extends SystemJob{
             //System.out.println(scene.entityManager.getEntityByID(i).getName());
             if (wpnRect.intersects(collRect)) {
                 areColliding.add(arrCollider);
-                System.out.println(scene.entityManager.getEntityByID(i).getName());
-                arrCollider.collidesWith.add(j);
+                //System.out.println(scene.entityManager.getEntityByID(i).getName());
+                
+                if (!scene.entityManager.hasComponent(j, Item.class) && scene.entityManager.getEntityComponentInstance(j, Playable.class).isAlive) {
+                    arrCollider.collidesWith.add(j);
+                }
                 System.out.println("Colliding with " + scene.entityManager.getEntityByID(arrCollider.collidesWith.get(arrCollider.collidesWith.size() - 1)).getName());
             }
         }

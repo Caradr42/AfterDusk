@@ -99,60 +99,62 @@ public class EnemySystem extends SystemJob{
         playable = scene.entityManager.getEntityComponentInstance(entity, Playable.class);
         enemy = scene.entityManager.getEntityComponentInstance(entity, Enemy.class);
 
-        double distance = abs(playerPos._renderedPosition.toVector2().add(playerSprite.dimensions.div(2)).dist(transform._renderedPosition.toVector2().add(sprite.dimensions.div(2))));
-        if (distance < maxDistance && distance > minDistance) {
-            //System.out.println(distance);
-            Vector2 direction = playerPos._renderedPosition.toVector2().add(playerSprite.dimensions.div(2)).sub(transform._renderedPosition.toVector2().add(sprite.dimensions.div(2))).norm().scalar(playable.speedScalar);
-            //System.out.println(direction.x + " : " + direction.y);
+        if(playable.isAlive) {
+            double distance = abs(playerPos._renderedPosition.toVector2().add(playerSprite.dimensions.div(2)).dist(transform._renderedPosition.toVector2().add(sprite.dimensions.div(2))));
+            if (distance < maxDistance && distance > minDistance) {
+                //System.out.println(distance);
+                Vector2 direction = playerPos._renderedPosition.toVector2().add(playerSprite.dimensions.div(2)).sub(transform._renderedPosition.toVector2().add(sprite.dimensions.div(2))).norm().scalar(playable.speedScalar);
+                //System.out.println(direction.x + " : " + direction.y);
 
-            enemy.prev = direction;
+                enemy.prev = direction;
 
-            transform.position.set(transform.position.add(direction));
+                transform.position.set(transform.position.add(direction));
 
-            if (abs(direction.x) > abs(direction.y)) {
-                if (direction.x < 0) {
-                    playable.left = true;
-                    playable.up = false;
-                    playable.right = false;
-                    playable.down = false;
+                if (abs(direction.x) > abs(direction.y)) {
+                    if (direction.x < 0) {
+                        playable.left = true;
+                        playable.up = false;
+                        playable.right = false;
+                        playable.down = false;
 
-                    sprite.animation = sprite.animations.get(3).first;
-                    sprite.animationLenght = sprite.animations.get(3).second;
+                        sprite.animation = sprite.animations.get(3).first;
+                        sprite.animationLenght = sprite.animations.get(3).second;
+                    } else {
+                        playable.left = false;
+                        playable.up = false;
+                        playable.right = true;
+                        playable.down = false;
+                        sprite.animation = sprite.animations.get(4).first;
+                        sprite.animationLenght = sprite.animations.get(4).second;
+                    }
                 } else {
-                    playable.left = false;
-                    playable.up = false;
-                    playable.right = true;
-                    playable.down = false;
-                    sprite.animation = sprite.animations.get(4).first;
-                    sprite.animationLenght = sprite.animations.get(4).second;
-                }
-            } else {
-                if (direction.y < 0) {
-                    playable.left = false;
-                    playable.up = true;
-                    playable.right = false;
-                    playable.down = false;
-                    sprite.animation = sprite.animations.get(2).first;
-                    sprite.animationLenght = sprite.animations.get(2).second;
-                } else {
-                    playable.left = false;
-                    playable.up = false;
-                    playable.right = false;
-                    playable.down = true;
-                    sprite.animation = sprite.animations.get(1).first;
-                    sprite.animationLenght = sprite.animations.get(1).second;
+                    if (direction.y < 0) {
+                        playable.left = false;
+                        playable.up = true;
+                        playable.right = false;
+                        playable.down = false;
+                        sprite.animation = sprite.animations.get(2).first;
+                        sprite.animationLenght = sprite.animations.get(2).second;
+                    } else {
+                        playable.left = false;
+                        playable.up = false;
+                        playable.right = false;
+                        playable.down = true;
+                        sprite.animation = sprite.animations.get(1).first;
+                        sprite.animationLenght = sprite.animations.get(1).second;
+                    }
                 }
             }
-        }
-        
-        //else if the enemy does not move
-        else {
-            sprite.animation = sprite.animations.get(0).first;
-            sprite.animationLenght = sprite.animations.get(0).second;
-        }
 
-       
+            //else if the enemy does not move
+            else {
+                sprite.animation = sprite.animations.get(0).first;
+                sprite.animationLenght = sprite.animations.get(0).second;
+            }
 
+
+
+        }
     }
     
 }
