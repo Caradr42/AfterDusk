@@ -15,6 +15,7 @@ import ECS.Components.Sprite;
 import ECS.Components.Transform;
 import ECS.SystemJob;
 import static ECS.SystemJob.scene;
+import Maths.Vector3;
 import Scene.Scene;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -67,8 +68,30 @@ public class MovementSystem extends SystemJob{
                 //System.out.println(collision.setCollidable);
                 CollisionCheck=true;
             }
-                transform.position.set(transform.position.add(movement.velocity));
             
+            Vector3 v3=new Vector3();
+            v3=movement.velocity;
+            
+            
+            //Check collision
+            if(CollisionCheck){
+                v3.x=(v3.x*-.5);
+                v3.y=(v3.y*-.5);
+                if(collision.collisionLeft){
+                    transform.position.x = transform.position.x  - 1;
+                }
+                if(collision.collisionRight){
+                    transform.position.x = transform.position.x  + 1;
+                }
+                if(collision.collisionTop){
+                    transform.position.y=transform.position.y-1;
+                }
+                if(collision.collisionDown){
+                    transform.position.y=transform.position.y+1;
+                }
+            }
+            
+            transform.position.set(transform.position.add(v3));
         }
     }
 

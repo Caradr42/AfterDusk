@@ -57,7 +57,7 @@ public class PlayerSystem extends SystemJob{
     int downBorder = 50 - 32;
     Vector3 v3V;
     Vector3 v3R;
-
+    Collidable collision;
     /**
      * Constructor
      * @param scene 
@@ -71,7 +71,7 @@ public class PlayerSystem extends SystemJob{
         movement = new Movement();
         //rightHand = new Tool();
         playable = new Playable();
-
+        collision=new Collidable();
     }
 
     /**
@@ -79,7 +79,7 @@ public class PlayerSystem extends SystemJob{
      */
     @Override
     public void update() {
-        Collidable collision = new Collidable();
+        
         for (Integer e : entities) {
             player = scene.entityManager.getEntityComponentInstance(e, player.getClass());
             transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());
@@ -88,12 +88,12 @@ public class PlayerSystem extends SystemJob{
             movement = scene.entityManager.getEntityComponentInstance(e, Movement.class);
             
             
-            collision= scene.entityManager.getEntityComponentInstance(e, collision.getClass());
+            collision= scene.entityManager.getEntityComponentInstance(e, Collidable.class);
             boolean CollisionCheck=false;
             //Check if is empty the HashSet with the ids of collision bw entity-tiles
             
             if(!collision.setCollidable.isEmpty()){
-                System.out.println(collision.setCollidable);
+                //System.out.println(collision.setCollidable);
                 CollisionCheck=true;
             }
             
@@ -117,12 +117,12 @@ public class PlayerSystem extends SystemJob{
                     Assets.Assets.grassWalk.play();
                 }
                 
-                
                 //Movement with ressistance
-                
                 v3V=new Vector3(0.2, 0, 0);
                 v3R=new Vector3(-0.1,0,0);
-                if(Math.abs(movement.velocity.x)<=2){
+                
+                
+                if(Math.abs(movement.velocity.x)<=2&&!CollisionCheck){
                     movement.velocity.set(movement.velocity.add(v3V));
                     movement.velocity.set(movement.velocity.add(v3R));
                 }
@@ -156,6 +156,7 @@ public class PlayerSystem extends SystemJob{
                 //Movement with ressistance
                 v3V=new Vector3(-0.2, 0, 0);
                 v3R=new Vector3(0.1,0,0);
+                
                 if(Math.abs(movement.velocity.x)<=2){
                     movement.velocity.set(movement.velocity.add(v3V));
                     movement.velocity.set(movement.velocity.add(v3R));
@@ -186,17 +187,21 @@ public class PlayerSystem extends SystemJob{
                     Assets.Assets.grassWalk.play();
                 }
                 
+                
                 //Movement with ressistance
                 v3V=new Vector3(0, -0.2, 0);
-                v3R=new Vector3(0,+0.1,0);
-                if(Math.abs(movement.velocity.y)<=2){
+                v3R=new Vector3(0,0.1,0);
+                
+                
+                if(Math.abs(movement.velocity.y)<=2&&!CollisionCheck){
                     movement.velocity.set(movement.velocity.add(v3V));
                     movement.velocity.set(movement.velocity.add(v3R));
-                }
+                    }
+
+                    if(scene.display.keyManager.wasPressed[KeyEvent.VK_W] || scene.display.keyManager.wasPressed[KeyEvent.VK_UP]){
+                        sprite.frameCounter = 1;
+                    }
                 
-                if(scene.display.keyManager.wasPressed[KeyEvent.VK_W] || scene.display.keyManager.wasPressed[KeyEvent.VK_UP]){
-                    sprite.frameCounter = 1;
-                }
                 
                 sprite.animation = sprite.animations.get(1).first;
                 sprite.animationLenght = sprite.animations.get(1).second;
@@ -219,16 +224,10 @@ public class PlayerSystem extends SystemJob{
                 }
                 
                 //Movement with ressistance
-                /*if(CollisionCheck){
-                    v3V=new Vector3(0, -0.2, 0);
-                }else{
-                    
-                    
-                }*/
                 v3V=new Vector3(0, 0.2, 0);
                 v3R=new Vector3(0,-0.1,0);
                 
-                if(Math.abs(movement.velocity.y)<=2){
+                if(Math.abs(movement.velocity.y)<=2&&!CollisionCheck){
                     movement.velocity.set(movement.velocity.add(v3V));
                     movement.velocity.set(movement.velocity.add(v3R));
                 }
@@ -353,6 +352,7 @@ public class PlayerSystem extends SystemJob{
             if(scene.display.getKeyManager().up&&scene.display.getKeyManager().down){
                 movement.velocity.set(new Vector3(movement.velocity.x,0,0));
             }
+            
         }
     }
 
@@ -361,7 +361,7 @@ public class PlayerSystem extends SystemJob{
      */
     @Override
     public void init() {
-        entities = scene.entityManager.getEntitiesWithComponents(transform.getClass(), player.getClass(), sprite.getClass(), Movement.class);
+        entities = scene.entityManager.getEntitiesWithComponents(transform.getClass(), player.getClass(), sprite.getClass(), Movement.class,Collidable.class);
         firstTime = true;
         
         for(Integer e : entities){
