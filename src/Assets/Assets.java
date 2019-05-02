@@ -135,6 +135,8 @@ public class Assets {
         animations.put("1x2Slots_dark", new Pair<>(crop(35, 18, 1, "/Resources/Images/1x2Slots_dark.png", false)        , 1));
         
         animations.put("AfterDusk",     new Pair<>(crop(352, 72, 1, "/Resources/Images/AfterDusk.png", false)           , 1));
+        animations.put("controls",      new Pair<>(crop(108, 96, 1, "/Resources/Images/controls.png", false)            , 1));
+        //controls
         
         animations.put("actives_bar",   new Pair<>(crop(160, 32, 1, "/Resources/Images/actives_bar.png", false)         , 1));
         animations.put("RL_bar",        new Pair<>(crop(48, 32, 1, "/Resources/Images/RL_bar.png", false)               , 1));

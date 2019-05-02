@@ -276,6 +276,13 @@ public class MainWorld extends Scene {
         );
     //CHILD UIENTITIES
         
+        Entity pressE = entityManager.createEntityWithComponents("press_E",
+                new Transform(260,35),
+                new Sprite("press_E", true, 48, 32, 0, new ArrayList<>(Arrays.asList("press_E"))),
+                new UIEntity("press_E", true, 0, null, true)
+                
+        );
+        
         Entity playerPosition = entityManager.createEntityWithComponents("player_position",
                 new Transform(182,85),
                 new Sprite("player_position", true, 2, 2, 20, new ArrayList<>(Arrays.asList("effect2"))),
@@ -299,6 +306,12 @@ public class MainWorld extends Scene {
                 new Transform(2,12),
                 new Sprite("energy", true, 1, 3, 0, new ArrayList<>(Arrays.asList("energy"))),
                 new UIEntity("energy", true, null, true)
+        );
+        
+        Entity controls = entityManager.createEntityWithComponents("controls",
+                new Transform(155,40),
+                new Sprite("controls", true, 108, 96 , 0, new ArrayList<>(Arrays.asList("controls"))),
+                new UIEntity("controls", true, 3 ,null, true)
         );
 
     //USER INTERFACES
@@ -345,14 +358,14 @@ public class MainWorld extends Scene {
         Entity dialogBox = entityManager.createEntityWithComponents("dialogBox",
                 new Transform(display.width / c.scale / 2 - (256/2), display.height / c.scale - 82),
                 new Sprite("dialogBox", false, 256, 72, 0, new ArrayList<>(Arrays.asList("dialog_box"))),
-                new UIEntity("dialogBox", true, new ArrayList<>(Arrays.asList(dialogText.getID() )))
+                new UIEntity("dialogBox", true, new ArrayList<>(Arrays.asList(dialogText.getID(), pressE.getID() )))
         );
         
         //the Game menu
         Entity menu = entityManager.createEntityWithComponents("menu",
                 new Transform(display.width / c.scale / 2 - (278/2), display.height / c.scale / 2 - (150/2)),
                 new Sprite("menu", false, 278, 150, 0, new ArrayList<>(Arrays.asList("menu_map","menu_quests", "menu_options" ,"menu_game"))),
-                new UIEntity("menu", true, new ArrayList<>(Arrays.asList(mapButton.getID(), questsButton.getID(), optionsButton.getID(), gameButton.getID(), text.getID(), playerPosition.getID())))
+                new UIEntity("menu", true, new ArrayList<>(Arrays.asList(mapButton.getID(), questsButton.getID(), optionsButton.getID(), gameButton.getID(), text.getID(), playerPosition.getID(), controls.getID())))
         );
         
          
