@@ -380,8 +380,9 @@ public class MainWorld extends Scene {
                 //new Enemy(),
                 new Talkative(new ArrayList<>(Arrays.asList(
                     new ArrayList<>(Arrays.asList(
-                            "HI this is the firt Parragraph; first Line", 
-                            "HI this is the firt Parragraph; second Line"
+                            "Let Me tell you some tips", 
+                            "For opening your combat GUI press 'TAB' ",
+                            "For opening the game Menu press 'ESC' "
                     )),
                     new ArrayList<>(Arrays.asList(
                             "HI this is the second Parragraph; first Line", 
