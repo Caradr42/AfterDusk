@@ -98,13 +98,19 @@ public class Assets {
         animations.put("actives_bar",   new Pair<>(crop(160, 32, 1, "/Resources/Images/actives_bar.png", false)         , 1));
         animations.put("RL_bar",        new Pair<>(crop(48, 32, 1, "/Resources/Images/RL_bar.png", false)               , 1));
         
+        animations.put("HP_bar",        new Pair<>(crop(64, 16, 1, "/Resources/Images/HP_bar.png", false)                , 1));
+        animations.put("HP",            new Pair<>(crop(1, 1, 1, "/Resources/Images/HP.png", false)                , 1));
+        animations.put("energy_bar",    new Pair<>(crop(64, 16, 1, "/Resources/Images/Energy_bar.png", false)            , 1));
+        animations.put("energy",            new Pair<>(crop(1, 1, 1, "/Resources/Images/energy.png", false)                , 1));
+        
+        
         animations.put("menu_game",     new Pair<>(crop(278, 150, 1, "/Resources/Images/menu_game_clear.png", false)          , 1));
         animations.put("menu_map",     new Pair<>(crop(278, 150, 1, "/Resources/Images/Menu_map_clear.png", false)            , 1));
         animations.put("menu_options",     new Pair<>(crop(278, 150, 1, "/Resources/Images/menu_clear.png", false)            , 1));
         animations.put("menu_quests",     new Pair<>(crop(278, 150, 1, "/Resources/Images/menu_quests_clear.png", false)      , 1));
         //MISC
         animations.put("selected_transparency",     new Pair<>(crop(16, 16, 1, "/Resources/Images/selected_transparency.png", true), 1));
-        animations.put("effect2",       new Pair<>(crop(1, 1, 1, "/Resources/Images/effect2.png", false), 1));
+        animations.put("effect2",       new Pair<>(crop(1, 1, 32, "/Resources/Images/effect2.png", true), 32));
         animations.put("null",          new Pair<>(crop(1, 1, 1, "/Resources/Images/null.png", false), 1));
         animations.put("item_selector",     new Pair<>(crop(18, 18, 27, "/Resources/Images/ItemSelector.png", false), 27));
         

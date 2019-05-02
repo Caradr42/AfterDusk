@@ -119,9 +119,17 @@ public class UIEntity extends Component implements UIChild{
             }
             g.drawImage(_uiSprite.currentFrame, (int)_uiTransform.position.x, (int)_uiTransform.position.y, _uiSprite.width, _uiSprite.height, null);*/
         }
-        
+        if(name.equals("RL_bar")){
+            //System.out.println("childs: " + UIChildsInterfaces + " : : " + UIChildsInterfaces.size() + " ids: " + childs);
+        }
         for(UIChild sub: UIChildsInterfaces){
+            if(name.equals("RL_bar")){
+                //System.out.println("sub: " + sub.getClass());
+            }
             sub.UIRender(g, s);
+        }
+        if(name.equals("RL_bar")){
+            //System.out.println("==============");
         }
     }   
 }

@@ -25,6 +25,7 @@ import Maths.Vector3;
 public class Playable extends Component {
     
     public int hp; 
+    public int maxHp;
     
     public double speedScalar;
 
@@ -53,6 +54,7 @@ public class Playable extends Component {
 
     public Playable(int hp, Integer inventory, double speedScalar) {
         this.hp = hp;
+        maxHp = hp;
         this.inventory = inventory;
         this.velocity = new Vector3();
         hasWeapon = false;
@@ -64,6 +66,7 @@ public class Playable extends Component {
 
     public Playable(int hp, Integer inventory, double speedScalar, boolean hasWeapon) {
         this.hp = hp;
+        maxHp = hp;
         this.inventory = inventory;
         this.velocity = new Vector3();
         this.hasWeapon = hasWeapon;
@@ -75,6 +78,7 @@ public class Playable extends Component {
     
         public Playable(int hp, Integer inventory, double speedScalar, boolean hasWeapon, int weapon) {
         this.hp = hp;
+        maxHp = hp;
         this.inventory = inventory;
         this.velocity = new Vector3();
         this.hasWeapon = hasWeapon;

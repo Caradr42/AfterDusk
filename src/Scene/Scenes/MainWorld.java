@@ -256,15 +256,28 @@ public class MainWorld extends Scene {
     //CHILD UIENTITIES
         
         Entity playerPosition = entityManager.createEntityWithComponents("player_position",
-                new Transform(0,0),
-                new Sprite("player_position", true, 1, 1, 0, new ArrayList<>(Arrays.asList("effect2"))),
-                new UIEntity("player_position", false, 0, null)
+                new Transform(182,85),
+                new Sprite("player_position", true, 2, 2, 20, new ArrayList<>(Arrays.asList("effect2"))),
+                new UIEntity("player_position", true, 0, null, true)
+                //new UIEntity("hp", true, null, true)
         );
         
         Entity itemSelector = entityManager.createEntityWithComponents("item_selector",
                 new Transform(0,10),
                 new Sprite("item_selector", true, 18, 18, 17, new ArrayList<>(Arrays.asList("item_selector"))),
                 new UIEntity("item_selector", true, null, true)
+        );
+        
+        Entity hpBarBar = entityManager.createEntityWithComponents("hp",
+                new Transform(2,12),
+                new Sprite("hp", true, 1, 3, 0, new ArrayList<>(Arrays.asList("HP"))),
+                new UIEntity("hp", true, null, true)
+        );
+        
+        Entity energyBarBar = entityManager.createEntityWithComponents("energy",
+                new Transform(2,12),
+                new Sprite("energy", true, 1, 3, 0, new ArrayList<>(Arrays.asList("energy"))),
+                new UIEntity("energy", true, null, true)
         );
 
     //USER INTERFACES
@@ -292,19 +305,28 @@ public class MainWorld extends Scene {
                 new Transform(16, display.height / c.scale - 28),
                 new Sprite("RL_bar", false, 48, 32, 0, new ArrayList<>(Arrays.asList("RL_bar"))),
                 new UIEntity("RL_bar", true,
-                        new ArrayList<>(Arrays.asList(LRUIInventory.getID(), itemSelector.getID())))
+                        new ArrayList<>(Arrays.asList( LRUIInventory.getID(),  itemSelector.getID())))
+        );
+          
+        Entity HPbar = entityManager.createEntityWithComponents("HP_bar",
+                new Transform(0,0),
+                new Sprite("HP_bar", false, 64, 16, 0, new ArrayList<>(Arrays.asList("HP_bar"))),
+                new UIEntity("HP_bar", true, new ArrayList<>(Arrays.asList(hpBarBar.getID())))
         );
         
-
+        Entity energyBar = entityManager.createEntityWithComponents("energy_bar",
+                new Transform(0,18),
+                new Sprite("energy_bar", false, 64, 16, 0, new ArrayList<>(Arrays.asList("energy_bar"))),
+                new UIEntity("energy_bar", true, new ArrayList<>(Arrays.asList(energyBarBar.getID())))
+        );
+        
         //the Game menu
         Entity menu = entityManager.createEntityWithComponents("menu",
                 new Transform(display.width / c.scale / 2 - (278/2), display.height / c.scale / 2 - (150/2)),
                 new Sprite("menu", false, 278, 150, 0, new ArrayList<>(Arrays.asList("menu_map","menu_quests", "menu_options" ,"menu_game"))),
-                new UIEntity("menu", true, new ArrayList<>(Arrays.asList(mapButton.getID(), questsButton.getID(), optionsButton.getID(), gameButton.getID(), text.getID())))
+                new UIEntity("menu", true, new ArrayList<>(Arrays.asList(mapButton.getID(), questsButton.getID(), optionsButton.getID(), gameButton.getID(), text.getID(), playerPosition.getID())))
         );
         
-        //menu_map
-
     //PLAYABLE ENTITIES
         Entity player = entityManager.createEntityWithComponents("Player",
                 new Transform(new Vector3(100, 100, 32)),
