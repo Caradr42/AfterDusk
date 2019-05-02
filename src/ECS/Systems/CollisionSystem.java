@@ -298,19 +298,8 @@ public class CollisionSystem extends SystemJob{
         if(firstRect.intersects(secondRect) && collidablei.active && tileCollidable.isCollidable()&&((transformi.position.z >= floorTile)&&(floorPlayer<=transformj.position.z))){
             //System.out.println("Collision");
 
-            
-            Point d1LU =new Point(firstRect.x,firstRect.y);
-            Point d1RU = new Point(firstRect.x+firstRect.width, firstRect.y);
-            Point d1LD = new Point(firstRect.x, firstRect.y-firstRect.height);
-            Point d1RD = new Point(firstRect.x+firstRect.width,firstRect.y-firstRect.height);
-            
-            Point d2LU =new Point(secondRect.x,secondRect.y);
-            Point d2RU = new Point(secondRect.x+secondRect.width, secondRect.y);
-            Point d2LD = new Point(secondRect.x, secondRect.y-secondRect.height);
-            Point d2RD = new Point(secondRect.x+secondRect.width,secondRect.y-secondRect.height);
-            
             Rectangle playerTop = new Rectangle(firstRect.x, firstRect.y, firstRect.width, 1);
-            Rectangle playerButtom = new Rectangle(firstRect.x, firstRect.y-firstRect.height, firstRect.width, 1);
+            Rectangle playerButtom = new Rectangle(firstRect.x, firstRect.y+firstRect.height, firstRect.width, 1);
             Rectangle playerLeft = new Rectangle(firstRect.x, firstRect.y, 1, firstRect.height);
             Rectangle playerRight = new Rectangle(firstRect.x+firstRect.width, firstRect.y, 1, firstRect.height);
             
@@ -320,23 +309,22 @@ public class CollisionSystem extends SystemJob{
             Rectangle tileRight = new Rectangle(secondRect.x+secondRect.width, secondRect.y, 1, secondRect.height);
             
             
-            if(firstRect.intersects(tileLeft)){
-                System.out.println("Left collision");
-                //collidablei.collisionSite=4;
-            }
-            if(firstRect.intersects(tileRight)){
-                System.out.println("Right collision");
-                //collidablei.collisionSite=2;
-            }
-            if(firstRect.intersects(tileDown)){
-                System.out.println("Down collision");
-                //collidablei.collisionSite=3;
-            }
-            if(firstRect.intersects(tileTop)){
-                System.out.println("Up collision");
-                //collidablei.collisionSite=1;
-            }
             
+                //System.out.println("Left collision");
+            collidablei.collisionLeft=firstRect.intersects(tileLeft);
+                //System.out.println("Right collision");
+            collidablei.collisionRight=firstRect.intersects(tileRight);
+                //System.out.println("Down collision");
+            collidablei.collisionDown=firstRect.intersects(tileDown);
+                //System.out.println("Up collision");
+            collidablei.collisionTop=(firstRect.intersects(tileTop));
+            
+            /*
+            System.out.println("left: "+collidablei.collisionLeft);
+            System.out.println("Right: "+collidablei.collisionRight);
+            System.out.println("Top: "+collidablei.collisionTop);
+            System.out.println("Down: "+collidablei.collisionDown);
+            */
             collidablei.setCollidable.add(j);
         }
         

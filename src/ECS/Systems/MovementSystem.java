@@ -73,11 +73,22 @@ public class MovementSystem extends SystemJob{
             v3=movement.velocity;
             
             
-            
+            //Check collision
             if(CollisionCheck){
                 v3.x=(v3.x*-.5);
-                v3.y=(v3.y*.5);
-                
+                v3.y=(v3.y*-.5);
+                if(collision.collisionLeft){
+                    transform.position.x = transform.position.x  - 1;
+                }
+                if(collision.collisionRight){
+                    transform.position.x = transform.position.x  + 1;
+                }
+                if(collision.collisionTop){
+                    transform.position.y=transform.position.y-1;
+                }
+                if(collision.collisionDown){
+                    transform.position.y=transform.position.y+1;
+                }
             }
             
             transform.position.set(transform.position.add(v3));
