@@ -112,6 +112,7 @@ public class MainThread implements Runnable{
         
         while (running) {
             initTime = System.nanoTime();
+            display.tick();
             tick();
             render();
             scene.entityManager.flushRemoveEntityQueue();

@@ -9,6 +9,7 @@ import ECS.Components.Player;
 import ECS.Components.Sprite;
 import ECS.Components.Tool;
 import ECS.Components.Transform;
+import ECS.Components.UIText;
 import ECS.SystemJob;
 import Maths.Vector2;
 import Maths.Vector3;
@@ -40,9 +41,14 @@ public class PlayerSystem extends SystemJob{
     Transform transform;  
     Playable playable;
     Sprite sprite;
+
+
+    Tool tool;
+
+
     Movement movement;
-    Tool rightHand;
-    
+
+
     boolean firstTime;
     
     int leftBorder = 80 - 32;
@@ -87,7 +93,7 @@ public class PlayerSystem extends SystemJob{
             //Check if is empty the HashSet with the ids of collision bw entity-tiles
             
             if(!collision.setCollidable.isEmpty()){
-                System.out.println(collision.setCollidable);
+                //System.out.println(collision.setCollidable);
                 CollisionCheck=true;
             }
             
@@ -244,18 +250,63 @@ public class PlayerSystem extends SystemJob{
             
 
             //if the player presses the space key, an attack is done with the right hand
-            if(scene.display.getKeyManager().space) {
+            if(scene.display.getKeyManager().wasPressed[KeyEvent.VK_SPACE]) {
+         
                 Inventory LRinv = scene.entityManager.getEntityComponentInstance(player.LRInventory, Inventory.class);
                 
                 Item RItem = scene.entityManager.getEntityComponentInstance(LRinv.slots.get(1), Item.class);
                 //rightHand = scene.entityManager.getEntityComponentInstance(LRinv.slots.get(1), rightHand.getClass());
-                System.out.println(RItem.name);
+                //System.out.println(RItem.name);
                 //0 for the base attack
                 //rightHand.currentActive = 0;
+               if(playable.hasWeapon){
+                   int idTool;
+                   if(player.rightOrLeft){ //si es verdadero es que tiene arma en la derecha
+                       idTool = scene.entityManager.getEntityComponentInstance(player.LRInventory, Inventory.class).slots.get(1);
+                       
+                   }else {
+                       idTool = scene.entityManager.getEntityComponentInstance(player.LRInventory, Inventory.class).slots.get(0);   
+                   }
+                   tool = scene.entityManager.getEntityComponentInstance(idTool, Tool.class);
+                   //System.out.println("currentactv antes" + tool.currentActive);
+                   tool.currentActive = 0;
+                   //System.out.println("currentactv platersis" + tool.currentActive);
+                   System.out.println("Space: " + scene.entityManager.getEntityByID(idTool).getName() + " " + tool.currentActive);
+               }
                 
-                System.out.println("Enter pressed");
+                //System.out.println("Space pressed");
             }
             
+            if(scene.display.keyManager.wasPressed[KeyEvent.VK_SHIFT]){
+                Assets.Assets.menu.play();
+                if(player.rightOrLeft) {
+                    player.rightOrLeft = false;
+                    
+                    //If there is no weapon in the left part
+                    if(scene.entityManager.getEntityComponentInstance(player.LRInventory, Inventory.class).slots.get(0) == 0) {
+                        playable.hasWeapon = false;
+                        System.out.println("has no weapon");
+                    }
+                    else {
+                        playable.hasWeapon = true;
+                        System.out.println("has weapon");
+                    }   
+                } 
+                else {
+                    player.rightOrLeft = true;
+
+                    //If there is no weapon in the left part
+                    if (scene.entityManager.getEntityComponentInstance(player.LRInventory, Inventory.class).slots.get(1) == 0) {
+                        playable.hasWeapon = false;
+                        System.out.println("has no weapon");
+                    } 
+                    
+                    else {
+                        playable.hasWeapon = true;
+                        System.out.println("has weapon");
+                    }
+                }
+            }
 
             //if its not moving, stop sound
             if(!(scene.display.getKeyManager().down||scene.display.getKeyManager().up||scene.display.getKeyManager().left||scene.display.getKeyManager().right)){
@@ -267,6 +318,8 @@ public class PlayerSystem extends SystemJob{
             if(!(scene.display.getKeyManager().right || scene.display.getKeyManager().left || scene.display.getKeyManager().up || scene.display.getKeyManager().down)){
                 sprite.frameCounter = 0;
             }
+            
+            
             
             //if colides with the left border, move the camera to the left
             if(scene.c.WorldToUICoodinates(transform.position.toVector2()).x < leftBorder){
@@ -310,6 +363,12 @@ public class PlayerSystem extends SystemJob{
     public void init() {
         entities = scene.entityManager.getEntitiesWithComponents(transform.getClass(), player.getClass(), sprite.getClass(), Movement.class,Collidable.class);
         firstTime = true;
+        
+        for(Integer e : entities){
+            player = scene.entityManager.getEntityComponentInstance(e, player.getClass());
+            player._UIText = scene.entityManager.getEntityComponentInstance(player.uiText, UIText.class);
+        }
+
     }
 
     @Override

@@ -47,41 +47,37 @@ public class UIText extends Component implements UIChild{
     public void UIRender(Graphics2D g, Scene s) {
         
         ///initializes the string lines such that they fit the dimensions
-        if(!initialized){
-            int parragraphWidth = g.getFontMetrics().stringWidth(parragraph);
-            int tempWidth;
-            
+        if(!initialized){            
+            int tempWidth;            
             String tempLine = "";
             for(int w = 0; w < words.size(); ++w){
-                //System.out.println(w);
                 String prevState = tempLine;
                 tempLine = tempLine.concat(words.get(w)).concat(" ");
                 tempWidth = g.getFontMetrics().stringWidth(tempLine);
                 if(tempWidth > width){
-                    //System.out.println(w);
                     lines.add(prevState);
                     tempLine = words.get(w).concat(" ");
                 }
-                
                 if(w == words.size() - 1){
-                    //System.out.println(words.indexOf(w));
-                    //System.out.println(w);
-                    //System.out.println(tempLine);
                     lines.add(tempLine);
                 }
             }
-            
-            /*while(tempWidth > width){
-                r = r /2;
-            }*/
             initialized = true;
         }
+        
         //renders the  text for each line
         if(_textSprite != null && _textTransform != null && _textSprite.visible){
             for (int i = 0; i < lines.size(); ++i) {
                 g.drawString(lines.get(i), (int) _textTransform.position.x, (int) _textTransform.position.y + (i * g.getFont().getSize()));
             }
         }
+    }
+    
+    public void replaceDialog(String dialog){
+        this.parragraph = dialog;
+        words = StringSplit.split(parragraph);
+        lines.clear();;
+        initialized = false;
     }
     
 }

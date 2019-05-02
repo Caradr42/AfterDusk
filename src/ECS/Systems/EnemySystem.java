@@ -5,12 +5,16 @@
  */
 package ECS.Systems;
 
+import ECS.Components.Enemy;
+import ECS.Components.Inventory;
 import ECS.Components.Playable;
 import ECS.Components.Player;
 import ECS.Components.Sprite;
+import ECS.Components.Tool;
 import ECS.Components.Transform;
 import ECS.SystemJob;
 import Maths.Vector2;
+import Maths.Vector3;
 import Scene.Scene;
 import static java.lang.Math.abs;
 import java.util.ArrayList;
@@ -23,13 +27,20 @@ public class EnemySystem extends SystemJob{
 
     ArrayList<Integer> arrPlayable;
     Integer player;
+    
     Player player1;
     Playable playable;
     Transform playerPos;
+    Sprite playerSprite;
+    Enemy enemy;
+    
     Sprite sprite;
+    Transform transform;
     
     //If this margin is passed, the enemy will move diagonally
-    int marginDistance = 7;
+    //int marginDistance = 56;
+    int minDistance = 60;
+    int maxDistance = 200;
     
     public EnemySystem(Scene scene, boolean active) {
         super(scene, active);
@@ -38,90 +49,24 @@ public class EnemySystem extends SystemJob{
         playable = new Playable();
         playerPos = new Transform();
         sprite = new Sprite();
+        transform = new Transform();
+        playerSprite  =new Sprite();
     }
 
     @Override
     public void update() {
-        //Each entity should follow the player 
+        
         for(Integer entity : entities) {
-            //true if the enemy is to the right of the player
-            boolean right;
+            //Each entity should follow the player 
+            updateEntityPosition(entity);
+            /*
+            playable = scene.entityManager.getEntityComponentInstance(entity, Playable.class);
+            sprite = scene.entityManager.getEntityComponentInstance(entity, Sprite.class);
+            transform = scene.entityManager.getEntityComponentInstance(entity, Transform.class);
+            if(sprite.name.equals("enemy")){
+                System.out.println(sprite.name +  " Z: " + transform.position.z + "\t renderedY: " + transform._renderedY);
+            }*/
             
-            //true if the enemy is above the player
-            boolean up;
-            
-            //distance in the x axis
-            double distanceX;
-            
-            //distance in the y axis
-            double distanceY;
-            
-            //transform of the enemy
-            Transform enemyPos = scene.entityManager.getEntityComponentInstance(entity, playerPos.getClass());
-            
-            //Playable of the enemy
-            Playable enemyPlay = scene.entityManager.getEntityComponentInstance(entity, playable.getClass());
-            
-            //Sprite of the enemy
-            Sprite enemySprite = scene.entityManager.getEntityComponentInstance(entity, sprite.getClass());
-            
-            distanceX = enemyPos.position.x - playerPos.position.x;
-            
-            distanceY = enemyPos.position.y - playerPos.position.y;
-
-            right = distanceX > 0;
-            
-            up = 0 > distanceY;
-            
-            distanceX = abs(distanceX);
-            
-            distanceY = abs(distanceY);
-            
-            Vector2 newDist = new Vector2();
-            //ewDist.x = abs();
-            
-            //If this is true tue enemy moves diagonally
-            if(distanceX > marginDistance && distanceY > marginDistance) {
-                
-                if(right) {
-                    //since java works a lot by reference, this will modify directly the transform of the enemy
-                    enemyPos.position.x -= enemyPlay.velocity.x;
-                }
-                
-                else {
-                    enemyPos.position.x += enemyPlay.velocity.x;
-                }
-                
-                if(up) {
-                    enemyPos.position.y += enemyPlay.velocity.y;
-                }
-                
-                else {
-                    enemyPos.position.y -= enemyPlay.velocity.y;
-                }
-            }
-            
-            //Else if the enemy is further apart in the x axis than in the y axis, move in X
-            else if(distanceX > distanceY && distanceX > enemySprite.width - 10) {
-                if(right) {
-                    enemyPos.position.x -= enemyPlay.velocity.x;
-                }
-                
-                else {
-                    enemyPos.position.x += enemyPlay.velocity.x;
-                }
-            }
-            
-            //else move in y
-            else if(distanceY > distanceX && distanceY > enemySprite.height - 10) {
-                if(up) {
-                    enemyPos.position.y += enemyPlay.velocity.y;
-                }
-                
-                else {
-                    enemyPos.position.y -= enemyPlay.velocity.y;
-                }
-            }
             
         }
        
@@ -134,22 +79,98 @@ public class EnemySystem extends SystemJob{
         
         entities = new ArrayList<>();
         
-        entities = scene.entityManager.getEntitiesWithComponents(playable.getClass());
+        entities = scene.entityManager.getEntitiesWithComponents(playable.getClass(), Enemy.class);
         
         //Getting the transform of the player
-        playerPos = scene.entityManager.getEntityComponentInstance(player, playerPos.getClass());
+        playerPos = scene.entityManager.getEntityComponentInstance(player, Transform.class);
+        playerSprite = scene.entityManager.getEntityComponentInstance(player, Sprite.class);
     }
 
     @Override
     public void onCreate() {
-       
+
     }
 
     @Override
     public void onDestroy() {
-        
+
     }
-    
-    
+
+    private void updateEntityPosition(Integer entity) {
+        transform = scene.entityManager.getEntityComponentInstance(entity, Transform.class);
+        sprite = scene.entityManager.getEntityComponentInstance(entity, Sprite.class);
+        playable = scene.entityManager.getEntityComponentInstance(entity, Playable.class);
+        enemy = scene.entityManager.getEntityComponentInstance(entity, Enemy.class);
+
+        if(playable.isAlive) {
+            double distance = abs(playerPos._renderedPosition.toVector2().add(playerSprite.dimensions.div(2)).dist(transform._renderedPosition.toVector2().add(sprite.dimensions.div(2))));
+            if (distance < maxDistance && distance > minDistance) {
+                //System.out.println(distance);
+                Vector2 direction = playerPos._renderedPosition.toVector2().add(playerSprite.dimensions.div(2)).sub(transform._renderedPosition.toVector2().add(sprite.dimensions.div(2))).norm().scalar(playable.speedScalar);
+                //System.out.println(direction.x + " : " + direction.y);
+
+                enemy.prev = direction;
+
+                transform.position.set(transform.position.add(direction));
+
+                if (abs(direction.x) > abs(direction.y)) {
+                    if (direction.x < 0) {
+                        playable.left = true;
+                        playable.up = false;
+                        playable.right = false;
+                        playable.down = false;
+
+                        sprite.animation = sprite.animations.get(3).first;
+                        sprite.animationLenght = sprite.animations.get(3).second;
+                    } else {
+                        playable.left = false;
+                        playable.up = false;
+                        playable.right = true;
+                        playable.down = false;
+                        sprite.animation = sprite.animations.get(4).first;
+                        sprite.animationLenght = sprite.animations.get(4).second;
+                    }
+                } else {
+                    if (direction.y < 0) {
+                        playable.left = false;
+                        playable.up = true;
+                        playable.right = false;
+                        playable.down = false;
+                        sprite.animation = sprite.animations.get(2).first;
+                        sprite.animationLenght = sprite.animations.get(2).second;
+                    } else {
+                        playable.left = false;
+                        playable.up = false;
+                        playable.right = false;
+                        playable.down = true;
+                        sprite.animation = sprite.animations.get(1).first;
+                        sprite.animationLenght = sprite.animations.get(1).second;
+                    }
+                }
+            }
+
+            //else if the enemy does not move
+            else {
+                sprite.animation = sprite.animations.get(0).first;
+                sprite.animationLenght = sprite.animations.get(0).second;
+                
+                if(distance < maxDistance) {
+                    //System.out.println("ATTACK OF THE ENEMY " + distance);
+                    
+                    //weapon of the enemy
+                    Integer weapon = scene.entityManager.getEntityComponentInstance(playable.inventory, Inventory.class).slots.get(0);
+                
+                    //attack
+                    Tool tool = scene.entityManager.getEntityComponentInstance(weapon, Tool.class);
+                    
+                    //with a basic attack
+                    tool.currentActive = 0;
+                }
+            }
+
+
+
+        }
+    }
     
 }

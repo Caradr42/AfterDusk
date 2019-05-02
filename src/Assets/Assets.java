@@ -64,25 +64,65 @@ public class Assets {
         animations = new HashMap<>();
         
         //ALL animmations goes here
+            //player
         animations.put("player_down",   new Pair<>(crop(32, 32, 4, "/Resources/Images/player_down.png", false)          , 4));
         animations.put("player_up",     new Pair<>(crop(32, 32, 4, "/Resources/Images/player_up.png", false)            , 4));
         animations.put("player_left",   new Pair<>(crop(32, 32, 4, "/Resources/Images/player_left.png", false)          , 4));
         animations.put("player_right",  new Pair<>(crop(32, 32, 4, "/Resources/Images/player_right.png", false)         , 4));
-        animations.put("enemy",         new Pair<>(crop(64, 80, 1, "/Resources/Images/enemy.png", false)                , 1));
-        //tiles
+            //father
+        animations.put("father_down",   new Pair<>(crop(36, 36, 4, "/Resources/Images/PAPADOWN.png", false)             , 4));
+        animations.put("father_up",     new Pair<>(crop(36, 36, 4, "/Resources/Images/PAPAUP.png", false)               , 4));
+        animations.put("father_left",   new Pair<>(crop(36, 36, 4, "/Resources/Images/PAPALEFT.png", false)             , 4));
+        animations.put("father_right",  new Pair<>(crop(36, 36, 4, "/Resources/Images/PAPARIGHT.png", false)            , 4));
+            //villian
+        animations.put("villian_down",  new Pair<>(crop(36, 36, 4, "/Resources/Images/VILLIANFRONT.png", false)         , 4));
+        animations.put("villian_up",    new Pair<>(crop(36, 36, 4, "/Resources/Images/VILLIANBACK.png", false)          , 4));
+        animations.put("villian_left",  new Pair<>(crop(36, 36, 4, "/Resources/Images/VILLIANLEFT.png", false)          , 4));
+        //animations.put("villian_right", new Pair<>(crop(36, 36, 4, "/Resources/Images/VILLIANRIGHT.png", false)         , 4));
+        
+            //enemy
+        animations.put("ball",          new Pair<>(crop(64, 64, 4, "/Resources/Images/BALL_STATIC.png", false)          , 4));
+        animations.put("ball_down",     new Pair<>(crop(64, 64, 4, "/Resources/Images/BALL_DOWN.png", false)            , 4));
+        animations.put("ball_up",       new Pair<>(crop(64, 64, 4, "/Resources/Images/BALL_UP.png", false)              , 4));
+        animations.put("ball_left",     new Pair<>(crop(64, 64, 4, "/Resources/Images/BALL_LEFT.png", false)            , 4));
+        animations.put("ball_right",     new Pair<>(crop(64, 64, 4, "/Resources/Images/BALL_RIGHT.png", false)          , 4));
+        
+        //TILES
 
-        animations.put("grass",         new Pair<>(crop(16, 16, 1, "/Resources/Images/grass.png",false)           , 1));
-        animations.put("log",         new Pair<>(crop(16, 16, 1, "/Resources/Images/log.png",false)           , 1));
+        
+        animations.put("log",           new Pair<>(crop(16, 16, 1, "/Resources/Images/log.png",false)                   , 1));
 
         animations.put("grass",         new Pair<>(crop(16, 16, 1, "/Resources/Images/grass.png", false)                , 1));
         animations.put("grassSide",     new Pair<>(crop(16, 16, 1, "/Resources/Images/grassSide.png", false)            , 1));
+        
+        animations.put("soilBG",        new Pair<>(crop(16, 16, 1, "/Resources/Images/soilBG.png", false)               , 1));
 
-
+        
+        animations.put("floorTile",     new Pair<>(crop(16, 16, 1, "/Resources/Images/floorTile.png", false)            , 1));
+        animations.put("woodOctaFloor", new Pair<>(crop(16, 16, 1, "/Resources/Images/woodOctaFloor.png", false)        , 1));
+        animations.put("window",        new Pair<>(crop(16, 16, 1, "/Resources/Images/window.png", false)               , 1));
+        animations.put("blod_floor",    new Pair<>(crop(16, 16, 1, "/Resources/Images/blod_floor.png", false)           , 1));
+        
+        animations.put("beam",          new Pair<>(crop(16, 16, 1, "/Resources/Images/beam.png", false)                 , 1));
+        animations.put("beamRight",     new Pair<>(crop(16, 16, 1, "/Resources/Images/beamRight.png", false)            , 1));
+        animations.put("beamLeft",      new Pair<>(crop(16, 16, 1, "/Resources/Images/beamLeft.png", false)             , 1));
+        animations.put("ledColumn",     new Pair<>(crop(16, 16, 1, "/Resources/Images/ledColumn.png", false)            , 1));
+        animations.put("redWoodWall",   new Pair<>(crop(16, 16, 1, "/Resources/Images/redWoodWall.png", false)          , 1));
+        animations.put("stone_brick",   new Pair<>(crop(16, 16, 1, "/Resources/Images/stone_brick.png", false)          , 1));
+        animations.put("stoneWall",     new Pair<>(crop(16, 16, 1, "/Resources/Images/stoneWall.png", false)            , 1));
+        animations.put("stoneColumn",   new Pair<>(crop(16, 16, 1, "/Resources/Images/stoneColumn.png", false)          , 1));
+        animations.put("stoneColumnLeft",new Pair<>(crop(16, 16, 1, "/Resources/Images/stoneColumnLeft.png", false)     , 1));
+        animations.put("stoneColumnRight",new Pair<>(crop(16, 16, 1, "/Resources/Images/stoneColumnRight.png", false)   , 1));
+        
+        //SCENARY
+        
+        animations.put("treeTall",      new Pair<>(crop(128, 272, 1, "/Resources/Images/treeTall.png", false)           , 1));
+        
         //items
-        animations.put("weird",         new Pair<>(crop(16, 16, 1, "/Resources/Images/card.png", false)                , 1));
+        animations.put("weird",         new Pair<>(crop(16, 16, 1, "/Resources/Images/card.png", false)                 , 1));
         animations.put("shield",        new Pair<>(crop(16, 16, 1, "/Resources/Images/shield.png", false)               , 1));
         animations.put("E_sword",       new Pair<>(crop(16, 16, 1, "/Resources/Images/E_sword.png", false)              , 1));
-        animations.put("crossBow",       new Pair<>(crop(16, 16, 1, "/Resources/Images/crossBow.png", false)              , 1));
+        animations.put("crossBow",       new Pair<>(crop(16, 16, 1, "/Resources/Images/crossBow.png", false)            , 1));
         
         
         //GUI
@@ -94,9 +134,21 @@ public class Assets {
         animations.put("1x9Slots_dark", new Pair<>(crop(154, 18, 1, "/Resources/Images/1x9Slots_dark.png", false)       , 1));
         animations.put("1x2Slots_dark", new Pair<>(crop(35, 18, 1, "/Resources/Images/1x2Slots_dark.png", false)        , 1));
         
+        animations.put("AfterDusk",     new Pair<>(crop(352, 72, 1, "/Resources/Images/AfterDusk.png", false)           , 1));
+        animations.put("controls",      new Pair<>(crop(108, 96, 1, "/Resources/Images/controls.png", false)            , 1));
+        //controls
         
         animations.put("actives_bar",   new Pair<>(crop(160, 32, 1, "/Resources/Images/actives_bar.png", false)         , 1));
         animations.put("RL_bar",        new Pair<>(crop(48, 32, 1, "/Resources/Images/RL_bar.png", false)               , 1));
+        
+        animations.put("HP_bar",        new Pair<>(crop(64, 16, 1, "/Resources/Images/HP_bar.png", false)               , 1));
+        animations.put("HP",            new Pair<>(crop(1, 1, 1, "/Resources/Images/HP.png", false)                     , 1));
+        animations.put("energy_bar",    new Pair<>(crop(64, 16, 1, "/Resources/Images/Energy_bar.png", false)           , 1));
+        animations.put("energy",        new Pair<>(crop(1, 1, 1, "/Resources/Images/energy.png", false)                 , 1));
+        
+        animations.put("dialog_box",    new Pair<>(crop(256, 72, 1, "/Resources/Images/dialog_dark.png", false)         , 1));
+        animations.put("press_E",       new Pair<>(crop(48, 32, 1, "/Resources/Images/press_E.png", false)              , 1));
+        //press_E
         
         animations.put("menu_game",     new Pair<>(crop(278, 150, 1, "/Resources/Images/menu_game_clear.png", false)          , 1));
         animations.put("menu_map",     new Pair<>(crop(278, 150, 1, "/Resources/Images/Menu_map_clear.png", false)            , 1));
@@ -104,14 +156,17 @@ public class Assets {
         animations.put("menu_quests",     new Pair<>(crop(278, 150, 1, "/Resources/Images/menu_quests_clear.png", false)      , 1));
         //MISC
         animations.put("selected_transparency",     new Pair<>(crop(16, 16, 1, "/Resources/Images/selected_transparency.png", true), 1));
-        animations.put("effect2",     new Pair<>(crop(1, 1, 1, "/Resources/Images/effect2.png", false), 1));
-        animations.put("null",     new Pair<>(crop(1, 1, 1, "/Resources/Images/null.png", false), 1));
+        animations.put("effect2",       new Pair<>(crop(1, 1, 32, "/Resources/Images/effect2.png", true), 32));
+        animations.put("null",          new Pair<>(crop(1, 1, 1, "/Resources/Images/null.png", false), 1));
+        animations.put("item_selector",     new Pair<>(crop(18, 18, 27, "/Resources/Images/ItemSelector.png", false), 27));
+        
         //buttons
         animations.put("Button_32",     new Pair<>(crop(32, 10, 1, "/Resources/Images/Button_32.png", false), 1));
         animations.put("Button_48",     new Pair<>(crop(48, 10, 1, "/Resources/Images/Button_48.png", false), 1));
         animations.put("Button_long",     new Pair<>(crop(58, 10, 1, "/Resources/Images/Button_long.png", false), 1));
         animations.put("Tab_light",     new Pair<>(crop(48, 13, 1, "/Resources/Images/Tab_light.png", false), 1));
         animations.put("Tab_dark",     new Pair<>(crop(48, 13, 1, "/Resources/Images/Tab_dark.png", false), 1));
+        
         
         //SOUND
         

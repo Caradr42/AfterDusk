@@ -7,6 +7,7 @@ import ECS.Components.MousePointer;
 import ECS.Components.Playable;
 import ECS.Components.Player;
 import ECS.Components.Sprite;
+import ECS.Components.Talkative;
 import ECS.Components.Tile;
 import ECS.Components.Transform;
 import ECS.Entity;
@@ -15,6 +16,7 @@ import Scene.Scene;
 import Utility.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Line2D;
+import java.awt.event.KeyEvent;
 import static java.lang.Integer.min;
 import static java.lang.Math.abs;
 import java.util.ArrayList;
@@ -122,15 +124,15 @@ public class CollisionSystem extends SystemJob{
         transformj = scene.entityManager.getEntityComponentInstance(j, transformj.getClass());
 
         //Rectangle of the first entity
-        Rectangle firstRect = new Rectangle((int)transformi.position.x, (int)transformi.renderedY, (int)collidablei.hitbox.x, (int)collidablei.hitbox.y);
+        Rectangle firstRect = new Rectangle((int)transformi.position.x, (int)transformi._renderedY, (int)collidablei.hitbox.x, (int)collidablei.hitbox.y);
         
         //Rectangle of the second entity
-        Rectangle secondRect = new Rectangle((int)transformj.position.x, (int)transformj.renderedY, (int)collidablej.hitbox.x, (int)collidablej.hitbox.y);
+        Rectangle secondRect = new Rectangle((int)transformj.position.x, (int)transformj._renderedY, (int)collidablej.hitbox.x, (int)collidablej.hitbox.y);
 
         //The center of the first object(x, y, z)
         double firstCenterX = transformi.position.x + collidablei.hitbox.x / 2;
 ;
-        double firstCenterY = transformi.renderedY + collidablei.hitbox.y / 2;
+        double firstCenterY = transformi._renderedY + collidablei.hitbox.y / 2;
         double firstCenterZ;
         
         
@@ -145,7 +147,7 @@ public class CollisionSystem extends SystemJob{
 
         //The center of the second object(x, y, z)
         double secondCenterX = transformj.position.x + collidablej.hitbox.x / 2;
-        double secondCenterY = transformj.renderedY + collidablej.hitbox.y / 2;
+        double secondCenterY = transformj._renderedY + collidablej.hitbox.y / 2;
         double secondCenterZ;
 
         //The length of the second object in the x axis from the center to the border
@@ -234,14 +236,26 @@ public class CollisionSystem extends SystemJob{
             }
             
             //Or the second entity is the player
-            else */if("Player".equals(e2.getName())) {
+     else */if("Player".equals(e2.getName())) {
+                //if the player presses E on a Talkative 
+                if(scene.entityManager.hasComponent(e.getID(), Talkative.class) ){
+                    //Player player = scene.entityManager.getEntityComponentInstance(e2.getID(), Player.class);
+                    Talkative other = scene.entityManager.getEntityComponentInstance(e.getID(), Talkative.class);
+                    if(!other.inConversation && scene.display.keyManager.wasPressed[KeyEvent.VK_E]){
+                        //System.out.println("Lets Talk!");
+                        other.inConversation = true;
+                    }
+                    
+                    //player._UIText.replaceDialog(other.conversations.get(other.currentConversation).get(other.currentLine));
+                }
+
                 //And the first an item
                 if(arrItems.contains(e.getID())) {
                     //If the user press the E in the collision
                     if(scene.display.getKeyManager().isE) {                      
                         //Play pick up sound
                         Assets.Assets.pickUp.play();
-                        System.out.println("added: " + e.getName());
+
                         //fetch the player's inventory ID and instance
                         Integer inventoryID = scene.entityManager.getEntityComponentInstance(j, (new Playable()).getClass()).inventory;
                         Integer handsInventoryID = scene.entityManager.getEntityComponentInstance(j, (new Player()).getClass()).LRInventory;
@@ -249,7 +263,14 @@ public class CollisionSystem extends SystemJob{
                         //if space available in the players inventory it will add the item to it
                         boolean added = addToInventory(handsInventoryID, i) || addToInventory(inventoryID, i);
                         
+                        
                         if(added){
+                            //adds the player as parent of the item when it is collected
+                                if(i != 0){
+                                    Transform itemTransform = scene.entityManager.getEntityComponentInstance(i, Transform.class);
+                                    if(itemTransform != null) itemTransform.parent = j;
+                                }
+                            
                             scene.entityManager.getEntityComponentInstance(i, (new Item()).getClass()).isInInventory = true; 
                             collidablei.active = false;
                         }
@@ -284,10 +305,10 @@ public class CollisionSystem extends SystemJob{
         tileCollidable = scene.entityManager.getEntityComponentInstance(j, tile.getClass());
         
         //Rectangle of the first entity
-        Rectangle firstRect = new Rectangle((int)transformi.position.x, (int)transformi.renderedY, (int)collidablei.hitbox.x, (int)collidablei.hitbox.y);
+        Rectangle firstRect = new Rectangle((int)transformi.position.x, (int)transformi._renderedY, (int)collidablei.hitbox.x, (int)collidablei.hitbox.y);
         
         //Rectangle of the second entity
-        Rectangle secondRect = new Rectangle((int)transformj.position.x, (int)transformj.renderedY, (int)16,(int)16);
+        Rectangle secondRect = new Rectangle((int)transformj.position.x, (int)transformj._renderedY, (int)16,(int)16);
                 
         //floor of player and Tile
         double floorPlayer = (transformi.position.z-32); 
@@ -297,6 +318,7 @@ public class CollisionSystem extends SystemJob{
 
         if(firstRect.intersects(secondRect) && collidablei.active && tileCollidable.isCollidable()&&((transformi.position.z >= floorTile)&&(floorPlayer<=transformj.position.z))){
             //System.out.println("Collision");
+
 
             Rectangle playerTop = new Rectangle(firstRect.x, firstRect.y, firstRect.width, 1);
             Rectangle playerButtom = new Rectangle(firstRect.x, firstRect.y+firstRect.height, firstRect.width, 1);
@@ -308,6 +330,13 @@ public class CollisionSystem extends SystemJob{
             Rectangle tileLeft = new Rectangle(secondRect.x, secondRect.y, 1, secondRect.height);
             Rectangle tileRight = new Rectangle(secondRect.x+secondRect.width, secondRect.y, 1, secondRect.height);
             
+
+ 
+            double d1LU=firstRect.x;
+            double d1LD=firstRect.y-firstRect.height;
+            double d1RU=firstRect.x+firstRect.width;
+            double d1RD=(firstRect.x+firstRect.width)-firstRect.height;
+
             
             
                 //System.out.println("Left collision");
@@ -317,6 +346,7 @@ public class CollisionSystem extends SystemJob{
                 //System.out.println("Down collision");
             collidablei.collisionDown=firstRect.intersects(tileDown);
                 //System.out.println("Up collision");
+
             collidablei.collisionTop=(firstRect.intersects(tileTop));
             
             /*
@@ -325,6 +355,7 @@ public class CollisionSystem extends SystemJob{
             System.out.println("Top: "+collidablei.collisionTop);
             System.out.println("Down: "+collidablei.collisionDown);
             */
+
             collidablei.setCollidable.add(j);
         }
         
@@ -356,19 +387,12 @@ public class CollisionSystem extends SystemJob{
         entitiesCollidable = scene.entityManager.getEntitiesWithComponents(collision.getClass());
         
         for(int i = 0; i < arrItems.size(); i++) {
-            //System.out.println(arrItems.get(i));
             entities.add(arrItems.get(i));
-            //System.out.println(scene.entityManager.getEntityByID(arrItems.get(i)).getName());
         }
         
         for(int i = 0; i < arrPlayables.size(); i++) {
             entities.add(arrPlayables.get(i));
-            //System.out.println(arrPlayables.get(i));
-            //System.out.println(scene.entityManager.getEntityByID(arrPlayables.get(i)).getName());
         }
-
-        
-        //System.out.println("size: " + entities.size());
     }
     
     /**

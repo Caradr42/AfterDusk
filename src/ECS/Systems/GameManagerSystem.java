@@ -12,6 +12,7 @@ import Maths.Vector2;
 import Scene.Scene;
 import java.awt.event.KeyEvent;
 import Assets.Assets;
+import javax.swing.JFrame;
 
 /**
  * System that executes behabiour not associated with any entity
@@ -31,6 +32,8 @@ public class GameManagerSystem extends SystemJob{
     int width;
     int height;
     int state;
+    boolean fullScreen = false;
+    boolean visibleDialogBlock = false;
     
     public GameManagerSystem(Scene scene, boolean active) {
         super(scene, active);
@@ -39,9 +42,18 @@ public class GameManagerSystem extends SystemJob{
     @Override
     public void update() {     
         
-        /*if(scene.display.keyManager.wasPressed[KeyEvent.VK_F12]){
-            scene.display.jframe.dispatchEvent(new WindowEvent(scene.display.jframe, WindowEvent.WINDOW_CLOSING));
-        }*/
+        if(scene.display.keyManager.wasPressed[KeyEvent.VK_F12]){
+            if(!fullScreen){
+                fullScreen = true;
+                scene.display.jframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                scene.display.jframe.setUndecorated(true);
+            }else{
+                fullScreen = false;
+                scene.display.jframe.setExtendedState(JFrame.NORMAL);
+                scene.display.jframe.setSize(scene.display.width, scene.display.height);
+                scene.display.jframe.setUndecorated(false);
+            }
+        }
         
         //executes ony when the  game starts
         //it activates the Systems necesary for GamePlay
@@ -58,7 +70,8 @@ public class GameManagerSystem extends SystemJob{
             
         }
         if(gameRunning){
-            
+            //System.out.println(ConversationSystem.visibleDialogBox);
+            //game pause if in game menu
             if(scene.display.keyManager.wasPressed[KeyEvent.VK_ESCAPE]){
               for(SystemJob sj: scene.systemJobManager.systemsList){
                 if(sj.getClass() != (RenderSystem.class) 
@@ -69,6 +82,7 @@ public class GameManagerSystem extends SystemJob{
                         && sj.getClass() != (SpriteSystem.class)
                         && sj.getClass() != (TransformSystem.class)
                         && sj.getClass() != (MousePointerSystem.class)
+                        //&& sj.getClass() != (ConversationSystem.class)
                         //Expand here if any other system is necesary when the game is paused
                         ){
                     //System.out.println(sj.getClass());
@@ -79,10 +93,54 @@ public class GameManagerSystem extends SystemJob{
                     }
                 }
               }
+            }else if(ConversationSystem.visibleDialogBox && !visibleDialogBlock){ //game puse if in conversation
+                
+                visibleDialogBlock = true;
+                for(SystemJob sj: scene.systemJobManager.systemsList){
+                if(sj.getClass() != (RenderSystem.class) 
+                        && sj.getClass() != (GameManagerSystem.class) 
+                        && sj.getClass() != (UIEntitiesSystem.class) 
+                        && sj.getClass() != (UIButtonSystem.class) 
+                        && sj.getClass() != (UITextSystem.class)
+                        //&& sj.getClass() != (SpriteSystem.class)
+                        && sj.getClass() != (TransformSystem.class)
+                        && sj.getClass() != (MousePointerSystem.class)
+                        && sj.getClass() != (ConversationSystem.class)
+                        //Expand here if any other system is necesary when the game is paused
+                        ){
+                    //System.out.println(sj.getClass());
+                    
+                        sj.active = false;
+                    
+                }
+              }
+            }else if(!ConversationSystem.visibleDialogBox){
+                if(visibleDialogBlock){
+                    for(SystemJob sj: scene.systemJobManager.systemsList){
+                    if(sj.getClass() != (RenderSystem.class) 
+                            && sj.getClass() != (GameManagerSystem.class) 
+                            && sj.getClass() != (UIEntitiesSystem.class) 
+                            && sj.getClass() != (UIButtonSystem.class) 
+                            && sj.getClass() != (UITextSystem.class)
+                            //&& sj.getClass() != (SpriteSystem.class)
+                            && sj.getClass() != (TransformSystem.class)
+                            && sj.getClass() != (MousePointerSystem.class)
+                            && sj.getClass() != (ConversationSystem.class)
+                            //Expand here if any other system is necesary when the game is paused
+                            ){
+                        //System.out.println(sj.getClass());
+
+                            sj.active = true;
+
+                        }
+                    }
+                    visibleDialogBlock = false;
+                }
             }
         }else{
             scene.c.ortogonalPosition.x ++;
         }
+        
         
     }
 

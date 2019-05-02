@@ -1,5 +1,6 @@
 package graphics;
 
+import static ECS.SystemJob.scene;
 import IO.KeyManager;
 import IO.MouseManager;
 import java.awt.Canvas;
@@ -66,6 +67,7 @@ public class Display {
     private void initFrameAndCanvas(){
        jframe = new JFrame(title);    
        jframe.setSize(width, height);
+       //jframe.setUndecorated(true);
        //setting not resizable, visible and possible to close
        jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        jframe.setFocusTraversalKeysEnabled(false);
@@ -105,6 +107,11 @@ public class Display {
        canvas.addMouseMotionListener(mouseManager);
        //jframe.addMouseListener(mouseManager);
        //jframe.addMouseMotionListener(mouseManager);
+    }
+    
+    public void tick(){
+        width = jframe.getWidth();
+        height = jframe.getHeight();
     }
     
     /**

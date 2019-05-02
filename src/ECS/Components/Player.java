@@ -25,16 +25,15 @@ import java.util.ArrayList;
  
 public class Player extends Component{
     
-    //current energy of the player
-    public int energy;
-    
-    //max energy that the player can have
-    public int maxEnergy;
+
     
     //It is better to have booleans too to avoid a possible error in the random assignation of IDs
     //These are to know if the player has a tool equiped in any hand
     public boolean boolRight;
     public boolean boolLeft;
+    
+    //true if right
+    public boolean rightOrLeft = false;
 
     public Integer LRInventory;
     
@@ -51,44 +50,34 @@ public class Player extends Component{
         
     //The name of the player
     public String name = "INeedAName";
+    
+    public Integer uiText;
+    public UIText _UIText;
         
     //passives that are currently active
     //public ArrayList<Integer> pasives;
 
 
     public Player(String name) {
-        //Initializing the values for a new player
-        //leftHand = new Entity(0);
-        
-        //rightHand = new Entity(0);
-        
+        //Initializing the values for a new player       
         activesSize = 2;
-        
-        passivesSize = 2;
-        
-        maxEnergy = 100;
-        
-        //actives = new Pair<>(new Pair<>(leftHand, new ArrayList<Integer>(activesSize)), new Pair<>(rightHand, new ArrayList<Integer>(activesSize))); 
-        
-        //pasives = new ArrayList<>(passivesSize);
-        
+        passivesSize = 2;       
         boolRight = true;
+        uiText = 0;
+        _UIText = null;
     }
 
-    public Player(String name, Integer LRInventory, Integer pasivesInventory, Integer activesInventory) {
-        //Initializing the values for a new player        
-        maxEnergy = 100;
-        energy = maxEnergy;
-               
+    public Player(String name, Integer LRInventory, Integer pasivesInventory, Integer activesInventory, Integer uiText) {
+        //Initializing the values for a new player                       
         this.LRInventory = LRInventory;
         this.pasivesInventory = pasivesInventory;
         this.activesInventory = activesInventory;
+        this.uiText = uiText;
+        boolRight = false;
         
-        boolRight = true;
-
     }
 
     public Player() {
-        boolRight = true;
+        boolRight = false;
     }    
 }
