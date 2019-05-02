@@ -7,6 +7,7 @@ import ECS.Components.MousePointer;
 import ECS.Components.Playable;
 import ECS.Components.Player;
 import ECS.Components.Sprite;
+import ECS.Components.Talkative;
 import ECS.Components.Tile;
 import ECS.Components.Transform;
 import ECS.Entity;
@@ -14,6 +15,7 @@ import ECS.SystemJob;
 import Scene.Scene;
 import Utility.Point;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import static java.lang.Integer.min;
 import static java.lang.Math.abs;
 import java.util.ArrayList;
@@ -232,11 +234,15 @@ public class CollisionSystem extends SystemJob{
             }
             
             //Or the second entity is the player
-            else */if("Player".equals(e2.getName())) {
+     else */if("Player".equals(e2.getName())) {
+                //if the player presses E on a Talkative 
+                if(scene.entityManager.hasComponent(e.getID(), Talkative.class) && scene.display.keyManager.wasPressed[KeyEvent.VK_E]){
+                    System.out.println("Lets Talk!");
+                }
+
                 //And the first an item
                 if(arrItems.contains(e.getID())) {
                     //If the user press the E in the collision
-                    
                     if(scene.display.getKeyManager().isE) {                      
                         //Play pick up sound
                         Assets.Assets.pickUp.play();
@@ -301,7 +307,7 @@ public class CollisionSystem extends SystemJob{
         
         //Check intersection in x & y & z.
         if(firstRect.intersects(secondRect) && collidablei.active && tileCollidable.isCollidable()&&((transformi.position.z >= floorTile)&&(floorPlayer<=transformj.position.z))){
-            System.out.println("Collision");
+            //System.out.println("Collision");
             collidablei.setCollidable.add(j);
         }
     }

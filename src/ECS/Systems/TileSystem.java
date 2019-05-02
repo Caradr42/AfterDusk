@@ -74,7 +74,7 @@ public class TileSystem extends SystemJob{
         //new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
         );
         
-        System.out.println(ent.getID());
+        //System.out.println(ent.getID());
     }
 
     @Override
