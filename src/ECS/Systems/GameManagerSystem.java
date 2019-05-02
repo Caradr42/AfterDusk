@@ -33,6 +33,7 @@ public class GameManagerSystem extends SystemJob{
     int height;
     int state;
     boolean fullScreen = false;
+    boolean visibleDialogBlock = false;
     
     public GameManagerSystem(Scene scene, boolean active) {
         super(scene, active);
@@ -69,7 +70,8 @@ public class GameManagerSystem extends SystemJob{
             
         }
         if(gameRunning){
-            
+            //System.out.println(ConversationSystem.visibleDialogBox);
+            //game pause if in game menu
             if(scene.display.keyManager.wasPressed[KeyEvent.VK_ESCAPE]){
               for(SystemJob sj: scene.systemJobManager.systemsList){
                 if(sj.getClass() != (RenderSystem.class) 
@@ -80,6 +82,7 @@ public class GameManagerSystem extends SystemJob{
                         && sj.getClass() != (SpriteSystem.class)
                         && sj.getClass() != (TransformSystem.class)
                         && sj.getClass() != (MousePointerSystem.class)
+                        //&& sj.getClass() != (ConversationSystem.class)
                         //Expand here if any other system is necesary when the game is paused
                         ){
                     //System.out.println(sj.getClass());
@@ -90,10 +93,54 @@ public class GameManagerSystem extends SystemJob{
                     }
                 }
               }
+            }else if(ConversationSystem.visibleDialogBox && !visibleDialogBlock){ //game puse if in conversation
+                
+                visibleDialogBlock = true;
+                for(SystemJob sj: scene.systemJobManager.systemsList){
+                if(sj.getClass() != (RenderSystem.class) 
+                        && sj.getClass() != (GameManagerSystem.class) 
+                        && sj.getClass() != (UIEntitiesSystem.class) 
+                        && sj.getClass() != (UIButtonSystem.class) 
+                        && sj.getClass() != (UITextSystem.class)
+                        //&& sj.getClass() != (SpriteSystem.class)
+                        && sj.getClass() != (TransformSystem.class)
+                        && sj.getClass() != (MousePointerSystem.class)
+                        && sj.getClass() != (ConversationSystem.class)
+                        //Expand here if any other system is necesary when the game is paused
+                        ){
+                    //System.out.println(sj.getClass());
+                    
+                        sj.active = false;
+                    
+                }
+              }
+            }else if(!ConversationSystem.visibleDialogBox){
+                if(visibleDialogBlock){
+                    for(SystemJob sj: scene.systemJobManager.systemsList){
+                    if(sj.getClass() != (RenderSystem.class) 
+                            && sj.getClass() != (GameManagerSystem.class) 
+                            && sj.getClass() != (UIEntitiesSystem.class) 
+                            && sj.getClass() != (UIButtonSystem.class) 
+                            && sj.getClass() != (UITextSystem.class)
+                            //&& sj.getClass() != (SpriteSystem.class)
+                            && sj.getClass() != (TransformSystem.class)
+                            && sj.getClass() != (MousePointerSystem.class)
+                            && sj.getClass() != (ConversationSystem.class)
+                            //Expand here if any other system is necesary when the game is paused
+                            ){
+                        //System.out.println(sj.getClass());
+
+                            sj.active = true;
+
+                        }
+                    }
+                    visibleDialogBlock = false;
+                }
             }
         }else{
             scene.c.ortogonalPosition.x ++;
         }
+        
         
     }
 

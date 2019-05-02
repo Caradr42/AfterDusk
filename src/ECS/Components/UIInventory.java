@@ -19,6 +19,7 @@ public class UIInventory extends Component implements UIChild{
     public Transform _uiTransform; //the transform reference is also updated in the sistem
     
     public Integer firstInventory; //the inventory linkedList
+    
     //public HashMap<Integer, Vector2> UIItemsPositions;
     public ArrayList<ArrayList<Rectangle>> UISlots; //each hitbox for each slot in the inventory
         

@@ -134,6 +134,7 @@ public class Assets {
         animations.put("1x9Slots_dark", new Pair<>(crop(154, 18, 1, "/Resources/Images/1x9Slots_dark.png", false)       , 1));
         animations.put("1x2Slots_dark", new Pair<>(crop(35, 18, 1, "/Resources/Images/1x2Slots_dark.png", false)        , 1));
         
+        animations.put("AfterDusk",     new Pair<>(crop(352, 72, 1, "/Resources/Images/AfterDusk.png", false)           , 1));
         
         animations.put("actives_bar",   new Pair<>(crop(160, 32, 1, "/Resources/Images/actives_bar.png", false)         , 1));
         animations.put("RL_bar",        new Pair<>(crop(48, 32, 1, "/Resources/Images/RL_bar.png", false)               , 1));
@@ -144,7 +145,8 @@ public class Assets {
         animations.put("energy",        new Pair<>(crop(1, 1, 1, "/Resources/Images/energy.png", false)                 , 1));
         
         animations.put("dialog_box",    new Pair<>(crop(256, 72, 1, "/Resources/Images/dialog_dark.png", false)         , 1));
-        //dialog_dark
+        animations.put("press_E",       new Pair<>(crop(48, 32, 1, "/Resources/Images/press_E.png", false)              , 1));
+        //press_E
         
         animations.put("menu_game",     new Pair<>(crop(278, 150, 1, "/Resources/Images/menu_game_clear.png", false)          , 1));
         animations.put("menu_map",     new Pair<>(crop(278, 150, 1, "/Resources/Images/Menu_map_clear.png", false)            , 1));

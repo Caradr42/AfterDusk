@@ -11,16 +11,16 @@ import java.util.Collections;
  */
 public class Talkative extends Component{
     
-    ArrayList<ArrayList<String>> conversations;
-    ArrayList<Integer> quest;
+    public ArrayList<ArrayList<String>> conversations;
+    public ArrayList<Integer> quests;
     
-    boolean inConversation = false;
-    int currentConversation = 0;
-    int currentLine = 0;
+    public boolean inConversation = false;
+    public int currentConversation = 0;
+    public int currentLine = 0;
     
     public Talkative(ArrayList<ArrayList<String>> conversations){
         this.conversations = conversations;
-        quest = new ArrayList<>(Collections.nCopies(conversations.size(), 0));
+        quests = new ArrayList<>(Collections.nCopies(conversations.size(), 0));
     }
     
     public Talkative() {

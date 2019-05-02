@@ -111,6 +111,7 @@ public class UIInventorySystem extends SystemJob{
                                         //System.out.println("removed item from inv" + itemTransform.parent);
                                     }
                                 }
+                                
                                 setItemFromInventory(uiInventory.firstInventory, i, j, itemBuffer);
                             }
                         }
