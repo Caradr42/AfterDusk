@@ -45,11 +45,12 @@ public class InventorySystem extends SystemJob{
         //for the playables
         entities = scene.entityManager.getEntitiesWithComponents(Playable.class);
         
+        //updates sets the items in playables as childs of them
         for(Integer e : entities) {
             if(e != playerID) {
                 Playable playable = scene.entityManager.getEntityComponentInstance(e, Playable.class);
                 //System.out.println(scene.entityManager.getEntityByID(e).getName());
-                setItemsTransformAsChildOfEntity(playable.inventory, e);
+                if(playable.inventory != null) setItemsTransformAsChildOfEntity(playable.inventory, e);
             }
         }
         
