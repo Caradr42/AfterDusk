@@ -90,6 +90,7 @@ public class KeyManager implements KeyListener{
                 }
                 wasReleasedBlock[i] = true;
             }else{
+                wasReleased[i] = false;
                 wasReleasedBlock[i] = false;
             }
             
@@ -101,6 +102,7 @@ public class KeyManager implements KeyListener{
                 }
                 wasPressedBlock[i] = true;
             }else{
+                wasPressed[i] = false;
                 wasPressedBlock[i] = false;
             }
         }

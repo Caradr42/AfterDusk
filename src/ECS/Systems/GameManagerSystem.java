@@ -12,6 +12,7 @@ import Maths.Vector2;
 import Scene.Scene;
 import java.awt.event.KeyEvent;
 import Assets.Assets;
+import javax.swing.JFrame;
 
 /**
  * System that executes behabiour not associated with any entity
@@ -31,6 +32,7 @@ public class GameManagerSystem extends SystemJob{
     int width;
     int height;
     int state;
+    boolean fullScreen = false;
     
     public GameManagerSystem(Scene scene, boolean active) {
         super(scene, active);
@@ -39,9 +41,18 @@ public class GameManagerSystem extends SystemJob{
     @Override
     public void update() {     
         
-        /*if(scene.display.keyManager.wasPressed[KeyEvent.VK_F12]){
-            scene.display.jframe.dispatchEvent(new WindowEvent(scene.display.jframe, WindowEvent.WINDOW_CLOSING));
-        }*/
+        if(scene.display.keyManager.wasPressed[KeyEvent.VK_F12]){
+            if(!fullScreen){
+                fullScreen = true;
+                scene.display.jframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                scene.display.jframe.setUndecorated(true);
+            }else{
+                fullScreen = false;
+                scene.display.jframe.setExtendedState(JFrame.NORMAL);
+                scene.display.jframe.setSize(scene.display.width, scene.display.height);
+                scene.display.jframe.setUndecorated(false);
+            }
+        }
         
         //executes ony when the  game starts
         //it activates the Systems necesary for GamePlay

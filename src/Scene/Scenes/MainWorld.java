@@ -283,6 +283,18 @@ public class MainWorld extends Scene {
         );
 
     //USER INTERFACES
+        Entity HPbar = entityManager.createEntityWithComponents("HP_bar",
+                new Transform(0,0),
+                new Sprite("HP_bar", false, 64, 16, 0, new ArrayList<>(Arrays.asList("HP_bar"))),
+                new UIEntity("HP_bar", true, new ArrayList<>(Arrays.asList(hpBarBar.getID())))
+        );
+        
+        Entity energyBar = entityManager.createEntityWithComponents("energy_bar",
+                new Transform(0,18),
+                new Sprite("energy_bar", false, 64, 16, 0, new ArrayList<>(Arrays.asList("energy_bar"))),
+                new UIEntity("energy_bar", true, new ArrayList<>(Arrays.asList(energyBarBar.getID())))
+        );
+        
         //The players Inventory user interface, has a reference to the player internal inventory
         Entity InventoryUI = entityManager.createEntityWithComponents("Player_Inventory",
                 new Transform(display.width / c.scale / 2 - (195 / 2), display.height / c.scale / 2 - (135 / 2) - 2),
@@ -294,7 +306,7 @@ public class MainWorld extends Scene {
                                 passivesInventory.getID()
                                 )))
         );
-
+        
         //the player actives hotbar
         Entity activesUI = entityManager.createEntityWithComponents("Player_actives",
                 new Transform(display.width / c.scale / 2 - (160 / 2) + 3, display.height / c.scale - 28),
@@ -308,19 +320,7 @@ public class MainWorld extends Scene {
                 new Sprite("RL_bar", false, 48, 32, 0, new ArrayList<>(Arrays.asList("RL_bar"))),
                 new UIEntity("RL_bar", true,
                         new ArrayList<>(Arrays.asList( LRUIInventory.getID(),  itemSelector.getID())))
-        );
-          
-        Entity HPbar = entityManager.createEntityWithComponents("HP_bar",
-                new Transform(0,0),
-                new Sprite("HP_bar", false, 64, 16, 0, new ArrayList<>(Arrays.asList("HP_bar"))),
-                new UIEntity("HP_bar", true, new ArrayList<>(Arrays.asList(hpBarBar.getID())))
-        );
-        
-        Entity energyBar = entityManager.createEntityWithComponents("energy_bar",
-                new Transform(0,18),
-                new Sprite("energy_bar", false, 64, 16, 0, new ArrayList<>(Arrays.asList("energy_bar"))),
-                new UIEntity("energy_bar", true, new ArrayList<>(Arrays.asList(energyBarBar.getID())))
-        );
+        );    
         
         //the Game menu
         Entity menu = entityManager.createEntityWithComponents("menu",
@@ -357,7 +357,7 @@ public class MainWorld extends Scene {
         Entity enemy = entityManager.createEntityWithComponents("Enemy1",
                 new Transform(new Vector3(200, 90, 80)),
                 new Enemy(),
-                new Sprite("enemy", true, 64, 80, 10, new ArrayList<>(Arrays.asList("enemy"))),
+                new Sprite("enemy", true, 64, 64, 5, new ArrayList<>(Arrays.asList("ball"))),
                 new WorldEntity(),
                 new Collidable(new Vector3(64, 80, 80)),
                 new Playable(300, enemyInv.getID(), 1, true));
@@ -456,7 +456,9 @@ public class MainWorld extends Scene {
                 new ActiveSystem(this, true),
                 new ElectricSystem(this, true),
                 new InventorySystem(this, true),
-                new MovementSystem(this, true)
+                new MovementSystem(this, true),
+                new ConversationSystem(this, true)
+
         );
     }
 }

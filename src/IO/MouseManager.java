@@ -105,6 +105,7 @@ public class MouseManager implements MouseListener , MouseMotionListener {
             }
             wasLeftClickBlock = true;
         }else{
+            wasLeftClick = false;
             wasLeftClickBlock = false;
         }
         
@@ -116,6 +117,7 @@ public class MouseManager implements MouseListener , MouseMotionListener {
             }
             wasRightClickBlock = true;
         }else{
+            wasRightClick = false;
             wasRightClickBlock = false;
         }
         
@@ -127,6 +129,7 @@ public class MouseManager implements MouseListener , MouseMotionListener {
             }
             wasLeftReleaseBlock = true;
         }else{
+            wasLeftRelease = false;
             wasLeftReleaseBlock = false;
         }
         
@@ -138,6 +141,7 @@ public class MouseManager implements MouseListener , MouseMotionListener {
             }
             wasRightReleaseBlock = true;
         }else{
+            wasRightRelease = false;
             wasRightReleaseBlock = false;
         }
     }
