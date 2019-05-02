@@ -5,19 +5,16 @@
  */
 package ECS.Components;
 
-import Utility.Pair;
-import java.util.ArrayList;
-
 /**
  *
  * @author tanya
  */
-public class Electricity extends Active{
+public class ExtraHealth extends Pasive{
     public int cost;
 
-    public Electricity() {
-        activesSet.add(this.getClass());
-        cost = 10;
+    public ExtraHealth() {
+        pasivesSet.add(this.getClass());
+        cost = 20;
     }
-
+    
 }

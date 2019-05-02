@@ -8,7 +8,9 @@ import Scene.Scene;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import Assets.Assets;
+import ECS.Components.Active;
 import ECS.Components.MousePointer;
+import ECS.Components.Pasive;
 import ECS.Components.Player;
 import ECS.Components.Transform;
 import Maths.Vector3;
@@ -63,7 +65,6 @@ public class UIInventorySystem extends SystemJob{
             parentTransform = scene.entityManager.getEntityComponentInstance(inventoryTransform.parent, parentTransform.getClass());
             
             int temp = uiInventory.firstInventory;
-            
             inventory = scene.entityManager.getEntityComponentInstance(temp, inventory.getClass());
             for(int i = 0; temp != 0; ++i){ 
                 
@@ -87,31 +88,38 @@ public class UIInventorySystem extends SystemJob{
                                 //Play pick up sound
                                 Assets.pickUp.play();
 
-                                int itemBuffer = mousePointer.heldItem;
+                                int mouseItemBuffer = mousePointer.heldItem;
+                                //System.err.println("mouseItemBuffer " + mouseItemBuffer);
+                                int inventoryItemBuffer = getItemFromInventory(uiInventory.firstInventory, i, j);
+                                //System.out.println("inventoryItemBuffer " + inventoryItemBuffer);
+                                //mousePointer.heldItem = inventoryItemBuffer;
                                 
-                                //if you are placing an item
-                                if(itemBuffer != 0){
-                                    Transform itemTransform = scene.entityManager.getEntityComponentInstance(itemBuffer, Transform.class);
-                                    //System.out.println("in: " +  itemTransform);
-                                    //Transform plaTransform = scene.entityManager.getEntityComponentInstance(playerID, Transform.class);
-                                    if(itemTransform != null) itemTransform.parent = playerID;
-                                    //System.out.println("added item to inv");
-                                }
+                                //System.out.println("itemBuffer " + mouseItemBuffer);
+                                //System.out.println("mouse " + mousePointer.heldItem );
                                 
-                                mousePointer.heldItem = getItemFromInventory(uiInventory.firstInventory, i, j);
+                                boolean wasAdded = setItemFromInventory(uiInventory.firstInventory, i, j, mouseItemBuffer);
+                                //System.err.println("Was added: " + wasAdded);
                                 
-                                if(mousePointer.heldItem != 0){
-                                    Transform itemTransform = scene.entityManager.getEntityComponentInstance(mousePointer.heldItem, Transform.class);
-                                    //System.out.println("out: " +  itemTransform);
-                                    //Transform plaTransform = scene.entityManager.getEntityComponentInstance(playerID, Transform.class);
-                                    //System.out.println(scene.entityManager.getEntityByID(itemBuffer).getName());
-                                    if(itemTransform != null){
-                                        itemTransform.parent = 0;
+                                if(wasAdded) mousePointer.heldItem = inventoryItemBuffer;
+                                
+                                if(mouseItemBuffer == 0 | wasAdded ){
+                                   // System.out.println("setSystemInventory " + wasAdded);
+                                    
+                                    if(mouseItemBuffer != 0){
                                         
-                                        //System.out.println("removed item from inv" + itemTransform.parent);
+                                        Transform itemTransform = scene.entityManager.getEntityComponentInstance(mouseItemBuffer, Transform.class);
+                                        if(itemTransform != null) itemTransform.parent = playerID;
+                                    }
+                                    
+                                    
+                                    //System.out.println("after settin mouse item " + mouseItemBuffer + " " + mousePointer.heldItem);
+                                    if(mousePointer.heldItem != 0){
+                                        Transform itemTransform = scene.entityManager.getEntityComponentInstance(mousePointer.heldItem, Transform.class);
+                                        if(itemTransform != null){
+                                            itemTransform.parent = 0;
+                                        }
                                     }
                                 }
-                                setItemFromInventory(uiInventory.firstInventory, i, j, itemBuffer);
                             }
                         }
                     }
@@ -128,7 +136,6 @@ public class UIInventorySystem extends SystemJob{
         entities = scene.entityManager.getEntitiesWithComponents(uiInventory.getClass());
         mousePointers = scene.entityManager.getEntitiesWithComponents(mousePointer.getClass());
         mousePointer = scene.entityManager.getEntityComponentInstance(mousePointers.get(0), mousePointer.getClass());
-        
         playerID = scene.entityManager.getEntitiesWithComponents(Player.class).get(0);
         
         //sets the slots  acording to the inventory
@@ -194,21 +201,57 @@ public class UIInventorySystem extends SystemJob{
         return 0;
     }
     
-    private void setItemFromInventory(Integer e, int i, int j, Integer item){
+    private boolean setItemFromInventory(Integer e, int i, int j, Integer item){ //cambiar a bool
         Inventory invComp = new Inventory();
         int temp = uiInventory.firstInventory;
-        invComp = scene.entityManager.getEntityComponentInstance(temp, invComp.getClass());
+        
+        invComp = scene.entityManager.getEntityComponentInstance(temp, Inventory.class); 
+        //System.out.println("uiInventory " + uiInventory.name);
+        if(item != 0){
+            if (uiInventory.name.equals("passives")) {
+                 boolean isPassive = false;
+
+                 //System.out.println("passiveset" + Pasive.pasivesSet.size());
+
+                 //comprobacion
+                 for(Class p : Pasive.pasivesSet){
+
+                     if(scene.entityManager.hasComponent(item, p)){
+
+                         isPassive = true;
+                     }
+                 }
+                // System.out.println("passive added");
+                if(!isPassive) return  false;  
+                //System.out.println("pasiva added2");
+
+            }
+
+            if (uiInventory.name.equals("Actives")) {
+                 boolean isActive = false;
+                 //comprobacion
+                 for(Class p : Active.activesSet){
+                     if(scene.entityManager.hasComponent(item, p)){
+                         isActive = true;
+                     }
+                 }
+                if(!isActive) return  false;  
+                //System.err.println("activa added");
+                //System.out.println("passive added");
+            }
+        }
+        //si el item no es pasivo agre´alo al inventario normal
         //follow the inventories LinkedList up to the i list
-        for(int inv = 0; temp != 0; ++inv){ 
-            
-            if(inv == i){
+        for (int inv = 0; temp != 0; ++inv) {
+            if (inv == i) {
                 invComp.slots.set(j, item); //returns the Item id at position j
-            }  
+                return true;
+            }
             temp = invComp.nextInventory;
-            if(temp != 0){
+            if (temp != 0) {
                 invComp = scene.entityManager.getEntityComponentInstance(temp, invComp.getClass());
             }
-            //System.out.println(inv);
         }
+        return false;
     }
 }

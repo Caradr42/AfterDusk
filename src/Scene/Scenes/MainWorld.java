@@ -133,7 +133,8 @@ public class MainWorld extends Scene {
                 new Collidable(new Vector3(16, 16, 1)),
                 new Transform(new Vector3(70, 70, 16)),
                 new Sprite("shield", true, 16, 16, 10, new ArrayList<>(Arrays.asList("shield"))),
-                new WorldEntity()
+                new WorldEntity(),
+                new ExtraHealth()
         );
         //==============
 
@@ -208,7 +209,7 @@ public class MainWorld extends Scene {
                 new Transform(127, 23),
                 new Sprite("passives", true, 52, 18, 0, new ArrayList<>(Arrays.asList("1x3Slots_dark"))),
                 new UIEntity("passives", false, null),
-                new UIInventory("Passives", playerPassives.getID())
+                new UIInventory("passives", playerPassives.getID())
         );
 
         Entity activesInventory = entityManager.createEntityWithComponents("Player_UI_Actives_Inventory",
@@ -452,6 +453,7 @@ public class MainWorld extends Scene {
 
 
                 new RenderSystem(this, true),
+                new PassiveSystem(this, true),
                 new ActiveSystem(this, true),
                 new ElectricSystem(this, true),
                 new InventorySystem(this, true)

@@ -5,10 +5,27 @@
  */
 package ECS.Components;
 
+import ECS.Component;
+import Utility.Pair;
+import java.util.ArrayList;
+import java.util.HashSet;
+
 /**
  *
  * @author tanya
  */
-public class Pasive {
+public abstract class Pasive extends Component{
+        
+    boolean isActive = false;
+    int idSprite;
+
+    ArrayList <Pair<String, Integer>> costs;
+    
+    public static HashSet <Class> pasivesSet = new HashSet<Class>();
+
+    public Pasive() {
+
+    }
+    
     
 }
