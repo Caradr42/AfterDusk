@@ -529,28 +529,28 @@ public class MainWorld extends Scene {
                 );
                 
                 //Create board of the map.
-                if(x==-240){
+                if(x==-256){
                     entityManager.createEntityWithComponents("wood",
                         new Tile("log" + Integer.toString(x/16) + "_" + Integer.toString(y/16),true,log,log),
                         new Transform(x,y+32,32),
                         log, new WorldEntity()
                     );
                 }
-                if(x==544){
+                if(x==640){
                     entityManager.createEntityWithComponents("wood",
                         new Tile("log" + Integer.toString(x/16) + "_" + Integer.toString(y/16),true,log,log),
                         new Transform(x,y+48,32),
                         log, new WorldEntity()
                     );
                 }
-                if(y==-480){
+                if(y==-384){
                     entityManager.createEntityWithComponents("wood",
                         new Tile("log" + Integer.toString(x/16) + "_" + Integer.toString(y/16),true,log,log),
                         new Transform(x,y+32,32),
                         log, new WorldEntity()
                     );
                 }
-                if(y==224){
+                if(y==320){
                     entityManager.createEntityWithComponents("wood",
                         new Tile("log" + Integer.toString(x/16) + "_" + Integer.toString(y/16),true,log,log),
                         new Transform(x,y+48,32),
