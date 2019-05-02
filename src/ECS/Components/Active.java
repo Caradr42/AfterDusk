@@ -16,13 +16,7 @@ import java.util.HashSet;
  */
 public abstract class Active extends Component {
     boolean isActive = false;
-    //boolean isUnlocked = false;
     int idSprite;
-    //int idTool;
-    
-    /*Crear un SET static ArrayList de clases, cada vez que una clase extiende Active; en su constructor 
-    * vas a agregarle la vlase al arraylist
-    */
     
     ArrayList <Pair<String, Integer>> effects;
     ArrayList <Pair<String, Integer>> costs;

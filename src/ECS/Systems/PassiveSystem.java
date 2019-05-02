@@ -5,26 +5,25 @@
  */
 package ECS.Systems;
 
-import ECS.Components.Active;
+import ECS.Components.Pasive;
 import ECS.Components.Tool;
 import ECS.SystemJob;
 import Scene.Scene;
 import java.util.ArrayList;
-import javax.swing.plaf.synth.Region;
 
 /**
  *
  * @author tanya
  */
-public class ActiveSystem extends SystemJob{
+public class PassiveSystem extends SystemJob {
+    
+    Tool tool;
+    //ArrayList<Integer> idTools;
+    
+    Pasive pasive;
 
-    
-    ArrayList<Integer> idTools;
-    Tool tool; 
-    Active active;
-    
-    public ActiveSystem(Scene scene, boolean isActive) {
-        super(scene, isActive);
+    public PassiveSystem(Scene scene, boolean active) {
+        super(scene, active);
     }
 
     @Override
@@ -34,33 +33,31 @@ public class ActiveSystem extends SystemJob{
 
     @Override
     public void init() {
-    tool = new Tool();
+       /* tool = new Tool();
 
     idTools = scene.entityManager.getEntitiesWithComponents(Tool.class);
     
     for (Integer t : idTools){
-        for(Class c : Active.activesSet){
+        for(Class c : Pasive.pasivesSet){
             tool = scene.entityManager.getEntityComponentInstance(t, Tool.class);
             if(scene.entityManager.hasComponent(t, c)){
-                active = (Active)scene.entityManager.getEntityComponentInstance(t, c);
+                pasive = (Pasive)scene.entityManager.getEntityComponentInstance(t, c);
                 
-                tool.arrActives.add(active);
+                tool.arrPasives.add(pasive);
             }
         }
     }
-        
+       */ 
     }
 
     @Override
     public void onCreate() {
-      
+        
     }
 
     @Override
     public void onDestroy() {
-
+        
     }
-    
-    
     
 }

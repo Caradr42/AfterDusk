@@ -30,12 +30,15 @@ public class Tool extends Component{
     public int currentActive;
     public ArrayList <Class> arrClasses; 
     public ArrayList <Active> arrActives; 
+    public ArrayList <Pasive> arrPasives; 
+    
 
     public Tool( Entity pasive, ArrayList<Integer> actives, ArrayList<Integer> unlockedActives) {
         //this.actives = actives;
         this.pasive = pasive;
         this.unlockedActives = unlockedActives;
         this.arrActives = new ArrayList<Active>();
+        this.arrPasives = new ArrayList<Pasive>();
         this.arrClasses = new ArrayList<Class>();
         
         currentActive = -1;
@@ -44,12 +47,14 @@ public class Tool extends Component{
     public Tool() {
         this.unlockedActives = unlockedActives;
         this.arrActives = new ArrayList<Active>();
+        this.arrPasives = new ArrayList<Pasive>();
         this.arrClasses = new ArrayList<Class>();
     }
     
     public Tool(int currentActive) {
         this.unlockedActives = unlockedActives;
         this.arrActives = new ArrayList<Active>();
+        this.arrPasives = new ArrayList<Pasive>();
         this.arrClasses = new ArrayList<Class>();
         this.currentActive = currentActive;
     }
