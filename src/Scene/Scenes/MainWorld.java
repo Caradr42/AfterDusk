@@ -432,15 +432,16 @@ public class MainWorld extends Scene {
 
 
         Entity father = entityManager.createEntityWithComponents("father",
-                new Transform(new Vector3(200, 100, 36)),
+                new Transform(new Vector3(200, 50, 36)),
                 new Sprite("father", true, 36, 36, 8, new ArrayList<>(Arrays.asList("father_down", "father_up", "father_left", "father_right"))),
                 new WorldEntity(),
                 //new Enemy(),
                 new Talkative(new ArrayList<>(Arrays.asList(
                     new ArrayList<>(Arrays.asList(
                             "Let Me tell you some tips", 
-                            "For opening your combat GUI press 'TAB' ",
-                            "For opening the game Menu press 'ESC' "
+                            "For opening your combat GUI, press 'TAB' ",
+                            "For opening the game Menu, press 'ESC' ",
+                            "'Q' will open your inventory "
                     )),
                     new ArrayList<>(Arrays.asList(
                             "HI this is the second Parragraph; first Line", 
@@ -497,11 +498,11 @@ public class MainWorld extends Scene {
 
         
         //drawing columns
-        for (int x = -200; x < 442; x += 16) {
-            for (int p = 0; p < 5; p++) {
+        for (int x = -200; x < 442; x += 128) {
+            for (int p = 1; p < 11; p++) {
                 entityManager.createEntityWithComponents("block",
                         new Tile("block" + Integer.toString(x / 16) + "_" + Integer.toString(-400 + 32* p / 16), blockSprite, blockSprite),
-                        new Transform(new Vector3(x, 200 - 16 * p, p * 16)),
+                        new Transform(new Vector3(x, 50 , p * 16)),
                         blockSprite,
                         new WorldEntity()
                 //new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
@@ -511,8 +512,8 @@ public class MainWorld extends Scene {
         
         
         //draw grass grid
-        for (int x = -240; x < 560; x += 16) {
-            for (int y = -480; y < 240; y += 16) {
+        for (int x = -256; x < 640; x += 16) {
+            for (int y = -384; y < 320; y += 16) {
                 /*Entity side = entityManager.createEntityWithComponents("grassSide",
                         new Transform(new Vector3(x, y, -16)),
                         grassSideSprite,
