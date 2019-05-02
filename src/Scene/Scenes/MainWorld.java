@@ -340,6 +340,24 @@ public class MainWorld extends Scene {
                 new Movement(new Vector3(0,0,0))
         );
 
+        Entity father = entityManager.createEntityWithComponents("father",
+                new Transform(new Vector3(200, 100, 36)),
+                new Sprite("father", true, 36, 36, 8, new ArrayList<>(Arrays.asList("father_down", "father_up", "father_left", "father_right"))),
+                new WorldEntity(),
+                new Enemy(),
+                new Talkative(new ArrayList<>(Arrays.asList(
+                    new ArrayList<>(Arrays.asList(
+                            "HI this is the firt Parragraph; first Line", 
+                            "HI this is the firt Parragraph; second Line"
+                    )),
+                    new ArrayList<>(Arrays.asList(
+                            "HI this is the second Parragraph; first Line", 
+                            "HI this is the second Parragraph; second Line"
+                    ))
+                ))),
+                new Playable(100, null, 1.5),
+                new Collidable(new Vector3(32, 32, 36))
+
 
         //This item goes here because its transform is a child of the player's transform
       /*  Entity swordOne = entityManager.createEntityWithComponents("sword1",
@@ -354,10 +372,13 @@ public class MainWorld extends Scene {
 
 
 
+        );
+
+
         Entity enemy = entityManager.createEntityWithComponents("Enemy1",
                 new Transform(new Vector3(200, 90, 80)),
                 new Enemy(),
-                new Sprite("enemy", true, 64, 64, 5, new ArrayList<>(Arrays.asList("ball"))),
+                new Sprite("enemy", true, 64, 64, 5, new ArrayList<>(Arrays.asList("ball", "ball_down", "ball_up", "ball_left", "ball_right"))),
                 new WorldEntity(),
                 new Collidable(new Vector3(64, 80, 80)),
                 new Playable(300, enemyInv.getID(), 1, true));
