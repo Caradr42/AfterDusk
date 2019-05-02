@@ -86,11 +86,16 @@ public class Assets {
         animations.put("ball_down",     new Pair<>(crop(64, 64, 4, "/Resources/Images/BALL_DOWN.png", false)            , 4));
         animations.put("ball_up",       new Pair<>(crop(64, 64, 4, "/Resources/Images/BALL_UP.png", false)              , 4));
         animations.put("ball_left",     new Pair<>(crop(64, 64, 4, "/Resources/Images/BALL_LEFT.png", false)            , 4));
-        animations.put("ball_right",     new Pair<>(crop(64, 64, 4, "/Resources/Images/BALL_RIGHT.png", false)          , 4));
+        animations.put("ball_right",    new Pair<>(crop(64, 64, 4, "/Resources/Images/BALL_RIGHT.png", false)           , 4));
         
-        //TILES
-
+        //ATTACKS
+        animations.put("electricCharge",new Pair<>(crop(80, 80, 4, "/Resources/Images/electricCharge.png", false)       , 4));
+        animations.put("E_atack_right",       new Pair<>(crop(48, 48, 5, "/Resources/Images/E_atack_right.png", false)  , 5));
+        animations.put("E_atack_left",       new Pair<>(crop(48, 48, 5, "/Resources/Images/E_atack_left.png", false)    , 5));
+        animations.put("E_atack_up",       new Pair<>(crop(48, 48, 5, "/Resources/Images/E_atack_up.png", false)        , 5));
+        animations.put("E_atack_down",       new Pair<>(crop(48, 48, 5, "/Resources/Images/E_atack_down.png", false)    , 5));
         
+        //TILES        
         animations.put("log",           new Pair<>(crop(16, 16, 1, "/Resources/Images/log.png",false)                   , 1));
 
         animations.put("grass",         new Pair<>(crop(16, 16, 1, "/Resources/Images/grass.png", false)                , 1));
@@ -160,6 +165,8 @@ public class Assets {
         animations.put("effect2",       new Pair<>(crop(1, 1, 32, "/Resources/Images/effect2.png", true), 32));
         animations.put("null",          new Pair<>(crop(1, 1, 1, "/Resources/Images/null.png", false), 1));
         animations.put("item_selector",     new Pair<>(crop(18, 18, 27, "/Resources/Images/ItemSelector.png", false), 27));
+        animations.put("gradient",     new Pair<>(crop(1, 1, 32, "/Resources/Images/gradient.png", true), 32));
+        animations.put("inverse_gradient",     new Pair<>(crop(1, 1, 32, "/Resources/Images/inverse_gradient.png", true), 32));
         
         //buttons
         animations.put("Button_32",     new Pair<>(crop(32, 10, 1, "/Resources/Images/Button_32.png", false), 1));

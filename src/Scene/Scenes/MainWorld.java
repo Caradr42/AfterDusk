@@ -367,8 +367,12 @@ public class MainWorld extends Scene {
                 new Sprite("menu", false, 278, 150, 0, new ArrayList<>(Arrays.asList("menu_map","menu_quests", "menu_options" ,"menu_game"))),
                 new UIEntity("menu", true, new ArrayList<>(Arrays.asList(mapButton.getID(), questsButton.getID(), optionsButton.getID(), gameButton.getID(), text.getID(), playerPosition.getID(), controls.getID())))
         );
-        
-         
+    //DEATH GUI
+        Entity deathScreen = entityManager.createEntityWithComponents("deathScreen",
+                new Transform(0,0),
+                new Sprite("deathScreen", true, display.width / c.scale, display.height / c.scale, 10, new ArrayList<>(Arrays.asList("gradient","inverse_gradients"))),
+                new UIEntity("deathScreen", true, new ArrayList<>(Arrays.asList()))
+        );
         
     //PLAYABLE ENTITIES
 
