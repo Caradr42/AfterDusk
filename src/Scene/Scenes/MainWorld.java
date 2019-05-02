@@ -270,6 +270,13 @@ public class MainWorld extends Scene {
         );
     //CHILD UIENTITIES
         
+        Entity pressE = entityManager.createEntityWithComponents("press_E",
+                new Transform(260,35),
+                new Sprite("press_E", true, 48, 32, 0, new ArrayList<>(Arrays.asList("press_E"))),
+                new UIEntity("press_E", true, 0, null, true)
+                
+        );
+        
         Entity playerPosition = entityManager.createEntityWithComponents("player_position",
                 new Transform(182,85),
                 new Sprite("player_position", true, 2, 2, 20, new ArrayList<>(Arrays.asList("effect2"))),
@@ -294,6 +301,8 @@ public class MainWorld extends Scene {
                 new Sprite("energy", true, 1, 3, 0, new ArrayList<>(Arrays.asList("energy"))),
                 new UIEntity("energy", true, null, true)
         );
+        
+        
 
     //USER INTERFACES
         Entity HPbar = entityManager.createEntityWithComponents("HP_bar",
@@ -339,7 +348,7 @@ public class MainWorld extends Scene {
         Entity dialogBox = entityManager.createEntityWithComponents("dialogBox",
                 new Transform(display.width / c.scale / 2 - (256/2), display.height / c.scale - 82),
                 new Sprite("dialogBox", false, 256, 72, 0, new ArrayList<>(Arrays.asList("dialog_box"))),
-                new UIEntity("dialogBox", true, new ArrayList<>(Arrays.asList(dialogText.getID() )))
+                new UIEntity("dialogBox", true, new ArrayList<>(Arrays.asList(dialogText.getID(), pressE.getID() )))
         );
         
         //the Game menu
