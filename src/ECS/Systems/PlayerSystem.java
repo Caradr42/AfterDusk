@@ -113,10 +113,17 @@ public class PlayerSystem extends SystemJob{
                 
                 
                 //Movement with ressistance
+                if(CollisionCheck&&!scene.display.getKeyManager().left){
+                    v3V=new Vector3(-0.2, 0, 0);
+                    v3R=new Vector3(-0.1,0,0); 
+                }
+                else{
+                    v3V=new Vector3(0.2, 0, 0);
+                    v3R=new Vector3(-0.1,0,0);
+                }
                 
-                v3V=new Vector3(0.2, 0, 0);
-                v3R=new Vector3(-0.1,0,0);
-                if(Math.abs(movement.velocity.x)<=2){
+                
+                if(Math.abs(movement.velocity.x)<=2&&!CollisionCheck){
                     movement.velocity.set(movement.velocity.add(v3V));
                     movement.velocity.set(movement.velocity.add(v3R));
                 }
@@ -148,8 +155,19 @@ public class PlayerSystem extends SystemJob{
                 }
                 
                 //Movement with ressistance
-                v3V=new Vector3(-0.2, 0, 0);
-                v3R=new Vector3(0.1,0,0);
+                if(CollisionCheck&&!scene.display.getKeyManager().right){
+                    v3V=new Vector3(0.2, 0, 0);
+                    v3R=new Vector3(0.1,0,0);
+                }
+                else{
+                    v3V=new Vector3(-0.2, 0, 0);
+                    v3R=new Vector3(0.1,0,0);
+                }
+                
+                
+                    
+                
+                
                 if(Math.abs(movement.velocity.x)<=2){
                     movement.velocity.set(movement.velocity.add(v3V));
                     movement.velocity.set(movement.velocity.add(v3R));
@@ -180,17 +198,22 @@ public class PlayerSystem extends SystemJob{
                     Assets.Assets.grassWalk.play();
                 }
                 
+                
                 //Movement with ressistance
-                v3V=new Vector3(0, -0.2, 0);
-                v3R=new Vector3(0,+0.1,0);
-                if(Math.abs(movement.velocity.y)<=2){
+                
+                    v3V=new Vector3(0, -0.2, 0);
+                    v3R=new Vector3(0,+0.1,0);
+                
+                
+                if(Math.abs(movement.velocity.y)<=2&&!CollisionCheck){
                     movement.velocity.set(movement.velocity.add(v3V));
                     movement.velocity.set(movement.velocity.add(v3R));
-                }
+                    }
+
+                    if(scene.display.keyManager.wasPressed[KeyEvent.VK_W] || scene.display.keyManager.wasPressed[KeyEvent.VK_UP]){
+                        sprite.frameCounter = 1;
+                    }
                 
-                if(scene.display.keyManager.wasPressed[KeyEvent.VK_W] || scene.display.keyManager.wasPressed[KeyEvent.VK_UP]){
-                    sprite.frameCounter = 1;
-                }
                 
                 sprite.animation = sprite.animations.get(1).first;
                 sprite.animationLenght = sprite.animations.get(1).second;
@@ -213,16 +236,13 @@ public class PlayerSystem extends SystemJob{
                 }
                 
                 //Movement with ressistance
-                /*if(CollisionCheck){
-                    v3V=new Vector3(0, -0.2, 0);
-                }else{
-                    
-                    
-                }*/
-                v3V=new Vector3(0, 0.2, 0);
-                v3R=new Vector3(0,-0.1,0);
                 
-                if(Math.abs(movement.velocity.y)<=2){
+                    v3V=new Vector3(0, 0.2, 0);
+                    v3R=new Vector3(0,-0.1,0);
+                
+                
+                
+                if(Math.abs(movement.velocity.y)<=2&&!CollisionCheck){
                     movement.velocity.set(movement.velocity.add(v3V));
                     movement.velocity.set(movement.velocity.add(v3R));
                 }
