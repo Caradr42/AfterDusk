@@ -118,10 +118,10 @@ public class WeaponColliderPositionSystem extends SystemJob{
                 //if it is not a player
                 else {
                     //Entity with the component of inventory
-                    Entity inventoryID = scene.entityManager.getEntityByID(playable.inventory);
+                    //Entity inventoryID = scene.entityManager.getEntityByID(playable.inventory);
                     
                     //getting the inventory component
-                    Inventory inventory = scene.entityManager.getEntityComponentInstance(inventoryID, Inventory.class);
+                    Inventory inventory = scene.entityManager.getEntityComponentInstance(playable.inventory, Inventory.class);
                     
                      attackComponent = scene.entityManager.getEntityComponentInstance(inventory.slots.get(0), AttackComponent.class);   
                 }
@@ -132,11 +132,17 @@ public class WeaponColliderPositionSystem extends SystemJob{
                 for(AttackCollider at : attackComponent.arrColliders) {
                     //if it is not an area attack
                     if (!at.areaAttack) {
+                        //System.out.println(scene.entityManager.getEntityByID(e).getName());
                         if (playable.up) {
                             at.relativePosition.x = -at.b / 2 + entityWidth / 2;
 
-                            at.relativePosition.y = - entityHeight - at.a + transform.position.z;
-
+                            at.relativePosition.y = transform.position.z;
+                            //- entityHeight - at.a + 
+                             System.out.println(scene.entityManager.getEntityByID(e).getName() +transform.position.x + ", " + transform.position.y);
+                            System.out.println("collider = " + at.relativePosition.x + ", " + at.relativePosition.y);
+                           
+                            
+                            //- entityHeight - at.a + transform.position.z
                             //the y is the height of the collider
                             at.hitbox.y = at.a;
 
@@ -186,7 +192,7 @@ public class WeaponColliderPositionSystem extends SystemJob{
             
             }
             
-            //System.out.println(scene.entityManager.getEntityByID(e).getName());
+            
         }
         
         

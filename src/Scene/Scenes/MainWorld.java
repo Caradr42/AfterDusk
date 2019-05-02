@@ -320,11 +320,11 @@ public class MainWorld extends Scene {
 
 
         Entity enemy = entityManager.createEntityWithComponents("Enemy1",
-                new Transform(new Vector3(200, 90, 48)),
+                new Transform(new Vector3(200, 90, 64)),
                 new Enemy(),
                 new Sprite("enemy", true, 64, 80, 10, new ArrayList<>(Arrays.asList("enemy"))),
                 new WorldEntity(),
-                new Collidable(new Vector3(64, 80, 1)),
+                new Collidable(new Vector3(64, 80, 1)), // 64 y 80
                 new Playable(300, enemyInv.getID(), new Vector3(1.5, 1.5, 0), true));
 
 

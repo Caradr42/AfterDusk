@@ -40,14 +40,13 @@ public class Playable extends Component {
     public int currentWeapon;
     
     //to indicate the direction of the playable
-    public boolean right, left, up, down;
+    public boolean right, left, up = true, down;
 
     //current energy of the player
     public int energy;
 
     //max energy that the player can have
     public int maxEnergy;
-
 
 
     public Playable(int hp, Integer inventory, Vector3 velocity) {
