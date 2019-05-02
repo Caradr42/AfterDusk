@@ -54,7 +54,7 @@ public class RenderSystem extends SystemJob{
 
     private MousePointer mousePointer;
     
-    public static boolean debugRender = true;
+    public static boolean debugRender = false;
     
     //archetype of the enitites lits
     private Transform transform;

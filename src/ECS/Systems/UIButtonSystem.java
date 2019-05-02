@@ -12,9 +12,12 @@ import ECS.Components.UIButton;
 import ECS.Components.UIEntity;
 import ECS.SystemJob;
 import static ECS.SystemJob.scene;
+import static ECS.Systems.GameManagerSystem.fullScreen;
 import Scene.Scene;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import javax.swing.JFrame;
+import proyecto_videojuegos.MainThread;
 
 /**
  *
@@ -55,7 +58,7 @@ public class UIButtonSystem extends SystemJob{
             
             if(uiEntity.UIcollider.contains((int)mousePointer.position.x, (int)mousePointer.position.y) && buttonSprite.visible){
                 uiButton.buttonVisible = true;
-                if(mousePointer.mouseManager.left){
+                if(mousePointer.mouseManager.wasLeftClick){
                     uiButton.buttonPressed = true;
                 }else{
                      uiButton.buttonPressed = false;
@@ -69,6 +72,48 @@ public class UIButtonSystem extends SystemJob{
             if(uiButton.name.equals("exitButton") && uiButton.buttonPressed){
                 scene.display.jframe.dispatchEvent(new WindowEvent(scene.display.jframe, WindowEvent.WINDOW_CLOSING));
             }
+            
+            if(uiButton.name.equals("fullScreen") && uiButton.buttonPressed){
+                if(!fullScreen){
+                    fullScreen = true;
+                    scene.display.jframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                    scene.display.jframe.setUndecorated(true);
+
+
+                }else{
+                    fullScreen = false;
+                    scene.display.jframe.setExtendedState(JFrame.NORMAL);
+                    scene.display.jframe.setSize(scene.display.width, scene.display.height);
+                    scene.display.jframe.setUndecorated(false);
+
+                }
+            }
+            
+            if(uiButton.name.equals("showFPS") && uiButton.buttonPressed){
+                if(MainThread.showTPS){
+                    MainThread.showTPS = false;
+                }else{
+                    MainThread.showTPS = true;
+                }
+            }
+            
+            if(uiButton.name.equals("showDebug") && uiButton.buttonPressed){
+                if(MainThread.showColliders){
+                    MainThread.showColliders = false;
+                }else{
+                    MainThread.showColliders = true;
+                }
+                
+                if(RenderSystem.debugRender){
+                    RenderSystem.debugRender = false;
+                }else{
+                    RenderSystem.debugRender = true;
+                }
+            }
+            
+            /*if(uiButton.name.equals("fullScreen")){
+                System.out.println("button = " + uiButton.buttonPressed);
+            }*/
             
             if(uiButton.name.equals("continueButton") && uiButton.buttonPressed){
                 uiButton.buttonPressed =false;

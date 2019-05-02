@@ -38,7 +38,7 @@ public class MainThread implements Runnable{
     public static double tps; //ticks per second
     
     //Debug variables
-    private boolean showTPS = true; //controls if the tps will be show on the console
+    public static boolean showTPS = false; //controls if the tps will be show on the console
     public static boolean showColliders = false;
     ///
     public static int fps = 60;   

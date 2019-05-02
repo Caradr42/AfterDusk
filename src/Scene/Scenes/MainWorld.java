@@ -80,8 +80,8 @@ public class MainWorld extends Scene {
         );
         
         Entity afterDusk = entityManager.createEntityWithComponents("AfterDusk", 
-                new Transform(display.width / c.scale / 2 - 352/2 , 20 ,0),
-                new Sprite("AfterDusk", true, 352, 72, 0 , new ArrayList<>(Arrays.asList("AfterDusk"))),
+                new Transform(display.width / c.scale / 2 - (352 - (352 / 4)) / 2 , 20 ,0),
+                new Sprite("AfterDusk", true, 352 - (352 / 4) , 72 - (72 / 4), 0 , new ArrayList<>(Arrays.asList("AfterDusk"))),
                 new UIEntity("AfterDusk", true, new ArrayList<>(Arrays.asList()))
         );
         //AfterDusk
@@ -259,6 +259,45 @@ public class MainWorld extends Scene {
                 new UIButton("game_button" ,"GAME" ,3)
         );
         
+        //Game Menu Buttons
+        
+        Entity optionsExit = entityManager.createEntityWithComponents("exitButton", 
+                new Transform(45,60,0),
+                new Sprite("exitButton", true, 72, 12, 0 , new ArrayList<>(Arrays.asList("Button_48"))),
+                new UIEntity("exitButton", false, 3, null),
+                new UIButton("exitButton"," EXIT GAME", 3)
+        );
+        
+        Entity optionsSave = entityManager.createEntityWithComponents("saveButton", 
+                new Transform(45,80,0),
+                new Sprite("saveButton", true, 72, 12, 0 , new ArrayList<>(Arrays.asList("Button_48"))),
+                new UIEntity("saveButton", false, 3, null),
+                new UIButton("saveButton"," SAVE GAME", 3)
+        );
+        
+        //Options buttons
+        
+        Entity fullScreen = entityManager.createEntityWithComponents("fullScreen", 
+                new Transform(25,40,0),
+                new Sprite("fullScreen", true, 97, 12, 0 , new ArrayList<>(Arrays.asList("Button_48"))),
+                new UIEntity("fullScreen", false, 2, null),
+                new UIButton("fullScreen"," Full screen", 2)
+        );
+        
+        Entity showFPS = entityManager.createEntityWithComponents("showFPS", 
+                new Transform(25,60,0),
+                new Sprite("showFPS", true, 97, 12, 0 , new ArrayList<>(Arrays.asList("Button_48"))),
+                new UIEntity("showFPS", false, 2, null),
+                new UIButton("showFPS"," Show FPS", 2)
+        );
+        
+        Entity showDebug = entityManager.createEntityWithComponents("showDebug", 
+                new Transform(25,80,0),
+                new Sprite("showDebug", true, 97, 12, 0 , new ArrayList<>(Arrays.asList("Button_48"))),
+                new UIEntity("showDebug", false, 2, null),
+                new UIButton("showDebug"," Show Colliders", 2)
+        );
+        
     //UI TEXTS
         
         Entity text = entityManager.createEntityWithComponents("text",
@@ -365,12 +404,25 @@ public class MainWorld extends Scene {
         Entity menu = entityManager.createEntityWithComponents("menu",
                 new Transform(display.width / c.scale / 2 - (278/2), display.height / c.scale / 2 - (150/2)),
                 new Sprite("menu", false, 278, 150, 0, new ArrayList<>(Arrays.asList("menu_map","menu_quests", "menu_options" ,"menu_game"))),
-                new UIEntity("menu", true, new ArrayList<>(Arrays.asList(mapButton.getID(), questsButton.getID(), optionsButton.getID(), gameButton.getID(), text.getID(), playerPosition.getID(), controls.getID())))
+                new UIEntity("menu", true, new ArrayList<>(Arrays.asList(
+                        mapButton.getID(), 
+                        questsButton.getID(), 
+                        optionsButton.getID(), 
+                        gameButton.getID(), 
+                        text.getID(), 
+                        playerPosition.getID(), 
+                        controls.getID(), 
+                        optionsExit.getID(), 
+                        optionsSave.getID(),
+                        fullScreen.getID(),
+                        showFPS.getID(),
+                        showDebug.getID()
+                )))
         );
     //DEATH GUI
         Entity deathScreen = entityManager.createEntityWithComponents("deathScreen",
                 new Transform(0,0),
-                new Sprite("deathScreen", true, display.width / c.scale, display.height / c.scale, 10, new ArrayList<>(Arrays.asList("gradient","inverse_gradients"))),
+                new Sprite("deathScreen", true, display.width / c.scale, display.height / c.scale, 8, new ArrayList<>(Arrays.asList("gradient","inverse_gradients"))),
                 new UIEntity("deathScreen", true, new ArrayList<>(Arrays.asList()))
         );
         
@@ -435,12 +487,6 @@ public class MainWorld extends Scene {
                 new Collidable(new Vector3(32, 32, 32))
 
         );
-
-
-       
-
-
-
 
     //TILES 
         Sprite grassTopSprite = new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")));

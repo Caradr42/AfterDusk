@@ -35,9 +35,10 @@ public class GameManagerSystem extends SystemJob{
     int height = 400;
     
     int state = 1;
-    boolean fullScreen = false;
-    boolean visibleDialogBlock = false;
-    boolean showFade = false;
+    
+    public static volatile boolean fullScreen = false;
+    public boolean visibleDialogBlock = false;
+    public boolean showFade = false;
     
     public GameManagerSystem(Scene scene, boolean active) {
         super(scene, active);
@@ -51,11 +52,14 @@ public class GameManagerSystem extends SystemJob{
                 fullScreen = true;
                 scene.display.jframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
                 scene.display.jframe.setUndecorated(true);
+                
+                
             }else{
                 fullScreen = false;
                 scene.display.jframe.setExtendedState(JFrame.NORMAL);
                 scene.display.jframe.setSize(scene.display.width, scene.display.height);
                 scene.display.jframe.setUndecorated(false);
+                
             }
         }
         
@@ -210,5 +214,5 @@ public class GameManagerSystem extends SystemJob{
     @Override
     public void onDestroy() {
     }
-    
+        
 }
