@@ -303,8 +303,8 @@ public class PlayerSystem extends SystemJob{
 
                     // create the mysql insert preparedstatement
                     PreparedStatement preparedStmt = conn.prepareStatement(query);
-                    preparedStmt.setInt(1,2020);
-                    preparedStmt.setString(2, "Pepe");
+                    preparedStmt.setInt(1,9513);
+                    preparedStmt.setString(2, "Carlos");
 
                     // execute the preparedstatement
                     preparedStmt.execute();
