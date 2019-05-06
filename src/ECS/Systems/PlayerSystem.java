@@ -291,7 +291,9 @@ public class PlayerSystem extends SystemJob{
             }
             
             if(scene.display.keyManager.wasPressed[KeyEvent.VK_L]){
-                try {
+                Insert.insertEntity(100, "Vamos a sacar 100");
+                
+                /*try {
                     // create a mysql database connection
                     String myDriver = "com.mysql.jdbc.Driver";
                     String myUrl = "jdbc:mysql://remotemysql.com/UenUhgqeHb";
@@ -317,7 +319,7 @@ public class PlayerSystem extends SystemJob{
                     conn.close();
                 }catch(Exception e2){
                     JOptionPane.showMessageDialog(null, "Error "+e2);
-                }
+                }*/
             }
             
             if (scene.display.keyManager.wasPressed[KeyEvent.VK_B]) {
@@ -331,10 +333,6 @@ public class PlayerSystem extends SystemJob{
 
             }
 
-
-            
-            
-            
             if(scene.display.keyManager.wasPressed[KeyEvent.VK_SHIFT]){
                 Assets.Assets.menu.play();
                 if(player.rightOrLeft) {
