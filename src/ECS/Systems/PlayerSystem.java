@@ -1,6 +1,8 @@
 package ECS.Systems;
 
 
+import DataBaseConnection.Insert;
+import DataBaseConnection.Select;
 import ECS.Components.Collidable;
 import ECS.Components.Inventory;
 import ECS.Components.Item;
@@ -15,6 +17,7 @@ import ECS.SystemJob;
 import Maths.Vector2;
 import Maths.Vector3;
 import Scene.Scene;
+import Utility.Pair;
 import com.sun.org.apache.xalan.internal.xsltc.runtime.BasisLibrary;
 import com.sun.xml.internal.bind.v2.util.CollisionCheckStack;
 import java.awt.Graphics2D;
@@ -318,41 +321,14 @@ public class PlayerSystem extends SystemJob{
             }
             
             if (scene.display.keyManager.wasPressed[KeyEvent.VK_B]) {
-                try {
-                    // create a mysql database connection
-                    String myDriver = "com.mysql.jdbc.Driver";
-                    String myUrl = "jdbc:mysql://remotemysql.com/UenUhgqeHb";
-                    Class.forName(myDriver);
-                    Connection conn = DriverManager.getConnection("jdbc:mysql://remotemysql.com/UenUhgqeHb", "UenUhgqeHb", "uGStDaKrpw");
-
-                    // create a sql date object so we can use it in our INSERT statement
-                    Calendar calendar = Calendar.getInstance();
-                    java.sql.Date startDate = new java.sql.Date(calendar.getTime().getTime());
-
-                    // our SQL SELECT query. 
-                    // if you only need a few columns, specify them by name instead of using "*"
-                    String query = "SELECT * FROM Entity";
-
-                    // create the java statement
-                    Statement st = conn.createStatement();
-
-                    // execute the query, and get a java resultset
-                    ResultSet rs = st.executeQuery(query);
-
-                    // iterate through the java resultset
-                    while (rs.next()) {
-                        int id = rs.getInt("Entity_ID");
-                        String entityName = rs.getString("Entity_Name");
-
-                        // print the results
-                        System.out.format("ID: " + id);
-                        System.out.format("EntityName: " + entityName);
-                    }
-                    st.close();
-                } catch (Exception e2) {
-                    System.err.println("Got an exception! ");
-                    System.err.println(e2.getMessage());
+                
+                ArrayList<Pair> ents = Select.selectEntities("SELECT * FROM Entity");
+                
+                for(Pair p : ents) {
+                    System.out.println("Id: " + p.first);
+                    System.out.println("name: " + p.second);
                 }
+
             }
 
 
