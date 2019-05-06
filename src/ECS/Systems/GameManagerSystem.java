@@ -109,6 +109,7 @@ public class GameManagerSystem extends SystemJob{
                 if(fade.frameCounter >= 31){
                     fade.speed = 0;
                     showFade = false;
+                    fade.visible = false;
                 }
             }
             

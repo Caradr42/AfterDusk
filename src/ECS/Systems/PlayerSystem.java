@@ -1,5 +1,6 @@
 package ECS.Systems;
 
+
 import ECS.Components.Collidable;
 import ECS.Components.Inventory;
 import ECS.Components.Item;
@@ -19,8 +20,15 @@ import com.sun.xml.internal.bind.v2.util.CollisionCheckStack;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
+import javax.swing.JOptionPane;
 import proyecto_videojuegos.MainThread;
 
 
@@ -278,6 +286,78 @@ public class PlayerSystem extends SystemJob{
                 
                 //System.out.println("Space pressed");
             }
+            
+            if(scene.display.keyManager.wasPressed[KeyEvent.VK_L]){
+                try {
+                    // create a mysql database connection
+                    String myDriver = "com.mysql.jdbc.Driver";
+                    String myUrl = "jdbc:mysql://remotemysql.com/UenUhgqeHb";
+                    Class.forName(myDriver);
+                    Connection conn = DriverManager.getConnection("jdbc:mysql://remotemysql.com/UenUhgqeHb","UenUhgqeHb","uGStDaKrpw");
+                    
+                    // create a sql date object so we can use it in our INSERT statement
+                    Calendar calendar = Calendar.getInstance();
+                    java.sql.Date startDate = new java.sql.Date(calendar.getTime().getTime());
+
+                    // the mysql insert statement
+                    String query = " insert into Entity (Entity_ID, Entity_Name)"
+                            + " values (?, ?)";
+
+                    // create the mysql insert preparedstatement
+                    PreparedStatement preparedStmt = conn.prepareStatement(query);
+                    preparedStmt.setInt(1,9513);
+                    preparedStmt.setString(2, "Carlos");
+
+                    // execute the preparedstatement
+                    preparedStmt.execute();
+
+                    conn.close();
+                }catch(Exception e2){
+                    JOptionPane.showMessageDialog(null, "Error "+e2);
+                }
+            }
+            
+            if (scene.display.keyManager.wasPressed[KeyEvent.VK_B]) {
+                try {
+                    // create a mysql database connection
+                    String myDriver = "com.mysql.jdbc.Driver";
+                    String myUrl = "jdbc:mysql://remotemysql.com/UenUhgqeHb";
+                    Class.forName(myDriver);
+                    Connection conn = DriverManager.getConnection("jdbc:mysql://remotemysql.com/UenUhgqeHb", "UenUhgqeHb", "uGStDaKrpw");
+
+                    // create a sql date object so we can use it in our INSERT statement
+                    Calendar calendar = Calendar.getInstance();
+                    java.sql.Date startDate = new java.sql.Date(calendar.getTime().getTime());
+
+                    // our SQL SELECT query. 
+                    // if you only need a few columns, specify them by name instead of using "*"
+                    String query = "SELECT * FROM Entity";
+
+                    // create the java statement
+                    Statement st = conn.createStatement();
+
+                    // execute the query, and get a java resultset
+                    ResultSet rs = st.executeQuery(query);
+
+                    // iterate through the java resultset
+                    while (rs.next()) {
+                        int id = rs.getInt("Entity_ID");
+                        String entityName = rs.getString("Entity_Name");
+
+                        // print the results
+                        System.out.format("ID: " + id);
+                        System.out.format("EntityName: " + entityName);
+                    }
+                    st.close();
+                } catch (Exception e2) {
+                    System.err.println("Got an exception! ");
+                    System.err.println(e2.getMessage());
+                }
+            }
+
+
+            
+            
             
             if(scene.display.keyManager.wasPressed[KeyEvent.VK_SHIFT]){
                 Assets.Assets.menu.play();
