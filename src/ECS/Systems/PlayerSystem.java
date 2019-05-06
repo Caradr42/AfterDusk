@@ -291,7 +291,9 @@ public class PlayerSystem extends SystemJob{
             }
             
             if(scene.display.keyManager.wasPressed[KeyEvent.VK_L]){
-                Insert.insertEntity(100, "Vamos a sacar 100");
+                //active = new Insert("insertEntity", 101, "Hello");
+                scene.insert.makeInsert("insertEntity", 501, "TEPER d0NO");
+                
                 
                 /*try {
                     // create a mysql database connection

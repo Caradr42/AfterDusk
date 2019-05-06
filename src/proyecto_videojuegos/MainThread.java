@@ -1,5 +1,6 @@
 package proyecto_videojuegos;
 import Assets.Assets;
+import DataBaseConnection.Insert;
 import ECS.SystemJobManager;
 import Scene.Scenes.*;
 import Signals.Listener;
@@ -47,6 +48,7 @@ public class MainThread implements Runnable{
     public static double nomalizedDeltaTime;
     public static int currentFrame;
     public static double tpsBuffer;
+    
     
     //ECS stuff
     MainWorld scene;
@@ -159,8 +161,10 @@ public class MainThread implements Runnable{
         for(Listener<?> l : scene.entityManager.removeEntitiesSignal.listeners){
             System.out.println(l.getClass());
         }*/
+
+
     }
-    
+
     /**
      * The tick method is executed each frame of the game, before render so that
      * render shows all the changes after computation.

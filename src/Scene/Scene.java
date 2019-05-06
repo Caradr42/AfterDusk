@@ -1,5 +1,6 @@
 package Scene;
 
+import DataBaseConnection.Insert;
 import ECS.Components.Sprite;
 import ECS.Entity;
 import ECS.EntityManager;
@@ -34,6 +35,8 @@ public abstract class Scene {
     public SystemJobManager systemJobManager;
     public Display display;
     public Camera c;
+    public static Insert insert;
+
     
     public Scene(Display display, Camera c) {
         entityManager = new EntityManager();
@@ -41,13 +44,19 @@ public abstract class Scene {
         this.display = display;
         this.c = c;
         active = true;
+
+
+
         addSystems();
-        
+
         addEntities();
-        
+
         systemJobManager.init();//initialize this systemJobManager. must be done after adding the systems
+
+        //insert = new Insert();
+        //insert.start();
     }
-    
+
     abstract protected void addEntities();
     
     abstract protected void addSystems();

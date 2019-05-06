@@ -62,7 +62,7 @@ public class CollisionEntityWeapon extends SystemJob{
 
             //if the weapon has not a -1
             if (scene.entityManager.getEntityComponentInstance(i, Tool.class).currentActive != - 1) {
-                System.out.println(scene.entityManager.getEntityByID(i).getName());
+                //System.out.println(scene.entityManager.getEntityByID(i).getName());
                 ArrayList<AttackCollider> arrColliders  = scene.entityManager.getEntityComponentInstance(i, attackComponent.getClass()).arrColliders;
                 
                 //clean the lists of the entities that are colliding with each AttackCollider of AttackComponent
@@ -188,7 +188,7 @@ public class CollisionEntityWeapon extends SystemJob{
                 if (!scene.entityManager.hasComponent(j, Item.class) && scene.entityManager.getEntityComponentInstance(j, Playable.class).isAlive) {
                     arrCollider.collidesWith.add(j);
                 }
-                System.out.println("Colliding with " + scene.entityManager.getEntityByID(arrCollider.collidesWith.get(arrCollider.collidesWith.size() - 1)).getName());
+                //System.out.println("Colliding with " + scene.entityManager.getEntityByID(arrCollider.collidesWith.get(arrCollider.collidesWith.size() - 1)).getName());
             }
         }
 

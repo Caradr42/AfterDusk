@@ -1,6 +1,7 @@
 package Scene.Scenes;
 
 import Assets.Assets;
+import DataBaseConnection.Insert;
 import ECS.Components.*;
 import ECS.Entity;
 import ECS.SystemJob;
@@ -22,6 +23,7 @@ import java.util.Arrays;
  * @version 1.0
  */
 public class MainWorld extends Scene {
+    
 
     /**
      * This scene constructor. assigns a display were this scene's entities will
@@ -32,6 +34,8 @@ public class MainWorld extends Scene {
      */
     public MainWorld(Display display, Camera c) {
         super(display, c);
+        
+        
     }
 
     /**
@@ -604,6 +608,10 @@ public class MainWorld extends Scene {
         //the sword one will be in the right hand of the player
         //entityManager.getEntityComponentInstance(player, (new Player()).getClass()).rightHand = swordOne.getID();
 
+        Scene.insert = new Insert();
+        Scene.insert.start();
+        
+        
     }
 
     /**
