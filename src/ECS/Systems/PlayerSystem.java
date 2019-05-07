@@ -49,7 +49,7 @@ public class PlayerSystem extends SystemJob{
     Transform transform;  
     Playable playable;
     Sprite sprite;
-
+    Sprite attackSprite;
 
     Tool tool;
 
@@ -80,6 +80,7 @@ public class PlayerSystem extends SystemJob{
         //rightHand = new Tool();
         playable = new Playable();
         collision=new Collidable();
+        //attackSprite = new Sprite();
     }
 
     /**
@@ -89,12 +90,17 @@ public class PlayerSystem extends SystemJob{
     public void update() {
         
         for (Integer e : entities) {
+            
+            
             player = scene.entityManager.getEntityComponentInstance(e, player.getClass());
             transform = scene.entityManager.getEntityComponentInstance(e, transform.getClass());
             sprite = scene.entityManager.getEntityComponentInstance(e, sprite.getClass());
             playable = scene.entityManager.getEntityComponentInstance(e, playable.getClass());
             movement = scene.entityManager.getEntityComponentInstance(e, Movement.class);
+            //attackSprite = scene.entityManager.getEntityComponentInstance(player.idAttack, Sprite.class);
             
+           // attackSprite.animation = attackSprite.animations.get(4).first;
+            //attackSprite.animationLenght = attackSprite.animations.get(4).second;
             
             collision= scene.entityManager.getEntityComponentInstance(e, Collidable.class);
             boolean CollisionCheck=false;
@@ -267,11 +273,13 @@ public class PlayerSystem extends SystemJob{
                 //System.out.println(RItem.name);
                 //0 for the base attack
                 //rightHand.currentActive = 0;
+                //attackSprite.visible = true;
+        
                if(playable.hasWeapon){
                    int idTool;
                    if(player.rightOrLeft){ //si es verdadero es que tiene arma en la derecha
                        idTool = scene.entityManager.getEntityComponentInstance(player.LRInventory, Inventory.class).slots.get(1);
-                       
+                       //sprite.
                    }else {
                        idTool = scene.entityManager.getEntityComponentInstance(player.LRInventory, Inventory.class).slots.get(0);   
                    }
@@ -283,8 +291,33 @@ public class PlayerSystem extends SystemJob{
                    //System.out.println("currentactv platersis" + tool.currentActive);
                    System.out.println("Space: " + scene.entityManager.getEntityByID(idTool).getName() + " " + tool.currentActive);
                }
-                
+               
+                  attackSprite.frameCounter = 1; 
+               
+               if(attackSprite.visible){
+               if(playable.down){
+                    attackSprite.animation = attackSprite.animations.get(0).first;
+                    attackSprite.animationLenght = attackSprite.animations.get(0).second;
+                    //attackSprite.visible = true;
+                    attackSprite.frameCounter = 0;
+               } if(playable.up){
+                    attackSprite.animation = attackSprite.animations.get(1).first;
+                    attackSprite.animationLenght = attackSprite.animations.get(1).second;
+                    //attackSprite.visible = true;
+                    attackSprite.frameCounter = 0;
+               } if(playable.left){
+                    attackSprite.animation = attackSprite.animations.get(2).first;
+                    attackSprite.animationLenght = attackSprite.animations.get(2).second;
+                    //attackSprite.visible = true;
+                    attackSprite.frameCounter = 0;
+               } if(playable.right){
+                    attackSprite.animation = attackSprite.animations.get(3).first;
+                    attackSprite.animationLenght = attackSprite.animations.get(3).second;
+                    //attackSprite.visible = true;
+                    attackSprite.frameCounter = 0;
+               }
                 //System.out.println("Space pressed");
+            }
             }
             
             if(scene.display.keyManager.wasPressed[KeyEvent.VK_L]){
@@ -445,11 +478,22 @@ public class PlayerSystem extends SystemJob{
     public void init() {
         entities = scene.entityManager.getEntitiesWithComponents(transform.getClass(), player.getClass(), sprite.getClass(), Movement.class,Collidable.class);
         firstTime = true;
+       
         
         for(Integer e : entities){
             player = scene.entityManager.getEntityComponentInstance(e, player.getClass());
             player._UIText = scene.entityManager.getEntityComponentInstance(player.uiText, UIText.class);
+            Transform attackTransform = scene.entityManager.getEntityComponentInstance(player.idAttack, Transform.class);
+            
+            attackTransform.parent = e;
+             /*attackSprite.animation = attackSprite.animations.get(4).first;
+        attackSprite.animationLenght = attackSprite.animations.get(4).second;*/
+            attackTransform.relativePosition = new Vector3(0,0,0);
+            
+            
         }
+
+
 
     }
 

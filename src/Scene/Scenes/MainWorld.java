@@ -482,19 +482,25 @@ public class MainWorld extends Scene {
                 new Sprite("enemy", true, 64, 64, 5, new ArrayList<>(Arrays.asList("ball", "ball_down", "ball_up", "ball_left", "ball_right"))),
                 new WorldEntity(),
                 new Collidable(new Vector3(64, 80, 80)),
-                new Playable(300, enemyInv.getID(), 1, true));
+                new Playable(300, enemyInv.getID(), 1, true)
+         );
         
-
+        Entity attack = entityManager.createEntityWithComponents("Attacks",
+                new Transform(new Vector3(0, 0, 0)),
+                new Sprite("attacks", true, 48, 48, 10, new ArrayList<>(Arrays.asList("E_atack_down", "E_atack_up", "E_atack_left", "E_atack_right", "null"))),
+                new WorldEntity()
+        );
         Entity player = entityManager.createEntityWithComponents("Player",
                 new Transform(new Vector3(100, 100, 32)),
                 new Sprite("player", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down", "player_up", "player_left", "player_right"))),
                 new WorldEntity(),
-                new Player("player", playerLR.getID(), playerPassives.getID(), playerActives.getID(), dialogText.getID()),
+                new Player("player", playerLR.getID(), playerPassives.getID(), playerActives.getID(), dialogText.getID(),attack.getID()),
                 new Movement(new Vector3(0,0,0)),
                 new Playable(100, playerInv.getID(), 2, true),
                 new Collidable(new Vector3(32, 32, 32))
-
         );
+        
+       
 
     //TILES 
         Sprite grassTopSprite = new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")));

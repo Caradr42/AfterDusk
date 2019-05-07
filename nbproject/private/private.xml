@@ -3,14 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/ECS/Components/Tool.java</file>
-            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/ECS/Components/ExtraHealth.java</file>
-            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/ECS/Systems/PassiveSystem.java</file>
-            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/ECS/Systems/ExtraHealthSystem.java</file>
-            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/ECS/Components/Active.java</file>
-            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/ECS/Systems/ActiveSystem.java</file>
-            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/ECS/Systems/ElectricSystem.java</file>
-            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/ECS/Components/Pasive.java</file>
+            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/ECS/Components/Player.java</file>
+            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/ECS/Systems/PlayerSystem.java</file>
+            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/Resources/Images/E_atack_right.png</file>
+            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/Resources/Images/E_atack_left.png</file>
             <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/Scene/Scenes/MainWorld.java</file>
         </group>
     </open-files>
