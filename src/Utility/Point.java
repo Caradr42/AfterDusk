@@ -5,11 +5,13 @@
  */
 package Utility;
 
+import java.io.Serializable;
+
 /**
  *
  * @author pablo
  */
-public class Point {
+public class Point implements Serializable{
     public double x;
     
     public double y;

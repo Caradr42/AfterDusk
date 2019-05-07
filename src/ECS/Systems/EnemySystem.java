@@ -13,7 +13,9 @@ import ECS.Components.Sprite;
 import ECS.Components.Tool;
 import ECS.Components.Transform;
 import ECS.SystemJob;
+
 import IO.SoundClip;
+
 import Maths.Vector2;
 import Maths.Vector3;
 import Scene.Scene;
@@ -31,7 +33,9 @@ public class EnemySystem extends SystemJob{
     
     Player player1;
     Playable playable;
+
     Playable playerPlay;
+
     Transform playerPos;
     Sprite playerSprite;
     Enemy enemy;
@@ -44,9 +48,10 @@ public class EnemySystem extends SystemJob{
     int minDistance = 60;
     int maxDistance = 200;
     
+
     int frameLimit = 12;
     int frameCounter = 0;
-    
+
     public EnemySystem(Scene scene, boolean active) {
         super(scene, active);
         arrPlayable = new ArrayList<>();
@@ -64,8 +69,10 @@ public class EnemySystem extends SystemJob{
         for(Integer entity : entities) {
             //Each entity should follow the player 
             updateEntityPosition(entity);
+
             
             frameCounter++;
+
             /*
             playable = scene.entityManager.getEntityComponentInstance(entity, Playable.class);
             sprite = scene.entityManager.getEntityComponentInstance(entity, Sprite.class);
@@ -91,8 +98,10 @@ public class EnemySystem extends SystemJob{
         //Getting the transform of the player
         playerPos = scene.entityManager.getEntityComponentInstance(player, Transform.class);
         playerSprite = scene.entityManager.getEntityComponentInstance(player, Sprite.class);
+
         
         playerPlay = scene.entityManager.getEntityComponentInstance(player, Playable.class);
+
     }
 
     @Override
@@ -185,12 +194,8 @@ public class EnemySystem extends SystemJob{
                     
                     //with a basic attack
                     tool.currentActive = 0;
-                    
-                    
                 }
             }
-
-
 
         }
     }
