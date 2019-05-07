@@ -637,8 +637,9 @@ public class MainWorld extends Scene {
                 new ElectricSystem(this, true),
                 new MovementSystem(this, true),
                 new ConversationSystem(this, true),
-                new ExtraHealthSystem(this, true),
-                new InventorySystem(this, true)
+                
+                new InventorySystem(this, true),
+                new ExtraHealthSystem(this, true)
         );
     }
 }

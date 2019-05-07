@@ -9,7 +9,9 @@ import ECS.Components.AttackCollider;
 import ECS.Components.AttackComponent;
 import ECS.Components.ExtraHealth;
 import ECS.Components.Inventory;
+import ECS.Components.Pasive;
 import ECS.Components.Playable;
+import ECS.Components.Player;
 import ECS.Components.Sprite;
 import ECS.Components.Tool;
 import ECS.Entity;
@@ -21,86 +23,53 @@ import Scene.Scene;
  * @author tanya
  */
 public class ExtraHealthSystem extends SystemJob {
-    Sprite sprite;
-    AttackComponent attack;
-    int id;
+
     Entity entity;
     Tool tool;
-    ExtraHealth extraHealth;
     Playable playable;
-    AttackCollider collidable;
-    AttackCollider collider;
-    Inventory inventory;
 
+    Inventory passivesInventory;
+    ExtraHealth health;
+    Pasive passive;
+    int idPlayer;
+    Player player;
+   int idPlayable;
+   int maxHealthActual;
+   
     public ExtraHealthSystem(Scene scene, boolean active) {
         super(scene, active);
     }
 
     @Override
     public void update() {
+
         
-        entities = scene.entityManager.getEntitiesWithComponents(ExtraHealth.class);
-        for(Integer e : entities){
-            
-            playable = scene.entityManager.getEntityComponentInstance(e, Playable.class);
-           playable.hp = playable.hp + extraHealth.cost;
-            System.out.println("player hp " + playable.hp);
+        entities = scene.entityManager.getEntitiesWithComponents(ExtraHealth.class);      
+        idPlayer = scene.entityManager.getEntitiesWithComponents(Player.class).get(0);
+        player = scene.entityManager.getEntityComponentInstance(idPlayer, Player.class);
+        passivesInventory = scene.entityManager.getEntityComponentInstance(player.pasivesInventory,Inventory.class);  
+        idPlayable =scene.entityManager.getEntitiesWithComponents(Playable.class).get(0);
+        playable = scene.entityManager.getEntityComponentInstance(idPlayable, Playable.class); 
+        maxHealthActual = playable.maxHp;
+        
+        for(Integer e : entities)
+            health = scene.entityManager.getEntityComponentInstance(e, ExtraHealth.class);
+
+        if(health.isActive){
+            if(playable.isAlive){
+               maxHealthActual = maxHealthActual + health.cost;
+               playable.hp = maxHealthActual;
+            } 
+        } else if(!health.isActive){
+            maxHealthActual = playable.maxHp;
         }
-        
-        
-       /* for (Integer e : entities) {
-
-            //System.out.println(scene.entityManager.getEntityByID(e).getName());
-            // System.out.println("currentActv electricsus");
-            //System.out.println("currentActv electricsus" + tool.currentActive);
-            if (tool.currentActive != -1) {
-
-                tool = scene.entityManager.getEntityComponentInstance(e, Tool.class);
-
-                attack = scene.entityManager.getEntityComponentInstance(e, AttackComponent.class);
-                //System.out.println("arrColilders " + attack.arrColliders.size());
-                for (AttackCollider a : attack.arrColliders) {
-                    for (Integer b : a.collidesWith) {
-                        entity = scene.entityManager.getEntityByID(b);
-
-                        playable = scene.entityManager.getEntityComponentInstance(b, Playable.class);
-
-                        playable.hp = playable.hp - electricity.cost;
-                        System.out.println("playable " + playable.hp);
-                        if (playable.hp <= 0) {
-
-                            sprite = scene.entityManager.getEntityComponentInstance(b, Sprite.class);
-                            sprite.visible = false;
-                            collidable = scene.entityManager.getEntityComponentInstance(b, AttackCollider.class);
-                            collidable.active = false;
-                            inventory = scene.entityManager.getEntityComponentInstance(playable.inventory, Inventory.class);
-                            if (inventory.slots.get(0) != 0) {
-                                tool = scene.entityManager.getEntityComponentInstance(inventory.slots.get(0), Tool.class);
-                                AttackComponent attackComponent = scene.entityManager.getEntityComponentInstance(inventory.slots.get(0), AttackComponent.class);
-
-                                for (AttackCollider i : attackComponent.arrColliders) {
-                                    i.active = false;
-                                }
-                                Item item = scene.entityManager.getEntityComponentInstance(inventory.slots.get(0), Item.class);
-                                item.isInInventory = false;
-                                playable.isAlive = false;
-                            }
-                        }
-                    }
-                    a.collidesWith.clear();
-                }
-                tool.currentActive = -1;
-
-            }
-        }*/
-
-        
     }
 
     @Override
     public void init() {
         entities = scene.entityManager.getEntitiesWithComponents(ExtraHealth.class);
-        extraHealth = new ExtraHealth();
+        health = new ExtraHealth();
+        tool = new Tool();
     }
 
     @Override
