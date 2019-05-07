@@ -27,10 +27,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import proyecto_videojuegos.MainThread;
 
@@ -294,43 +297,34 @@ public class PlayerSystem extends SystemJob{
                 //active = new Insert("insertEntity", 101, "Hello");
                 scene.insert.makeInsert("insertEntity", 501, "TEPER d0NO");
                 
-                
-                /*try {
-                    // create a mysql database connection
-                    String myDriver = "com.mysql.jdbc.Driver";
-                    String myUrl = "jdbc:mysql://remotemysql.com/UenUhgqeHb";
-                    Class.forName(myDriver);
-                    Connection conn = DriverManager.getConnection("jdbc:mysql://remotemysql.com/UenUhgqeHb","UenUhgqeHb","uGStDaKrpw");
-                    
-                    // create a sql date object so we can use it in our INSERT statement
-                    Calendar calendar = Calendar.getInstance();
-                    java.sql.Date startDate = new java.sql.Date(calendar.getTime().getTime());
-
-                    // the mysql insert statement
-                    String query = " insert into Entity (Entity_ID, Entity_Name)"
-                            + " values (?, ?)";
-
-                    // create the mysql insert preparedstatement
-                    PreparedStatement preparedStmt = conn.prepareStatement(query);
-                    preparedStmt.setInt(1,9513);
-                    preparedStmt.setString(2, "Carlos");
-
-                    // execute the preparedstatement
-                    preparedStmt.execute();
-
-                    conn.close();
-                }catch(Exception e2){
-                    JOptionPane.showMessageDialog(null, "Error "+e2);
-                }*/
             }
             
             if (scene.display.keyManager.wasPressed[KeyEvent.VK_B]) {
+               
                 
-                ArrayList<Pair> ents = Select.selectEntities("SELECT * FROM Entity");
+                scene.select.makeSelect("selectEntities", "SELECT * FROM Entity");
+                
+               /* ArrayList<Pair> ents = Select.selectEntities("SELECT * FROM Entity");
                 
                 for(Pair p : ents) {
                     System.out.println("Id: " + p.first);
                     System.out.println("name: " + p.second);
+                }*/
+                try {
+                    while (scene.select.resSet.next()) {
+                        int id = scene.select.resSet.getInt("Entity_ID");
+                        String entityName = scene.select.resSet.getString("Entity_Name");
+                        
+                        System.out.println("Id: " + id);
+                        System.out.println("name: " + entityName);
+                        
+                        // print the results
+                        //System.out.format("ID: " + id);
+                        //System.out.format("EntityName: " + entityName);
+                        //entities.add(new Pair(id, entityName));
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
             }

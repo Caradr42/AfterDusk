@@ -15,7 +15,6 @@ public class Insert implements Runnable {
     public int id = 0;
     public String name = "";
     public String methodKey = "";
-    public boolean running;
     public Thread t;
 
     /**
@@ -35,7 +34,6 @@ public class Insert implements Runnable {
         this.id = id;
         this.name = name;
         this.methodKey = methodKey;
-        running = true;
         t = new Thread(this, "insertThread");
         t.start();
     }
@@ -90,7 +88,6 @@ public class Insert implements Runnable {
             methodKey = "";
             id = 0;
             name = "";
-            running = false;
         }
 
     }

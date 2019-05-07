@@ -2,6 +2,7 @@ package Scene.Scenes;
 
 import Assets.Assets;
 import DataBaseConnection.Insert;
+import DataBaseConnection.Select;
 import ECS.Components.*;
 import ECS.Entity;
 import ECS.SystemJob;
@@ -609,6 +610,9 @@ public class MainWorld extends Scene {
         //entityManager.getEntityComponentInstance(player, (new Player()).getClass()).rightHand = swordOne.getID();
 
         Scene.insert = new Insert();
+        Scene.insert.start();
+        
+        Scene.select = new Select();
         Scene.insert.start();
         
         

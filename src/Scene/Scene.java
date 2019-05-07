@@ -1,6 +1,7 @@
 package Scene;
 
 import DataBaseConnection.Insert;
+import DataBaseConnection.Select;
 import ECS.Components.Sprite;
 import ECS.Entity;
 import ECS.EntityManager;
@@ -36,6 +37,7 @@ public abstract class Scene {
     public Display display;
     public Camera c;
     public static Insert insert;
+    public static Select select;
 
     
     public Scene(Display display, Camera c) {

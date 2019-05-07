@@ -12,19 +12,30 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-/**
- *
- * @author MARTHA
- */
-public class Select {
+
+public class Select implements Runnable {
+    
+    public String methodKey;
+    public String query;
+    public Thread t;
+    public ResultSet resSet;
     
     public Select() {
-        
+        methodKey = "";
+        query = "";
+    }
+    
+    public void makeSelect(String methodKey, String query) {
+        this.methodKey = methodKey;
+        this.query = query;
+        t = new Thread(this, "insertThread");
+        t.start();
     }
 
-    public static ArrayList<Pair> selectEntities(String query) {
+    public void selectEntities() {
+        ResultSet rs = null;
         
-        ArrayList<Pair> entities = new ArrayList<>();
+        //ArrayList<Pair> entities = new ArrayList<>();
         
         try {
             // create a mysql database connection
@@ -45,18 +56,18 @@ public class Select {
             Statement st = conn.createStatement();
 
             // execute the query, and get a java resultset
-            ResultSet rs = st.executeQuery(query);
+            resSet = st.executeQuery(query);
 
             // iterate through the java resultset
-            while (rs.next()) {
-                int id = rs.getInt("Entity_ID");
-                String entityName = rs.getString("Entity_Name");
+            while (resSet.next()) {
+                int id = resSet.getInt("Entity_ID");
+                String entityName = resSet.getString("Entity_Name");
 
                 // print the results
-                //System.out.format("ID: " + id);
-                //System.out.format("EntityName: " + entityName);
+                System.out.println("ID: " + id);
+                System.out.println("EntityName: " + entityName);
                 
-                entities.add(new Pair(id, entityName));
+                //entities.add(new Pair(id, entityName));
             }
             st.close();
         } catch (Exception e2) {
@@ -64,7 +75,23 @@ public class Select {
             System.err.println(e2.getMessage());
         }
         
-        return entities;
+        //return resSet;
+    }
+
+    @Override
+    public void run() {
+        if(methodKey == "") {
+            
+        }
+        
+        else if(methodKey.equals("selectEntities")) {
+            selectEntities();
+            
+            methodKey = "";
+            query = "";
+            
+            
+        }
     }
 
 }
