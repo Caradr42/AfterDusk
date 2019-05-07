@@ -1,10 +1,12 @@
 package Maths;
 
+import java.io.Serializable;
+
 /**
  *
  * @author carlo
  */
-public class Vector3 {
+public class Vector3 implements Serializable{
     //the vector touple of double values x and y.
     public double x;
     public double y;

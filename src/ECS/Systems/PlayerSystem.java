@@ -1,6 +1,7 @@
 package ECS.Systems;
 
 
+import DataBaseConnection.DataBaseSystem;
 import DataBaseConnection.Insert;
 import DataBaseConnection.Select;
 import ECS.Components.Collidable;
@@ -23,6 +24,7 @@ import com.sun.xml.internal.bind.v2.util.CollisionCheckStack;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -295,9 +297,28 @@ public class PlayerSystem extends SystemJob{
             
             if(scene.display.keyManager.wasPressed[KeyEvent.VK_L]){
                 //active = new Insert("insertEntity", 101, "Hello");
-                scene.insert.makeInsert("insertEntity", 50288, "ffe");
+                //scene.insert.makeInsert("insertEntity", 12234, "ffe");
+                DataBaseSystem db = new DataBaseSystem();
+                try {
+                    db.insertSerialization(transform);
+                } catch (IOException ex) {
+                    Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 
             }
+            
+            if(scene.display.keyManager.wasPressed[KeyEvent.VK_V]){
+                //active = new Insert("insertEntity", 101, "Hello");
+                //scene.insert.makeInsert("insertEntity", 12234, "ffe");
+                DataBaseSystem db = new DataBaseSystem();
+                Transform temp =(Transform) db.selectSerialization();
+                System.out.println("position x: "+temp.position.x);
+                System.out.println("position y: "+temp.position.y);
+                transform=temp;
+            }
+            
+            //System.out.println("transform x: "+transform.position.x);
+            //System.out.println("transform y: "+transform.position.y);
             
             if (scene.display.keyManager.wasPressed[KeyEvent.VK_B]) {
                

@@ -1,5 +1,7 @@
 package Maths;
 
+import java.io.Serializable;
+
 /**
  * A maths utility class.
  * provides a double vector with vector operations like: addition, subtraction, 
@@ -11,7 +13,7 @@ package Maths;
  * @date 12/02/2019
  * @version 1.1
  */
-public class Vector2 {
+public class Vector2 implements Serializable{
     
     //the vector touple of double values x and y.
     public double x;
