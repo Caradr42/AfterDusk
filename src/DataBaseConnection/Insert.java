@@ -16,6 +16,9 @@ public class Insert implements Runnable {
     public String name = "";
     public String methodKey = "";
     public Thread t;
+    
+    public boolean insertGoing;
+    public boolean insertFinished;
 
     /**
      * class MyThread implements Runnable { String name; Thread t; MyThread
@@ -34,6 +37,8 @@ public class Insert implements Runnable {
         this.id = id;
         this.name = name;
         this.methodKey = methodKey;
+        insertFinished = false;
+        insertGoing = false;
         t = new Thread(this, "insertThread");
         t.start();
     }
@@ -48,6 +53,8 @@ public class Insert implements Runnable {
      */
     @Override
     public void run() {
+        
+        insertGoing = true;
 
         //System.out.println("fefe");
         //If method code is null, do nothing
@@ -89,6 +96,9 @@ public class Insert implements Runnable {
             id = 0;
             name = "";
         }
+        
+        insertFinished = true;
+        insertGoing = false;
 
     }
 }

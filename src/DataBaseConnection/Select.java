@@ -20,14 +20,20 @@ public class Select implements Runnable {
     public Thread t;
     public ResultSet resSet;
     
+    public boolean selectGoing;
+    public boolean selectFinished;
+    
     public Select() {
         methodKey = "";
         query = "";
+
     }
     
     public void makeSelect(String methodKey, String query) {
         this.methodKey = methodKey;
         this.query = query;
+        selectGoing = false;
+        selectFinished = false;
         t = new Thread(this, "insertThread");
         t.start();
     }
@@ -80,6 +86,9 @@ public class Select implements Runnable {
 
     @Override
     public void run() {
+        
+        selectGoing = true;
+        
         if(methodKey == "") {
             
         }
@@ -92,6 +101,9 @@ public class Select implements Runnable {
             
             
         }
+        
+        selectFinished = true;
+        selectGoing = false;
     }
 
 }
