@@ -13,6 +13,7 @@ import ECS.Components.Sprite;
 import ECS.Components.Tool;
 import ECS.Components.Transform;
 import ECS.SystemJob;
+import IO.SoundClip;
 import Maths.Vector2;
 import Maths.Vector3;
 import Scene.Scene;
@@ -157,16 +158,21 @@ public class EnemySystem extends SystemJob{
                 sprite.animationLenght = sprite.animations.get(0).second;
                 
                 if(distance < maxDistance) {
+                    //                   SoundClip clip = Assets.Assets.swordClip.;
+                    //playable.hp -= 1;
+                    Assets.Assets.electricSound.play();
+
                     //System.out.println("ATTACK OF THE ENEMY " + distance);
-                    
                     //weapon of the enemy
                     Integer weapon = scene.entityManager.getEntityComponentInstance(playable.inventory, Inventory.class).slots.get(0);
-                
+
                     //attack
                     Tool tool = scene.entityManager.getEntityComponentInstance(weapon, Tool.class);
                     
                     //with a basic attack
                     tool.currentActive = 0;
+                    
+                    
                 }
             }
 

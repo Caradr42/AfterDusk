@@ -286,6 +286,7 @@ public class PlayerSystem extends SystemJob{
                    tool.currentActive = 0;
                    
                    Assets.Assets.swordClip.play();
+                   //Assets.Assets.electricSound.play();
                    //System.out.println("currentactv platersis" + tool.currentActive);
                    System.out.println("Space: " + scene.entityManager.getEntityByID(idTool).getName() + " " + tool.currentActive);
                }

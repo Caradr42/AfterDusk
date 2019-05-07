@@ -44,6 +44,7 @@ public class Assets {
     public static SoundClip menu;
 
     public static SoundClip swordClip;
+    public static SoundClip electricSound;
  
     public static SoundClip selection;
 
@@ -195,6 +196,7 @@ public class Assets {
         menu = new SoundClip("/Resources/Sounds/Menu.wav");
 
         swordClip = new SoundClip("/Resources/Sounds/sword_clang.wav");
+        electricSound = new SoundClip("/Resources/Sounds/electricSound.wav");
 
         collisionWood = new SoundClip("/Resources/Sounds/smashWood.wav");
         selection = new SoundClip("/Resources/Sounds/selection.wav");
