@@ -314,7 +314,8 @@ public class PlayerSystem extends SystemJob{
                 Transform temp =(Transform) db.selectSerialization();
                 System.out.println("position x: "+temp.position.x);
                 System.out.println("position y: "+temp.position.y);
-                transform=temp;
+                
+                scene.entityManager.addComponetToEntity(e, temp);
             }
             
             //System.out.println("transform x: "+transform.position.x);
