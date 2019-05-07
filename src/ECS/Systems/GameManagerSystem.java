@@ -224,8 +224,8 @@ public class GameManagerSystem extends SystemJob{
             playable.hp = playable.maxHp;
             playable.energy = playable.maxEnergy;
             sprite.visible = true;
-            transform.position.x = 100;
-            transform.position.y = 100;
+            transform.position.x = -50;
+            transform.position.y = -300;
             transform.position.z = 32;
             col.active = true;
         }
