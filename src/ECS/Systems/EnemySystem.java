@@ -44,6 +44,9 @@ public class EnemySystem extends SystemJob{
     int minDistance = 60;
     int maxDistance = 200;
     
+    int frameLimit = 12;
+    int frameCounter = 0;
+    
     public EnemySystem(Scene scene, boolean active) {
         super(scene, active);
         arrPlayable = new ArrayList<>();
@@ -61,6 +64,8 @@ public class EnemySystem extends SystemJob{
         for(Integer entity : entities) {
             //Each entity should follow the player 
             updateEntityPosition(entity);
+            
+            frameCounter++;
             /*
             playable = scene.entityManager.getEntityComponentInstance(entity, Playable.class);
             sprite = scene.entityManager.getEntityComponentInstance(entity, Sprite.class);
@@ -162,7 +167,12 @@ public class EnemySystem extends SystemJob{
                 
                 if(distance < maxDistance) {
                     //                   SoundClip clip = Assets.Assets.swordClip.;
-                    playerPlay.hp -= 1;
+                    
+                    if(frameCounter >= frameLimit) {
+                        playerPlay.hp -= 1;
+                        frameCounter = 0;
+                    }
+
                     System.out.println("h");
                     Assets.Assets.electricSound.play();
 
