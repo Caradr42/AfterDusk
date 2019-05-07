@@ -295,7 +295,7 @@ public class PlayerSystem extends SystemJob{
             
             if(scene.display.keyManager.wasPressed[KeyEvent.VK_L]){
                 //active = new Insert("insertEntity", 101, "Hello");
-                scene.insert.makeInsert("insertEntity", 501, "TEPER d0NO");
+                scene.insert.makeInsert("insertEntity", 50288, "ffe");
                 
             }
             

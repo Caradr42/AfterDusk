@@ -119,4 +119,11 @@ public class KeyManager implements KeyListener{
          wasPressed[VK_Value] = false;
          return pressed;
     }
+    
+    
+    public void resetKeys() {
+        for(int i = 0; i < 256; i++) {
+            keys[i] = false;
+        }
+    }
 }

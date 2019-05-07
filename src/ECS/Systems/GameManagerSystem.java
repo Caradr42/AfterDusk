@@ -17,6 +17,8 @@ import ECS.Components.Collidable;
 import ECS.Components.Playable;
 import ECS.Components.Sprite;
 import Maths.Vector3;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 
 
 import javax.swing.JFrame;
@@ -228,7 +230,23 @@ public class GameManagerSystem extends SystemJob{
             col.active = true;
         }
 
-            
+        scene.display.jframe.addWindowFocusListener(new WindowFocusListener() {
+            int c = 0;
+
+            @Override
+            public void windowLostFocus(WindowEvent e) {
+                scene.display.getKeyManager().resetKeys();
+
+            }
+
+            @Override
+            public void windowGainedFocus(WindowEvent e) {
+                //l.setText("Times Windows Lost Focus :" + c);
+                //System.out.println(c);
+                // TODO Auto-generated method stub
+
+            }
+        });;
     }        
 
     
