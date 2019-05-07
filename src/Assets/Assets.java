@@ -7,6 +7,8 @@ import IO.ImageLoader;
 import IO.SoundClip;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.IOException;
@@ -56,7 +58,10 @@ public class Assets {
             //URL url = Assets.class.getResource("/Resources/Fonts/undefined_medium.ttf");
             //File font = new File(Assets.class.getResource("/Resources/Fonts/undefined_medium.ttf").getPath());
             //create the font to use. Specify the size!
-            undefinedMedium = Font.createFont(Font.TRUETYPE_FONT, new File(Assets.class.getResource("/Resources/Fonts/undefined_medium.ttf").getPath())).deriveFont(10f);
+            //new Font("Verdana", Font.BOLD, 10);
+            //System.out.println(Assets.class.getClassLoader().getResource("Resources/Fonts/undefined_medium.ttf").getFile());
+            undefinedMedium = Font.createFont(Font.TRUETYPE_FONT, Assets.class.getClassLoader().getResource("Resources/Fonts/undefined_medium.ttf").openStream()).deriveFont(10f);
+            
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             //register the font
             ge.registerFont(undefinedMedium);
@@ -183,23 +188,23 @@ public class Assets {
         
         //SOUND
         
-        backgroundTheme = new SoundClip("/Resources/Sounds/Casa.wav"); //Background sound
-        houseTheme = new SoundClip("/Resources/Sounds/Casa.wav");
-        aldeaTheme = new SoundClip("/Resources/Sounds/Aldea_primitiva.wav");
-        battleTheme = new SoundClip("/Resources/Sounds/batalla.wav");
-        cityTheme = new SoundClip("/Resources/Sounds/ciudad.wav");
-        bossTheme = new SoundClip("/Resources/Sounds/boss.wav");
-        explorationTheme = new SoundClip("/Resources/Sounds/exploration.wav");
-        fatherTheme = new SoundClip("/Resources/Sounds/father.wav");
-        grassWalk = new SoundClip("/Resources/Sounds/grassWalk.wav");
-        pickUp = new SoundClip("/Resources/Sounds/pickUpWoods.wav");
-        menu = new SoundClip("/Resources/Sounds/Menu.wav");
+        backgroundTheme = new SoundClip("Resources/Sounds/Casa.wav"); //Background sound
+        houseTheme = new SoundClip("Resources/Sounds/Casa.wav");
+        aldeaTheme = new SoundClip("Resources/Sounds/Aldea_primitiva.wav");
+        battleTheme = new SoundClip("Resources/Sounds/batalla.wav");
+        cityTheme = new SoundClip("Resources/Sounds/ciudad.wav");
+        bossTheme = new SoundClip("Resources/Sounds/boss.wav");
+        explorationTheme = new SoundClip("Resources/Sounds/exploration.wav");
+        fatherTheme = new SoundClip("Resources/Sounds/father.wav");
+        grassWalk = new SoundClip("Resources/Sounds/grasswalk.wav");
+        pickUp = new SoundClip("Resources/Sounds/pickUpWoods.wav");
+        menu = new SoundClip("Resources/Sounds/Menu.wav");
 
-        swordClip = new SoundClip("/Resources/Sounds/sword_clang.wav");
-        electricSound = new SoundClip("/Resources/Sounds/electricSound.wav");
+        swordClip = new SoundClip("Resources/Sounds/sword_clang.wav");
+        electricSound = new SoundClip("Resources/Sounds/electricSound.wav");
 
-        collisionWood = new SoundClip("/Resources/Sounds/smashWood.wav");
-        selection = new SoundClip("/Resources/Sounds/selection.wav");
+        collisionWood = new SoundClip("Resources/Sounds/smashWood.wav");
+        selection = new SoundClip("Resources/Sounds/selection.wav");
 
         //System.out.println("found: " + animations.get("actives_bar").first);
     }

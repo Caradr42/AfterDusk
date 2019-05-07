@@ -1,8 +1,5 @@
 package ECS.Systems;
 
-
-import DataBaseConnection.Insert;
-import DataBaseConnection.Select;
 import ECS.Components.Collidable;
 import ECS.Components.Inventory;
 import ECS.Components.Item;
@@ -14,28 +11,16 @@ import ECS.Components.Tool;
 import ECS.Components.Transform;
 import ECS.Components.UIText;
 import ECS.SystemJob;
-import Maths.Vector2;
 import Maths.Vector3;
 import Scene.Scene;
-import Utility.Pair;
-import com.sun.org.apache.xalan.internal.xsltc.runtime.BasisLibrary;
-import com.sun.xml.internal.bind.v2.util.CollisionCheckStack;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Iterator;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import proyecto_videojuegos.MainThread;
+
 
 
 /**
@@ -296,7 +281,7 @@ public class PlayerSystem extends SystemJob{
             
             if(scene.display.keyManager.wasPressed[KeyEvent.VK_L]){
                 //active = new Insert("insertEntity", 101, "Hello");
-                scene.insert.makeInsert("insertEntity", 50288, "ffe");
+                scene.insert.makeInsert("insertEntity", 50289, "ffe");
                 
             }
             

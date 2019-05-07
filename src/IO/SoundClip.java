@@ -6,6 +6,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.AudioSystem;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 /**
  *
@@ -129,7 +130,10 @@ public class SoundClip {
     public boolean load(String audiofile) {
         try {
             setFilename(audiofile);
-            sample = AudioSystem.getAudioInputStream(getURL(filename));
+            //sample = AudioSystem.getAudioInputStream(getURL(filename));
+            
+            sample = AudioSystem.getAudioInputStream(SoundClip.class.getClassLoader().getResource(audiofile));
+            //System.out.println(SoundClip.class.getClassLoader().getResource(audiofile));
             clip.open(sample);
             return true;
 
