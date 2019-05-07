@@ -31,6 +31,7 @@ public class EnemySystem extends SystemJob{
     
     Player player1;
     Playable playable;
+    Playable playerPlay;
     Transform playerPos;
     Sprite playerSprite;
     Enemy enemy;
@@ -85,6 +86,8 @@ public class EnemySystem extends SystemJob{
         //Getting the transform of the player
         playerPos = scene.entityManager.getEntityComponentInstance(player, Transform.class);
         playerSprite = scene.entityManager.getEntityComponentInstance(player, Sprite.class);
+        
+        playerPlay = scene.entityManager.getEntityComponentInstance(player, Playable.class);
     }
 
     @Override
@@ -159,7 +162,8 @@ public class EnemySystem extends SystemJob{
                 
                 if(distance < maxDistance) {
                     //                   SoundClip clip = Assets.Assets.swordClip.;
-                    //playable.hp -= 1;
+                    playerPlay.hp -= 1;
+                    System.out.println("h");
                     Assets.Assets.electricSound.play();
 
                     //System.out.println("ATTACK OF THE ENEMY " + distance);
