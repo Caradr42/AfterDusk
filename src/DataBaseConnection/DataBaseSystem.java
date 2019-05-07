@@ -72,9 +72,10 @@ public class DataBaseSystem {
             ByteArrayOutputStream byteArray= new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(byteArray);
             oos.writeObject(myObject);
-            PreparedStatement ps= conn.prepareStatement("insert into objetos values (1000, ?)");
+            PreparedStatement ps= conn.prepareStatement("REPLACE into objetos values (1000, ?, ?)");
             
             ps.setBytes(1, byteArray.toByteArray());
+            ps.setString(2, "HelloWorld!");
             ps.execute();
         }catch (Exception e){
             System.err.println("Error serialization insert "+e);
