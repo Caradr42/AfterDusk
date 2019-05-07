@@ -24,3 +24,13 @@ hs_err_pid*
 /build/
 /dist/
 nbproject/private/
+
+#netbeans stuff
+**/nbproject/private/
+**/nbproject/Makefile-*.mk
+**/nbproject/Package-*.bash
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
