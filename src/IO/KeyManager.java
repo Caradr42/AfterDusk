@@ -13,7 +13,10 @@ import java.util.Arrays;
  * the key got released its value will be true up until been read by using the
  * getWasPresed(key) function at which point it will be reseted to false.
  * 
- * @author Carlos Adrian Guerra Vazquez A00823198
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
  * @date 28/01/2019
  * @version 1.0
  */

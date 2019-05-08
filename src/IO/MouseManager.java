@@ -1,12 +1,14 @@
-/*
+/**
 * MouseManager
 *
 * Class that helps the user use the mouse, an action can be
 * performed with the movement of the mouse, or a certain
 * action like a click.
 *
-* @author Pablo Moreno
-* A00823402
+* @author José Alberto González Arteaga [A01038061]
+* @author Tanya Yaretzi González Elizondo [A00823408]
+* @author Pablo Moreno Tamez [A00823402]
+* @author Carlos Adrián Guerra Vázquez [A00823198]
 * @date 04/02/2019 
 * @versión 2.0 
 *
@@ -76,12 +78,12 @@ public class MouseManager implements MouseListener , MouseMotionListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        //System.out.println("enter");
+
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        //System.out.println("exit");
+
     }
     
     @Override
@@ -146,18 +148,34 @@ public class MouseManager implements MouseListener , MouseMotionListener {
         }
     }
     
+    /**
+     * Checks if the left was clicked
+     * @return 
+     */
     public boolean wasLeftClicked(){
         return wasLeftClick;
     }
     
+    /**
+     * Checks if the right was clicked
+     * @return 
+     */
     public boolean wasRighttClicked(){
         return  wasRightClick;
     }
     
+    /**
+     * Checks if the left was released
+     * @return 
+     */
     public boolean wasLeftReleased(){
         return wasLeftRelease;
     }
     
+    /**
+     * Checks if the left was released
+     * @return 
+     */
     public boolean wasRightReleased(){
         return wasRightRelease;
     }

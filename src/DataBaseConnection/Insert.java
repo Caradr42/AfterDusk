@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package DataBaseConnection;
 
 import java.sql.DriverManager;
@@ -10,6 +5,15 @@ import java.sql.PreparedStatement;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
 
+/**
+ * Insert to the database
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
+ * @date 25/01/2018 
+ * @versión 1.0 
+ */
 public class Insert implements Runnable {
 
     public int id = 0;
@@ -33,6 +37,12 @@ public class Insert implements Runnable {
 
     }
 
+    /**
+     * makes the insertion
+     * @param methodKey
+     * @param id
+     * @param name 
+     */
     public void makeInsert(String methodKey, int id, String name) {
         this.id = id;
         this.name = name;

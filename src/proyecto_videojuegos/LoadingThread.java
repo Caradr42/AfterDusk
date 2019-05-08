@@ -12,8 +12,13 @@ import static proyecto_videojuegos.MainThread.height;
 
 
 /**
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
  *
- * @author carlo
+ * @date 12/02/2019
+ * @version 1.1
  */
 public class LoadingThread implements Runnable{
     
@@ -42,7 +47,11 @@ public class LoadingThread implements Runnable{
     
     //Boolean initRef;
     MSG msg;
-    
+    /**
+     * Constructor
+     * @param display
+     * @param msg 
+     */
     public LoadingThread(Display display, MSG msg) {
         this.display = display;
         

@@ -3,8 +3,15 @@ package Maths;
 import java.io.Serializable;
 
 /**
+ * Vector composed of 3 positions
  *
- * @author carlo
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
+ *
+ * @date 12/04/2019
+ * @version 1.0
  */
 public class Vector3 implements Serializable{
     //the vector touple of double values x and y.
@@ -112,15 +119,27 @@ public class Vector3 implements Serializable{
     public Vector2 add(Vector2 q){
         return  new Vector2(q.x + this.x, q.y + this.y);
     }
-    
+    /**
+     * Returns the addition of other vector with this.
+     * @param q
+     * @return 
+     */
     public Vector3 add(Vector3 q){
         return  new Vector3(q.x + this.x, q.y + this.y, q.z + this.z);
     }
-    
+    /**
+     * Returns the multiplication of other vector with this.
+     * @param c
+     * @return 
+     */
     public Vector3 scalar(double c){
         return  new Vector3(x * c, y * c, z * c);
     }
-    
+    /**
+     * Returns the division of other vector with this.
+     * @param c
+     * @return 
+     */
     public Vector3 div(double c){
         return  new Vector3(x / c, y / c, z / c);
     }

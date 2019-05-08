@@ -1,21 +1,28 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Utility;
 
 import java.io.Serializable;
 
 /**
- *
- * @author pablo
+ * Utility class for handling a point
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
+ * @date 19/04/2019
+ * @version 1.0
+ * @param <A> the type of the first element
+ * @param <B> the type of the second element
  */
 public class Point implements Serializable{
     public double x;
     
     public double y;
 
+    /**
+     * Constructor
+     * @param x
+     * @param y 
+     */
     public Point(double x, double y) {
         this.x = x;
         
@@ -52,6 +59,9 @@ public class Point implements Serializable{
         return result;
     }
     
+    /**
+     * Print
+     */
     public void print() {
         System.out.println("" + x + ", " + y);
     }

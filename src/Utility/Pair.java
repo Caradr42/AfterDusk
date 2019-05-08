@@ -4,7 +4,10 @@ import java.io.Serializable;
 
 /**
  * Utility class for handling a pair of data
- * @author Carlos Adrián Guerra Vázquez
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
  * @date 19/04/2019
  * @version 1.0
  * @param <A> the type of the first element
