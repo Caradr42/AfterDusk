@@ -5,9 +5,12 @@
         <group>
             <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/ECS/Components/Player.java</file>
             <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/ECS/Systems/PlayerSystem.java</file>
+            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/ECS/Components/UIInventory.java</file>
             <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/Resources/Images/E_atack_right.png</file>
             <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/Resources/Images/E_atack_left.png</file>
+            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/ECS/Components/Talkative.java</file>
             <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/Scene/Scenes/MainWorld.java</file>
+            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/ECS/Components/Electricity.java</file>
         </group>
     </open-files>
 </project-private>

@@ -486,8 +486,8 @@ public class MainWorld extends Scene {
          );
         
         Entity attack = entityManager.createEntityWithComponents("Attacks",
-                new Transform(new Vector3(0, 0, 0)),
-                new Sprite("attacks", true, 48, 48, 10, new ArrayList<>(Arrays.asList("E_atack_down", "E_atack_up", "E_atack_left", "E_atack_right", "null"))),
+                new Transform(new Vector3(0, 16, 16)),
+                new Sprite("attacks", false, 48, 48, 10, new ArrayList<>(Arrays.asList("E_atack_down", "E_atack_up", "E_atack_left", "E_atack_right", "null"))),
                 new WorldEntity()
         );
         Entity player = entityManager.createEntityWithComponents("Player",
