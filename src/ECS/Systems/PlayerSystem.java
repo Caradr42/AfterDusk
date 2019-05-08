@@ -42,7 +42,7 @@ public class PlayerSystem extends SystemJob {
     Sprite attackSprite;
     Transform attackTransform2;
     Transform attackTransform;
-
+    
     Tool tool;
 
     Movement movement;
@@ -53,6 +53,7 @@ public class PlayerSystem extends SystemJob {
     int rightBorder = 80;
     int upperBorder = 50;
     int downBorder = 50 - 32;
+    
     Vector3 v3V;
     Vector3 v3R;
     Vector3 initialRelativePositionArrackTransf;

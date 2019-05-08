@@ -49,6 +49,8 @@ public class Player extends Component {
     public UIText _UIText;
 
     public int idAttack;
+    
+
 
     /**
      * Constructor

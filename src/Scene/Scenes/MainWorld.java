@@ -162,7 +162,9 @@ public class MainWorld extends Scene {
                 new Collidable(new Vector3(16, 16, 1)),
                 new Transform(new Vector3(50, 50, 16)),
                 new Sprite("weird", true, 16, 16, 10, new ArrayList<>(Arrays.asList("weird"))),
+                new DamagePlus(),
                 new WorldEntity()
+                
         );
 
         //a shield in the players inventory
@@ -695,6 +697,7 @@ public class MainWorld extends Scene {
     protected void addSystems() {
         systemJobManager.addSystems(
                 new ExtraHealthSystem(this, true),
+                new DamagePlusSystem(this, true),
                 new PlayerSystem(this, false),
                 new CollisionEntityWeapon(this, true),
                 new CollisionSystem(this, true),
