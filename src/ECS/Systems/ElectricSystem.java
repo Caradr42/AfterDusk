@@ -7,6 +7,7 @@ import ECS.Components.Electricity;
 import ECS.Components.Inventory;
 import ECS.Components.Item;
 import ECS.Components.Playable;
+import ECS.Components.Player;
 import ECS.Components.Sprite;
 import ECS.Components.Tool;
 import ECS.Entity;
@@ -68,6 +69,13 @@ public class ElectricSystem extends SystemJob {
 
                         if (playable.isAlive) {
                             playable.hp = playable.hp - electricity.cost;
+                            
+                            /*Playable pl = scene.entityManager.getEntityComponentInstance( scene.entityManager.getEntitiesWithComponents(Playable.class).get(0), Playable.class);
+                            Player lyr = scene.entityManager.getEntityComponentInstance( scene.entityManager.getEntitiesWithComponents(Player.class).get(0), Player.class);
+                            
+                            */
+                           //if(e==lyr.)
+                           
 
                             if (playable.hp <= 0) {
                                 playable.isAlive = false;

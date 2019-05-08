@@ -183,10 +183,16 @@ public class EnemySystem extends SystemJob {
      * @param entity
      */
     private void updateEntityPosition(Integer entity) {
+        Sprite attackSprite = scene.entityManager.getEntityComponentInstance(enemy.idAttack, Sprite.class);
         
+        Sprite enemySprite = scene.entityManager.getEntityComponentInstance(entity, Sprite.class);
+        
+        if(!enemySprite.visible) {
+            attackSprite.visible = false;
+        }
 
         if (playable.isAlive) {
-            Sprite attackSprite = scene.entityManager.getEntityComponentInstance(enemy.idAttack, Sprite.class);
+            
             double distance = abs(playerPos._renderedPosition.toVector2().add(playerSprite.dimensions.div(2)).dist(transform._renderedPosition.toVector2().add(sprite.dimensions.div(2))));
             
             if (distance < maxDistance && distance > minDistance) {
@@ -274,6 +280,8 @@ public class EnemySystem extends SystemJob {
             
 
         }
+        
+
     }
 
 }
