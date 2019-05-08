@@ -6,14 +6,26 @@ import Maths.Vector3;
 import Scene.Scene;
 
 /**
+ * Manages the transform System
  *
- * @author carlo
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
+ *
+ * @date 12/04/2019
+ * @version 1.0
  */
 public class TransformSystem extends SystemJob{
     
     Transform transform;
     Transform parentTransform;
     
+    /**
+     * Constructor
+     * @param scene
+     * @param active 
+     */
     public TransformSystem(Scene scene, boolean active) {
         super(scene, active);
         transform = new Transform();
@@ -22,7 +34,6 @@ public class TransformSystem extends SystemJob{
 
     @Override
     public void update() {
-        
         updatePositionIfChild();
     }
 
@@ -36,6 +47,9 @@ public class TransformSystem extends SystemJob{
         updatePositionIfChild();
     }
     
+    /**
+     * updates the position if it is a child
+     */
     public void updatePositionIfChild(){
         
         for(Integer e: entities){
@@ -55,8 +69,7 @@ public class TransformSystem extends SystemJob{
             transform._previousPosition = transform.position;
             
             transform._renderedPosition = new Vector3(transform.position.x, transform._renderedY, transform.position.z);
-            //transform._renderedPosition = transform.position;
-            //transform._renderedPosition.y = transform.position.y - transform.position.z ;
+           
         }
     }
 

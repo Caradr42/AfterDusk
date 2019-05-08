@@ -3,15 +3,17 @@ package ECS;
 import java.io.Serializable;
 
 /**
- * Entity Component System class.
+ * Entity
  * Entities are objects that only contain an identification key, their id.
  * The id is used to attach components to the Entity, but this is handled by the
  * EntityManager as Entities are not supposed to contain any additional data.
  * For the purpose of the game engine, a name can also be added to the Entity, 
  * although the name such never be used as means to refer to the Entity, thats 
  * thats  what the id is for.
- * 
- * @author Carlos Adrián Guerra Vázquez
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
  * @date 09/02/2019
  * @version 1.0
  */

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package DataBaseConnection;
 
 import ECS.Components.AttackComponent;
@@ -35,11 +30,19 @@ import javax.swing.JOptionPane;
 import javax.swing.Spring;
 
 /**
- *
- * @author pepe_
+ * Manages de database system
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
+ * @date 25/01/2018 
+ * @versión 1.0 
  */
 public class DataBaseSystem {
 
+    /**
+     * Constructor
+     */
     public DataBaseSystem() {
     }
     

@@ -10,8 +10,15 @@ import Maths.Vector3;
 import Scene.Scene;
 
 /**
+ * Manages the Inventory System
  *
- * @author carlo
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
+ *
+ * @date 12/04/2019
+ * @version 1.0
  */
 public class InventorySystem extends SystemJob{
     
@@ -20,6 +27,11 @@ public class InventorySystem extends SystemJob{
     Playable playerPlayable;
     Transform itemTransform;
     
+    /**
+     * Constructor
+     * @param scene
+     * @param active 
+     */
     public InventorySystem(Scene scene, boolean active) {
         super(scene, active);
         player = new Player();
@@ -49,7 +61,7 @@ public class InventorySystem extends SystemJob{
         for(Integer e : entities) {
             if(e != playerID) {
                 Playable playable = scene.entityManager.getEntityComponentInstance(e, Playable.class);
-                //System.out.println(scene.entityManager.getEntityByID(e).getName());
+                
                 if(playable.inventory != null) setItemsTransformAsChildOfEntity(playable.inventory, e);
             }
         }
@@ -77,8 +89,7 @@ public class InventorySystem extends SystemJob{
                     if(itemTransform != null){
                         itemTransform.parent = parentID;
                     }
-                    
-                    //System.out.println(scene.entityManager.getEntityByID(inventory.slots.get(j)).getName());
+                   
                 }
             }
             

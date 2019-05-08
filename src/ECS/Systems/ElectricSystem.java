@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ECS.Systems;
 
 import ECS.Components.AttackCollider;
@@ -21,8 +16,15 @@ import java.util.ArrayList;
 import sun.security.pkcs11.wrapper.Functions;
 
 /**
+ * Manages the Active Electric
  *
- * @author tanya
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
+ *
+ * @date 12/04/2019
+ * @version 1.0
  */
 public class ElectricSystem extends SystemJob {
 
@@ -37,6 +39,12 @@ public class ElectricSystem extends SystemJob {
     AttackCollider collider;
     Inventory inventory;
 
+    /**
+     * Constructor
+     *
+     * @param scene
+     * @param active
+     */
     public ElectricSystem(Scene scene, boolean active) {
         super(scene, active);
     }
@@ -46,18 +54,13 @@ public class ElectricSystem extends SystemJob {
         entities = scene.entityManager.getEntitiesWithComponents(AttackComponent.class, Electricity.class);
         for (Integer e : entities) {
             tool = scene.entityManager.getEntityComponentInstance(e, Tool.class);
-            //System.out.println(scene.entityManager.getEntityByID(e).getName());
-            // System.out.println("currentActv electricsus");
-            //System.out.println("currentActv electricsus" + tool.currentActive);
             if (tool.currentActive != -1) {
-                //System.out.println("DFGSFDGD");
-                
+
                 tool.currentActive = -1;
-                
+
                 attack = scene.entityManager.getEntityComponentInstance(e, AttackComponent.class);
-                //System.out.println("arrColilders " + attack.arrColliders.size());
                 for (AttackCollider a : attack.arrColliders) {
-                    
+
                     for (Integer b : a.collidesWith) {
                         entity = scene.entityManager.getEntityByID(b);
 
@@ -65,17 +68,16 @@ public class ElectricSystem extends SystemJob {
 
                         if (playable.isAlive) {
                             playable.hp = playable.hp - electricity.cost;
-                            System.out.println("playable " + playable.hp);
+
                             if (playable.hp <= 0) {
                                 playable.isAlive = false;
                                 sprite = scene.entityManager.getEntityComponentInstance(b, Sprite.class);
-                                //System.out.println("AAA");
+
                                 sprite.visible = false;
-                                //collidable = scene.entityManager.getEntityComponentInstance(b, AttackCollider.class);
-                                //collidable.active = false;
+
                                 Collidable coll = scene.entityManager.getEntityComponentInstance(b, Collidable.class);
                                 coll.active = false;
-                                
+
                                 if (playable.inventory != null) {
                                     inventory = scene.entityManager.getEntityComponentInstance(playable.inventory, Inventory.class);
                                     if (playable.inventory != 0 && inventory.slots.get(0) != 0) {
@@ -87,8 +89,6 @@ public class ElectricSystem extends SystemJob {
                                             i.active = false;
                                         }
                                         Item item = scene.entityManager.getEntityComponentInstance(inventory.slots.get(0), Item.class);
-                                        //inventory.slots.set(0, 0);
-                                        //item.isInInventory = false;
 
                                     }
                                 }
@@ -98,10 +98,9 @@ public class ElectricSystem extends SystemJob {
                     }
                     a.collidesWith.clear();
                 }
-                
+
             }
         }
-        //System.out.println("");
 
     }
 

@@ -8,15 +8,26 @@ import ECS.SystemJob;
 import Scene.Scene;
 
 /**
+ * Manages the item System
  *
- * @author carlo
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
+ *
+ * @date 12/04/2019
+ * @version 1.0
  */
 public class ItemSystem extends  SystemJob{
     Sprite sprite;
     Item item;
     Transform transform;
     Collidable collidable;
-    
+    /**
+     * Constructor
+     * @param scene
+     * @param active 
+     */
     public ItemSystem(Scene scene, boolean active) {
         super(scene, active);
         this.item = new Item();
@@ -32,8 +43,6 @@ public class ItemSystem extends  SystemJob{
             sprite = scene.entityManager.getEntityComponentInstance(e, sprite.getClass());
             collidable = scene.entityManager.getEntityComponentInstance(e, collidable.getClass());
             transform = scene.entityManager.getEntityComponentInstance(e, Transform.class);
-            
-            //System.out.println(item.isInInventory);
             if(item.isInInventory){
                 sprite.visible = false;
                 collidable.active = false;
@@ -41,10 +50,7 @@ public class ItemSystem extends  SystemJob{
                 sprite.visible = true;
                 collidable.active = true;
             }
-            
-            /*if(item.name.equals("sword1")){
-                System.out.println(transform.position.x + " " + transform.position.y + " ::: " + sprite.visible + " | " + collidable.active);
-            }*/
+        
         }
     }
 

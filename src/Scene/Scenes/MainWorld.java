@@ -18,8 +18,10 @@ import java.util.Arrays;
 
 /**
  * Test scene. extends Scene
- *
- * @author Carlos Adrián Guerra Vázquez
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
  * @date 27/02/2019
  * @version 1.0
  */
@@ -547,7 +549,47 @@ public class MainWorld extends Scene {
                 new Collidable(new Vector3(32, 32, 32))
         );
 
+    //TREES
        
+   /* Entity collide = entityManager.createEntityWithComponents("grass", 
+            new Tile(),
+            new Transform(new Vector3(50,50,232),
+            new Collidable(hitbox)
+    );
+    */
+    Entity collide = entityManager.createEntityWithComponents("wood",
+                        new Tile("log",true,null,null),
+                        new Transform(50 + 55,50 + 5,48),
+                        new WorldEntity()
+                    );
+    collide = entityManager.createEntityWithComponents("wood",
+                        new Tile("log",true,null,null),
+                        new Transform(400 + 55,290 + 5,48),
+                        new WorldEntity()
+                    );
+    collide = entityManager.createEntityWithComponents("wood",
+                        new Tile("log",true,null,null),
+                        new Transform(-220 + 55,180 + 5,48),
+                        new WorldEntity()
+                    );
+    
+    Entity treeTall = entityManager.createEntityWithComponents("TreeTall", 
+            new Transform (new Vector3(50,50,232)),
+            new Sprite("treeTall", true, 128, 232, 0, new ArrayList<>(Arrays.asList("treeTall"))),
+            new WorldEntity()
+            );
+    
+     treeTall = entityManager.createEntityWithComponents("TreeTall", 
+            new Transform (new Vector3(-220,180,232)),
+            new Sprite("treeTall", true, 128, 232, 0, new ArrayList<>(Arrays.asList("treeTall"))),
+            new WorldEntity()
+            );
+     
+      treeTall = entityManager.createEntityWithComponents("TreeTall", 
+            new Transform (new Vector3(400,290,232)),
+            new Sprite("treeTall", true, 128, 232, 0, new ArrayList<>(Arrays.asList("treeTall"))),
+            new WorldEntity()
+            );
 
     //TILES 
         Sprite grassTopSprite = new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")));
@@ -663,7 +705,7 @@ public class MainWorld extends Scene {
     @Override
     protected void addSystems() {
         systemJobManager.addSystems(
-      
+                new ExtraHealthSystem(this, true),
                 new PlayerSystem(this, false),
                 new EnemySystem(this, false),
                 new CollisionEntityWeapon(this, true),
@@ -688,8 +730,8 @@ public class MainWorld extends Scene {
                 new MovementSystem(this, true),
                 new ConversationSystem(this, true),
                 
-                new InventorySystem(this, true),
-                new ExtraHealthSystem(this, true)
+                new InventorySystem(this, true)
+                
         );
     }
 }

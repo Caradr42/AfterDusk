@@ -33,8 +33,10 @@ import java.util.Map;
  * of Entities.
  * Entity creation must be handled by their respective EntityManager and never 
  * by their own constructor.
- *  
- * @author Carlos Adrián Guerra Vázquez
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
  * @date 26/02/2019
  * @version 1.3
  */
@@ -45,8 +47,6 @@ public class EntityManager implements Serializable{
     //Asociates entities to be deleted to the systems where this entityes recide so we can asincromically delete them
     private LinkedList<Integer> deletionQueue; 
     
-    //public Signal<ArrayList<Integer>> removeEntitiesSignal;
-    //public Signal<ArrayList<Integer>> addEntitiesSignal;
     
     /**
      * Structure containing all the Entities by their Component and also their

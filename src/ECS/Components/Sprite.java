@@ -20,7 +20,8 @@ import Maths.Vector2;
  * @date 12/04/2019
  * @version 1.0
  */
-public class Sprite extends Component{
+public class Sprite extends Component {
+
     //data
     public String name;
     
@@ -31,7 +32,6 @@ public class Sprite extends Component{
     public int height;
     public Vector2 dimensions;
     
-    
     public double speed;
     public double frameCounter = 0;
     
@@ -41,8 +41,6 @@ public class Sprite extends Component{
     public transient BufferedImage[] animation;
     public int animationLenght;
     public transient BufferedImage currentFrame;
-    
-   // public int animationNo; // 0 is no animation, 1 is animation one, n is animation n
     
     /**
      * Sprite constructor
@@ -57,7 +55,6 @@ public class Sprite extends Component{
     public Sprite(String name, boolean active, int width, int height, double speed, ArrayList<String> animationsNames) {
         this.name = name;
         this.visible = active;
-        //this.frozen = false;
         
         this.width = width;
         this.height = height;
@@ -68,6 +65,9 @@ public class Sprite extends Component{
         dimensions = new Vector2(width, height);
     }
 
+    /**
+     * Constructor
+     */
     public Sprite() {
     }
     

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ECS.Systems;
 
 import ECS.Components.Collidable;
@@ -21,22 +16,35 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 /**
+ * Manages the movement System
  *
- * @author pepe_
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
+ *
+ * @date 12/04/2019
+ * @version 1.0
  */
+public class MovementSystem extends SystemJob {
 
-public class MovementSystem extends SystemJob{
     Transform transform;
     Movement movement;
     Player player;
     Sprite sprite;
     Playable playable;
-    
+    //borders
     int leftBorder = 80 - 32;
     int rightBorder = 80;
     int upperBorder = 50;
     int downBorder = 50 - 32;
-    
+
+    /**
+     * Constructor
+     *
+     * @param scene
+     * @param active
+     */
     public MovementSystem(Scene scene, boolean active) {
         super(scene, active);
         entities = new ArrayList<>();
@@ -47,9 +55,7 @@ public class MovementSystem extends SystemJob{
         //rightHand = new Tool();
         playable = new Playable();
     }
-    
-    
-    
+
     @Override
     public void update() {
         Collidable collision = new Collidable();
@@ -59,39 +65,37 @@ public class MovementSystem extends SystemJob{
             sprite = scene.entityManager.getEntityComponentInstance(e, sprite.getClass());
             playable = scene.entityManager.getEntityComponentInstance(e, playable.getClass());
             movement = scene.entityManager.getEntityComponentInstance(e, movement.getClass());
-            
-            collision= scene.entityManager.getEntityComponentInstance(e, collision.getClass());
-            boolean CollisionCheck=false;
+
+            collision = scene.entityManager.getEntityComponentInstance(e, collision.getClass());
+            boolean CollisionCheck = false;
             //Check if is empty the HashSet with the ids of collision bw entity-tiles
-            
-            if(!collision.setCollidable.isEmpty()){
-                //System.out.println(collision.setCollidable);
-                CollisionCheck=true;
+
+            if (!collision.setCollidable.isEmpty()) {
+                CollisionCheck = true;
             }
-            
-            Vector3 v3=new Vector3();
-            v3=movement.velocity;
-            
-            
+
+            Vector3 v3 = new Vector3();
+            v3 = movement.velocity;
+
             //Check collision
-            if(CollisionCheck){
-                v3.x=(v3.x*-.5);
-                v3.y=(v3.y*-.5);
-                if(collision.collisionLeft){
-                    transform.position.x = transform.position.x  - 1;
+            if (CollisionCheck) {
+                v3.x = (v3.x * -.5);
+                v3.y = (v3.y * -.5);
+                if (collision.collisionLeft) {
+                    transform.position.x = transform.position.x - 1;
                 }
-                if(collision.collisionRight){
-                    transform.position.x = transform.position.x  + 1;
+                if (collision.collisionRight) {
+                    transform.position.x = transform.position.x + 1;
                 }
-                if(collision.collisionTop){
-                    transform.position.y=transform.position.y-1;
+                if (collision.collisionTop) {
+                    transform.position.y = transform.position.y - 1;
                 }
-                if(collision.collisionDown){
-                    transform.position.y=transform.position.y+1;
+                if (collision.collisionDown) {
+                    transform.position.y = transform.position.y + 1;
                 }
                 Assets.Assets.collisionWood.play();
             }
-            
+
             transform.position.set(transform.position.add(v3));
         }
     }
@@ -103,12 +107,12 @@ public class MovementSystem extends SystemJob{
 
     @Override
     public void onCreate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     @Override
     public void onDestroy() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
-    
+
 }

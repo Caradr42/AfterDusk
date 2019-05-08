@@ -22,8 +22,10 @@ import java.util.HashMap;
  * 
  * Entities are added on creation. 
  * Systems are added after entities are added.
- * 
- * @author Carlos Adrián Guerra Vázquez
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
  * @date 12/02/2019
  * @version 1.0
  */
@@ -39,7 +41,11 @@ public abstract class Scene {
     public static Insert insert;
     public static Select select;
 
-    
+    /**
+     * Constructor
+     * @param display
+     * @param c 
+     */
     public Scene(Display display, Camera c) {
         entityManager = new EntityManager();
         systemJobManager = new SystemJobManager(this, active);
@@ -55,8 +61,6 @@ public abstract class Scene {
 
         systemJobManager.init();//initialize this systemJobManager. must be done after adding the systems
 
-        //insert = new Insert();
-        //insert.start();
     }
 
     abstract protected void addEntities();

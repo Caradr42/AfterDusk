@@ -10,8 +10,10 @@ import java.util.ArrayList;
  * 
  * T is the type of the object to be sent to an event with the dispatch method.
  * This type must match with the type of the listener.
- * 
- * @author Carlos Adrián Guerra Vázquez
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
  * @date 26/02/2019
  * @version 1.0
  */

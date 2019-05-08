@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ECS.Components;
 
 import ECS.Component;
@@ -49,8 +44,6 @@ public class UIButton extends Component implements UIChild{
     
     @Override
     public void UIRender(Graphics2D g, Scene s){
-        //System.out.println("button: " + _buttonSprite);
-        //System.out.println(_buttonSprite.visible);
         if(_buttonSprite != null && _buttonTransform != null && _buttonSprite.visible){
             g.drawImage(_buttonSprite.currentFrame, (int)(_buttonTransform.position.x) , (int)(_buttonTransform.position.y), _buttonSprite.width, _buttonSprite.height, null);
             

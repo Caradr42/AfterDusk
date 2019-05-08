@@ -7,18 +7,16 @@ import graphics.Display;
 
 /**
  * Game entry point
- * 
- * @author 
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
+ * @date 25/01/2018 
+ * @versión 1.0 
  */
 public class Proyecto_Videojuegos {
     
-    //Test for the Component Based Archiquecture (CBA)
-    /*public static void main(String[] args) {
-        Player p = new Player();
-        p.update();
         
-    }*/
-        //1366, 768
     public static void main(String[] args) {
        System.setProperty("sun.java2d.opengl", "true");
        //Display display = new Display("Game", 1066, 568);
@@ -33,4 +31,3 @@ public class Proyecto_Videojuegos {
        mt.start();
     }
 }
-//1366 y 768

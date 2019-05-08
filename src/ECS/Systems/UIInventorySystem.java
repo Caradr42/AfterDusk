@@ -42,6 +42,12 @@ public class UIInventorySystem extends SystemJob {
 
     MousePointer mousePointer;
 
+    /**
+     * Constructor
+     *
+     * @param scene
+     * @param active
+     */
     public UIInventorySystem(Scene scene, boolean active) {
         super(scene, active);
 
@@ -68,7 +74,6 @@ public class UIInventorySystem extends SystemJob {
             inventory = scene.entityManager.getEntityComponentInstance(temp, inventory.getClass());
             for (int i = 0; temp != 0; ++i) {
 
-                //uiInventory.UISlots.add(new ArrayList<>());
                 for (int j = 0; j < inventory.size; ++j) {
                     uiInventory.UISlots.get(i).get(j).setLocation((int) (/*parentTransform.position.x +*/inventoryTransform.position.x + (j * 17) + 1), (int) (/*parentTransform.position.y +*/inventoryTransform.position.y + (i * 17) + 1));
                 }
@@ -138,7 +143,7 @@ public class UIInventorySystem extends SystemJob {
                                 Assets.pickUp.play();
 
                                 int mouseItemBuffer = mousePointer.heldItem;
-                                //System.err.println("mouseItemBuffer " + mouseItemBuffer);
+
                                 int inventoryItemBuffer = getItemFromInventory(uiInventory.firstInventory, i, j);
                                 if (inventoryItemBuffer != 0) {
                                     if (uiInventory.name.equals("passives")) {
@@ -153,19 +158,12 @@ public class UIInventorySystem extends SystemJob {
                                     }
                                 }
 
-                                //System.out.println("inventoryItemBuffer " + inventoryItemBuffer);
-                                //mousePointer.heldItem = inventoryItemBuffer;
-                                //System.out.println("itemBuffer " + mouseItemBuffer);
-                                //System.out.println("mouse " + mousePointer.heldItem );
                                 boolean wasAdded = setItemFromInventory(uiInventory.firstInventory, i, j, mouseItemBuffer);
-                                //System.err.println("Was added: " + wasAdded);
-
                                 if (wasAdded) {
                                     mousePointer.heldItem = inventoryItemBuffer;
                                 }
 
                                 if (mouseItemBuffer == 0 | wasAdded) {
-                                    // System.out.println("setSystemInventory " + wasAdded);
 
                                     if (mouseItemBuffer != 0) {
 
@@ -175,7 +173,6 @@ public class UIInventorySystem extends SystemJob {
                                         }
                                     }
 
-                                    //System.out.println("after settin mouse item " + mouseItemBuffer + " " + mousePointer.heldItem);
                                     if (mousePointer.heldItem != 0) {
                                         Transform itemTransform = scene.entityManager.getEntityComponentInstance(mousePointer.heldItem, Transform.class);
                                         if (itemTransform != null) {
@@ -188,10 +185,8 @@ public class UIInventorySystem extends SystemJob {
                     }
                 }
             }
-            //System.out.println(inventoryTransform.position.x + " " + inventoryTransform.position.y + " :: " + inventoryTransform.relativePosition.x + " " + inventoryTransform.relativePosition.y);
 
         }
-        // System.out.println(mousePointer.position.x + " " + mousePointer.position.y);
     }
 
     @Override
@@ -262,7 +257,7 @@ public class UIInventorySystem extends SystemJob {
             if (temp != 0) {
                 invComp = scene.entityManager.getEntityComponentInstance(temp, invComp.getClass());
             }
-            //System.out.println(inv);
+
         }
         return 0;
     }
@@ -272,12 +267,11 @@ public class UIInventorySystem extends SystemJob {
         int temp = uiInventory.firstInventory;
 
         invComp = scene.entityManager.getEntityComponentInstance(temp, Inventory.class);
-        //System.out.println("uiInventory " + uiInventory.name);
+
         if (item != 0) {
             if (uiInventory.name.equals("passives")) {
                 boolean isPassive = false;
 
-                //System.out.println("passiveset" + Pasive.pasivesSet.size());
                 //comprobacion
                 for (Class p : Pasive.pasivesSet) {
 
@@ -288,12 +282,10 @@ public class UIInventorySystem extends SystemJob {
                         pasive.isActive = true;
                     }
                 }
-                // System.out.println("passive added");
 
                 if (!isPassive) {
                     return false;
                 }
-                //System.out.println("pasiva added2");
 
             }
 
@@ -308,11 +300,9 @@ public class UIInventorySystem extends SystemJob {
                 if (!isActive) {
                     return false;
                 }
-                //System.err.println("activa added");
-                //System.out.println("passive added");
+
             }
         }
-        //si el item no es pasivo agre´alo al inventario normal
         //follow the inventories LinkedList up to the i list
         for (int inv = 0; temp != 0; ++inv) {
             if (inv == i) {

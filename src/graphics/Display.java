@@ -21,9 +21,10 @@ import javax.swing.JFrame;
 *
 * The display has a KeyManager and a MouseManager attached to it, from were 
 * input is obtained
-* 
-* @author Pablo Moreno 
-* A00823402
+* @author José Alberto González Arteaga [A01038061]
+* @author Tanya Yaretzi González Elizondo [A00823408]
+* @author Pablo Moreno Tamez [A00823402]
+* @author Carlos Adrián Guerra Vázquez [A00823198]
 * @date 25/01/2018 
 * @versión 1.0 
 *
@@ -105,8 +106,7 @@ public class Display {
        jframe.addMouseMotionListener(mouseManager);
        canvas.addMouseListener(mouseManager);
        canvas.addMouseMotionListener(mouseManager);
-       //jframe.addMouseListener(mouseManager);
-       //jframe.addMouseMotionListener(mouseManager);
+      
     }
     
     public void tick(){
@@ -132,22 +132,35 @@ public class Display {
         return canvas;
     }
 
+    /**
+     * getKeyManager
+     * @return 
+     */
     public KeyManager getKeyManager() {
         return keyManager;
     }
 
+    /**
+     * getMouseManager
+     * @return 
+     */
     public MouseManager getMouseManager() {
         return mouseManager;
     }
 
+    /**
+     * getWidth
+     * @return 
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * getHeight
+     * @return 
+     */
     public int getHeight() {
         return height;
-    }
-    
-    
-        
+    }       
 }

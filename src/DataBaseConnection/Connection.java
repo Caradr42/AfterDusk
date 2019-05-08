@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package DataBaseConnection;
 
 import javax.swing.*;
@@ -14,12 +9,20 @@ import javax.swing.JOptionPane;
 
 
 /**
- *
- * @author pepe_
+ * Connect to the database
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
+ * @date 25/01/2018 
+ * @versión 1.0 
  */
 public class Connection {
     static Connection connect = null;
     
+    /**
+     * Constructor
+     */
     public Connection(){
     }
     

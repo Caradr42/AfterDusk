@@ -1,9 +1,3 @@
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ECS.Systems;
 
 
@@ -77,6 +71,11 @@ public class RenderSystem extends SystemJob{
     //archetype if the UI Entities list
     private UIEntity uiEntity;
     
+    /**
+     * Constructor
+     * @param scene
+     * @param active 
+     */
     public RenderSystem(Scene scene, boolean active) {
         super(scene, active);
         transform = new Transform();
@@ -117,7 +116,7 @@ public class RenderSystem extends SystemJob{
       //Fetch collidables
       collidables = scene.entityManager.getEntitiesWithComponents(Collidable.class);
 
-      //queue = new ArrayList<>(entities.size(), new myComparator());
+     
       array = new ArrayList <Pair<Transform, Sprite>>(); 
     }
 
