@@ -431,12 +431,7 @@ public class MainWorld extends Scene {
                         new ArrayList<>(Arrays.asList( LRUIInventory.getID(),  itemSelector.getID())))
         );   
         
-        //dialog box
-        Entity dialogBox = entityManager.createEntityWithComponents("dialogBox",
-                new Transform(display.width / c.scale / 2 - (256/2), display.height / c.scale - 82),
-                new Sprite("dialogBox", false, 256, 72, 0, new ArrayList<>(Arrays.asList("dialog_box"))),
-                new UIEntity("dialogBox", true, new ArrayList<>(Arrays.asList(dialogText.getID(), pressE.getID() )))
-        );
+        
         
         //the Game menu
         Entity menu = entityManager.createEntityWithComponents("menu",
@@ -457,6 +452,14 @@ public class MainWorld extends Scene {
                         showDebug.getID()
                 )))
         );
+        
+        //dialog box
+        Entity dialogBox = entityManager.createEntityWithComponents("dialogBox",
+                new Transform(display.width / c.scale / 2 - (256/2), display.height / c.scale - 82),
+                new Sprite("dialogBox", false, 256, 72, 0, new ArrayList<>(Arrays.asList("dialog_box"))),
+                new UIEntity("dialogBox", true, new ArrayList<>(Arrays.asList(dialogText.getID(), pressE.getID() )))
+        );
+        
     //DEATH GUI
         Entity deathScreen = entityManager.createEntityWithComponents("deathScreen",
                 new Transform(0,0),

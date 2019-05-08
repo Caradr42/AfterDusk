@@ -568,7 +568,7 @@ public class EntityManager implements Serializable{
         conn.close();
     }
     
-    public void loadDatabase() throws IOException, ClassNotFoundException, SQLException{
+    public void saveDatabase() throws IOException, ClassNotFoundException, SQLException{
         int id;
         Object myObject;
         String sClass;
