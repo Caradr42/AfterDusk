@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.net.URL;
 
  /**
- * Class containing statically all the game assets
+ * Component containing the buttons of the user interface
  * 
  * @author José Alberto González Arteaga [A01038061]
  * @author Tanya Yaretzi González Elizondo [A00823408]

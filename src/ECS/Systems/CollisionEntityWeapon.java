@@ -217,7 +217,6 @@ public class CollisionEntityWeapon extends SystemJob{
         Playable attackedPlay = new Playable();
         attackedPlay = scene.entityManager.getEntityComponentInstance(entity, attackedPlay.getClass());
 
-        FireSystem.executeActives(weapon, entity);
         
         //The attack has been done
         //tool.currentActive = -1;

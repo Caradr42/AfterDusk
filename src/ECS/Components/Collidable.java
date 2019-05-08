@@ -8,7 +8,7 @@ import org.omg.PortableInterceptor.ACTIVE;
 
 /**
  * Component of an entity that has a hit box
- * 
+ *
  * @author José Alberto González Arteaga [A01038061]
  * @author Tanya Yaretzi González Elizondo [A00823408]
  * @author Pablo Moreno Tamez [A00823402]
@@ -17,11 +17,12 @@ import org.omg.PortableInterceptor.ACTIVE;
  * @date 12/04/2019
  * @version 1.0
  */
-public class Collidable extends Component{
+public class Collidable extends Component {
+
     /**
-     * Denotes the box of an item or a playable entity.
-     * Without considering its position in the space.
-     * Normally it has the same measurements as the sprite.
+     * Denotes the box of an item or a playable entity. Without considering its
+     * position in the space. Normally it has the same measurements as the
+     * sprite.
      */
     public Vector3 hitbox;
     public boolean active;
@@ -30,26 +31,32 @@ public class Collidable extends Component{
     public boolean collisionLeft;
     public boolean collisionRight;
     public boolean collisionDown;
-    
+
+    /**
+     * Constructor
+     */
     public Collidable() {
         super();
-        setCollidable= new HashSet<>();
-        collisionTop=false;
-        collisionLeft=false;
-        collisionRight=false;
-        collisionDown=false;
+        setCollidable = new HashSet<>();
+        collisionTop = false;
+        collisionLeft = false;
+        collisionRight = false;
+        collisionDown = false;
     }
 
+    /**
+     * Constructor
+     *
+     * @param hitbox
+     */
     public Collidable(Vector3 hitbox) {
         super();
         this.hitbox = hitbox;
         active = true;
-        setCollidable= new HashSet<>();
-        collisionTop=false;
-        collisionLeft=false;
-        collisionRight=false;
-        collisionDown=false;
+        setCollidable = new HashSet<>();
+        collisionTop = false;
+        collisionLeft = false;
+        collisionRight = false;
+        collisionDown = false;
     }
-     
-     
 }
