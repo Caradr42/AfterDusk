@@ -70,10 +70,13 @@ public class ElectricSystem extends SystemJob {
                         if (playable.isAlive) {
                             playable.hp = playable.hp - electricity.cost;
                             
-                            /*Playable pl = scene.entityManager.getEntityComponentInstance( scene.entityManager.getEntitiesWithComponents(Playable.class).get(0), Playable.class);
+                            Playable pl = scene.entityManager.getEntityComponentInstance( scene.entityManager.getEntitiesWithComponents(Playable.class).get(0), Playable.class);
                             Player lyr = scene.entityManager.getEntityComponentInstance( scene.entityManager.getEntitiesWithComponents(Player.class).get(0), Player.class);
                             
-                            */
+                            if(pl.currentWeapon == e){
+                                System.out.println("aaaaaaaaaaaaaaaaaaawsdads");
+                            }
+                            
                            //if(e==lyr.)
                            
 
