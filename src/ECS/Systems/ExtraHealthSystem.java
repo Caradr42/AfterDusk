@@ -37,6 +37,8 @@ public class ExtraHealthSystem extends SystemJob {
     Player player;
     int idPlayable;
     int maxHealthActual;
+    boolean wasActive;
+    boolean wasNotActive;
 
     /**
      * Constructor
@@ -55,7 +57,7 @@ public class ExtraHealthSystem extends SystemJob {
         idPlayer = scene.entityManager.getEntitiesWithComponents(Player.class).get(0);
         player = scene.entityManager.getEntityComponentInstance(idPlayer, Player.class);
         passivesInventory = scene.entityManager.getEntityComponentInstance(player.pasivesInventory, Inventory.class);
-        idPlayable = scene.entityManager.getEntitiesWithComponents(Playable.class).get(0);
+        idPlayable = idPlayer;
         playable = scene.entityManager.getEntityComponentInstance(idPlayable, Playable.class);
         maxHealthActual = playable.maxHp;
 
@@ -63,13 +65,22 @@ public class ExtraHealthSystem extends SystemJob {
             health = scene.entityManager.getEntityComponentInstance(e, ExtraHealth.class);
         }
 
-        if (health.isActive) {
-            if (playable.isAlive) {
-                maxHealthActual = maxHealthActual + health.cost; //increments the health
-                playable.hp = maxHealthActual;
-            }
-        } else if (!health.isActive) {
-            maxHealthActual = playable.maxHp;
+        if (health.isActive && !wasActive)  {
+            
+            //maxHealthActual = maxHealthActual + health.cost; //increments the health
+            playable.hp = playable.hp + health.cost;
+            if(playable.hp > playable.maxHp) playable.hp = playable.maxHp;
+            System.out.println("playable " + playable.hp);
+            
+            wasActive = true;
+            wasNotActive = false;
+        } else if (!health.isActive && !wasNotActive){
+            //maxHealthActual = playable.maxHp;
+            playable.hp = playable.hp - health.cost;
+            //System.out.println("playable out " + playable.hp);
+             if(playable.hp < 0) playable.hp = 10;
+            wasNotActive = true;
+            wasActive = false;
         }
     }
 
@@ -78,6 +89,8 @@ public class ExtraHealthSystem extends SystemJob {
         entities = scene.entityManager.getEntitiesWithComponents(ExtraHealth.class);
         health = new ExtraHealth();
         tool = new Tool();
+        wasActive = false;
+        wasNotActive = false;
     }
 
     @Override

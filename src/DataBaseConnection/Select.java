@@ -106,9 +106,7 @@ public class Select implements Runnable {
             selectEntities();
             
             methodKey = "";
-            query = "";
-            
-            
+            query = "";       
         }
         
         selectFinished = true;
