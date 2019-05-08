@@ -5,7 +5,9 @@ import ECS.Components.Collidable;
 import ECS.Components.Electricity;
 import ECS.Components.Enemy;
 import ECS.Components.ExtraHealth;
+import ECS.Components.Inventory;
 import ECS.Components.Item;
+import ECS.Components.MousePointer;
 import ECS.Components.Movement;
 import ECS.Components.Playable;
 import ECS.Components.Player;
@@ -127,6 +129,12 @@ public class DataBaseSystem {
                 }
                 else if("ECS.Components.Collidable".equals(sClass)){
                     em.addComponetToEntity((int)id, (Collidable)myObject);
+                }
+                else if("ECS.Components.Inventory".equals(sClass)){
+                    em.addComponetToEntity((int)id, (Inventory)myObject);
+                }
+                else if("ECS.Components.MousePointer".equals(sClass)){
+                    em.addComponetToEntity((int)id, (MousePointer)myObject);
                 }
                 
                 //System.out.println(((Transform)myObject));

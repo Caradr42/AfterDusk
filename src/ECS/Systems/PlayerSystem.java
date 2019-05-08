@@ -226,7 +226,7 @@ public class PlayerSystem extends SystemJob {
             }
             
             //if the player presses the space key, an attack is done with the right hand
-            if (scene.display.getKeyManager().wasPressed[KeyEvent.VK_SPACE]) {
+            if (scene.display.getKeyManager().wasPressed[KeyEvent.VK_SPACE] && playable.hasWeapon) {
          
                 Inventory LRinv = scene.entityManager.getEntityComponentInstance(player.LRInventory, Inventory.class);
                 

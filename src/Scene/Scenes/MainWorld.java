@@ -97,6 +97,7 @@ public class MainWorld extends Scene {
     //MOUSE POINTER
         //mouse pointer
         Entity pointer = entityManager.createEntityWithComponents("pointer",
+                new WorldEntity(),
                 new MousePointer()
         );
 
@@ -197,39 +198,48 @@ public class MainWorld extends Scene {
 
         //The player's internal inventories
         Entity playerInv4 = entityManager.createEntityWithComponents("Player_Inventory4",
+                new WorldEntity(),
                 new Inventory(0, 6, new ArrayList<>(Arrays.asList()))
         );
 
         Entity playerInv3 = entityManager.createEntityWithComponents("Player_Inventory3",
+                new WorldEntity(),
                 new Inventory(playerInv4.getID(), 6, new ArrayList<>(Arrays.asList()))
         );
 
         Entity playerInv2 = entityManager.createEntityWithComponents("Player_Inventory2",
+                new WorldEntity(),
                 new Inventory(playerInv3.getID(), 6, new ArrayList<>(Arrays.asList()))
         );
 
         Entity playerInv = entityManager.createEntityWithComponents("Player_Inventory",
+                new WorldEntity(),
                 new Inventory(playerInv2.getID(), 6, new ArrayList<>(Arrays.asList()))
         );
         //------
         Entity playerLR = entityManager.createEntityWithComponents("Player_LR_Inventory",
+                new WorldEntity(),
                 new Inventory(0, 2, new ArrayList<>(Arrays.asList( )))
         );
         //----
         Entity playerPassives3 = entityManager.createEntityWithComponents("Player_Passives_Inventory3",
+                new WorldEntity(),
                 new Inventory(0, 3, new ArrayList<>(Arrays.asList()))
         );
 
         Entity playerPassives2 = entityManager.createEntityWithComponents("Player_Passives_Inventory2",
+                new WorldEntity(),
                 new Inventory(playerPassives3.getID(), 3, new ArrayList<>(Arrays.asList()))
         );
 
         Entity playerPassives = entityManager.createEntityWithComponents("Player_Player_Passives_Inventory",
-                new Inventory(playerPassives2.getID(), 3, new ArrayList<>(Arrays.asList()))
+                new WorldEntity(),
+                new Inventory(playerPassives2.getID(), 3, new ArrayList<>(Arrays.asList()))                
         );
         //------
 
         Entity playerActives = entityManager.createEntityWithComponents("Player_Player_Actives_Inventory",
+                new WorldEntity(),
                 new Inventory(0, 9, new ArrayList<>(Arrays.asList()))
         );
     //UI INVENTORIES
