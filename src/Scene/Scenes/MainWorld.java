@@ -553,9 +553,15 @@ public class MainWorld extends Scene {
                     );
     collide = entityManager.createEntityWithComponents("wood",
                         new Tile("log",true,null,null),
-                        new Transform(128 + 55,232 + 5,48),
+                        new Transform(400 + 55,290 + 5,48),
                         new WorldEntity()
                     );
+    collide = entityManager.createEntityWithComponents("wood",
+                        new Tile("log",true,null,null),
+                        new Transform(-220 + 55,180 + 5,48),
+                        new WorldEntity()
+                    );
+    
     Entity treeTall = entityManager.createEntityWithComponents("TreeTall", 
             new Transform (new Vector3(50,50,232)),
             new Sprite("treeTall", true, 128, 232, 0, new ArrayList<>(Arrays.asList("treeTall"))),
