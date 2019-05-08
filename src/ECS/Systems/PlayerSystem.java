@@ -297,37 +297,6 @@ public class PlayerSystem extends SystemJob{
                 //System.out.println("Space pressed");
             }
             
-            if(scene.display.keyManager.wasPressed[KeyEvent.VK_L]){
-                //active = new Insert("insertEntity", 101, "Hello");
-                //scene.insert.makeInsert("insertEntity", 12234, "ffe");
-                
-                try {
-                    //call function to load to data base
-                    scene.entityManager.loadDatabase();
-                } catch (IOException ex) {
-                    Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
-            }
-            
-            if(scene.display.keyManager.wasPressed[KeyEvent.VK_V]){
-                try {
-                    //active = new Insert("insertEntity", 101, "Hello");
-                    //scene.insert.makeInsert("insertEntity", 12234, "ffe");
-                    scene.entityManager.selectDataBase(scene.entityManager);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            
             //System.out.println("transform x: "+transform.position.x);
             //System.out.println("transform y: "+transform.position.y);
             

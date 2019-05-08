@@ -15,7 +15,11 @@ import static ECS.SystemJob.scene;
 import static ECS.Systems.GameManagerSystem.fullScreen;
 import Scene.Scene;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import proyecto_videojuegos.MainThread;
 
@@ -122,6 +126,35 @@ public class UIButtonSystem extends SystemJob{
                 UIEntity parentUIEntity = scene.entityManager.getEntityComponentInstance(uiEntity.parent, UIEntity.class);
                 parentUIEntity._uiSprite.visible = false;
                 GameManagerSystem.gameStarted = true;
+                
+                //Load game from DataBase
+                try {
+                    scene.entityManager.selectDataBase(scene.entityManager);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+            if(uiButton.name.equals("saveButton") && uiButton.buttonPressed){
+                uiButton.buttonPressed =false;
+                Assets.Assets.selection.play();
+                UIEntity parentUIEntity = scene.entityManager.getEntityComponentInstance(uiEntity.parent, UIEntity.class);
+                parentUIEntity._uiSprite.visible = false;
+                GameManagerSystem.gameStarted = true;
+                try {
+                    //call function to load to data base
+                    scene.entityManager.loadDatabase();
+                } catch (IOException ex) {
+                    Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             
             if(uiButton.buttonPressed){
