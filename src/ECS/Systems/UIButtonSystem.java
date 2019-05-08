@@ -41,6 +41,9 @@ public class UIButtonSystem extends SystemJob {
     
     MousePointer mousePointer;
     
+    //boolean doNextFrame = false;
+    
+    
     /**
      * Constructor
      *
@@ -81,7 +84,7 @@ public class UIButtonSystem extends SystemJob {
                 uiButton.buttonPressed =false;
                 Assets.Assets.selection.play();
                 UIEntity parentUIEntity = scene.entityManager.getEntityComponentInstance(uiEntity.parent, UIEntity.class);
-                parentUIEntity._uiSprite.visible = false;
+                parentUIEntity._uiSprite.visible = false;                
                 GameManagerSystem.gameStarted = true;
             }
             
@@ -130,12 +133,24 @@ public class UIButtonSystem extends SystemJob {
             }
             
             //if the player clicks in the continue button
-            if((uiButton.name.equals("continueButton") || uiButton.name.equals("loadButton")) && uiButton.buttonPressed){
+            if(((uiButton.name.equals("continueButton") || uiButton.name.equals("loadButton")) && uiButton.buttonPressed)){
                 uiButton.buttonPressed = false;
                 Assets.Assets.selection.play();
                 UIEntity parentUIEntity = scene.entityManager.getEntityComponentInstance(uiEntity.parent, UIEntity.class);
                 parentUIEntity._uiSprite.visible = false;
                 GameManagerSystem.gameStarted = true;
+                
+                Sprite wait = null;
+                for(Integer ui : scene.entityManager.getEntitiesWithComponents(Sprite.class)){
+                    wait = scene.entityManager.getEntityComponentInstance(ui, Sprite.class);
+                    if(wait.name.equals("wait")){
+                        //System.out.println("aaaaaaaa");
+                        wait.visible = true;
+                        break;
+                    }
+                }
+                System.out.println(MainThread.currentFrame);
+      
                 
                 //Load game from DataBase
                 try {
@@ -147,6 +162,9 @@ public class UIButtonSystem extends SystemJob {
                 } catch (IOException ex) {
                     Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
                 }
+
+                wait.visible = false;
+       
             }
             
             if(uiButton.name.equals("saveButton") && uiButton.buttonPressed){

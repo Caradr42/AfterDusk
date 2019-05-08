@@ -1,7 +1,9 @@
 package ECS.Systems;
 
 import ECS.Components.Player;
+import ECS.Components.Sprite;
 import ECS.Components.Talkative;
+import ECS.Components.UIEntity;
 import ECS.SystemJob;
 import Scene.Scene;
 import java.awt.event.KeyEvent;
@@ -23,6 +25,7 @@ public class ConversationSystem extends SystemJob {
     Talkative talkative;
     Player player;
     public static volatile boolean visibleDialogBox = false;
+    public boolean talked = false;
 
     /**
      * Constructor
@@ -44,12 +47,12 @@ public class ConversationSystem extends SystemJob {
             talkative = scene.entityManager.getEntityComponentInstance(e, Talkative.class);
 
             if (talkative.inConversation) {
-                tempVisible = true;
-
+               
+                 tempVisible = true;
                 if (scene.display.keyManager.wasPressed[KeyEvent.VK_E]) {
-
+                    talked = true;
+                    
                     if (talkative.currentLine >= talkative.conversations.get(talkative.currentConversation).size()) {
-
                         talkative.inConversation = false;
                     }
                     player._UIText.replaceDialog(talkative.conversations.get(talkative.currentConversation).get(talkative.currentLine));
@@ -61,6 +64,17 @@ public class ConversationSystem extends SystemJob {
             } else {
                 talkative.currentLine = 0;
             }
+        }
+        
+        if(talked){
+            for(Integer p: scene.entityManager.getEntitiesWithComponents(Sprite.class)){
+               Sprite spr = scene.entityManager.getEntityComponentInstance(p, Sprite.class);
+                if(spr.name.equals("pressEfather")){
+                    //System.out.println("bbbbb");
+                    spr.visible = false;
+                }
+            }
+                
         }
 
         if (tempVisible) {

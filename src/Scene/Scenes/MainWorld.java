@@ -370,6 +370,13 @@ public class MainWorld extends Scene {
                 new UIEntity("dialog_text", false, 0, null),
                 new UIText(" You cheated not only the game, but yourself. You didn't grow. You didn't improve. You took a shortcut and gained nothing. You experienced a hollow victory. Nothing was risked and nothing was gained. It's sad that you don't know the difference." , 250, 62)
         );
+        
+        Entity message = entityManager.createEntityWithComponents("message",
+                new Transform(20, 37),
+                new Sprite("message", true, 0, 0, 0, new ArrayList<>(Arrays.asList("null"))),
+                new UIEntity("message", false, 3, null),
+                new UIText("Saving and Loading may take up to 20 seconds" , 120, 100)
+        );
     //CHILD UIENTITIES
         
         Entity pressE = entityManager.createEntityWithComponents("press_E",
@@ -462,6 +469,7 @@ public class MainWorld extends Scene {
                         optionsButton.getID(), 
                         gameButton.getID(), 
                         text.getID(), 
+                        message.getID(),
                         playerPosition.getID(), 
                         controls.getID(), 
                         optionsExit.getID(), 
@@ -486,12 +494,13 @@ public class MainWorld extends Scene {
                 new Sprite("deathScreen", true, display.width / c.scale, display.height / c.scale, 8, new ArrayList<>(Arrays.asList("gradient","inverse_gradients"))),
                 new UIEntity("deathScreen", true, new ArrayList<>(Arrays.asList()))
         );
-    //Regular Entities
-        /*Entity pressEfather = entityManager.createEntityWithComponents("pressEfather",
-                new Transform(50,50),
-                new Sprite("pressEfather", true, display.width / c.scale, display.height / c.scale, 8, new ArrayList<>(Arrays.asList("press_E"))),
-                new UIEntity("pressEfather", true, new ArrayList<>(Arrays.asList()))
-        );*/
+    
+        Entity wait = entityManager.createEntityWithComponents("wait",
+                new Transform(new Vector3(display.width / c.scale - 53,display.height / c.scale - 37,0)),
+                new Sprite("wait", false, 48, 32, 0, new ArrayList<>(Arrays.asList("wait"))),
+                new UIEntity("wait", true, new ArrayList<>(Arrays.asList()))
+        );
+    
         
     //PLAYABLE ENTITIES
 
@@ -516,6 +525,12 @@ public class MainWorld extends Scene {
                 ))),
                 new Playable(100, fatherInv.getID(), 1.5),
                 new Collidable(new Vector3(32, 32, 36))
+        );
+        
+        Entity pressEfather = entityManager.createEntityWithComponents("pressEfather",
+            new Transform(new Vector3(-7,10,48), father.getID()),
+            new Sprite("pressEfather", true, 48, 32, 0, new ArrayList<>(Arrays.asList("press_E"))),
+            new WorldEntity()
         );
 
         Entity enemy = entityManager.createEntityWithComponents("Enemy1",
@@ -606,7 +621,32 @@ public class MainWorld extends Scene {
         Sprite grassSideSprite = new Sprite("grassSide", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grassSide")));
         Sprite blockSprite = new Sprite("block", true, 16, 16, 10, new ArrayList<>(Arrays.asList("ledColumn")));
         Sprite log = new Sprite("log", true, 16, 16, 10, new ArrayList<>(Arrays.asList("log")));
-
+        Sprite path = new Sprite("path", true, 16, 16, 10, new ArrayList<>(Arrays.asList("path")));
+        //paths
+        
+        entityManager.createEntityWithComponents("path",
+                    new Tile("path", path, path),
+                    new Transform(new Vector3(0, 0 , 2)),
+                    path,
+                    new WorldEntity()
+            //new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
+        );
+        
+        entityManager.createEntityWithComponents("path",
+                    new Tile("path", path, path),
+                    new Transform(new Vector3(-64, -236 , 2)),
+                    path,
+                    new WorldEntity()
+            //new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
+        );
+        
+        entityManager.createEntityWithComponents("path",
+                    new Tile("path", path, path),
+                    new Transform(new Vector3(-32, -204 , 2)),
+                    path,
+                    new WorldEntity()
+            //new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
+        );
         
         //drawing columns
         for (int x = -200; x < 442; x += 128) {
@@ -733,14 +773,15 @@ public class MainWorld extends Scene {
                 new UIInventorySystem(this, true),
                 new UITextSystem(this, true),
                 new WeaponColliderPositionSystem(this, true),
-                new RenderSystem(this, true),
+               
                 new PassiveSystem(this, true),
                 new ActiveSystem(this, true),
                 new ElectricSystem(this, true),
                 new MovementSystem(this, true),
                 new ConversationSystem(this, true),
                 
-                new InventorySystem(this, true)
+                new InventorySystem(this, true),
+                new RenderSystem(this, true)
                 
         );
     }
