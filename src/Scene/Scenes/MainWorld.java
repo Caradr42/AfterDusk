@@ -642,11 +642,12 @@ public class MainWorld extends Scene {
         Sprite blockSprite = new Sprite("block", true, 16, 16, 10, new ArrayList<>(Arrays.asList("ledColumn")));
         Sprite log = new Sprite("log", true, 16, 16, 10, new ArrayList<>(Arrays.asList("log")));
         Sprite path = new Sprite("path", true, 16, 16, 10, new ArrayList<>(Arrays.asList("path")));
-        //paths
+       
+        //PATHS
         
         entityManager.createEntityWithComponents("path",
                     new Tile("path", path, path),
-                    new Transform(new Vector3(0, 0 , 2)),
+                    new Transform(new Vector3(0, 8 , 2)),
                     path,
                     new WorldEntity()
             //new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
@@ -654,7 +655,7 @@ public class MainWorld extends Scene {
         
         entityManager.createEntityWithComponents("path",
                     new Tile("path", path, path),
-                    new Transform(new Vector3(-64, -236 , 2)),
+                    new Transform(new Vector3(-64, -252 , 2)),
                     path,
                     new WorldEntity()
             //new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
@@ -662,7 +663,15 @@ public class MainWorld extends Scene {
         
         entityManager.createEntityWithComponents("path",
                     new Tile("path", path, path),
-                    new Transform(new Vector3(-32, -204 , 2)),
+                    new Transform(new Vector3(-32, -220 , 2)),
+                    path,
+                    new WorldEntity()
+            //new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
+        );
+        
+        entityManager.createEntityWithComponents("path",
+                    new Tile("path", path, path),
+                    new Transform(new Vector3(-48, -236 , 2)),
                     path,
                     new WorldEntity()
             //new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
