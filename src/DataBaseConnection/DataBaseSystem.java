@@ -26,19 +26,9 @@ public class DataBaseSystem {
     public DataBaseSystem() {
     }
     
-    public void insertObjects(int id, Object myObject, String sClass) throws IOException{
-        
+    public void insertObjects(int id, Object myObject, String sClass, java.sql.Connection conn) throws IOException{
+        //System.out.println(id + " " + sClass);
         try{
-            // create a mysql database connection
-                    String myDriver = "com.mysql.jdbc.Driver";
-                    String myUrl = "jdbc:mysql://remotemysql.com/UenUhgqeHb";
-                    Class.forName(myDriver);
-                    java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://remotemysql.com/UenUhgqeHb","UenUhgqeHb","uGStDaKrpw");
-                    
-                    // create a sql date object so we can use it in our INSERT statement
-                    Calendar calendar = Calendar.getInstance();
-                    java.sql.Date startDate = new java.sql.Date(calendar.getTime().getTime());
-            
             //Pass information to bytes
             ByteArrayOutputStream byteArray= new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(byteArray);
@@ -50,6 +40,7 @@ public class DataBaseSystem {
             ps.setBytes(2, byteArray.toByteArray());
             ps.setString(3, sClass);
             ps.execute();
+            
         }catch (Exception e){
             System.err.println("Error serialization insert "+e);
         }

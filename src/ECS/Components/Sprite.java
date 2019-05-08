@@ -37,10 +37,10 @@ public class Sprite extends Component{
     
     public ArrayList<String> animationsNames;
     
-    public ArrayList<Pair<BufferedImage[], Integer>> animations;
-    public BufferedImage[] animation;
+    public transient ArrayList<Pair<BufferedImage[], Integer>> animations;
+    public transient BufferedImage[] animation;
     public int animationLenght;
-    public BufferedImage currentFrame;
+    public transient BufferedImage currentFrame;
     
    // public int animationNo; // 0 is no animation, 1 is animation one, n is animation n
     

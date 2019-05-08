@@ -14,6 +14,7 @@ import ECS.Components.Sprite;
 import ECS.Components.Tool;
 import ECS.Components.Transform;
 import ECS.Components.UIText;
+import ECS.EntityManager;
 import ECS.SystemJob;
 import Maths.Vector2;
 import Maths.Vector3;
@@ -299,11 +300,15 @@ public class PlayerSystem extends SystemJob{
             if(scene.display.keyManager.wasPressed[KeyEvent.VK_L]){
                 //active = new Insert("insertEntity", 101, "Hello");
                 //scene.insert.makeInsert("insertEntity", 12234, "ffe");
-                DataBaseSystem db = new DataBaseSystem();
                 
                 try {
-                    db.insertObjects(2010, transform, "VamosXEl100");
+                    //call function to load to data base
+                    scene.entityManager.loadDatabase();
                 } catch (IOException ex) {
+                    Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
                     Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
