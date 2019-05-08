@@ -70,7 +70,7 @@ public class ExtraHealthSystem extends SystemJob {
             //maxHealthActual = maxHealthActual + health.cost; //increments the health
             playable.hp = playable.hp + health.cost;
             if(playable.hp > playable.maxHp) playable.hp = playable.maxHp;
-            System.out.println("playable " + playable.hp);
+            //System.out.println("playable " + playable.hp);
             
             wasActive = true;
             wasNotActive = false;

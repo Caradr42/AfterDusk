@@ -54,22 +54,21 @@ public class DamagePlusSystem extends SystemJob{
         entities = scene.entityManager.getEntitiesWithComponents(DamagePlus.class);
         idPlayer = scene.entityManager.getEntitiesWithComponents(Player.class).get(0);
         player = scene.entityManager.getEntityComponentInstance(idPlayer, Player.class);
-        passivesInventory = scene.entityManager.getEntityComponentInstance(player.pasivesInventory, Inventory.class);
-        idPlayable = idPlayer;
-        playable = scene.entityManager.getEntityComponentInstance(idPlayable, Playable.class);
+        //passivesInventory = scene.entityManager.getEntityComponentInstance(player.pasivesInventory, Inventory.class);
+        //idPlayable = idPlayer;
+        playable = scene.entityManager.getEntityComponentInstance(idPlayer, Playable.class);
         
         for(Integer e : entities){
             damagePlus = scene.entityManager.getEntityComponentInstance(e,DamagePlus.class);
         }
        // System.out.println(damagePlus.isActive);
-        
+        //System.out.println("active damage mult " + playable.damageMultiplier);
         if (damagePlus.isActive && !wasActive)  {
             
             //maxHealthActual = maxHealthActual + health.cost; //increments the health
             
-            playable.damageMultiplier = 4;
-            
-           
+            playable.damageMultiplier = 10;
+            //System.out.println("active damage mult " + idPlayer);           
            
             //playable.hp = playable.hp + health.cost;
             //if(playable.hp > playable.maxHp) playable.hp = playable.maxHp;
@@ -78,6 +77,7 @@ public class DamagePlusSystem extends SystemJob{
             wasActive = true;
             wasNotActive = false;
         } else if (!damagePlus.isActive && !wasNotActive){
+            //System.out.println("deactivate damage mult");  
             //maxHealthActual = playable.maxHp;
             playable.damageMultiplier = 1; //initializes to the iniitial damage
             //System.out.println("damage player out " + player.damageMultiplier);

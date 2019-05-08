@@ -77,7 +77,8 @@ public class Player extends Component {
      * @param idAttack
      */
     public Player(String name, Integer LRInventory, Integer pasivesInventory, Integer activesInventory, Integer uiText, Integer idAttack) {
-        //Initializing the values for a new player                       
+        //Initializing the values for a new player   
+        this.name = name;
         this.LRInventory = LRInventory;
         this.pasivesInventory = pasivesInventory;
         this.activesInventory = activesInventory;
