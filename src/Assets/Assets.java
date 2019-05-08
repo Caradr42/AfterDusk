@@ -193,7 +193,7 @@ public class Assets {
         bossTheme = new SoundClip("/Resources/Sounds/boss.wav");
         explorationTheme = new SoundClip("/Resources/Sounds/exploration.wav");
         fatherTheme = new SoundClip("/Resources/Sounds/father.wav");
-        grassWalk = new SoundClip("/Resources/Sounds/grassWalk.wav");
+        grassWalk = new SoundClip("/Resources/Sounds/grasswalk.wav");
         pickUp = new SoundClip("/Resources/Sounds/pickUpWoods.wav");
         menu = new SoundClip("/Resources/Sounds/Menu.wav");
 
