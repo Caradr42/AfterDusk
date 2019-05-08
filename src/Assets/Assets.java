@@ -55,8 +55,6 @@ public class Assets {
         //load Fonts
         
         try {
-            //URL url = Assets.class.getResource("/Resources/Fonts/undefined_medium.ttf");
-            //File font = new File(Assets.class.getResource("/Resources/Fonts/undefined_medium.ttf").getPath());
             //create the font to use. Specify the size!
             undefinedMedium = Font.createFont(Font.TRUETYPE_FONT, new File(Assets.class.getResource("/Resources/Fonts/undefined_medium.ttf").getPath())).deriveFont(10f);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -204,8 +202,6 @@ public class Assets {
 
         collisionWood = new SoundClip("/Resources/Sounds/smashWood.wav");
         selection = new SoundClip("/Resources/Sounds/selection.wav");
-
-        //System.out.println("found: " + animations.get("actives_bar").first);
     }
     
     /**
