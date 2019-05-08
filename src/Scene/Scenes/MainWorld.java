@@ -105,7 +105,7 @@ public class MainWorld extends Scene {
         //TOOLS
             //The sword Tool
             Entity swordOne = entityManager.createEntityWithComponents("sword1",
-                    new Item("sword1", true),
+                    new Item("sword1", false),
                     new Sprite("E_sword", true, 16, 16, 8, new ArrayList<>(Arrays.asList("E_sword"))),
                     new Collidable(new Vector3(16, 16, 1)),
                     new Tool(-1),
@@ -158,9 +158,9 @@ public class MainWorld extends Scene {
             
         //A weird item in the players inventory
         Entity weirdItm = entityManager.createEntityWithComponents("weird",
-                new Item("weird", true),
+                new Item("weird", false),
                 new Collidable(new Vector3(16, 16, 1)),
-                new Transform(new Vector3(50, 50, 16)),
+                new Transform(new Vector3(0, 100, 16)),
                 new Sprite("weird", true, 16, 16, 10, new ArrayList<>(Arrays.asList("weird"))),
                 new WorldEntity()
         );
@@ -168,9 +168,9 @@ public class MainWorld extends Scene {
         //a shield in the players inventory
         Entity shieldItm = entityManager.createEntityWithComponents("shield",
                 new Tool(new Entity(0), new ArrayList<>(Arrays.asList(0)), new ArrayList<>(Arrays.asList(0))),
-                new Item("shield", true),
+                new Item("shield", false),
                 new Collidable(new Vector3(16, 16, 1)),
-                new Transform(new Vector3(70, 70, 16)),
+                new Transform(new Vector3(400, 100, 16)),
                 new Sprite("shield", true, 16, 16, 10, new ArrayList<>(Arrays.asList("shield"))),
                 new WorldEntity(),
                 new ExtraHealth()
@@ -209,11 +209,11 @@ public class MainWorld extends Scene {
         );
 
         Entity playerInv = entityManager.createEntityWithComponents("Player_Inventory",
-                new Inventory(playerInv2.getID(), 6, new ArrayList<>(Arrays.asList(weirdItm.getID(), shieldItm.getID())))
+                new Inventory(playerInv2.getID(), 6, new ArrayList<>(Arrays.asList()))
         );
         //------
         Entity playerLR = entityManager.createEntityWithComponents("Player_LR_Inventory",
-                new Inventory(0, 2, new ArrayList<>(Arrays.asList( swordOne.getID())))
+                new Inventory(0, 2, new ArrayList<>(Arrays.asList( )))
         );
         //----
         Entity playerPassives3 = entityManager.createEntityWithComponents("Player_Passives_Inventory3",
@@ -574,19 +574,19 @@ public class MainWorld extends Scene {
                     );
     
     Entity treeTall = entityManager.createEntityWithComponents("TreeTall", 
-            new Transform (new Vector3(50,50,232)),
+            new Transform (new Vector3(50,50,216)),
             new Sprite("treeTall", true, 128, 232, 0, new ArrayList<>(Arrays.asList("treeTall"))),
             new WorldEntity()
             );
     
      treeTall = entityManager.createEntityWithComponents("TreeTall", 
-            new Transform (new Vector3(-220,180,232)),
+            new Transform (new Vector3(-220,180,216)),
             new Sprite("treeTall", true, 128, 232, 0, new ArrayList<>(Arrays.asList("treeTall"))),
             new WorldEntity()
             );
      
       treeTall = entityManager.createEntityWithComponents("TreeTall", 
-            new Transform (new Vector3(400,290,232)),
+            new Transform (new Vector3(400,290,216)),
             new Sprite("treeTall", true, 128, 232, 0, new ArrayList<>(Arrays.asList("treeTall"))),
             new WorldEntity()
             );
