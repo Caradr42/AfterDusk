@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ECS.Systems;
 
 import ECS.Components.Sprite;
@@ -25,7 +20,11 @@ import java.awt.image.BufferedImage;
 public class SpriteSystem extends SystemJob{
 
     Sprite sprite;
-    
+    /**
+     * Constructor
+     * @param scene
+     * @param active 
+     */
     public SpriteSystem(Scene scene, boolean active) {
         super(scene, active);
         sprite = new Sprite();
@@ -41,7 +40,6 @@ public class SpriteSystem extends SystemJob{
                 sprite.currentFrame = sprite.animation[(int)(sprite.frameCounter) % sprite.animationLenght];
                 
                 sprite.frameCounter+= sprite.speed;
-                //System.out.println(sprite.speed);
             }
         }
         
@@ -59,7 +57,7 @@ public class SpriteSystem extends SystemJob{
                 sprite.animations.add(Assets.animations.get(sprite.animationsNames.get(i)));
             }
             
-            
+            //render the first animation
             sprite.animation = sprite.animations.get(0).first;
             sprite.animationLenght = sprite.animations.get(0).second;
             

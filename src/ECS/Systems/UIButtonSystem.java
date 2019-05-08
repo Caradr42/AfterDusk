@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ECS.Systems;
 
 import ECS.Components.MousePointer;
@@ -20,23 +15,34 @@ import javax.swing.JFrame;
 import proyecto_videojuegos.MainThread;
 
 /**
+ * Manages the userinterfacebutton System
  *
- * @author carlo
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
+ *
+ * @date 12/04/2019
+ * @version 1.0
  */
-public class UIButtonSystem extends SystemJob{
-    
+public class UIButtonSystem extends SystemJob {
+
     UIButton uiButton;
     Sprite buttonSprite;
     Transform buttonTransform;
-    
+
     UIEntity uiEntity;
-    
+
     UIEntity parentUIEntity;
-    
+
     MousePointer mousePointer;
-    
-    //ArrayList<MousePointer> mousePointers;
-    
+
+    /**
+     * Constructor
+     *
+     * @param scene
+     * @param active
+     */
     public UIButtonSystem(Scene scene, boolean active) {
         super(scene, active);
         uiButton = new UIButton();
@@ -49,39 +55,37 @@ public class UIButtonSystem extends SystemJob{
 
     @Override
     public void update() {
-        for(Integer e: entities){
+        for (Integer e : entities) {
             uiButton = scene.entityManager.getEntityComponentInstance(e, uiButton.getClass());
             uiEntity = scene.entityManager.getEntityComponentInstance(e, uiEntity.getClass());
-            
+
             buttonSprite = scene.entityManager.getEntityComponentInstance(e, buttonSprite.getClass());
             buttonTransform = scene.entityManager.getEntityComponentInstance(e, buttonTransform.getClass());
-            
-            if(uiEntity.UIcollider.contains((int)mousePointer.position.x, (int)mousePointer.position.y) && buttonSprite.visible){
+
+            if (uiEntity.UIcollider.contains((int) mousePointer.position.x, (int) mousePointer.position.y) && buttonSprite.visible) {
                 uiButton.buttonVisible = true;
-                if(mousePointer.mouseManager.wasLeftClick){
+                if (mousePointer.mouseManager.wasLeftClick) {
                     uiButton.buttonPressed = true;
-                }else{
-                     uiButton.buttonPressed = false;
+                } else {
+                    uiButton.buttonPressed = false;
                 }
-            }else{
+            } else {
                 uiButton.buttonVisible = false;
             }
-            
-            
-            
-            if(uiButton.name.equals("exitButton") && uiButton.buttonPressed){
+
+            //if the player clicks in the exit button
+            if (uiButton.name.equals("exitButton") && uiButton.buttonPressed) {
                 Assets.Assets.selection.play();
                 scene.display.jframe.dispatchEvent(new WindowEvent(scene.display.jframe, WindowEvent.WINDOW_CLOSING));
             }
-            
-            if(uiButton.name.equals("fullScreen") && uiButton.buttonPressed){
-                if(!fullScreen){
+            //if the player clicks in the fullscreen button
+            if (uiButton.name.equals("fullScreen") && uiButton.buttonPressed) {
+                if (!fullScreen) {
                     fullScreen = true;
                     scene.display.jframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
                     scene.display.jframe.setUndecorated(true);
 
-
-                }else{
+                } else {
                     fullScreen = false;
                     scene.display.jframe.setExtendedState(JFrame.NORMAL);
                     scene.display.jframe.setSize(scene.display.width, scene.display.height);
@@ -89,62 +93,56 @@ public class UIButtonSystem extends SystemJob{
 
                 }
             }
-            
-            if(uiButton.name.equals("showFPS") && uiButton.buttonPressed){
-                if(MainThread.showTPS){
+            //if the player clicks in the show FPS button
+            if (uiButton.name.equals("showFPS") && uiButton.buttonPressed) {
+                if (MainThread.showTPS) {
                     MainThread.showTPS = false;
-                }else{
+                } else {
                     MainThread.showTPS = true;
                 }
             }
-            
-            if(uiButton.name.equals("showDebug") && uiButton.buttonPressed){
-                if(MainThread.showColliders){
+            //if the player clicks in the show debbug button
+            if (uiButton.name.equals("showDebug") && uiButton.buttonPressed) {
+                if (MainThread.showColliders) {
                     MainThread.showColliders = false;
-                }else{
+                } else {
                     MainThread.showColliders = true;
                 }
-                
-                if(RenderSystem.debugRender){
+
+                if (RenderSystem.debugRender) {
                     RenderSystem.debugRender = false;
-                }else{
+                } else {
                     RenderSystem.debugRender = true;
                 }
             }
-            
-            /*if(uiButton.name.equals("fullScreen")){
-                System.out.println("button = " + uiButton.buttonPressed);
-            }*/
-            
-            if(uiButton.name.equals("continueButton") && uiButton.buttonPressed){
-                uiButton.buttonPressed =false;
+
+            //if the player clicks in the continue button
+            if (uiButton.name.equals("continueButton") && uiButton.buttonPressed) {
+                uiButton.buttonPressed = false;
                 Assets.Assets.selection.play();
                 UIEntity parentUIEntity = scene.entityManager.getEntityComponentInstance(uiEntity.parent, UIEntity.class);
                 parentUIEntity._uiSprite.visible = false;
                 GameManagerSystem.gameStarted = true;
             }
-            
-            if(uiButton.buttonPressed){
+
+            if (uiButton.buttonPressed) {
                 Assets.Assets.selection.play();
                 parentUIEntity = scene.entityManager.getEntityComponentInstance(uiEntity.parent, parentUIEntity.getClass());
                 parentUIEntity.window = uiButton.parentState;
             }
-            
-            /*if(uiEntity.name.equals("newGameButton")){
-                //System.out.println(uiButton.buttonVisible);
-            }*/
+
         }
     }
 
     @Override
     public void init() {
         entities = scene.entityManager.getEntitiesWithComponents(uiButton.getClass());
-        for(Integer e: entities){
+        for (Integer e : entities) {
             uiButton = scene.entityManager.getEntityComponentInstance(e, uiButton.getClass());
             uiEntity = scene.entityManager.getEntityComponentInstance(e, uiEntity.getClass());
             buttonSprite = scene.entityManager.getEntityComponentInstance(e, buttonSprite.getClass());
             buttonTransform = scene.entityManager.getEntityComponentInstance(e, buttonTransform.getClass());
-            
+
             uiButton._buttonSprite = buttonSprite;
             uiButton._buttonTransform = buttonTransform;
         }
@@ -158,5 +156,5 @@ public class UIButtonSystem extends SystemJob{
     @Override
     public void onDestroy() {
     }
-    
+
 }

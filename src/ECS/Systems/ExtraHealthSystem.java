@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ECS.Systems;
 
 import ECS.Components.AttackCollider;
@@ -19,8 +14,15 @@ import ECS.SystemJob;
 import Scene.Scene;
 
 /**
+ * Manages the passive of extra health
  *
- * @author tanya
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
+ *
+ * @date 12/04/2019
+ * @version 1.0
  */
 public class ExtraHealthSystem extends SystemJob {
 
@@ -33,9 +35,15 @@ public class ExtraHealthSystem extends SystemJob {
     Pasive passive;
     int idPlayer;
     Player player;
-   int idPlayable;
-   int maxHealthActual;
-   
+    int idPlayable;
+    int maxHealthActual;
+
+    /**
+     * Constructor
+     *
+     * @param scene
+     * @param active
+     */
     public ExtraHealthSystem(Scene scene, boolean active) {
         super(scene, active);
     }
@@ -43,24 +51,24 @@ public class ExtraHealthSystem extends SystemJob {
     @Override
     public void update() {
 
-        
-        entities = scene.entityManager.getEntitiesWithComponents(ExtraHealth.class);      
+        entities = scene.entityManager.getEntitiesWithComponents(ExtraHealth.class);
         idPlayer = scene.entityManager.getEntitiesWithComponents(Player.class).get(0);
         player = scene.entityManager.getEntityComponentInstance(idPlayer, Player.class);
-        passivesInventory = scene.entityManager.getEntityComponentInstance(player.pasivesInventory,Inventory.class);  
-        idPlayable =scene.entityManager.getEntitiesWithComponents(Playable.class).get(0);
-        playable = scene.entityManager.getEntityComponentInstance(idPlayable, Playable.class); 
+        passivesInventory = scene.entityManager.getEntityComponentInstance(player.pasivesInventory, Inventory.class);
+        idPlayable = scene.entityManager.getEntitiesWithComponents(Playable.class).get(0);
+        playable = scene.entityManager.getEntityComponentInstance(idPlayable, Playable.class);
         maxHealthActual = playable.maxHp;
-        
-        for(Integer e : entities)
-            health = scene.entityManager.getEntityComponentInstance(e, ExtraHealth.class);
 
-        if(health.isActive){
-            if(playable.isAlive){
-               maxHealthActual = maxHealthActual + health.cost;
-               playable.hp = maxHealthActual;
-            } 
-        } else if(!health.isActive){
+        for (Integer e : entities) {
+            health = scene.entityManager.getEntityComponentInstance(e, ExtraHealth.class);
+        }
+
+        if (health.isActive) {
+            if (playable.isAlive) {
+                maxHealthActual = maxHealthActual + health.cost; //increments the health
+                playable.hp = maxHealthActual;
+            }
+        } else if (!health.isActive) {
             maxHealthActual = playable.maxHp;
         }
     }
@@ -74,12 +82,12 @@ public class ExtraHealthSystem extends SystemJob {
 
     @Override
     public void onCreate() {
-        
+
     }
 
     @Override
     public void onDestroy() {
-        
+
     }
-    
+
 }

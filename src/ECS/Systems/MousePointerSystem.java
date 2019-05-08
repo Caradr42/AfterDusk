@@ -7,53 +7,53 @@ import Scene.Scene;
 import java.awt.Graphics2D;
 
 /**
+ * Manages the mpuse pointer System
  *
- * @author carlo
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
+ *
+ * @date 12/04/2019
+ * @version 1.0
  */
-public class MousePointerSystem extends  SystemJob{
-    
+public class MousePointerSystem extends SystemJob {
+
     MousePointer mousePointer;
 
-    
+    /**
+     * Constructor
+     *
+     * @param scene
+     * @param active
+     */
     public MousePointerSystem(Scene scene, boolean active) {
         super(scene, active);
         this.mousePointer = new MousePointer();
-        
+
     }
 
     @Override
     public void update() {
-        for(Integer e: entities){
-                        
+        for (Integer e : entities) {
 
             mousePointer = scene.entityManager.getEntityComponentInstance(e, mousePointer.getClass());
-            //System.out.println(mousePointer.mouseManager);
-            //System.out.println(mousePointer.mouseManager.moving);
 
-            //mousePointer.mouseManager = scene.display.mouseManager;
             mousePointer.position.x = scene.display.mouseManager.position.x / scene.c.scale;
             mousePointer.position.y = scene.display.mouseManager.position.y / scene.c.scale;
-            //System.out.println(mousePointer.position.x + " " + mousePointer.position.y);
-            //mousePointer.left = scene.display.getMouseManager().left;
-            //mousePointer.right = scene.display.getMouseManager().right;
-            
-            //if(mousePointer.mouseManager.left) System.out.println("L");
-            //if(mousePointer.mouseManager.right) System.out.println("R");
+
         }
     }
 
     @Override
     public void init() {
         entities = scene.entityManager.getEntitiesWithComponents(mousePointer.getClass());
-        
-        for(Integer e: entities){
+
+        for (Integer e : entities) {
             mousePointer = scene.entityManager.getEntityComponentInstance(e, mousePointer.getClass());
-            
+
             mousePointer.mouseManager = scene.display.getMouseManager();
-            /*mousePointer.position.x = scene.display.mouseManager.position.x / scene.c.scale;
-            mousePointer.position.y = scene.display.mouseManager.position.y / scene.c.scale;
-            mousePointer.left = scene.display.mouseManager.left;
-            mousePointer.right = scene.display.mouseManager.right;*/
+
         }
     }
 
@@ -64,5 +64,5 @@ public class MousePointerSystem extends  SystemJob{
     @Override
     public void onDestroy() {
     }
-       
+
 }

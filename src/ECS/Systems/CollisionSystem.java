@@ -23,11 +23,18 @@ import java.util.ArrayList;
 import java.util.Set;
 
 /**
+ * Manages the collisions
  *
- * @author pablo
+ * @author José Alberto González Arteaga [A01038061]
+ * @author Tanya Yaretzi González Elizondo [A00823408]
+ * @author Pablo Moreno Tamez [A00823402]
+ * @author Carlos Adrián Guerra Vázquez [A00823198]
+ *
+ * @date 12/04/2019
+ * @version 1.0
  */
-public class CollisionSystem extends SystemJob{
-    
+public class CollisionSystem extends SystemJob {
+
     //An item must have a collidable assigned by reference
     private Item item;
     //A playable must have a collidable assigned by reference
@@ -42,8 +49,6 @@ public class CollisionSystem extends SystemJob{
     private ArrayList<Integer> tilesCollidable;
     private Collidable collision;
 
-    //private ArrayList<Integer> arr;
-    
     //Mouse Pointer 
     ArrayList<Integer> mousePointers;
     MousePointer mousePointer;
@@ -54,51 +59,52 @@ public class CollisionSystem extends SystemJob{
         mousePointer = new MousePointer();
         mousePointers = new ArrayList<>();
     }
-    
+
     @Override
     public void update() {
         initializeEntities();
-        
+
         //For each entity
-        for(int i = 0; i < entities.size(); i++) {
-            
+        for (int i = 0; i < entities.size(); i++) {
+
             //check all the entities
-            for(int j = i; j < entities.size(); j++) {
-                
+            for (int j = i; j < entities.size(); j++) {
+
                 //Except itself
-                if( i != j) {
+                if (i != j) {
                     checkCollision(entities.get(i), entities.get(j));
                 }
             }
         }
-        for(int i=0;i<entitiesCollidable.size();i++){
+        for (int i = 0; i < entitiesCollidable.size(); i++) {
             scene.entityManager.getEntityComponentInstance(entitiesCollidable.get(i), collision.getClass()).setCollidable.clear();
-            for(int j=0;j<arrTiles.size();j++){
+            for (int j = 0; j < arrTiles.size(); j++) {
                 collisionTileEntity(entities.get(i), arrTiles.get(j));
 
-            } 
+            }
         }
     }
-    
+
     @Override
-    public void init() { 
+    public void init() {
         mousePointers = scene.entityManager.getEntitiesWithComponents(mousePointer.getClass());
         mousePointer = scene.entityManager.getEntityComponentInstance(mousePointers.get(0), mousePointer.getClass());
         initializeEntities();
     }
 
     @Override
-    public void onCreate() {        
+    public void onCreate() {
     }
 
     @Override
-    public void onDestroy() {    
+    public void onDestroy() {
     }
-    
+
     /**
      * Check if entity i is to the left/right/up/down of entity j
+     *
      * @param i
-     * @param j 
+     * @param j
      */
     public static boolean checkCollision(int i, int j) {
 
@@ -109,36 +115,35 @@ public class CollisionSystem extends SystemJob{
 
         Transform transformi = new Transform();
         Collidable collidablei = new Collidable();
-        
+
         Transform transformj = new Transform();
         Collidable collidablej = new Collidable();
-        
+
         //Getting th collidable and the tranform of the first entity
         Entity e = scene.entityManager.getEntityByID(i);
         collidablei = scene.entityManager.getEntityComponentInstance(i, collidablei.getClass());
         transformi = scene.entityManager.getEntityComponentInstance(i, transformi.getClass());
-        
+
         //Getting the collidable and the transform of the second entity
         Entity e2 = scene.entityManager.getEntityByID(j);
         collidablej = scene.entityManager.getEntityComponentInstance(j, collidablej.getClass());
         transformj = scene.entityManager.getEntityComponentInstance(j, transformj.getClass());
 
         //Rectangle of the first entity
-        Rectangle firstRect = new Rectangle((int)transformi.position.x, (int)transformi._renderedY, (int)collidablei.hitbox.x, (int)collidablei.hitbox.y);
-        
+        Rectangle firstRect = new Rectangle((int) transformi.position.x, (int) transformi._renderedY, (int) collidablei.hitbox.x, (int) collidablei.hitbox.y);
+
         //Rectangle of the second entity
-        Rectangle secondRect = new Rectangle((int)transformj.position.x, (int)transformj._renderedY, (int)collidablej.hitbox.x, (int)collidablej.hitbox.y);
+        Rectangle secondRect = new Rectangle((int) transformj.position.x, (int) transformj._renderedY, (int) collidablej.hitbox.x, (int) collidablej.hitbox.y);
 
         //The center of the first object(x, y, z)
         double firstCenterX = transformi.position.x + collidablei.hitbox.x / 2;
-;
+        ;
         double firstCenterY = transformi._renderedY + collidablei.hitbox.y / 2;
         double firstCenterZ;
-        
-        
+
         //The length of the first object in the x axis from the center to the border
         double firstLengthX = collidablei.hitbox.x / 2;
-        
+
         //The length of the first object in the y axis from the center to the border
         double firstLengthY = collidablei.hitbox.y / 2;
 
@@ -184,185 +189,151 @@ public class CollisionSystem extends SystemJob{
 
             //Point of the bottom right corner of the first object
             Point secondPoint4 = new Point(secondCenterX + secondLengthX, secondCenterY + secondLengthY);
-            
+
             /*
                 Distance in the x axis between the ideally closest pair of points of both entities.
                 Assuming that the first entity is to the left of the second*/
             int A = abs((int) (secondPoint1.x - firstPoint2.x));
-            
-            
+
             /*
                 Distance in the x axis between the ideally closest pair of points of both entities.
                 Assuming that the first entity is to the right of the second*/
             int B = abs((int) (firstPoint1.x - secondPoint2.x));
-            
+
             /*
                 Distance in the y axis between the ideally closest pair of points of both entities.
-                Assuming that the first entity is above the second*/              
+                Assuming that the first entity is above the second*/
             int C = abs((int) (secondPoint1.y - firstPoint3.y));
-            
+
             /*
                 Distance in the y axis between the ideally closest pair of points of both entities.
                 Assuming that the first entity is below the second*/
             int D = abs((int) (firstPoint1.y - secondPoint3.y));
-            
 
             //Just one boolean can be true, that is why there are several ifs
             bLeft = A < B && A <= min(C, D);
-            
-            if(!bLeft)
+
+            if (!bLeft) {
                 bRight = B < A && B <= min(C, D);
-            
-            if(!bRight)
-                bUp = C < D;
-            
-            if(!bUp)
-                bDown = D < C;
-            
-            
-            //if the first entity is the player
-            /*if("Player".equals(e.getName())) {
-                //And the second an item
-                if(arrItems.contains(e2.getID())) {
-                    //If the user press the E in the collision
-                    if(scene.display.getKeyManager().isE) {
-                        System.out.println("E pressed A");
-                        scene.entityManager.getEntityComponentInstance(j, (new Item()).getClass()).isInInventory = true;
-                        
-                        //sprite = scene.entityManager.getEntityComponentInstance(i, sprite.getClass());
-                        //sprite.visible = false;
-                    }
-                }
             }
-            
-            //Or the second entity is the player
-     else */if("Player".equals(e2.getName())) {
+
+            if (!bRight) {
+                bUp = C < D;
+            }
+
+            if (!bUp) {
+                bDown = D < C;
+            }
+
+            if ("Player".equals(e2.getName())) {
                 //if the player presses E on a Talkative 
-                if(scene.entityManager.hasComponent(e.getID(), Talkative.class) ){
-                    //Player player = scene.entityManager.getEntityComponentInstance(e2.getID(), Player.class);
+                if (scene.entityManager.hasComponent(e.getID(), Talkative.class)) {
+
                     Talkative other = scene.entityManager.getEntityComponentInstance(e.getID(), Talkative.class);
-                    if(!other.inConversation && scene.display.keyManager.wasPressed[KeyEvent.VK_E]){
-                        //System.out.println("Lets Talk!");
+                    if (!other.inConversation && scene.display.keyManager.wasPressed[KeyEvent.VK_E]) {
+
                         other.inConversation = true;
                     }
-                    
-                    //player._UIText.replaceDialog(other.conversations.get(other.currentConversation).get(other.currentLine));
+
                 }
 
                 //And the first an item
-                if(arrItems.contains(e.getID())) {
+                if (arrItems.contains(e.getID())) {
                     //If the user press the E in the collision
-                    if(scene.display.getKeyManager().isE) {                      
+                    if (scene.display.getKeyManager().isE) {
                         //Play pick up sound
                         Assets.Assets.pickUp.play();
 
                         //fetch the player's inventory ID and instance
                         Integer inventoryID = scene.entityManager.getEntityComponentInstance(j, (new Playable()).getClass()).inventory;
                         Integer handsInventoryID = scene.entityManager.getEntityComponentInstance(j, (new Player()).getClass()).LRInventory;
-                        
+
                         //if space available in the players inventory it will add the item to it
                         boolean added = addToInventory(handsInventoryID, i) || addToInventory(inventoryID, i);
-                        
-                        
-                        if(added){
+
+                        if (added) {
                             //adds the player as parent of the item when it is collected
-                                if(i != 0){
-                                    Transform itemTransform = scene.entityManager.getEntityComponentInstance(i, Transform.class);
-                                    if(itemTransform != null) itemTransform.parent = j;
+                            if (i != 0) {
+                                Transform itemTransform = scene.entityManager.getEntityComponentInstance(i, Transform.class);
+                                if (itemTransform != null) {
+                                    itemTransform.parent = j;
                                 }
-                            
-                            scene.entityManager.getEntityComponentInstance(i, (new Item()).getClass()).isInInventory = true; 
+                            }
+
+                            scene.entityManager.getEntityComponentInstance(i, (new Item()).getClass()).isInInventory = true;
                             collidablei.active = false;
                         }
-                        
-                        //sprite = scene.entityManager.getEntityComponentInstance(j, sprite.getClass());
-                        //sprite.visible = false;
+
                     }
                 }
             }
         }
-        
+
         return bRight && bLeft && bUp && bDown;
     }
-    
-    
-    public void collisionTileEntity(int i, int j){
-        
+
+    public void collisionTileEntity(int i, int j) {
+
         Transform transformi = new Transform();
         Collidable collidablei = new Collidable();
-        
+
         Transform transformj = new Transform();
         tileCollidable = new Tile();
-        
-        
+
         //Getting th collidable and the tranform of the first entity
         Entity e = scene.entityManager.getEntityByID(i);
         collidablei = scene.entityManager.getEntityComponentInstance(i, collidablei.getClass());
         transformi = scene.entityManager.getEntityComponentInstance(i, transformi.getClass());
         //Getting the collidable and the transform of the second entity
-        
+
         transformj = scene.entityManager.getEntityComponentInstance(j, transformj.getClass());
         tileCollidable = scene.entityManager.getEntityComponentInstance(j, tile.getClass());
-        
-        //Rectangle of the first entity
-        Rectangle firstRect = new Rectangle((int)transformi.position.x, (int)transformi._renderedY, (int)collidablei.hitbox.x, (int)collidablei.hitbox.y);
-        
-        //Rectangle of the second entity
-        Rectangle secondRect = new Rectangle((int)transformj.position.x, (int)transformj._renderedY, (int)16,(int)16);
-                
-        //floor of player and Tile
-        double floorPlayer = (transformi.position.z-32); 
-        double floorTile = (transformj.position.z-16);
-        
-        //Check intersection in x & y & z.
 
-        if(firstRect.intersects(secondRect) && collidablei.active && tileCollidable.isCollidable()&&((transformi.position.z >= floorTile)&&(floorPlayer<=transformj.position.z))){
+        //Rectangle of the first entity
+        Rectangle firstRect = new Rectangle((int) transformi.position.x, (int) transformi._renderedY, (int) collidablei.hitbox.x, (int) collidablei.hitbox.y);
+
+        //Rectangle of the second entity
+        Rectangle secondRect = new Rectangle((int) transformj.position.x, (int) transformj._renderedY, (int) 16, (int) 16);
+
+        //floor of player and Tile
+        double floorPlayer = (transformi.position.z - 32);
+        double floorTile = (transformj.position.z - 16);
+
+        //Check intersection in x & y & z.
+        if (firstRect.intersects(secondRect) && collidablei.active && tileCollidable.isCollidable() && ((transformi.position.z >= floorTile) && (floorPlayer <= transformj.position.z))) {
             //System.out.println("Collision");
 
-
             Rectangle playerTop = new Rectangle(firstRect.x, firstRect.y, firstRect.width, 1);
-            Rectangle playerButtom = new Rectangle(firstRect.x, firstRect.y+firstRect.height, firstRect.width, 1);
+            Rectangle playerButtom = new Rectangle(firstRect.x, firstRect.y + firstRect.height, firstRect.width, 1);
             Rectangle playerLeft = new Rectangle(firstRect.x, firstRect.y, 1, firstRect.height);
-            Rectangle playerRight = new Rectangle(firstRect.x+firstRect.width, firstRect.y, 1, firstRect.height);
-            
+            Rectangle playerRight = new Rectangle(firstRect.x + firstRect.width, firstRect.y, 1, firstRect.height);
+
             Rectangle tileTop = new Rectangle(secondRect.x, secondRect.y, secondRect.width, 1);
-            Rectangle tileDown = new Rectangle(secondRect.x, secondRect.y+secondRect.height, secondRect.width, 1);
+            Rectangle tileDown = new Rectangle(secondRect.x, secondRect.y + secondRect.height, secondRect.width, 1);
             Rectangle tileLeft = new Rectangle(secondRect.x, secondRect.y, 1, secondRect.height);
-            Rectangle tileRight = new Rectangle(secondRect.x+secondRect.width, secondRect.y, 1, secondRect.height);
-            
+            Rectangle tileRight = new Rectangle(secondRect.x + secondRect.width, secondRect.y, 1, secondRect.height);
 
- 
-            double d1LU=firstRect.x;
-            double d1LD=firstRect.y-firstRect.height;
-            double d1RU=firstRect.x+firstRect.width;
-            double d1RD=(firstRect.x+firstRect.width)-firstRect.height;
+            double d1LU = firstRect.x;
+            double d1LD = firstRect.y - firstRect.height;
+            double d1RU = firstRect.x + firstRect.width;
+            double d1RD = (firstRect.x + firstRect.width) - firstRect.height;
 
-            
-            
-                //System.out.println("Left collision");
-            collidablei.collisionLeft=firstRect.intersects(tileLeft);
-                //System.out.println("Right collision");
-            collidablei.collisionRight=firstRect.intersects(tileRight);
-                //System.out.println("Down collision");
-            collidablei.collisionDown=firstRect.intersects(tileDown);
-                //System.out.println("Up collision");
+            collidablei.collisionLeft = firstRect.intersects(tileLeft);
 
-            collidablei.collisionTop=(firstRect.intersects(tileTop));
-            
-            /*
-            System.out.println("left: "+collidablei.collisionLeft);
-            System.out.println("Right: "+collidablei.collisionRight);
-            System.out.println("Top: "+collidablei.collisionTop);
-            System.out.println("Down: "+collidablei.collisionDown);
-            */
+            collidablei.collisionRight = firstRect.intersects(tileRight);
+
+            collidablei.collisionDown = firstRect.intersects(tileDown);
+
+            collidablei.collisionTop = (firstRect.intersects(tileTop));
 
             collidablei.setCollidable.add(j);
         }
-        
+
     }
-    
-    
-    
+
+    /**
+     * initializes the entities
+     */
     public void initializeEntities() {
         item = new Item();
         tile = new Tile();
@@ -372,52 +343,53 @@ public class CollisionSystem extends SystemJob{
         arrTiles = new ArrayList<>();
         entities = new ArrayList<>();
         entitiesCollidable = new ArrayList<>();
-        tilesCollidable= new ArrayList<>();
+        tilesCollidable = new ArrayList<>();
         collision = new Collidable();
-        
+
         //fetching the entities with the playable component
         arrItems = scene.entityManager.getEntitiesWithComponents(item.getClass());
-        
+
         //Fetching the entities with the item component
         arrPlayables = scene.entityManager.getEntitiesWithComponents(playable.getClass());
-        
+
         //Fetching the tiles
         arrTiles = scene.entityManager.getEntitiesWithComponents(tile.getClass());
-        
+
         entitiesCollidable = scene.entityManager.getEntitiesWithComponents(collision.getClass());
-        
-        for(int i = 0; i < arrItems.size(); i++) {
+
+        for (int i = 0; i < arrItems.size(); i++) {
             entities.add(arrItems.get(i));
         }
-        
-        for(int i = 0; i < arrPlayables.size(); i++) {
+
+        for (int i = 0; i < arrPlayables.size(); i++) {
             entities.add(arrPlayables.get(i));
         }
     }
-    
+
     /**
      * adds an item to the inventory is space is available
+     *
      * @param inventoryID
-     * @return 
+     * @return
      */
-    private static boolean addToInventory(Integer inventoryID, Integer item){
+    private static boolean addToInventory(Integer inventoryID, Integer item) {
         int tempID = inventoryID;
         Inventory inventory = scene.entityManager.getEntityComponentInstance(tempID, new Inventory().getClass());
-        
-        for(int inv = 0; tempID != 0; ++inv){ 
-            
-            for(int j = 0; j < inventory.size; ++j){
-                if(inventory.slots.get(j) == 0){
+
+        for (int inv = 0; tempID != 0; ++inv) {
+
+            for (int j = 0; j < inventory.size; ++j) {
+                if (inventory.slots.get(j) == 0) {
                     inventory.slots.set(j, item);
                     return true;
                 }
             }
-            
+
             tempID = inventory.nextInventory;
-            if(tempID != 0){
+            if (tempID != 0) {
                 inventory = scene.entityManager.getEntityComponentInstance(tempID, inventory.getClass());
             }
         }
         return false;
-    }    
+    }
 }
