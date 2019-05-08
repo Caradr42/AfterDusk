@@ -81,6 +81,7 @@ public class MovementSystem extends SystemJob {
             if (CollisionCheck) {
                 v3.x = (v3.x * -.5);
                 v3.y = (v3.y * -.5);
+                
                 if (collision.collisionLeft) {
                     transform.position.x = transform.position.x - 1;
                 }
@@ -94,6 +95,19 @@ public class MovementSystem extends SystemJob {
                     transform.position.y = transform.position.y + 1;
                 }
                 Assets.Assets.collisionWood.play();
+            }
+            
+            boolean check=true;
+                    
+            if(!scene.display.keyManager.right&&!scene.display.keyManager.up&&!scene.display.keyManager.down&&!scene.display.keyManager.left){
+                check=false;
+            }
+                    
+            if(scene.display.keyManager.right&&scene.display.keyManager.up){
+                check=true;
+            }
+            if(check&&scene.display.keyManager.left){
+                v3.x = -(v3.x * -.5)*1.9;
             }
 
             transform.position.set(transform.position.add(v3));

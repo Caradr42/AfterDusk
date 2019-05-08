@@ -104,7 +104,7 @@ public class PlayerSystem extends SystemJob {
             }
 
             //if the player goes to the right change the position and the animation to the right
-            if (scene.display.getKeyManager().right) {
+            if (scene.display.getKeyManager().right&&!scene.display.getKeyManager().left) {
                 //check loop and play the grass walking sound.
                 if (!Assets.Assets.grassWalk.getLooping()) {
                     Assets.Assets.grassWalk.setLooping(active);
@@ -135,7 +135,7 @@ public class PlayerSystem extends SystemJob {
             }
             
             //if the player goes to the left change the position and the animation to the left
-            if (scene.display.getKeyManager().left) {
+            if (scene.display.getKeyManager().left&&!scene.display.getKeyManager().right) {
                 //check loop and play the grass walking sound.
                 if (!Assets.Assets.grassWalk.getLooping()) {
                     Assets.Assets.grassWalk.setLooping(active);
@@ -146,7 +146,8 @@ public class PlayerSystem extends SystemJob {
                 v3V = new Vector3(-0.2, 0, 0);
                 v3R = new Vector3(0.1, 0, 0);
                 
-                if (Math.abs(movement.velocity.x) <= 2) {
+                
+                if (Math.abs(movement.velocity.x) <= 2&& !CollisionCheck) {
                     movement.velocity.set(movement.velocity.add(v3V));
                     movement.velocity.set(movement.velocity.add(v3R));
                 }
