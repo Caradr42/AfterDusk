@@ -300,8 +300,9 @@ public class PlayerSystem extends SystemJob{
                 //active = new Insert("insertEntity", 101, "Hello");
                 //scene.insert.makeInsert("insertEntity", 12234, "ffe");
                 DataBaseSystem db = new DataBaseSystem();
+                
                 try {
-                    db.insertSerialization(transform);
+                    db.insertObjects(2010, transform, "VamosXEl100");
                 } catch (IOException ex) {
                     Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
                 }

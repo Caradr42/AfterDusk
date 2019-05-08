@@ -532,6 +532,10 @@ public class EntityManager implements Serializable{
         }
     }
     
+    public void loadDatabase(){
+          
+    }
+    
     /**
      * TODO: use binary search !
      * 

@@ -26,9 +26,10 @@ public class DataBaseSystem {
     public DataBaseSystem() {
     }
     
-    public void loadDataBase(){
-        try {
-                    // create a mysql database connection
+    public void insertObjects(int id, Object myObject, String sClass) throws IOException{
+        
+        try{
+            // create a mysql database connection
                     String myDriver = "com.mysql.jdbc.Driver";
                     String myUrl = "jdbc:mysql://remotemysql.com/UenUhgqeHb";
                     Class.forName(myDriver);
@@ -37,24 +38,22 @@ public class DataBaseSystem {
                     // create a sql date object so we can use it in our INSERT statement
                     Calendar calendar = Calendar.getInstance();
                     java.sql.Date startDate = new java.sql.Date(calendar.getTime().getTime());
-
-                    // the mysql insert statement
-                    String query = " insert into Entity (Entity_ID, Entity_Name)"
-                            + " values (?, ?)";
-
-                    // create the mysql insert preparedstatement
-                    PreparedStatement preparedStmt = conn.prepareStatement(query);
-                    preparedStmt.setInt(1,2020);
-                    preparedStmt.setString(2, "Pepe");
-
-                    // execute the preparedstatement
-                    preparedStmt.execute();
-
-                    conn.close();
-                }catch(Exception e2){
-                    JOptionPane.showMessageDialog(null, "Error "+e2);
-                }
-    }
+            
+            //Pass information to bytes
+            ByteArrayOutputStream byteArray= new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(byteArray);
+            oos.writeObject(myObject);
+            //load command of mysql
+            PreparedStatement ps= conn.prepareStatement("REPLACE into objetos values (?, ?, ?)");
+            //Set values 
+            ps.setInt(1, id);
+            ps.setBytes(2, byteArray.toByteArray());
+            ps.setString(3, sClass);
+            ps.execute();
+        }catch (Exception e){
+            System.err.println("Error serialization insert "+e);
+        }
+    } 
     
     public void insertSerialization(Object myObject) throws IOException{
         
