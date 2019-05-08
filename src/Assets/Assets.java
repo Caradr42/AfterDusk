@@ -161,6 +161,8 @@ public class Assets {
         
         animations.put("dialog_box",    new Pair<>(crop(256, 72, 1, "/Resources/Images/dialog_dark.png", false)         , 1));
         animations.put("press_E",       new Pair<>(crop(48, 32, 1, "/Resources/Images/press_E.png", false)              , 1));
+        
+        animations.put("hud",           new Pair<>(crop(64, 4, 1, "/Resources/Images/hud.png", false)                   , 1));
         //press_E
         
         animations.put("menu_game",     new Pair<>(crop(278, 150, 1, "/Resources/Images/menu_game_clear.png", false)          , 1));

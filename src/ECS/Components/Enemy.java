@@ -10,9 +10,9 @@ import Maths.Vector2;
 import Maths.Vector3;
 
 
-
 public class Enemy extends Component{
-    
+    public int healthBar = 0;
+    public int hud = 0;
     //vector to store the last distance vector that moved the enemy
     public Vector2 prev = new Vector2();
 }

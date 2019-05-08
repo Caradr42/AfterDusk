@@ -79,6 +79,7 @@ public class Transform extends Component{
         }
         this.relativePosition = relativePosition;
         this._previousPosition = relativePosition;
+        this.position = new Vector3(relativePosition);
         _renderedY = (int)(position.y - position.z);
         
         this.position = relativePosition;
