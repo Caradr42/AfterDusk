@@ -313,6 +313,13 @@ public class MainWorld extends Scene {
                 new UIButton("saveButton"," SAVE GAME", 3)
         );
         
+        Entity optionsLoad = entityManager.createEntityWithComponents("loadButton", 
+                new Transform(45,100,0),
+                new Sprite("loadButton", true, 72, 12, 0 , new ArrayList<>(Arrays.asList("Button_48"))),
+                new UIEntity("loadButton", false, 3, null),
+                new UIButton("loadButton"," LOAD SAVE", 3)
+        );
+        
         //Options buttons
         
         Entity fullScreen = entityManager.createEntityWithComponents("fullScreen", 
@@ -447,6 +454,7 @@ public class MainWorld extends Scene {
                         controls.getID(), 
                         optionsExit.getID(), 
                         optionsSave.getID(),
+                        optionsLoad.getID(),
                         fullScreen.getID(),
                         showFPS.getID(),
                         showDebug.getID()

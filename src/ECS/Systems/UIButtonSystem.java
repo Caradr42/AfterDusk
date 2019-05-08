@@ -126,7 +126,7 @@ public class UIButtonSystem extends SystemJob{
                 System.out.println("button = " + uiButton.buttonPressed);
             }*/
             
-            if(uiButton.name.equals("continueButton") && uiButton.buttonPressed){
+            if((uiButton.name.equals("continueButton") || uiButton.name.equals("loadButton")) && uiButton.buttonPressed){
                 uiButton.buttonPressed =false;
                 Assets.Assets.selection.play();
                 UIEntity parentUIEntity = scene.entityManager.getEntityComponentInstance(uiEntity.parent, UIEntity.class);
