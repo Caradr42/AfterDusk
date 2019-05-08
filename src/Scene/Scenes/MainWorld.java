@@ -313,6 +313,13 @@ public class MainWorld extends Scene {
                 new UIButton("saveButton"," SAVE GAME", 3)
         );
         
+        Entity optionsLoad = entityManager.createEntityWithComponents("loadButton", 
+                new Transform(45,100,0),
+                new Sprite("loadButton", true, 72, 12, 0 , new ArrayList<>(Arrays.asList("Button_48"))),
+                new UIEntity("loadButton", false, 3, null),
+                new UIButton("loadButton"," LOAD SAVE", 3)
+        );
+        
         //Options buttons
         
         Entity fullScreen = entityManager.createEntityWithComponents("fullScreen", 
@@ -431,12 +438,7 @@ public class MainWorld extends Scene {
                         new ArrayList<>(Arrays.asList( LRUIInventory.getID(),  itemSelector.getID())))
         );   
         
-        //dialog box
-        Entity dialogBox = entityManager.createEntityWithComponents("dialogBox",
-                new Transform(display.width / c.scale / 2 - (256/2), display.height / c.scale - 82),
-                new Sprite("dialogBox", false, 256, 72, 0, new ArrayList<>(Arrays.asList("dialog_box"))),
-                new UIEntity("dialogBox", true, new ArrayList<>(Arrays.asList(dialogText.getID(), pressE.getID() )))
-        );
+        
         
         //the Game menu
         Entity menu = entityManager.createEntityWithComponents("menu",
@@ -452,11 +454,20 @@ public class MainWorld extends Scene {
                         controls.getID(), 
                         optionsExit.getID(), 
                         optionsSave.getID(),
+                        optionsLoad.getID(),
                         fullScreen.getID(),
                         showFPS.getID(),
                         showDebug.getID()
                 )))
         );
+        
+        //dialog box
+        Entity dialogBox = entityManager.createEntityWithComponents("dialogBox",
+                new Transform(display.width / c.scale / 2 - (256/2), display.height / c.scale - 82),
+                new Sprite("dialogBox", false, 256, 72, 0, new ArrayList<>(Arrays.asList("dialog_box"))),
+                new UIEntity("dialogBox", true, new ArrayList<>(Arrays.asList(dialogText.getID(), pressE.getID() )))
+        );
+        
     //DEATH GUI
         Entity deathScreen = entityManager.createEntityWithComponents("deathScreen",
                 new Transform(0,0),

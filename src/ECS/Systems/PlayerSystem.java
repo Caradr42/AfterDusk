@@ -12,6 +12,7 @@ import ECS.Components.Sprite;
 import ECS.Components.Tool;
 import ECS.Components.Transform;
 import ECS.Components.UIText;
+import ECS.EntityManager;
 import ECS.SystemJob;
 import Maths.Vector3;
 import Scene.Scene;
@@ -323,29 +324,6 @@ public class PlayerSystem extends SystemJob{
             
             if(attackSprite.frameCounter >= 4){
                 attackSprite.visible = false;
-            }
-            
-            if(scene.display.keyManager.wasPressed[KeyEvent.VK_L]){
-                //active = new Insert("insertEntity", 101, "Hello");
-                //scene.insert.makeInsert("insertEntity", 12234, "ffe");
-                DataBaseSystem db = new DataBaseSystem();
-                try {
-                    db.insertSerialization(transform);
-                } catch (IOException ex) {
-                    Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
-            }
-            
-            if(scene.display.keyManager.wasPressed[KeyEvent.VK_V]){
-                //active = new Insert("insertEntity", 101, "Hello");
-                //scene.insert.makeInsert("insertEntity", 12234, "ffe");
-                DataBaseSystem db = new DataBaseSystem();
-                Transform temp =(Transform) db.selectSerialization();
-                System.out.println("position x: "+temp.position.x);
-                System.out.println("position y: "+temp.position.y);
-                
-                scene.entityManager.addComponetToEntity(e, temp);
             }
             
             //System.out.println("transform x: "+transform.position.x);

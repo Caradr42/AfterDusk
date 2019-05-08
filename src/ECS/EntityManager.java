@@ -1,13 +1,22 @@
 package ECS;
 
+import DataBaseConnection.DataBaseSystem;
 import java.lang.System;
 import ECS.*;
+import ECS.Components.Tile;
 import ECS.Components.Tool;
 import ECS.Components.Transform;
+import ECS.Components.WorldEntity;
 import Signals.Signal;
+import com.mysql.cj.xdevapi.PreparableStatement;
+import java.io.IOException;
 import java.io.Serializable;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -531,6 +540,78 @@ public class EntityManager implements Serializable{
             //it.remove(); // avoids a ConcurrentModificationException
         }
     }
+    
+    public void selectDataBase(EntityManager em) throws ClassNotFoundException, SQLException, IOException{
+        int id;
+        Object myObject;
+        String sClass;
+        DataBaseSystem db= new DataBaseSystem();
+        
+        // create a mysql database connection
+        String myDriver = "com.mysql.jdbc.Driver";
+        String myUrl = "jdbc:mysql://remotemysql.com/UenUhgqeHb";
+        Class.forName(myDriver);
+        java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://remotemysql.com/UenUhgqeHb","UenUhgqeHb","uGStDaKrpw");
+        
+        // create a sql date object so we can use it in our SELECT statement
+        //Calendar calendar = Calendar.getInstance();
+        //java.sql.Date startDate = new java.sql.Date(calendar.getTime().getTime());
+        
+        java.sql.PreparedStatement ps = conn.prepareStatement("select * from objetos");
+        
+        
+        db.selectObjects(conn,ps,em);
+                
+            //it.remove(); // avoids a ConcurrentModificationException
+
+        ps.close();
+        conn.close();
+    }
+    
+    public void saveDatabase() throws IOException, ClassNotFoundException, SQLException{
+        int id;
+        Object myObject;
+        String sClass;
+        DataBaseSystem db= new DataBaseSystem();
+        
+        // create a mysql database connection
+        String myDriver = "com.mysql.jdbc.Driver";
+        String myUrl = "jdbc:mysql://remotemysql.com/UenUhgqeHb";
+        Class.forName(myDriver);
+        java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://remotemysql.com/UenUhgqeHb","UenUhgqeHb","uGStDaKrpw");
+        
+        // create a sql date object so we can use it in our INSERT statement
+        //Calendar calendar = Calendar.getInstance();
+        //java.sql.Date startDate = new java.sql.Date(calendar.getTime().getTime());
+        
+        java.sql.PreparedStatement del = conn.prepareStatement("TRUNCATE objetos");
+        del.execute();
+        
+        java.sql.PreparedStatement ps = conn.prepareStatement("REPLACE into objetos values (?, ?, ?)");;
+        Iterator it = componentsDictionary.entrySet().iterator();
+        
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            Iterator it2 = ((HashMap<Integer, ? extends Component>)pair.getValue()).entrySet().iterator();
+            sClass=((Class)pair.getKey()).getName();
+            while(it2.hasNext()){
+                Map.Entry pair2 = (Map.Entry)it2.next();
+                id = (int) pair2.getKey();
+                if(hasComponent(id, WorldEntity.class)&&!(hasComponent(id, Tile.class))){
+                    myObject=pair2.getValue();
+                    
+                    db.insertObjects(id, myObject, sClass,conn,ps);
+                }
+            }
+            //it.remove(); // avoids a ConcurrentModificationException
+        }
+        System.out.println(ps);
+        ps.clearParameters();
+        ps.executeBatch();
+        ps.close();
+        conn.close();
+    }
+    
     
     /**
      * TODO: use binary search !

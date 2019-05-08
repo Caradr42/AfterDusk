@@ -256,7 +256,7 @@ public class GameManagerSystem extends SystemJob{
     public void init() {
         
         Assets.houseTheme.play();
-
+        //scene.entityManager.printComponentsMap();
     }
 
     @Override
