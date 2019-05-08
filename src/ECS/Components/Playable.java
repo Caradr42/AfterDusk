@@ -29,6 +29,8 @@ public class Playable extends Component {
     public Vector3 velocity;
 
     public boolean isAlive;
+    
+    public double damageMultiplier = 1;
 
     /**
      * To indicate if the playable has a weapon IN USE.

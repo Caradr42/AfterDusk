@@ -50,10 +50,12 @@ public class PlayerSystem extends SystemJob {
 
     boolean firstTime;
     
-    int leftBorder = 110 - 32;
-    int rightBorder = 110;
-    int upperBorder = 90;
-    int downBorder = 90 - 32;
+    int leftBorder = 80 - 32;
+    int rightBorder = 80;
+    int upperBorder = 50;
+    int downBorder = 50 - 32;
+    
+
     Vector3 v3V;
     Vector3 v3R;
     Vector3 initialRelativePositionArrackTransf;

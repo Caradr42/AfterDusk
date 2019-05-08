@@ -163,7 +163,9 @@ public class MainWorld extends Scene {
                 new Collidable(new Vector3(16, 16, 1)),
                 new Transform(new Vector3(0, 100, 16)),
                 new Sprite("weird", true, 16, 16, 10, new ArrayList<>(Arrays.asList("weird"))),
+                new DamagePlus(),
                 new WorldEntity()
+                
         );
 
         //a shield in the players inventory
@@ -527,15 +529,34 @@ public class MainWorld extends Scene {
                 new Collidable(new Vector3(32, 32, 36))
         );
         
+
         Entity pressEfather = entityManager.createEntityWithComponents("pressEfather",
             new Transform(new Vector3(-7,10,48), father.getID()),
             new Sprite("pressEfather", true, 48, 32, 0, new ArrayList<>(Arrays.asList("press_E"))),
             new WorldEntity()
         );
 
+        Entity attackEnemy = entityManager.createEntityWithComponents("EnemyAttacks",
+                new Transform(new Vector3(0, 16, 16)),
+                new Sprite("EnemyAttacks1", false, 72, 72, 10, new ArrayList<>(Arrays.asList("electricCharge", "null"))),
+                new WorldEntity()
+        );
+
+        Entity attackEnemy2 = entityManager.createEntityWithComponents("EnemyAttacks",
+                new Transform(new Vector3(0, 16, 16)),
+                new Sprite("EnemyAttacks2", false, 72, 72, 10, new ArrayList<>(Arrays.asList("electricCharge", "null"))),
+                new WorldEntity()
+        );
+
+        Entity attackEnemy3 = entityManager.createEntityWithComponents("EnemyAttacks",
+                new Transform(new Vector3(0, 16, 16)),
+                new Sprite("EnemyAttacks3", false, 72, 72, 10, new ArrayList<>(Arrays.asList("electricCharge", "null"))),
+                new WorldEntity()
+        );
+
         Entity enemy = entityManager.createEntityWithComponents("Enemy1",
                 new Transform(new Vector3(200, 90, 80)),
-                new Enemy(),
+                new Enemy(attackEnemy.getID()),
                 new Sprite("enemy", true, 64, 64, 5, new ArrayList<>(Arrays.asList("ball", "ball_down", "ball_up", "ball_left", "ball_right"))),
                 new WorldEntity(),
                 new Collidable(new Vector3(64, 80, 80)),
@@ -543,7 +564,7 @@ public class MainWorld extends Scene {
 
         Entity enemy2 = entityManager.createEntityWithComponents("Enemy2",
                 new Transform(new Vector3(600, 290, 80)),
-                new Enemy(),
+                new Enemy(attackEnemy2.getID()),
                 new Sprite("enemy", true, 64, 64, 5, new ArrayList<>(Arrays.asList("ball", "ball_down", "ball_up", "ball_left", "ball_right"))),
                 new WorldEntity(),
                 new Collidable(new Vector3(64, 80, 80)),
@@ -551,13 +572,12 @@ public class MainWorld extends Scene {
 
         Entity enemy3 = entityManager.createEntityWithComponents("Enemy3",
                 new Transform(new Vector3(600, -300, 80)),
-                new Enemy(),
+                new Enemy(attackEnemy3.getID()),
                 new Sprite("enemy", true, 64, 64, 5, new ArrayList<>(Arrays.asList("ball", "ball_down", "ball_up", "ball_left", "ball_right"))),
                 new WorldEntity(),
                 new Collidable(new Vector3(64, 80, 80)),
                 new Playable(300, enemyInv3.getID(), 1, true)
          );
-
 
         Entity attack = entityManager.createEntityWithComponents("Attacks",
                 new Transform(new Vector3(0, 16, 16)),
@@ -756,6 +776,7 @@ public class MainWorld extends Scene {
     protected void addSystems() {
         systemJobManager.addSystems(
                 new ExtraHealthSystem(this, true),
+                new DamagePlusSystem(this, true),
                 new PlayerSystem(this, false),
                 new EnemySystem(this, false),
                 new CollisionEntityWeapon(this, true),
