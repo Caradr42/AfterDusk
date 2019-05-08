@@ -20,6 +20,16 @@ public class Enemy extends Component{
     public int healthBar = 0;
     public int hud = 0;
     
+    public int idAttack;
+    
+    public Enemy() {
+        idAttack = 0;
+    }
+    
+    public Enemy(int idAttack) {
+        this.idAttack = idAttack;
+    }
+    
     //vector to store the last distance vector that moved the enemy
     public Vector2 prev = new Vector2();
 }

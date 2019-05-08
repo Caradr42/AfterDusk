@@ -146,6 +146,24 @@ public class EnemySystem extends SystemJob {
             
             enemy.healthBar = hb.getID();
             enemy.hud = hud.getID();
+            
+            Transform attackTransform = scene.entityManager.getEntityComponentInstance(enemy.idAttack, Transform.class);
+            
+            attackTransform.parent = e;
+            
+            attackTransform.relativePosition = new Vector3(0, 16, 16);
+            
+            
+            /**
+             *             player = scene.entityManager.getEntityComponentInstance(e, player.getClass());
+            player._UIText = scene.entityManager.getEntityComponentInstance(player.uiText, UIText.class);
+            attackTransform = scene.entityManager.getEntityComponentInstance(player.idAttack, Transform.class);
+            
+            attackTransform.parent = e;
+            attackTransform.relativePosition = new Vector3(0, 16, 16);
+             initialRelativePositionArrackTransf = new Vector3(attackTransform.relativePosition);
+
+             */
         }
     }
 
@@ -168,6 +186,7 @@ public class EnemySystem extends SystemJob {
         
 
         if (playable.isAlive) {
+            Sprite attackSprite = scene.entityManager.getEntityComponentInstance(enemy.idAttack, Sprite.class);
             double distance = abs(playerPos._renderedPosition.toVector2().add(playerSprite.dimensions.div(2)).dist(transform._renderedPosition.toVector2().add(sprite.dimensions.div(2))));
             
             if (distance < maxDistance && distance > minDistance) {
@@ -212,13 +231,23 @@ public class EnemySystem extends SystemJob {
                         sprite.animationLenght = sprite.animations.get(1).second;
                     }
                 }
+
+                attackSprite.animation = attackSprite.animations.get(1).first;
+                attackSprite.animationLenght = attackSprite.animations.get(1).second;
+                System.out.println(attackSprite.name);
+
+                attackSprite.visible = false;
+                attackSprite.frameCounter = 0;
+
             } //else if the enemy does not move
             else {
-                sprite.animation = sprite.animations.get(0).first;
-                sprite.animationLenght = sprite.animations.get(0).second;
-                
-                if (distance < maxDistance) {
-                    
+
+                  if (distance < maxDistance) {
+
+                    attackSprite.visible = true;
+                    sprite.animation = sprite.animations.get(0).first;
+                    sprite.animationLenght = sprite.animations.get(0).second;
+
                     if (frameCounter >= frameLimit) {
                         playerPlay.hp -= 1;
                         frameCounter = 0;
@@ -234,10 +263,17 @@ public class EnemySystem extends SystemJob {
                     
                     //with a basic attack
                     tool.currentActive = 0;
+
+                    attackSprite.animation = attackSprite.animations.get(0).first;
+                    attackSprite.animationLenght = attackSprite.animations.get(0).second;
+
                 }
+
             }
+            
+            
 
         }
     }
-    
+
 }
