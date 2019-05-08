@@ -541,6 +541,33 @@ public class EntityManager implements Serializable{
         }
     }
     
+    public void selectDataBase(EntityManager em) throws ClassNotFoundException, SQLException, IOException{
+        int id;
+        Object myObject;
+        String sClass;
+        DataBaseSystem db= new DataBaseSystem();
+        
+        // create a mysql database connection
+        String myDriver = "com.mysql.jdbc.Driver";
+        String myUrl = "jdbc:mysql://remotemysql.com/UenUhgqeHb";
+        Class.forName(myDriver);
+        java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://remotemysql.com/UenUhgqeHb","UenUhgqeHb","uGStDaKrpw");
+        
+        // create a sql date object so we can use it in our SELECT statement
+        //Calendar calendar = Calendar.getInstance();
+        //java.sql.Date startDate = new java.sql.Date(calendar.getTime().getTime());
+        
+        java.sql.PreparedStatement ps = conn.prepareStatement("select * from objetos");
+        
+        
+        db.selectObjects(conn,ps,em);
+                
+            //it.remove(); // avoids a ConcurrentModificationException
+
+        ps.close();
+        conn.close();
+    }
+    
     public void loadDatabase() throws IOException, ClassNotFoundException, SQLException{
         int id;
         Object myObject;

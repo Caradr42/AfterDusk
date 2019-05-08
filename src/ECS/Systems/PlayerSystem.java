@@ -315,14 +315,17 @@ public class PlayerSystem extends SystemJob{
             }
             
             if(scene.display.keyManager.wasPressed[KeyEvent.VK_V]){
-                //active = new Insert("insertEntity", 101, "Hello");
-                //scene.insert.makeInsert("insertEntity", 12234, "ffe");
-                DataBaseSystem db = new DataBaseSystem();
-                Transform temp =(Transform) db.selectSerialization();
-                System.out.println("position x: "+temp.position.x);
-                System.out.println("position y: "+temp.position.y);
-                
-                scene.entityManager.addComponetToEntity(e, temp);
+                try {
+                    //active = new Insert("insertEntity", 101, "Hello");
+                    //scene.insert.makeInsert("insertEntity", 12234, "ffe");
+                    scene.entityManager.selectDataBase(scene.entityManager);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             
             //System.out.println("transform x: "+transform.position.x);

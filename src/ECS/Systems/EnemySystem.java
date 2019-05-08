@@ -65,6 +65,11 @@ public class EnemySystem extends SystemJob{
 
     @Override
     public void update() {
+        player = scene.entityManager.getEntitiesWithComponents(player1.getClass()).get(0);
+        //Getting the transform of the player
+        playerPos = scene.entityManager.getEntityComponentInstance(player, Transform.class);
+        playerSprite = scene.entityManager.getEntityComponentInstance(player, Sprite.class);
+        playerPlay = scene.entityManager.getEntityComponentInstance(player, Playable.class);
         
         for(Integer entity : entities) {
             //Each entity should follow the player 
@@ -98,8 +103,6 @@ public class EnemySystem extends SystemJob{
         //Getting the transform of the player
         playerPos = scene.entityManager.getEntityComponentInstance(player, Transform.class);
         playerSprite = scene.entityManager.getEntityComponentInstance(player, Sprite.class);
-
-        
         playerPlay = scene.entityManager.getEntityComponentInstance(player, Playable.class);
 
     }

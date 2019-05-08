@@ -5,7 +5,21 @@
  */
 package DataBaseConnection;
 
+import ECS.Components.AttackComponent;
+import ECS.Components.Collidable;
+import ECS.Components.Electricity;
+import ECS.Components.Enemy;
+import ECS.Components.ExtraHealth;
+import ECS.Components.Item;
+import ECS.Components.Movement;
+import ECS.Components.Playable;
+import ECS.Components.Player;
+import ECS.Components.Sprite;
+import ECS.Components.Talkative;
+import ECS.Components.Tool;
 import ECS.Components.Transform;
+import ECS.Components.WorldEntity;
+import ECS.EntityManager;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,8 +28,11 @@ import java.sql.Blob;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.Objects;
 import javax.swing.JOptionPane;
+import javax.swing.Spring;
 
 /**
  *
@@ -47,6 +64,73 @@ public class DataBaseSystem {
         }
         return ps;
     } 
+    
+    public void selectObjects(java.sql.Connection conn, java.sql.PreparedStatement ps,EntityManager em) throws SQLException, IOException, ClassNotFoundException{
+        Object myObject=new Object();
+        int id;
+        String sClass;
+        
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next()){
+                //Se obtiene el campo blob
+                id = rs.getInt("id");
+                Blob blob = rs.getBlob("component");
+                sClass = rs.getString("class");
+                
+                //Reconstrucción del objeto
+                ObjectInputStream ois = new ObjectInputStream(blob.getBinaryStream());
+                
+                myObject = (Object) ois.readObject();
+                
+                if("ECS.Components.Talkative".equals(sClass)){
+                    em.addComponetToEntity((int)id, (Talkative)myObject);
+                }
+                else if("ECS.Components.Player".equals(sClass)){
+                    em.addComponetToEntity((int)id, (Player)myObject);
+                }
+                else if("ECS.Components.Movement".equals(sClass)){
+                    em.addComponetToEntity((int)id, (Movement)myObject);
+                }
+                else if("ECS.Components.Item".equals(sClass)){
+                    em.addComponetToEntity((int)id, (Item)myObject);
+                }
+                else if("ECS.Components.Tool".equals(sClass)){
+                    em.addComponetToEntity((int)id, (Tool)myObject);
+                }
+                else if("ECS.Components.Transform".equals(sClass)){
+                    em.addComponetToEntity((int)id, (Transform)myObject);
+                }
+                else if("ECS.Components.WorldEntity".equals(sClass)){
+                    em.addComponetToEntity((int)id, (WorldEntity)myObject);
+                }
+                else if("ECS.Components.Sprite".equals(sClass)){
+                    //em.addComponetToEntity((int)id, (Sprite)myObject);
+                }
+                else if("ECS.Components.Electricity".equals(sClass)){
+                    em.addComponetToEntity((int)id, (Electricity)myObject);
+                }
+                else if("ECS.Components.Enemy".equals(sClass)){
+                    em.addComponetToEntity((int)id, (Enemy)myObject);
+                }
+                else if("ECS.Components.AttackComponent".equals(sClass)){
+                    em.addComponetToEntity((int)id, (AttackComponent)myObject);
+                }
+                else if("ECS.Components.ExtraHealth".equals(sClass)){
+                    em.addComponetToEntity((int)id, (ExtraHealth)myObject);
+                }
+                else if("ECS.Components.Playable".equals(sClass)){
+                    em.addComponetToEntity((int)id, (Playable)myObject);
+                }
+                else if("ECS.Components.Collidable".equals(sClass)){
+                    em.addComponetToEntity((int)id, (Collidable)myObject);
+                }
+                
+                //System.out.println(((Transform)myObject));
+                
+                System.out.println(myObject);
+            }
+    }
     
     public void insertSerialization(Object myObject) throws IOException{
         
