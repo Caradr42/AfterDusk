@@ -57,7 +57,9 @@ public class PlayerSystem extends SystemJob{
     Transform transform;  
     Playable playable;
     Sprite sprite;
-
+    Sprite attackSprite;
+    Transform attackTransform2;
+    Transform attackTransform;
 
     Tool tool;
 
@@ -73,6 +75,7 @@ public class PlayerSystem extends SystemJob{
     int downBorder = 50 - 32;
     Vector3 v3V;
     Vector3 v3R;
+    Vector3 initialRelativePositionArrackTransf;
     Collidable collision;
     /**
      * Constructor
@@ -88,6 +91,7 @@ public class PlayerSystem extends SystemJob{
         //rightHand = new Tool();
         playable = new Playable();
         collision=new Collidable();
+        //attackSprite = new Sprite();
     }
 
     /**
@@ -102,6 +106,11 @@ public class PlayerSystem extends SystemJob{
             sprite = scene.entityManager.getEntityComponentInstance(e, sprite.getClass());
             playable = scene.entityManager.getEntityComponentInstance(e, playable.getClass());
             movement = scene.entityManager.getEntityComponentInstance(e, Movement.class);
+            attackSprite = scene.entityManager.getEntityComponentInstance(player.idAttack, Sprite.class);
+            attackTransform = scene.entityManager.getEntityComponentInstance(player.idAttack,Transform.class);
+            
+           // attackSprite.animation = attackSprite.animations.get(4).first;
+            //attackSprite.animationLenght = attackSprite.animations.get(4).second;
             
             
             collision= scene.entityManager.getEntityComponentInstance(e, Collidable.class);
@@ -275,11 +284,14 @@ public class PlayerSystem extends SystemJob{
                 //System.out.println(RItem.name);
                 //0 for the base attack
                 //rightHand.currentActive = 0;
+                
+                //attackSprite.visible = true;
+        
                if(playable.hasWeapon){
                    int idTool;
                    if(player.rightOrLeft){ //si es verdadero es que tiene arma en la derecha
                        idTool = scene.entityManager.getEntityComponentInstance(player.LRInventory, Inventory.class).slots.get(1);
-                       
+                       //sprite.
                    }else {
                        idTool = scene.entityManager.getEntityComponentInstance(player.LRInventory, Inventory.class).slots.get(0);   
                    }
@@ -293,7 +305,40 @@ public class PlayerSystem extends SystemJob{
                    System.out.println("Space: " + scene.entityManager.getEntityByID(idTool).getName() + " " + tool.currentActive);
                }
                 
-                //System.out.println("Space pressed");
+               
+                attackSprite.frameCounter = 0; 
+                System.err.println("relative pos "+ attackTransform.relativePosition.x + " " + attackTransform.relativePosition.y );
+                System.err.println("relative pos "+ initialRelativePositionArrackTransf.x+ " " + initialRelativePositionArrackTransf.y );
+                //System.out.println(playable.up + " " + playable.down + " " + playable.left + " " + playable.right);
+                if (playable.down) {
+                    attackTransform.relativePosition.x = initialRelativePositionArrackTransf.x - 5;
+                    attackTransform.relativePosition.y = initialRelativePositionArrackTransf.y + 20;
+                    attackSprite.animation = attackSprite.animations.get(0).first;
+                    attackSprite.animationLenght = attackSprite.animations.get(0).second;
+                }
+                if (playable.up) {
+                    attackTransform.relativePosition.x = initialRelativePositionArrackTransf.x - 5;
+                    attackTransform.relativePosition.y = initialRelativePositionArrackTransf.y - 32;
+                    attackSprite.animation = attackSprite.animations.get(1).first;
+                    attackSprite.animationLenght = attackSprite.animations.get(1).second;
+                }
+                if (playable.left) {
+                    attackTransform.relativePosition.x = initialRelativePositionArrackTransf.x - 32;
+                    attackTransform.relativePosition.y = initialRelativePositionArrackTransf.y - 5;
+                    attackSprite.animation = attackSprite.animations.get(2).first;
+                    attackSprite.animationLenght = attackSprite.animations.get(2).second;   
+                }
+                if (playable.right) {
+                    attackTransform.relativePosition.x = initialRelativePositionArrackTransf.x + 20;
+                    attackTransform.relativePosition.y = initialRelativePositionArrackTransf.y - 5;
+                    attackSprite.animation = attackSprite.animations.get(3).first;
+                    attackSprite.animationLenght = attackSprite.animations.get(3).second;
+                }
+                attackSprite.visible = true;
+            }                                                                
+            
+            if(attackSprite.frameCounter >= 4){
+                attackSprite.visible = false;
             }
             
             if(scene.display.keyManager.wasPressed[KeyEvent.VK_L]){
@@ -439,10 +484,26 @@ public class PlayerSystem extends SystemJob{
         entities = scene.entityManager.getEntitiesWithComponents(transform.getClass(), player.getClass(), sprite.getClass(), Movement.class,Collidable.class);
         firstTime = true;
         
+        
         for(Integer e : entities){
             player = scene.entityManager.getEntityComponentInstance(e, player.getClass());
             player._UIText = scene.entityManager.getEntityComponentInstance(player.uiText, UIText.class);
+            attackTransform = scene.entityManager.getEntityComponentInstance(player.idAttack, Transform.class);
+            //attackTransform.relativePosition = attackTransform._previousPosition;
+            attackTransform.parent = e;
+            
+            
+            
+            //attackTransform
+             /*attackSprite.animation = attackSprite.animations.get(4).first;
+        attackSprite.animationLenght = attackSprite.animations.get(4).second;*/
+             attackTransform.relativePosition = new Vector3(0,16,16);
+             initialRelativePositionArrackTransf = new Vector3(attackTransform.relativePosition);
+             //initialRelativePositionArrackTransf = new Vector3(attackTransform.relativePosition.x, attackTransform.relativePosition.y, attackTransform.relativePosition.z );
+             System.out.println("attack transf " + attackTransform.relativePosition);
         }
+
+
 
     }
 

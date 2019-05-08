@@ -34,6 +34,12 @@ public class Vector3 implements Serializable{
         this.z = z;
     }        
         
+     public Vector3(Vector3 v) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = v.z;
+    } 
+    
     /**
      * sets both x and y values from the vector
      * @param x

@@ -54,6 +54,7 @@ public class Player extends Component{
     public Integer uiText;
     public UIText _UIText;
         
+    public int idAttack;
     //passives that are currently active
     //public ArrayList<Integer> pasives;
 
@@ -67,11 +68,12 @@ public class Player extends Component{
         _UIText = null;
     }
 
-    public Player(String name, Integer LRInventory, Integer pasivesInventory, Integer activesInventory, Integer uiText) {
+    public Player(String name, Integer LRInventory, Integer pasivesInventory, Integer activesInventory, Integer uiText, Integer idAttack) {
         //Initializing the values for a new player                       
         this.LRInventory = LRInventory;
         this.pasivesInventory = pasivesInventory;
         this.activesInventory = activesInventory;
+        this.idAttack = idAttack;
         this.uiText = uiText;
         boolRight = false;
         

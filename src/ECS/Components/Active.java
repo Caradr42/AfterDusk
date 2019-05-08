@@ -15,8 +15,8 @@ import java.util.HashSet;
  * @author tanya
  */
 public abstract class Active extends Component {
-    boolean isActive = false;
-    int idSprite;
+    public boolean isActive = false;
+    public int idSprite;
     
     ArrayList <Pair<String, Integer>> effects;
     ArrayList <Pair<String, Integer>> costs;

@@ -18,8 +18,7 @@ import java.util.ArrayList;
 public class PassiveSystem extends SystemJob {
     
     Tool tool;
-    //ArrayList<Integer> idTools;
-    
+    ArrayList<Integer> idTools;
     Pasive pasive;
 
     public PassiveSystem(Scene scene, boolean active) {
@@ -33,21 +32,24 @@ public class PassiveSystem extends SystemJob {
 
     @Override
     public void init() {
-       /* tool = new Tool();
+        tool = new Tool();
 
-    idTools = scene.entityManager.getEntitiesWithComponents(Tool.class);
+    idTools = scene.entityManager.getEntitiesWithComponents(Tool.class, Pasive.class);
     
     for (Integer t : idTools){
         for(Class c : Pasive.pasivesSet){
             tool = scene.entityManager.getEntityComponentInstance(t, Tool.class);
             if(scene.entityManager.hasComponent(t, c)){
                 pasive = (Pasive)scene.entityManager.getEntityComponentInstance(t, c);
-                
-                tool.arrPasives.add(pasive);
+                tool.toolPasive = pasive; // se le añade la pasiva al tool
+
             }
         }
     }
-       */ 
+        
+               
+       
+       
     }
 
     @Override

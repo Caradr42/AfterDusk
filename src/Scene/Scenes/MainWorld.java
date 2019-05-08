@@ -493,24 +493,7 @@ public class MainWorld extends Scene {
                 ))),
                 new Playable(100, fatherInv.getID(), 1.5),
                 new Collidable(new Vector3(32, 32, 36))
-
-
-        //This item goes here because its transform is a child of the player's transform
-      /*  Entity swordOne = entityManager.createEntityWithComponents("sword1",
-                new Item("sword1", true),
-                new Collidable(new Vector3(16, 16, 1)),
-                new Tool(-1),
-                //the x and y of enemy are 90 and 90
-                new Transform(new Vector3(), player.getID()),
-                new AttackComponent(playerColliders),
-                new Electricity()
-        );*/
-
-
-
         );
-
-
 
         Entity enemy = entityManager.createEntityWithComponents("Enemy1",
                 new Transform(new Vector3(200, 90, 80)),
@@ -534,19 +517,26 @@ public class MainWorld extends Scene {
                 new Sprite("enemy", true, 64, 64, 5, new ArrayList<>(Arrays.asList("ball", "ball_down", "ball_up", "ball_left", "ball_right"))),
                 new WorldEntity(),
                 new Collidable(new Vector3(64, 80, 80)),
-                new Playable(300, enemyInv3.getID(), 1, true));
-        
+                new Playable(300, enemyInv3.getID(), 1, true)
+         );
 
+
+        Entity attack = entityManager.createEntityWithComponents("Attacks",
+                new Transform(new Vector3(0, 16, 16)),
+                new Sprite("attacks", false, 48, 48, 10, new ArrayList<>(Arrays.asList("E_atack_down", "E_atack_up", "E_atack_left", "E_atack_right", "null"))),
+                new WorldEntity()
+        );
         Entity player = entityManager.createEntityWithComponents("Player",
                 new Transform(new Vector3(-50, -300, 32)),
                 new Sprite("player", true, 32, 32, 8, new ArrayList<>(Arrays.asList("player_down", "player_up", "player_left", "player_right"))),
                 new WorldEntity(),
-                new Player("player", playerLR.getID(), playerPassives.getID(), playerActives.getID(), dialogText.getID()),
+                new Player("player", playerLR.getID(), playerPassives.getID(), playerActives.getID(), dialogText.getID(),attack.getID()),
                 new Movement(new Vector3(0,0,0)),
                 new Playable(300, playerInv.getID(), 2, true),
                 new Collidable(new Vector3(32, 32, 32))
-
         );
+
+       
 
     //TILES 
         Sprite grassTopSprite = new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")));
@@ -644,18 +634,8 @@ public class MainWorld extends Scene {
                 grassSideSprite,
                 new WorldEntity()
         );*/
-        //System.err.println("MainWorld Tread: " + Thread.currentThread());
-        entityManager.createEntityWithComponents("grass",
-                new Tile("grass2", grassTopSprite, grassSideSprite),
-                new Transform(new Vector3(-80, -80, 48)),
-                grassTopSprite,
-                new WorldEntity()
-        //new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
-        );
 
-        //the sword one will be in the right hand of the player
-        //entityManager.getEntityComponentInstance(player, (new Player()).getClass()).rightHand = swordOne.getID();
-
+        
         Scene.insert = new Insert();
         Scene.insert.start();
         
@@ -696,8 +676,9 @@ public class MainWorld extends Scene {
                 new ElectricSystem(this, true),
                 new MovementSystem(this, true),
                 new ConversationSystem(this, true),
-                new ExtraHealthSystem(this, true),
-                new InventorySystem(this, true)
+                
+                new InventorySystem(this, true),
+                new ExtraHealthSystem(this, true)
         );
     }
 }

@@ -69,7 +69,7 @@ public class ElectricSystem extends SystemJob {
                             if (playable.hp <= 0) {
                                 playable.isAlive = false;
                                 sprite = scene.entityManager.getEntityComponentInstance(b, Sprite.class);
-                                System.out.println("AAA");
+                                //System.out.println("AAA");
                                 sprite.visible = false;
                                 //collidable = scene.entityManager.getEntityComponentInstance(b, AttackCollider.class);
                                 //collidable.active = false;
@@ -101,6 +101,7 @@ public class ElectricSystem extends SystemJob {
                 
             }
         }
+        //System.out.println("");
 
     }
 

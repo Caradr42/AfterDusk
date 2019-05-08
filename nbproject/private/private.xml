@@ -3,25 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/MARTHA/Documents/git/Proyecto_Videojuegos/src/ECS/Components/Collidable.java</file>
-            <file>file:/C:/Users/MARTHA/Documents/git/Proyecto_Videojuegos/src/ECS/Systems/UIInventorySystem.java</file>
-            <file>file:/C:/Users/MARTHA/Documents/git/Proyecto_Videojuegos/src/ECS/Components/Transform.java</file>
-            <file>file:/C:/Users/MARTHA/Documents/git/Proyecto_Videojuegos/src/ECS/Components/Player.java</file>
-            <file>file:/C:/Users/MARTHA/Documents/git/Proyecto_Videojuegos/src/Scene/Scenes/MainWorld.java</file>
-            <file>file:/C:/Users/MARTHA/Documents/git/Proyecto_Videojuegos/src/proyecto_videojuegos/MainThread.java</file>
-            <file>file:/C:/Users/MARTHA/Documents/git/Proyecto_Videojuegos/src/proyecto_videojuegos/Proyecto_Videojuegos.java</file>
-            <file>file:/C:/Users/MARTHA/Documents/git/Proyecto_Videojuegos/src/ECS/Components/Item.java</file>
-            <file>file:/C:/Users/MARTHA/Documents/git/Proyecto_Videojuegos/src/ECS/Components/Playable.java</file>
-            <file>file:/C:/Users/MARTHA/Documents/git/Proyecto_Videojuegos/src/ECS/Systems/RenderSystem.java</file>
-            <file>file:/C:/Users/MARTHA/Documents/git/Proyecto_Videojuegos/src/IO/KeyManager.java</file>
-            <file>file:/C:/Users/MARTHA/Documents/git/Proyecto_Videojuegos/src/ECS/Components/Tool.java</file>
-            <file>file:/C:/Users/MARTHA/Documents/git/Proyecto_Videojuegos/src/ECS/Systems/CollisionSystem.java</file>
-            <file>file:/C:/Users/MARTHA/Documents/git/Proyecto_Videojuegos/src/ECS/Systems/GameManagerSystem.java</file>
-            <file>file:/C:/Users/MARTHA/Documents/git/Proyecto_Videojuegos/src/ECS/Systems/CollisionEntityWeapon.java</file>
-            <file>file:/C:/Users/MARTHA/Documents/git/Proyecto_Videojuegos/src/ECS/Systems/PlayerSystem.java</file>
-            <file>file:/C:/Users/MARTHA/Documents/git/Proyecto_Videojuegos/src/Assets/Assets.java</file>
-            <file>file:/C:/Users/MARTHA/Documents/git/Proyecto_Videojuegos/src/ECS/Systems/EnemySystem.java</file>
-            <file>file:/C:/Users/MARTHA/Documents/git/Proyecto_Videojuegos/src/ECS/Components/AttackCollider.java</file>
+            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/ECS/Components/Player.java</file>
+            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/ECS/Systems/PlayerSystem.java</file>
+            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/ECS/Components/UIInventory.java</file>
+            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/Resources/Images/E_atack_right.png</file>
+            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/Resources/Images/E_atack_left.png</file>
+            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/ECS/Components/Talkative.java</file>
+            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/Scene/Scenes/MainWorld.java</file>
+            <file>file:/C:/Users/tanya/Proyecto_Videojuegos/src/ECS/Components/Electricity.java</file>
         </group>
     </open-files>
 </project-private>
