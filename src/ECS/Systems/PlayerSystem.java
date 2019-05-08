@@ -226,14 +226,14 @@ public class PlayerSystem extends SystemJob {
                 playable.up = false;
                 
             }
-            
+            //System.out.println("active damage mult " + playable.damageMultiplier);
             //if the player presses the space key, an attack is done with the right hand
             if (scene.display.getKeyManager().wasPressed[KeyEvent.VK_SPACE] && playable.hasWeapon) {
          
                 Inventory LRinv = scene.entityManager.getEntityComponentInstance(player.LRInventory, Inventory.class);
                 
                 Item RItem = scene.entityManager.getEntityComponentInstance(LRinv.slots.get(1), Item.class);
-        
+                
                 if (playable.hasWeapon) {
                    int idTool;
                     if (player.rightOrLeft) { //if true, the weapon is on right hand

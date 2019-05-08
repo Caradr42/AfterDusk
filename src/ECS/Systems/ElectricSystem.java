@@ -68,12 +68,21 @@ public class ElectricSystem extends SystemJob {
                         playable = scene.entityManager.getEntityComponentInstance(b, Playable.class);
 
                         if (playable.isAlive) {
-                            playable.hp = playable.hp - electricity.cost;
                             
-                            /*Playable pl = scene.entityManager.getEntityComponentInstance( scene.entityManager.getEntitiesWithComponents(Playable.class).get(0), Playable.class);
+                            Playable pl = scene.entityManager.getEntityComponentInstance( scene.entityManager.getEntitiesWithComponents(Player.class).get(0), Playable.class);
                             Player lyr = scene.entityManager.getEntityComponentInstance( scene.entityManager.getEntitiesWithComponents(Player.class).get(0), Player.class);
                             
-                            */
+                            System.out.println(scene.entityManager.getEntitiesWithComponents(Player.class).get(0));
+                            System.out.println(pl.damageMultiplier);
+                            
+                            Inventory LRinv = scene.entityManager.getEntityComponentInstance(lyr.LRInventory, Inventory.class);
+                            if((int)LRinv.slots.get(0) == (int)e || (int)e == (int)LRinv.slots.get(1)){
+                                System.out.println(pl.damageMultiplier);
+                                playable.hp = (int)(playable.hp - electricity.cost * pl.damageMultiplier);
+                                //System.out.println("aaaaaaaaaaaaaaaaaaqawsdesr");
+                            }else{
+                                playable.hp = playable.hp - electricity.cost;
+                            }
                            //if(e==lyr.)
                            
 

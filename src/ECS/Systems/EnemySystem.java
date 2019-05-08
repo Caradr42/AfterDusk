@@ -240,7 +240,7 @@ public class EnemySystem extends SystemJob {
 
                 attackSprite.animation = attackSprite.animations.get(1).first;
                 attackSprite.animationLenght = attackSprite.animations.get(1).second;
-                System.out.println(attackSprite.name);
+                //System.out.println(attackSprite.name);
 
                 attackSprite.visible = false;
                 attackSprite.frameCounter = 0;
