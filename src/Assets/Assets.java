@@ -58,7 +58,7 @@ public class Assets {
             //URL url = Assets.class.getResource("/Resources/Fonts/undefined_medium.ttf");
             //File font = new File(Assets.class.getResource("/Resources/Fonts/undefined_medium.ttf").getPath());
             //create the font to use. Specify the size!
-            undefinedMedium = Font.createFont(Font.TRUETYPE_FONT, new File(Assets.class.getResource("/Resources/Fonts/undefined_medium.ttf").getPath())).deriveFont(10f);
+            undefinedMedium = Font.createFont(Font.TRUETYPE_FONT, Assets.class.getClassLoader().getResource("Resources/Fonts/undefined_medium.ttf").openStream()).deriveFont(10f);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             //register the font
             ge.registerFont(undefinedMedium);
