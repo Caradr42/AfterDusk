@@ -522,7 +522,7 @@ public class MainWorld extends Scene {
                 new Sprite("enemy", true, 64, 64, 5, new ArrayList<>(Arrays.asList("ball", "ball_down", "ball_up", "ball_left", "ball_right"))),
                 new WorldEntity(),
                 new Collidable(new Vector3(64, 80, 80)),
-                new Playable(300, enemyInv2.getID(), 1, true));
+                new Playable(300, enemyInv2.getID(), 1.5, true));
 
         Entity enemy3 = entityManager.createEntityWithComponents("Enemy3",
                 new Transform(new Vector3(600, -300, 80)),
@@ -530,7 +530,7 @@ public class MainWorld extends Scene {
                 new Sprite("enemy", true, 64, 64, 5, new ArrayList<>(Arrays.asList("ball", "ball_down", "ball_up", "ball_left", "ball_right"))),
                 new WorldEntity(),
                 new Collidable(new Vector3(64, 80, 80)),
-                new Playable(300, enemyInv3.getID(), 1, true)
+                new Playable(300, enemyInv3.getID(), 2, true)
          );
 
 
