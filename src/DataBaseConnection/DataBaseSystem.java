@@ -26,7 +26,7 @@ public class DataBaseSystem {
     public DataBaseSystem() {
     }
     
-    public void insertObjects(int id, Object myObject, String sClass, java.sql.Connection conn) throws IOException{
+    public PreparedStatement insertObjects(int id, Object myObject, String sClass, java.sql.Connection conn, PreparedStatement ps) throws IOException{
         //System.out.println(id + " " + sClass);
         try{
             //Pass information to bytes
@@ -34,16 +34,18 @@ public class DataBaseSystem {
             ObjectOutputStream oos = new ObjectOutputStream(byteArray);
             oos.writeObject(myObject);
             //load command of mysql
-            PreparedStatement ps= conn.prepareStatement("REPLACE into objetos values (?, ?, ?)");
+            
             //Set values 
+            //ps.clearParameters();
             ps.setInt(1, id);
             ps.setBytes(2, byteArray.toByteArray());
             ps.setString(3, sClass);
-            ps.execute();
+            ps.addBatch();
             
         }catch (Exception e){
             System.err.println("Error serialization insert "+e);
         }
+        return ps;
     } 
     
     public void insertSerialization(Object myObject) throws IOException{
@@ -53,7 +55,7 @@ public class DataBaseSystem {
                     String myDriver = "com.mysql.jdbc.Driver";
                     String myUrl = "jdbc:mysql://remotemysql.com/UenUhgqeHb";
                     Class.forName(myDriver);
-                    java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://remotemysql.com/UenUhgqeHb","UenUhgqeHb","uGStDaKrpw");
+                    java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://remotemysql.com/UenUhgqeHb?rewriteBatchedStatements=true","UenUhgqeHb","uGStDaKrpw");
                     
                     // create a sql date object so we can use it in our INSERT statement
                     Calendar calendar = Calendar.getInstance();
