@@ -16,11 +16,11 @@ import graphics.Display;
  */
 public class Proyecto_Videojuegos {
     
-    
+        
     public static void main(String[] args) {
        System.setProperty("sun.java2d.opengl", "true");
-       Display display = new Display("Game", 1066, 568);
-       //Display display = new Display("Game", 1920, 1054);
+       //Display display = new Display("Game", 1066, 568);
+       Display display = new Display("Game", 1920, 1054);
        Boolean initRef = false;
        MSG msg = new MSG();
        

@@ -7,6 +7,8 @@ import ECS.Components.Player;
 import ECS.Components.Sprite;
 import ECS.Components.Tool;
 import ECS.Components.Transform;
+import ECS.Components.WorldEntity;
+import ECS.Entity;
 import ECS.SystemJob;
 
 import IO.SoundClip;
@@ -16,6 +18,7 @@ import Maths.Vector3;
 import Scene.Scene;
 import static java.lang.Math.abs;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Manages the enemy
@@ -32,7 +35,7 @@ public class EnemySystem extends SystemJob {
 
     ArrayList<Integer> arrPlayable;
     Integer player;
-
+    
     Player player1;
     Playable playable;
 
@@ -41,14 +44,14 @@ public class EnemySystem extends SystemJob {
     Transform playerPos;
     Sprite playerSprite;
     Enemy enemy;
-
+    
     Sprite sprite;
     Transform transform;
-
+    
     //If this margin is passed, the enemy will move diagonally
     int minDistance = 60;
     int maxDistance = 200;
-
+    
     int frameLimit = 12;
     int frameCounter = 0;
 
@@ -71,29 +74,97 @@ public class EnemySystem extends SystemJob {
 
     @Override
     public void update() {
+        player = scene.entityManager.getEntitiesWithComponents(player1.getClass()).get(0);
+        //Getting the transform of the player
+        playerPos = scene.entityManager.getEntityComponentInstance(player, Transform.class);
+        playerSprite = scene.entityManager.getEntityComponentInstance(player, Sprite.class);
+        playerPlay = scene.entityManager.getEntityComponentInstance(player, Playable.class);
+        
 
-        for (Integer entity : entities) {
+        for(Integer entity : entities) {
+            transform = scene.entityManager.getEntityComponentInstance(entity, Transform.class);
+            sprite = scene.entityManager.getEntityComponentInstance(entity, Sprite.class);
+            playable = scene.entityManager.getEntityComponentInstance(entity, Playable.class);
+            enemy = scene.entityManager.getEntityComponentInstance(entity, Enemy.class);
+            
             //Each entity should follow the player 
             updateEntityPosition(entity);
+
             frameCounter++;
+            
+            Sprite bar = scene.entityManager.getEntityComponentInstance(enemy.healthBar, Sprite.class);
+            Sprite hud = scene.entityManager.getEntityComponentInstance(enemy.hud, Sprite.class);
+            bar.width = (int)( playable.hp * (60.0 /playable.maxHp));;
+            
+            if(!sprite.visible) {
+                bar.visible = false;
+                hud.visible = false;
+            }else{
+                bar.visible = true;
+                hud.visible = true;
+            }
+            
+            /*
+            playable = scene.entityManager.getEntityComponentInstance(entity, Playable.class);
+            sprite = scene.entityManager.getEntityComponentInstance(entity, Sprite.class);
+            transform = scene.entityManager.getEntityComponentInstance(entity, Transform.class);
+            if(sprite.name.equals("enemy")){
+                System.out.println(sprite.name +  " Z: " + transform.position.z + "\t renderedY: " + transform._renderedY);
+            }*/
         }
     }
 
     @Override
     public void init() {
-
+ 
         player = scene.entityManager.getEntitiesWithComponents(player1.getClass()).get(0);
-
+        
         entities = new ArrayList<>();
-
+        
         entities = scene.entityManager.getEntitiesWithComponents(playable.getClass(), Enemy.class);
-
+        
         //Getting the transform of the player
         playerPos = scene.entityManager.getEntityComponentInstance(player, Transform.class);
         playerSprite = scene.entityManager.getEntityComponentInstance(player, Sprite.class);
 
         playerPlay = scene.entityManager.getEntityComponentInstance(player, Playable.class);
+        
+        for(Integer e: entities){
+            enemy = scene.entityManager.getEntityComponentInstance(e, Enemy.class);
+            sprite = scene.entityManager.getEntityComponentInstance(e, Sprite.class);
+            Entity hud = scene.entityManager.createEntityWithComponents(sprite.name + "_hud", 
+                    new Transform(new Vector3(0,16,32), e),
+                    new Sprite("hud", true, 64, 4, 0, new ArrayList<>(Arrays.asList("hud"))),
+                    new WorldEntity()
+                );
+            
+            Entity hb = scene.entityManager.createEntityWithComponents(sprite.name + "_bar", 
+                    new Transform(new Vector3(1,18,33), e),
+                    new Sprite("HP", true, 60, 2, 0, new ArrayList<>(Arrays.asList("HP"))),
+                    new WorldEntity()
+                );
+            
+            enemy.healthBar = hb.getID();
+            enemy.hud = hud.getID();
+            
+            Transform attackTransform = scene.entityManager.getEntityComponentInstance(enemy.idAttack, Transform.class);
+            
+            attackTransform.parent = e;
+            
+            attackTransform.relativePosition = new Vector3(0, 16, 16);
+            
+            
+            /**
+             *             player = scene.entityManager.getEntityComponentInstance(e, player.getClass());
+            player._UIText = scene.entityManager.getEntityComponentInstance(player.uiText, UIText.class);
+            attackTransform = scene.entityManager.getEntityComponentInstance(player.idAttack, Transform.class);
+            
+            attackTransform.parent = e;
+            attackTransform.relativePosition = new Vector3(0, 16, 16);
+             initialRelativePositionArrackTransf = new Vector3(attackTransform.relativePosition);
 
+             */
+        }
     }
 
     @Override
@@ -112,16 +183,20 @@ public class EnemySystem extends SystemJob {
      * @param entity
      */
     private void updateEntityPosition(Integer entity) {
-        transform = scene.entityManager.getEntityComponentInstance(entity, Transform.class);
-        sprite = scene.entityManager.getEntityComponentInstance(entity, Sprite.class);
-        playable = scene.entityManager.getEntityComponentInstance(entity, Playable.class);
-        enemy = scene.entityManager.getEntityComponentInstance(entity, Enemy.class);
+        Sprite attackSprite = scene.entityManager.getEntityComponentInstance(enemy.idAttack, Sprite.class);
+        
+        Sprite enemySprite = scene.entityManager.getEntityComponentInstance(entity, Sprite.class);
+        
+        if(!enemySprite.visible) {
+            attackSprite.visible = false;
+        }
 
         if (playable.isAlive) {
+            
             double distance = abs(playerPos._renderedPosition.toVector2().add(playerSprite.dimensions.div(2)).dist(transform._renderedPosition.toVector2().add(sprite.dimensions.div(2))));
-
+            
             if (distance < maxDistance && distance > minDistance) {
-
+                
                 Vector2 direction = playerPos._renderedPosition.toVector2().add(playerSprite.dimensions.div(2)).sub(transform._renderedPosition.toVector2().add(sprite.dimensions.div(2))).norm().scalar(playable.speedScalar);
 
                 enemy.prev = direction;
@@ -162,12 +237,22 @@ public class EnemySystem extends SystemJob {
                         sprite.animationLenght = sprite.animations.get(1).second;
                     }
                 }
+
+                attackSprite.animation = attackSprite.animations.get(1).first;
+                attackSprite.animationLenght = attackSprite.animations.get(1).second;
+                System.out.println(attackSprite.name);
+
+                attackSprite.visible = false;
+                attackSprite.frameCounter = 0;
+
             } //else if the enemy does not move
             else {
-                sprite.animation = sprite.animations.get(0).first;
-                sprite.animationLenght = sprite.animations.get(0).second;
 
-                if (distance < maxDistance) {
+                  if (distance < maxDistance) {
+
+                    attackSprite.visible = true;
+                    sprite.animation = sprite.animations.get(0).first;
+                    sprite.animationLenght = sprite.animations.get(0).second;
 
                     if (frameCounter >= frameLimit) {
                         playerPlay.hp -= 1;
@@ -181,13 +266,22 @@ public class EnemySystem extends SystemJob {
 
                     //attack
                     Tool tool = scene.entityManager.getEntityComponentInstance(weapon, Tool.class);
-
+                    
                     //with a basic attack
                     tool.currentActive = 0;
+
+                    attackSprite.animation = attackSprite.animations.get(0).first;
+                    attackSprite.animationLenght = attackSprite.animations.get(0).second;
+
                 }
+
             }
+            
+            
 
         }
+        
+
     }
 
 }

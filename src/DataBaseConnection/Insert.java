@@ -72,7 +72,7 @@ public class Insert implements Runnable {
             //System.out.println("entered");
         } //else if method code == insertEntity, insert an entity
         else if (methodKey.equals("insertEntity")) {
-            System.out.println(name);
+            //System.out.println(name);
             try {
                 // create a mysql database connection
                 String myDriver = "com.mysql.jdbc.Driver";

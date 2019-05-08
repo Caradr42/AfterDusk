@@ -20,7 +20,7 @@ public class ExtraHealth extends Pasive {
      */
     public ExtraHealth() {
         pasivesSet.add(this.getClass());//adds the passives to the hashset of passives
-        cost = 70; //pincrease the life
+        cost = 120; //pincrease the life
     }
 
 }

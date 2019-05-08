@@ -56,7 +56,7 @@ public class Assets {
         
         try {
             //create the font to use. Specify the size!
-            undefinedMedium = Font.createFont(Font.TRUETYPE_FONT, new File(Assets.class.getResource("/Resources/Fonts/undefined_medium.ttf").getPath())).deriveFont(10f);
+            undefinedMedium = Font.createFont(Font.TRUETYPE_FONT, Assets.class.getClassLoader().getResource("Resources/Fonts/undefined_medium.ttf").openStream()).deriveFont(10f);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             //register the font
             ge.registerFont(undefinedMedium);
@@ -125,6 +125,8 @@ public class Assets {
         animations.put("stoneColumnLeft",new Pair<>(crop(16, 16, 1, "/Resources/Images/stoneColumnLeft.png", false)     , 1));
         animations.put("stoneColumnRight",new Pair<>(crop(16, 16, 1, "/Resources/Images/stoneColumnRight.png", false)   , 1));
         
+        animations.put("path",          new Pair<>(crop(16, 16, 1, "/Resources/Images/path.png",                false)   , 1));
+        
         //SCENARY
         
         animations.put("treeTall",      new Pair<>(crop(128, 272, 1, "/Resources/Images/treeTall.png", false)           , 1));
@@ -159,6 +161,9 @@ public class Assets {
         
         animations.put("dialog_box",    new Pair<>(crop(256, 72, 1, "/Resources/Images/dialog_dark.png", false)         , 1));
         animations.put("press_E",       new Pair<>(crop(48, 32, 1, "/Resources/Images/press_E.png", false)              , 1));
+        animations.put("wait",          new Pair<>(crop(48, 32, 1, "/Resources/Images/wait.png", false)                 , 1));
+        
+        animations.put("hud",           new Pair<>(crop(64, 4, 1, "/Resources/Images/hud.png", false)                   , 1));
         //press_E
         
         animations.put("menu_game",     new Pair<>(crop(278, 150, 1, "/Resources/Images/menu_game_clear.png", false)          , 1));

@@ -4,6 +4,7 @@ import ECS.Component;
 import Maths.Vector2;
 import Maths.Vector3;
 
+
 /**
  * Class containing the data of enemy
  *
@@ -15,8 +16,20 @@ import Maths.Vector3;
  * @date 02/05/2019
  * @version 1.0
  */
-public class Enemy extends Component {
-
+public class Enemy extends Component{
+    public int healthBar = 0;
+    public int hud = 0;
+    
+    public int idAttack;
+    
+    public Enemy() {
+        idAttack = 0;
+    }
+    
+    public Enemy(int idAttack) {
+        this.idAttack = idAttack;
+    }
+    
     //vector to store the last distance vector that moved the enemy
     public Vector2 prev = new Vector2();
 }

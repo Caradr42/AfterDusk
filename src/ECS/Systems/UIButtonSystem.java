@@ -10,7 +10,11 @@ import static ECS.SystemJob.scene;
 import static ECS.Systems.GameManagerSystem.fullScreen;
 import Scene.Scene;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import proyecto_videojuegos.MainThread;
 
@@ -26,17 +30,20 @@ import proyecto_videojuegos.MainThread;
  * @version 1.0
  */
 public class UIButtonSystem extends SystemJob {
-
+    
     UIButton uiButton;
     Sprite buttonSprite;
     Transform buttonTransform;
-
+    
     UIEntity uiEntity;
-
+    
     UIEntity parentUIEntity;
-
+    
     MousePointer mousePointer;
-
+    
+    //boolean doNextFrame = false;
+    
+    
     /**
      * Constructor
      *
@@ -58,23 +65,32 @@ public class UIButtonSystem extends SystemJob {
         for (Integer e : entities) {
             uiButton = scene.entityManager.getEntityComponentInstance(e, uiButton.getClass());
             uiEntity = scene.entityManager.getEntityComponentInstance(e, uiEntity.getClass());
-
+            
             buttonSprite = scene.entityManager.getEntityComponentInstance(e, buttonSprite.getClass());
             buttonTransform = scene.entityManager.getEntityComponentInstance(e, buttonTransform.getClass());
-
+            
             if (uiEntity.UIcollider.contains((int) mousePointer.position.x, (int) mousePointer.position.y) && buttonSprite.visible) {
                 uiButton.buttonVisible = true;
                 if (mousePointer.mouseManager.wasLeftClick) {
                     uiButton.buttonPressed = true;
                 } else {
-                    uiButton.buttonPressed = false;
+                     uiButton.buttonPressed = false;
                 }
             } else {
                 uiButton.buttonVisible = false;
             }
-
+            
+            if(uiEntity.name.equals("newGameButton")&&uiButton.buttonPressed){
+                uiButton.buttonPressed =false;
+                Assets.Assets.selection.play();
+                UIEntity parentUIEntity = scene.entityManager.getEntityComponentInstance(uiEntity.parent, UIEntity.class);
+                parentUIEntity._uiSprite.visible = false;                
+                GameManagerSystem.gameStarted = true;
+            }
+            
             //if the player clicks in the exit button
             if (uiButton.name.equals("exitButton") && uiButton.buttonPressed) {
+
                 Assets.Assets.selection.play();
                 scene.display.jframe.dispatchEvent(new WindowEvent(scene.display.jframe, WindowEvent.WINDOW_CLOSING));
             }
@@ -108,29 +124,85 @@ public class UIButtonSystem extends SystemJob {
                 } else {
                     MainThread.showColliders = true;
                 }
-
+                
                 if (RenderSystem.debugRender) {
                     RenderSystem.debugRender = false;
                 } else {
                     RenderSystem.debugRender = true;
                 }
             }
-
+            
             //if the player clicks in the continue button
-            if (uiButton.name.equals("continueButton") && uiButton.buttonPressed) {
+            if(((uiButton.name.equals("continueButton") || uiButton.name.equals("loadButton")) && uiButton.buttonPressed)){
                 uiButton.buttonPressed = false;
                 Assets.Assets.selection.play();
                 UIEntity parentUIEntity = scene.entityManager.getEntityComponentInstance(uiEntity.parent, UIEntity.class);
                 parentUIEntity._uiSprite.visible = false;
                 GameManagerSystem.gameStarted = true;
-            }
+                
+                Sprite wait = null;
+                for(Integer ui : scene.entityManager.getEntitiesWithComponents(Sprite.class)){
+                    wait = scene.entityManager.getEntityComponentInstance(ui, Sprite.class);
+                    if(wait.name.equals("wait")){
+                        //System.out.println("aaaaaaaa");
+                        wait.visible = true;
+                        break;
+                    }
+                }
+                System.out.println(MainThread.currentFrame);
+      
+                
+                //Load game from DataBase
+                try {
+                    scene.entityManager.selectDataBase(scene.entityManager);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
+                wait.visible = false;
+       
+            }
+            
+            if(uiButton.name.equals("saveButton") && uiButton.buttonPressed){
+                uiButton.buttonPressed =false;
+                Assets.Assets.selection.play();
+                UIEntity parentUIEntity = scene.entityManager.getEntityComponentInstance(uiEntity.parent, UIEntity.class);
+                parentUIEntity._uiSprite.visible = false;
+                GameManagerSystem.gameStarted = true;
+                
+                /*UIEntity textMessage = new UIEntity();
+                Sprite textSprite = new Sprite();
+                for(Integer ui : scene.entityManager.getEntitiesWithComponents(UIEntity.class)){
+                    textMessage = scene.entityManager.getEntityComponentInstance(ui, UIEntity.class);
+                    if(textMessage.name.equals("dialogBox")){
+                        textSprite = scene.entityManager.getEntityComponentInstance(ui, Sprite.class);
+                        textSprite.visible = true;
+                        
+                    }
+                }*/
+                
+                
+                try {
+                    //call function to load to data base
+                    scene.entityManager.saveDatabase();
+                } catch (IOException ex) {
+                    Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(PlayerSystem.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
             if (uiButton.buttonPressed) {
                 Assets.Assets.selection.play();
                 parentUIEntity = scene.entityManager.getEntityComponentInstance(uiEntity.parent, parentUIEntity.getClass());
                 parentUIEntity.window = uiButton.parentState;
             }
-
         }
     }
 
@@ -142,7 +214,7 @@ public class UIButtonSystem extends SystemJob {
             uiEntity = scene.entityManager.getEntityComponentInstance(e, uiEntity.getClass());
             buttonSprite = scene.entityManager.getEntityComponentInstance(e, buttonSprite.getClass());
             buttonTransform = scene.entityManager.getEntityComponentInstance(e, buttonTransform.getClass());
-
+            
             uiButton._buttonSprite = buttonSprite;
             uiButton._buttonTransform = buttonTransform;
         }
@@ -156,5 +228,5 @@ public class UIButtonSystem extends SystemJob {
     @Override
     public void onDestroy() {
     }
-
+    
 }

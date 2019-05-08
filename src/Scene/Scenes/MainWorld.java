@@ -97,6 +97,7 @@ public class MainWorld extends Scene {
     //MOUSE POINTER
         //mouse pointer
         Entity pointer = entityManager.createEntityWithComponents("pointer",
+                new WorldEntity(),
                 new MousePointer()
         );
 
@@ -105,7 +106,7 @@ public class MainWorld extends Scene {
         //TOOLS
             //The sword Tool
             Entity swordOne = entityManager.createEntityWithComponents("sword1",
-                    new Item("sword1", true),
+                    new Item("sword1", false),
                     new Sprite("E_sword", true, 16, 16, 8, new ArrayList<>(Arrays.asList("E_sword"))),
                     new Collidable(new Vector3(16, 16, 1)),
                     new Tool(-1),
@@ -158,9 +159,9 @@ public class MainWorld extends Scene {
             
         //A weird item in the players inventory
         Entity weirdItm = entityManager.createEntityWithComponents("weird",
-                new Item("weird", true),
+                new Item("weird", false),
                 new Collidable(new Vector3(16, 16, 1)),
-                new Transform(new Vector3(50, 50, 16)),
+                new Transform(new Vector3(0, 100, 16)),
                 new Sprite("weird", true, 16, 16, 10, new ArrayList<>(Arrays.asList("weird"))),
                 new DamagePlus(),
                 new WorldEntity()
@@ -170,9 +171,9 @@ public class MainWorld extends Scene {
         //a shield in the players inventory
         Entity shieldItm = entityManager.createEntityWithComponents("shield",
                 new Tool(new Entity(0), new ArrayList<>(Arrays.asList(0)), new ArrayList<>(Arrays.asList(0))),
-                new Item("shield", true),
+                new Item("shield", false),
                 new Collidable(new Vector3(16, 16, 1)),
-                new Transform(new Vector3(70, 70, 16)),
+                new Transform(new Vector3(400, 100, 16)),
                 new Sprite("shield", true, 16, 16, 10, new ArrayList<>(Arrays.asList("shield"))),
                 new WorldEntity(),
                 new ExtraHealth()
@@ -199,39 +200,48 @@ public class MainWorld extends Scene {
 
         //The player's internal inventories
         Entity playerInv4 = entityManager.createEntityWithComponents("Player_Inventory4",
+                new WorldEntity(),
                 new Inventory(0, 6, new ArrayList<>(Arrays.asList()))
         );
 
         Entity playerInv3 = entityManager.createEntityWithComponents("Player_Inventory3",
+                new WorldEntity(),
                 new Inventory(playerInv4.getID(), 6, new ArrayList<>(Arrays.asList()))
         );
 
         Entity playerInv2 = entityManager.createEntityWithComponents("Player_Inventory2",
+                new WorldEntity(),
                 new Inventory(playerInv3.getID(), 6, new ArrayList<>(Arrays.asList()))
         );
 
         Entity playerInv = entityManager.createEntityWithComponents("Player_Inventory",
-                new Inventory(playerInv2.getID(), 6, new ArrayList<>(Arrays.asList(weirdItm.getID(), shieldItm.getID())))
+                new WorldEntity(),
+                new Inventory(playerInv2.getID(), 6, new ArrayList<>(Arrays.asList()))
         );
         //------
         Entity playerLR = entityManager.createEntityWithComponents("Player_LR_Inventory",
-                new Inventory(0, 2, new ArrayList<>(Arrays.asList( swordOne.getID())))
+                new WorldEntity(),
+                new Inventory(0, 2, new ArrayList<>(Arrays.asList( )))
         );
         //----
         Entity playerPassives3 = entityManager.createEntityWithComponents("Player_Passives_Inventory3",
+                new WorldEntity(),
                 new Inventory(0, 3, new ArrayList<>(Arrays.asList()))
         );
 
         Entity playerPassives2 = entityManager.createEntityWithComponents("Player_Passives_Inventory2",
+                new WorldEntity(),
                 new Inventory(playerPassives3.getID(), 3, new ArrayList<>(Arrays.asList()))
         );
 
         Entity playerPassives = entityManager.createEntityWithComponents("Player_Player_Passives_Inventory",
-                new Inventory(playerPassives2.getID(), 3, new ArrayList<>(Arrays.asList()))
+                new WorldEntity(),
+                new Inventory(playerPassives2.getID(), 3, new ArrayList<>(Arrays.asList()))                
         );
         //------
 
         Entity playerActives = entityManager.createEntityWithComponents("Player_Player_Actives_Inventory",
+                new WorldEntity(),
                 new Inventory(0, 9, new ArrayList<>(Arrays.asList()))
         );
     //UI INVENTORIES
@@ -317,6 +327,13 @@ public class MainWorld extends Scene {
                 new UIButton("saveButton"," SAVE GAME", 3)
         );
         
+        Entity optionsLoad = entityManager.createEntityWithComponents("loadButton", 
+                new Transform(45,100,0),
+                new Sprite("loadButton", true, 72, 12, 0 , new ArrayList<>(Arrays.asList("Button_48"))),
+                new UIEntity("loadButton", false, 3, null),
+                new UIButton("loadButton"," LOAD SAVE", 3)
+        );
+        
         //Options buttons
         
         Entity fullScreen = entityManager.createEntityWithComponents("fullScreen", 
@@ -354,6 +371,13 @@ public class MainWorld extends Scene {
                 new Sprite("dialog_text", true, 0, 0, 0, new ArrayList<>(Arrays.asList("null"))),
                 new UIEntity("dialog_text", false, 0, null),
                 new UIText(" You cheated not only the game, but yourself. You didn't grow. You didn't improve. You took a shortcut and gained nothing. You experienced a hollow victory. Nothing was risked and nothing was gained. It's sad that you don't know the difference." , 250, 62)
+        );
+        
+        Entity message = entityManager.createEntityWithComponents("message",
+                new Transform(20, 37),
+                new Sprite("message", true, 0, 0, 0, new ArrayList<>(Arrays.asList("null"))),
+                new UIEntity("message", false, 3, null),
+                new UIText("Saving and Loading may take up to 20 seconds" , 120, 100)
         );
     //CHILD UIENTITIES
         
@@ -435,12 +459,7 @@ public class MainWorld extends Scene {
                         new ArrayList<>(Arrays.asList( LRUIInventory.getID(),  itemSelector.getID())))
         );   
         
-        //dialog box
-        Entity dialogBox = entityManager.createEntityWithComponents("dialogBox",
-                new Transform(display.width / c.scale / 2 - (256/2), display.height / c.scale - 82),
-                new Sprite("dialogBox", false, 256, 72, 0, new ArrayList<>(Arrays.asList("dialog_box"))),
-                new UIEntity("dialogBox", true, new ArrayList<>(Arrays.asList(dialogText.getID(), pressE.getID() )))
-        );
+        
         
         //the Game menu
         Entity menu = entityManager.createEntityWithComponents("menu",
@@ -452,27 +471,38 @@ public class MainWorld extends Scene {
                         optionsButton.getID(), 
                         gameButton.getID(), 
                         text.getID(), 
+                        message.getID(),
                         playerPosition.getID(), 
                         controls.getID(), 
                         optionsExit.getID(), 
                         optionsSave.getID(),
+                        optionsLoad.getID(),
                         fullScreen.getID(),
                         showFPS.getID(),
                         showDebug.getID()
                 )))
         );
+        
+        //dialog box
+        Entity dialogBox = entityManager.createEntityWithComponents("dialogBox",
+                new Transform(display.width / c.scale / 2 - (256/2), display.height / c.scale - 82),
+                new Sprite("dialogBox", false, 256, 72, 0, new ArrayList<>(Arrays.asList("dialog_box"))),
+                new UIEntity("dialogBox", true, new ArrayList<>(Arrays.asList(dialogText.getID(), pressE.getID() )))
+        );
+        
     //DEATH GUI
         Entity deathScreen = entityManager.createEntityWithComponents("deathScreen",
                 new Transform(0,0),
                 new Sprite("deathScreen", true, display.width / c.scale, display.height / c.scale, 8, new ArrayList<>(Arrays.asList("gradient","inverse_gradients"))),
                 new UIEntity("deathScreen", true, new ArrayList<>(Arrays.asList()))
         );
-    //Regular Entities
-        /*Entity pressEfather = entityManager.createEntityWithComponents("pressEfather",
-                new Transform(50,50),
-                new Sprite("pressEfather", true, display.width / c.scale, display.height / c.scale, 8, new ArrayList<>(Arrays.asList("press_E"))),
-                new UIEntity("pressEfather", true, new ArrayList<>(Arrays.asList()))
-        );*/
+    
+        Entity wait = entityManager.createEntityWithComponents("wait",
+                new Transform(new Vector3(display.width / c.scale - 53,display.height / c.scale - 37,0)),
+                new Sprite("wait", false, 48, 32, 0, new ArrayList<>(Arrays.asList("wait"))),
+                new UIEntity("wait", true, new ArrayList<>(Arrays.asList()))
+        );
+    
         
     //PLAYABLE ENTITIES
 
@@ -498,10 +528,35 @@ public class MainWorld extends Scene {
                 new Playable(100, fatherInv.getID(), 1.5),
                 new Collidable(new Vector3(32, 32, 36))
         );
+        
+
+        Entity pressEfather = entityManager.createEntityWithComponents("pressEfather",
+            new Transform(new Vector3(-7,10,48), father.getID()),
+            new Sprite("pressEfather", true, 48, 32, 0, new ArrayList<>(Arrays.asList("press_E"))),
+            new WorldEntity()
+        );
+
+        Entity attackEnemy = entityManager.createEntityWithComponents("EnemyAttacks",
+                new Transform(new Vector3(0, 16, 16)),
+                new Sprite("EnemyAttacks1", false, 72, 72, 10, new ArrayList<>(Arrays.asList("electricCharge", "null"))),
+                new WorldEntity()
+        );
+
+        Entity attackEnemy2 = entityManager.createEntityWithComponents("EnemyAttacks",
+                new Transform(new Vector3(0, 16, 16)),
+                new Sprite("EnemyAttacks2", false, 72, 72, 10, new ArrayList<>(Arrays.asList("electricCharge", "null"))),
+                new WorldEntity()
+        );
+
+        Entity attackEnemy3 = entityManager.createEntityWithComponents("EnemyAttacks",
+                new Transform(new Vector3(0, 16, 16)),
+                new Sprite("EnemyAttacks3", false, 72, 72, 10, new ArrayList<>(Arrays.asList("electricCharge", "null"))),
+                new WorldEntity()
+        );
 
         Entity enemy = entityManager.createEntityWithComponents("Enemy1",
                 new Transform(new Vector3(200, 90, 80)),
-                new Enemy(),
+                new Enemy(attackEnemy.getID()),
                 new Sprite("enemy", true, 64, 64, 5, new ArrayList<>(Arrays.asList("ball", "ball_down", "ball_up", "ball_left", "ball_right"))),
                 new WorldEntity(),
                 new Collidable(new Vector3(64, 80, 80)),
@@ -509,7 +564,7 @@ public class MainWorld extends Scene {
 
         Entity enemy2 = entityManager.createEntityWithComponents("Enemy2",
                 new Transform(new Vector3(600, 290, 80)),
-                new Enemy(),
+                new Enemy(attackEnemy2.getID()),
                 new Sprite("enemy", true, 64, 64, 5, new ArrayList<>(Arrays.asList("ball", "ball_down", "ball_up", "ball_left", "ball_right"))),
                 new WorldEntity(),
                 new Collidable(new Vector3(64, 80, 80)),
@@ -517,13 +572,12 @@ public class MainWorld extends Scene {
 
         Entity enemy3 = entityManager.createEntityWithComponents("Enemy3",
                 new Transform(new Vector3(600, -300, 80)),
-                new Enemy(),
+                new Enemy(attackEnemy3.getID()),
                 new Sprite("enemy", true, 64, 64, 5, new ArrayList<>(Arrays.asList("ball", "ball_down", "ball_up", "ball_left", "ball_right"))),
                 new WorldEntity(),
                 new Collidable(new Vector3(64, 80, 80)),
                 new Playable(300, enemyInv3.getID(), 1, true)
          );
-
 
         Entity attack = entityManager.createEntityWithComponents("Attacks",
                 new Transform(new Vector3(0, 16, 16)),
@@ -541,7 +595,7 @@ public class MainWorld extends Scene {
         );
 
     //TREES
-    
+       
    /* Entity collide = entityManager.createEntityWithComponents("grass", 
             new Tile(),
             new Transform(new Vector3(50,50,232),
@@ -565,19 +619,19 @@ public class MainWorld extends Scene {
                     );
     
     Entity treeTall = entityManager.createEntityWithComponents("TreeTall", 
-            new Transform (new Vector3(50,50,232)),
+            new Transform (new Vector3(50,50,216)),
             new Sprite("treeTall", true, 128, 232, 0, new ArrayList<>(Arrays.asList("treeTall"))),
             new WorldEntity()
             );
     
      treeTall = entityManager.createEntityWithComponents("TreeTall", 
-            new Transform (new Vector3(-220,180,232)),
+            new Transform (new Vector3(-220,180,216)),
             new Sprite("treeTall", true, 128, 232, 0, new ArrayList<>(Arrays.asList("treeTall"))),
             new WorldEntity()
             );
      
       treeTall = entityManager.createEntityWithComponents("TreeTall", 
-            new Transform (new Vector3(400,290,232)),
+            new Transform (new Vector3(400,290,216)),
             new Sprite("treeTall", true, 128, 232, 0, new ArrayList<>(Arrays.asList("treeTall"))),
             new WorldEntity()
             );
@@ -587,7 +641,32 @@ public class MainWorld extends Scene {
         Sprite grassSideSprite = new Sprite("grassSide", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grassSide")));
         Sprite blockSprite = new Sprite("block", true, 16, 16, 10, new ArrayList<>(Arrays.asList("ledColumn")));
         Sprite log = new Sprite("log", true, 16, 16, 10, new ArrayList<>(Arrays.asList("log")));
-
+        Sprite path = new Sprite("path", true, 16, 16, 10, new ArrayList<>(Arrays.asList("path")));
+        //paths
+        
+        entityManager.createEntityWithComponents("path",
+                    new Tile("path", path, path),
+                    new Transform(new Vector3(0, 0 , 2)),
+                    path,
+                    new WorldEntity()
+            //new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
+        );
+        
+        entityManager.createEntityWithComponents("path",
+                    new Tile("path", path, path),
+                    new Transform(new Vector3(-64, -236 , 2)),
+                    path,
+                    new WorldEntity()
+            //new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
+        );
+        
+        entityManager.createEntityWithComponents("path",
+                    new Tile("path", path, path),
+                    new Transform(new Vector3(-32, -204 , 2)),
+                    path,
+                    new WorldEntity()
+            //new Sprite("grass", true, 16, 16, 10, new ArrayList<>(Arrays.asList("grass")))
+        );
         
         //drawing columns
         for (int x = -200; x < 442; x += 128) {
@@ -699,9 +778,9 @@ public class MainWorld extends Scene {
                 new ExtraHealthSystem(this, true),
                 new DamagePlusSystem(this, true),
                 new PlayerSystem(this, false),
+                new EnemySystem(this, false),
                 new CollisionEntityWeapon(this, true),
                 new CollisionSystem(this, true),
-                new EnemySystem(this, false),
                 new GameManagerSystem(this, true),
                 new ItemSystem(this, true),
                 new MousePointerSystem(this, true),
@@ -715,14 +794,15 @@ public class MainWorld extends Scene {
                 new UIInventorySystem(this, true),
                 new UITextSystem(this, true),
                 new WeaponColliderPositionSystem(this, true),
-                new RenderSystem(this, true),
+               
                 new PassiveSystem(this, true),
                 new ActiveSystem(this, true),
                 new ElectricSystem(this, true),
                 new MovementSystem(this, true),
                 new ConversationSystem(this, true),
                 
-                new InventorySystem(this, true)
+                new InventorySystem(this, true),
+                new RenderSystem(this, true)
                 
         );
     }

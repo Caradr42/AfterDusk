@@ -10,8 +10,8 @@ import Maths.Vector2;
 
 /**
  * Component containing the sprite data necessary for the rendering of an entity
- *
- *
+ * 
+ * 
  * @author José Alberto González Arteaga [A01038061]
  * @author Tanya Yaretzi González Elizondo [A00823408]
  * @author Pablo Moreno Tamez [A00823402]
@@ -24,41 +24,41 @@ public class Sprite extends Component {
 
     //data
     public String name;
-
+    
     public boolean visible;
     //public boolean frozen;
-
+     
     public int width;
     public int height;
     public Vector2 dimensions;
-
+    
     public double speed;
     public double frameCounter = 0;
-
+    
     public ArrayList<String> animationsNames;
-
-    public ArrayList<Pair<BufferedImage[], Integer>> animations;
-    public BufferedImage[] animation;
+    
+    public transient ArrayList<Pair<BufferedImage[], Integer>> animations;
+    public transient BufferedImage[] animation;
     public int animationLenght;
-    public BufferedImage currentFrame;
-
+    public transient BufferedImage currentFrame;
+    
     /**
      * Sprite constructor
-     *
+     * 
      * @param name
      * @param active
      * @param width
      * @param height
      * @param speed
-     * @param animationsNames
+     * @param animationsNames 
      */
     public Sprite(String name, boolean active, int width, int height, double speed, ArrayList<String> animationsNames) {
         this.name = name;
         this.visible = active;
-
+        
         this.width = width;
         this.height = height;
-
+        
         this.speed = speed / MainThread.fps;
         this.animationsNames = animationsNames;
         this.animations = new ArrayList<>();
@@ -70,5 +70,5 @@ public class Sprite extends Component {
      */
     public Sprite() {
     }
-
+    
 }

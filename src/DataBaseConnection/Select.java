@@ -79,8 +79,8 @@ public class Select implements Runnable {
                 String entityName = resSet.getString("Entity_Name");
 
                 // print the results
-                System.out.println("ID: " + id);
-                System.out.println("EntityName: " + entityName);
+                //System.out.println("ID: " + id);
+                //System.out.println("EntityName: " + entityName);
                 
                 //entities.add(new Pair(id, entityName));
             }

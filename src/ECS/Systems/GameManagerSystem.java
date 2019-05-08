@@ -19,7 +19,7 @@ import javax.swing.JFrame;
 
 /**
  * System that executes behabiour not associated with any entity
- *
+ * 
  * @author José Alberto González Arteaga [A01038061]
  * @author Tanya Yaretzi González Elizondo [A00823408]
  * @author Pablo Moreno Tamez [A00823402]
@@ -29,19 +29,19 @@ import javax.swing.JFrame;
  * @version 1.0
  */
 public class GameManagerSystem extends SystemJob {
-
+    
     public static volatile boolean gameRunning = false;
     public static volatile boolean gameStarted = false;
-
+    
     int width = 400;
     int height = 400;
-
+    
     int state = 1;
-
+    
     public static volatile boolean fullScreen = false;
     public boolean visibleDialogBlock = false;
     public boolean showFade = false;
-
+    
     /**
      * Constructor
      *
@@ -53,23 +53,23 @@ public class GameManagerSystem extends SystemJob {
     }
 
     @Override
-    public void update() {
-
+    public void update() {     
+        
         if (scene.display.keyManager.wasPressed[KeyEvent.VK_F12]) {
             if (!fullScreen) {
                 fullScreen = true;
                 scene.display.jframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
                 scene.display.jframe.setUndecorated(true);
-
+                
             } else {
                 fullScreen = false;
                 scene.display.jframe.setExtendedState(JFrame.NORMAL);
                 scene.display.jframe.setSize(scene.display.width, scene.display.height);
                 scene.display.jframe.setUndecorated(false);
-
+                
             }
         }
-
+        
         //executes only once, when the  game starts
         //it activates the Systems necesary for GamePlay
         if (gameStarted) {
@@ -80,7 +80,7 @@ public class GameManagerSystem extends SystemJob {
             }
             Assets.houseTheme.stop();
             Assets.fatherTheme.play();
-
+            
             Sprite fade = new Sprite();
             for (Integer e : scene.entityManager.getEntitiesWithComponents(Sprite.class)) {
                 fade = scene.entityManager.getEntityComponentInstance(e, Sprite.class);
@@ -94,10 +94,10 @@ public class GameManagerSystem extends SystemJob {
             fade.speed = 0.3;
             gameStarted = false;
             gameRunning = true;
-
+            
         }
         if (gameRunning) {
-
+            
             if (showFade) {
                 Sprite fade = new Sprite();
                 for (Integer e : scene.entityManager.getEntitiesWithComponents(Sprite.class)) {
@@ -113,58 +113,58 @@ public class GameManagerSystem extends SystemJob {
                     fade.visible = false;
                 }
             }
-
+            
             //game pause if in game menu
             if (scene.display.keyManager.wasPressed[KeyEvent.VK_ESCAPE]) {
                 for (SystemJob sj : scene.systemJobManager.systemsList) {
                     if (sj.getClass() != (RenderSystem.class)
-                            && sj.getClass() != (GameManagerSystem.class)
-                            && sj.getClass() != (UIEntitiesSystem.class)
-                            && sj.getClass() != (UIButtonSystem.class)
-                            && sj.getClass() != (UITextSystem.class)
-                            && sj.getClass() != (SpriteSystem.class)
-                            && sj.getClass() != (TransformSystem.class)
+                        && sj.getClass() != (GameManagerSystem.class) 
+                        && sj.getClass() != (UIEntitiesSystem.class) 
+                        && sj.getClass() != (UIButtonSystem.class) 
+                        && sj.getClass() != (UITextSystem.class)
+                        && sj.getClass() != (SpriteSystem.class)
+                        && sj.getClass() != (TransformSystem.class)
                             && sj.getClass() != (MousePointerSystem.class) //&& sj.getClass() != (ConversationSystem.class)
-                            //Expand here if any other system is necesary when the game is paused
+                        //Expand here if any other system is necesary when the game is paused
                             ) {
 
                         if (sj.active) {
-                            sj.active = false;
+                        sj.active = false;
                         } else {
-                            sj.active = true;
-                        }
+                        sj.active = true;
                     }
                 }
+              }
             } else if (ConversationSystem.visibleDialogBox && !visibleDialogBlock) { //game puse if in conversation
-
+                
                 visibleDialogBlock = true;
                 for (SystemJob sj : scene.systemJobManager.systemsList) {
                     if (sj.getClass() != (RenderSystem.class)
-                            && sj.getClass() != (GameManagerSystem.class)
-                            && sj.getClass() != (UIEntitiesSystem.class)
-                            && sj.getClass() != (UIButtonSystem.class)
-                            && sj.getClass() != (UITextSystem.class)
-                            //&& sj.getClass() != (SpriteSystem.class)
-                            && sj.getClass() != (TransformSystem.class)
-                            && sj.getClass() != (MousePointerSystem.class)
+                        && sj.getClass() != (GameManagerSystem.class) 
+                        && sj.getClass() != (UIEntitiesSystem.class) 
+                        && sj.getClass() != (UIButtonSystem.class) 
+                        && sj.getClass() != (UITextSystem.class)
+                        //&& sj.getClass() != (SpriteSystem.class)
+                        && sj.getClass() != (TransformSystem.class)
+                        && sj.getClass() != (MousePointerSystem.class)
                             && sj.getClass() != (ConversationSystem.class) //Expand here if any other system is necesary when the game is paused
                             ) {
-
+                    
                         sj.active = false;
-
-                    }
+                    
                 }
+              }
             } else if (!ConversationSystem.visibleDialogBox) {
                 if (visibleDialogBlock) {
                     for (SystemJob sj : scene.systemJobManager.systemsList) {
                         if (sj.getClass() != (RenderSystem.class)
-                                && sj.getClass() != (GameManagerSystem.class)
-                                && sj.getClass() != (UIEntitiesSystem.class)
-                                && sj.getClass() != (UIButtonSystem.class)
-                                && sj.getClass() != (UITextSystem.class)
-                                //&& sj.getClass() != (SpriteSystem.class)
-                                && sj.getClass() != (TransformSystem.class)
-                                && sj.getClass() != (MousePointerSystem.class)
+                            && sj.getClass() != (GameManagerSystem.class) 
+                            && sj.getClass() != (UIEntitiesSystem.class) 
+                            && sj.getClass() != (UIButtonSystem.class) 
+                            && sj.getClass() != (UITextSystem.class)
+                            //&& sj.getClass() != (SpriteSystem.class)
+                            && sj.getClass() != (TransformSystem.class)
+                            && sj.getClass() != (MousePointerSystem.class)
                                 && sj.getClass() != (ConversationSystem.class) //Expand here if any other system is necesary when the game is paused
                                 ) {
 
@@ -197,7 +197,7 @@ public class GameManagerSystem extends SystemJob {
                     state = 1;
                 }
             }
-
+            
             Sprite fade = new Sprite();
             for (Integer e : scene.entityManager.getEntitiesWithComponents(Sprite.class)) {
                 fade = scene.entityManager.getEntityComponentInstance(e, Sprite.class);
@@ -205,23 +205,23 @@ public class GameManagerSystem extends SystemJob {
                     break;
                 }
             }
-
+            
             if (fade.frameCounter >= 31) {
                 fade.speed = 0;
             }
         }
-
+        
         //if the player has no life
         Integer player = scene.entityManager.getEntitiesWithComponents(Player.class).get(0);
-
+        
         Playable playable = scene.entityManager.getEntityComponentInstance(player, Playable.class);
-
+        
         Sprite sprite = scene.entityManager.getEntityComponentInstance(player, Sprite.class);
-
+        
         Transform transform = scene.entityManager.getEntityComponentInstance(player, Transform.class);
-
+        
         Collidable col = scene.entityManager.getEntityComponentInstance(player, Collidable.class);
-
+        
         if (playable.hp <= 0) {
             playable.isAlive = true;
             playable.hp = playable.maxHp;
@@ -247,13 +247,13 @@ public class GameManagerSystem extends SystemJob {
 
             }
         });;
-    }
+    }        
 
     @Override
     public void init() {
-
+        
         Assets.houseTheme.play();
-
+        //scene.entityManager.printComponentsMap();
     }
 
     @Override
@@ -263,5 +263,5 @@ public class GameManagerSystem extends SystemJob {
     @Override
     public void onDestroy() {
     }
-
+        
 }
