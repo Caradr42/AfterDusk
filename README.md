@@ -1,3 +1,3 @@
-# Proyecto_Videojuegos
+# AfterDusk
 
-<p>private repository for the development of a videogame</p>
+<p>small proyect for the development of an original videogame from scratch in java</p>
